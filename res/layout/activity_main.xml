@@ -8,45 +8,4 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <EditText
-        android:id="@+id/email_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter Email"
-        android:inputType="textEmailAddress" >
-    </EditText>
-
-    <EditText
-        android:id="@+id/password_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/email_box"
-        android:hint="Enter Password"
-        android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password_box"
-        android:text="Login" >
-    </Button>
-
-    <Button
-        android:id="@+id/edit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login_button"
-        android:text="Edit Profile" />
-
-    <Button
-        android:id="@+id/new_profile"
-        android:layout_width="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_button"
-        android:text="New Profile" >
-
-    </Button>
-
 </RelativeLayout>
