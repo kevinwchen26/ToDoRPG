@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ToDoRPG</string>
+    <string name="app_name">todorpg</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="estimated_price">Choose Character</string>
+    <string name="text_character_selection">Select Character</string>
+    <string name="str">STR</string>
+    <string name="con">CON</string>
+    <string name="dex">DEX</string>
+    <string name="int_">INT</string>
+    <string name="wis">WIS</string>
+    <string name="cha">CHA</string>
 
 </resources>
