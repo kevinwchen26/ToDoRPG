@@ -67,26 +67,53 @@ public class CharacterTest extends TestCase {
 	
 	@Test
 	public void testLevelingStats() {
+		Warrior testWarrior = new Warrior("Warrior");
+		testWarrior.gainEXP(100);
+		assertEquals(testWarrior.getCON(), 16);
+		assertEquals(testWarrior.getSTR(), 17);
+		assertEquals(testWarrior.getDEX(), 12);
+		assertEquals(testWarrior.getCHA(), 12);
+		assertEquals(testWarrior.getINT(), 11);
+		assertEquals(testWarrior.getWIS(), 11);
+		
+		//Test multiple level gains
+		testWarrior.gainEXP(1400);
+		assertEquals(testWarrior.getCON(), 25);
+		assertEquals(testWarrior.getSTR(), 29);
+		assertEquals(testWarrior.getDEX(), 18);
+		assertEquals(testWarrior.getCHA(), 18);
+		assertEquals(testWarrior.getINT(), 14);
+		assertEquals(testWarrior.getWIS(), 14);
+		
 		
 	}
 	
 	@Test
 	public void testWarriorSkills(){
-		
+		Warrior testWarrior = new Warrior("Warrior");
+
 	}
 	
 	@Test
 	public void testMageSkills(){
-		
+		Mage testMage = new Mage("Mage");
+
 	}
 	
 	@Test
 	public void testArcherSkills() {
-		
+		Archer testArcher = new Archer("Archer");
+
 	}
 	
 	@Test
 	public void testSummonerSkills() {
-		
+		Summoner testSummoner = new Summoner("Summoner");
+
+	}
+	
+	@Test
+	public void testLogSkills() {
+		Log testLog = new Log("Log");
 	}
 }

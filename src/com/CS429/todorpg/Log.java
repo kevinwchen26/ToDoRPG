@@ -26,7 +26,14 @@ public class Log extends Character {
 	}
 	
 	public void LevelStats(){
-		System.out.println("I am warrior");
+		this.setSTR(this.getSTR() + 2);
+		this.setCON(this.getCON() + 2);
+		this.setHP(this.getHP() + 50);
+		this.setMP(this.getMP() + 10);
+		this.setDEX(this.getDEX() + 2);
+		this.setCHA(this.getCHA() + 2);
+		this.setINT(this.getINT() + 2);
+		this.setWIS(this.getWIS() + 2);
 	}
 	
 	public void Skill_1(Character enemy) {

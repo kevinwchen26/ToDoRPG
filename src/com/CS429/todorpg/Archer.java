@@ -7,6 +7,9 @@ public class Archer extends Character{
 		super(Name);
 		this.setCHA(this.getCHA() + 3);
 		this.setDEX(this.getDEX() + 3);
+		this.setMP(this.getMP() + (this.getDEX()+ this.getCHA()));
+
+		
 	}
 	
 	public Archer(String name, int HP, int MP, int Level, int CON, int STR, int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp)
@@ -27,7 +30,14 @@ public class Archer extends Character{
 	}
 	
 	public void LevelStats(){
-		System.out.println("I am warrior");
+		this.setSTR(this.getSTR() + 2);
+		this.setCON(this.getCON() + 1);
+		this.setHP(this.getHP() + 50);
+		this.setMP(this.getMP() + (this.getDEX()+ this.getCHA()));
+		this.setDEX(this.getDEX() + 4);
+		this.setCHA(this.getCHA() + 3);
+		this.setINT(this.getINT() + 1);
+		this.setWIS(this.getWIS() + 1);
 	}
 	
 	public void Skill_1(Character enemy) {

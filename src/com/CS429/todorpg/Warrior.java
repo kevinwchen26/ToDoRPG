@@ -29,11 +29,20 @@ public class Warrior extends Character {
 	}
 	
 	public void LevelStats(){
-		System.out.println("I am warrior");
+		this.setSTR(this.getSTR() + 4);
+		this.setCON(this.getCON() + 3);
+		this.setHP(this.getCON() * 20 + this.getHP());
+		this.setMP(this.getMP() + 10);
+		this.setDEX(this.getDEX() + 2);
+		this.setCHA(this.getCHA() + 2);
+		this.setINT(this.getINT() + 1);
+		this.setWIS(this.getWIS() + 1);
+		
 	}
 	
+	//
 	public void Skill_1(Character enemy) {
-		//STUB METHOD
+		
 	}
 	public void Skill_2(Character enemy) {
 		//STUB METHOD
