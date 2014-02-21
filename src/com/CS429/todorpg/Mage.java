@@ -1,5 +1,7 @@
 package com.CS429.todorpg;
 
+import java.util.Random;
+
 public class Mage extends Character{
 
 	public Mage(String Name) {
@@ -38,17 +40,58 @@ public class Mage extends Character{
 		this.setWIS(this.getWIS() + 4);
 	}
 	
+	//Fire Strike
+	//High dmg nuke, chance to apply burn, 50 mana
 	public void Skill_1(Character enemy) {
-		//STUB METHOD
+		int base = 35;
+		int bonus = this.getINT()/2;
+		int total = base + bonus;
+		int reduction = this.getWIS() - enemy.getWIS();
+		total -= reduction;
+		enemy.setHP(enemy.getHP() - total);
+		Random generator = new Random();
+		int chance = generator.nextInt(4);
+		
+		/*
+		if(chance == 0)
+			enemy.applyBurn();
+			*/
+		
 	}
+	
+	//SHHHHHHH
+	//Apply silence, gain mana, 0 mana
 	public void Skill_2(Character enemy) {
-		//STUB METHOD
+		enemy.applySilence();
+		this.setMP(this.getMP() + 20);
 	}
+	
+	//Frostbite
+	//Low dmg, low mana cost, apply freezes, 35 mana
 	public void Skill_3(Character enemy) {
-		//STUB METHOD
+		int base = 25;
+		int bonus = this.getINT()/4;
+		int total = base + bonus;
+		int reduction = this.getWIS() - enemy.getWIS();
+		total -= reduction;
+		enemy.setHP(enemy.getHP() - total);
+
+		enemy.applyFreeze();
 	}
+	
+	//Judgement
+	//Ult: high dmg, permenantly reduces WIS, mana 100
 	public void Skill_4(Character enemy) {
-		//STUB METHOD
+		int base = 150;
+		int bonus = this.getINT();
+		int total = base + bonus;
+		int reduction = this.getWIS() - enemy.getWIS();
+		total -= reduction;
+		enemy.setHP(enemy.getHP() - total);
+
+		enemy.setWIS(enemy.getWIS() - 50);
+		
+		
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.CS429.todorpg;
 
+
 public class Character {
 	//Class Variables
+	//Few notes: CON functions as Physical dmg variable, and WIS as Magic dmg variable
 	private String Name;
 	private int HP;
 	private int MP;
@@ -15,6 +17,14 @@ public class Character {
 	private int currentEXP;
 	private int nextLevelEXP;
 	
+	
+	//Status effects
+	private boolean stun = false;
+	private boolean poison = false;
+	private boolean burn = false;
+	private boolean freeze = false;
+	private boolean silence = false;
+
 	/**
 	 * Constructor for a character
 	 * @param Name
@@ -52,6 +62,58 @@ public class Character {
 	}
 	
 	
+	//All characters have a basic attack
+	public void attack(Character enemy){
+		int base = 2 * STR;
+		int reduction = CON - enemy.getCON();
+		int total = base + reduction;
+		if(total < 0)
+			total = 0;
+		enemy.setHP(enemy.getHP() - total);
+	
+	}
+	
+	public void checkStatus() {
+		if(stun)
+			applyStun();
+		if(poison)
+			applyPoison();
+		if(burn)
+			applyBurn();
+		if(freeze)
+			applyFreeze();
+		if(silence)
+			applySilence();
+		
+		
+	}
+	
+	public void applyStun() {
+		stun = true;
+	}
+	
+	public void applyPoison() {
+		poison = true;
+		HP -= 15;
+	}
+	
+	public void applyBurn() {
+		burn = true;
+		HP -= 5;
+		MP -= 5;
+	}
+	
+	public void applyFreeze() {
+		stun = true;
+		freeze = true;
+		CON -= 20;
+		WIS -= 20;
+	}
+	
+	public void applySilence() {
+		//disable abilites, will be on android side
+		silence = true;
+	}
 	/**
 	 * Add EXP to the currentEXP
 	 * @param EXP
@@ -155,4 +217,20 @@ public class Character {
 	public void setNextLevelEXP(int exp){
 		this.nextLevelEXP = exp;
 	}
+	public boolean isStun(){
+		return stun;
+	}
+	public boolean isFrozen(){
+		return freeze;
+	}
+	public boolean isBurn(){
+		return burn;
+	}
+	public boolean isSilence(){
+		return silence;
+	}
+	public boolean isPoison(){
+		return poison;
+	}
 }
+

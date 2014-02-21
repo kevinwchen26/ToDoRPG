@@ -2,6 +2,7 @@ package com.CS429.todorpg;
 
 public class Warrior extends Character {
 
+	private int bonusCounter = 0;
 	public Warrior(String Name) {
 		// TODO Auto-generated constructor stub
 		super(Name);
@@ -40,18 +41,50 @@ public class Warrior extends Character {
 		
 	}
 	
-	//
+	//Crushing Blow
+	//High physical damage, lowers enemy def permenantly 20 mana
 	public void Skill_1(Character enemy) {
+		int base = 50;
+		int bonus = this.getSTR()/2;
+		int total = base + bonus;
+		
+		//Calculate def
+		int reduction = this.getCON() - enemy.getCON();
+		
+		total += reduction;
+		enemy.setHP(enemy.getHP() - total);
+		enemy.setCON(enemy.getCON() - 5);
 		
 	}
+	
+	//Overpower
+	//Passive skill, gains bonus str for 5 turns, 35 mana
 	public void Skill_2(Character enemy) {
-		//STUB METHOD
+		this.setSTR(this.getSTR() + 25);
+		
 	}
+	
+	//Sit Still
+	//Stuns enemy, they skip next turn, 50 mana
 	public void Skill_3(Character enemy) {
-		//STUB METHOD
+		//enemy skips turns
+		enemy.applyStun();
 	}
+	
+	//Heaven's Descent
+	//Ult: High physical dmg, ignores some physical def, warrior heals for 25% of damage done, 75 mana
 	public void Skill_4(Character enemy) {
-		//STUB METHOD
+		int base = 100;
+		int bonus = this.getSTR();
+		int total = base + bonus;
+		
+		//Calculate def
+		int reduction = (this.getCON() + 50 )- enemy.getCON();
+		
+		total += reduction;
+		enemy.setHP(enemy.getHP() - total);
+		System.out.println(total);
+		this.setHP(this.getHP() + total/4);
 	}
 
 }

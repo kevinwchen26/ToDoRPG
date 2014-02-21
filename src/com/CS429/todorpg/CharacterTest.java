@@ -91,29 +91,69 @@ public class CharacterTest extends TestCase {
 	@Test
 	public void testWarriorSkills(){
 		Warrior testWarrior = new Warrior("Warrior");
-
+		Character enemy = new Character("Enemey");
+		
+		testWarrior.attack(enemy);
+		assertEquals(enemy.getHP(), 71);
+		
+		testWarrior.Skill_1(enemy);
+		assertEquals(enemy.getHP(), 12);
+		assertEquals(enemy.getCON(), 5);
+		
+		testWarrior.Skill_2(enemy);
+		assertEquals(testWarrior.getSTR(), 38);
+		
+		testWarrior.Skill_3(enemy);
+		assertTrue(enemy.isStun());
+		
+		enemy.setHP(300);
+		testWarrior.Skill_4(enemy);
+		assertEquals(enemy.getHP(), 104);
+		assertEquals(testWarrior.getHP(), 409);
 	}
 	
 	@Test
 	public void testMageSkills(){
 		Mage testMage = new Mage("Mage");
+		Character enemy = new Character("Enemey");
+		
+		testMage.Skill_1(enemy);
+		assertEquals(enemy.getHP(), 62);
+		
+		testMage.Skill_2(enemy);
+		assertTrue(enemy.isSilence());
+		assertEquals(testMage.getMP(), 96);
+		
+		testMage.Skill_3(enemy);
+		assertEquals(enemy.getHP(), 37);
+		assertTrue(enemy.isFrozen());
+		
+		enemy.setHP(300);
+		testMage.Skill_4(enemy);
+		assertEquals(enemy.getHP(), 160);
+		assertEquals(enemy.getWIS(), -60);
+
 
 	}
 	
 	@Test
 	public void testArcherSkills() {
 		Archer testArcher = new Archer("Archer");
+		Character enemy = new Character("Enemey");
 
 	}
 	
 	@Test
 	public void testSummonerSkills() {
 		Summoner testSummoner = new Summoner("Summoner");
+		Character enemy = new Character("Enemey");
 
 	}
 	
 	@Test
 	public void testLogSkills() {
 		Log testLog = new Log("Log");
+		Character enemy = new Character("Enemey");
+
 	}
 }
