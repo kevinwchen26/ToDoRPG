@@ -37,10 +37,6 @@ public class MainPageActivity extends Activity {
 	 * deletes user credentials for preferences and returns to login
 	 */
 	public void logout(View view) {
-		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.remove("email").commit();
-		editor.remove("pass").commit();
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
 

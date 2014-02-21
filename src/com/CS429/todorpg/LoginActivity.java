@@ -28,7 +28,6 @@ public class LoginActivity extends Activity {
 	}
 
 	public void login(View view) {
-		// TODO save data and go to main page
 		EditText email_box = (EditText) findViewById(R.id.email_box);
 		EditText pass_box = (EditText) findViewById(R.id.password_box);
 		String email = email_box.getText().toString();
@@ -37,11 +36,6 @@ public class LoginActivity extends Activity {
 		 * check if credentials match any on database
 		 */
 		if (checkCredentials(email, pass)) {
-			SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = preferences.edit();
-			editor.putString("email", email);
-			editor.putString("pass", pass);
-			editor.commit();
 			Intent intent = new Intent(this, MainPageActivity.class);
 			startActivity(intent);
 		} else {
@@ -62,13 +56,19 @@ public class LoginActivity extends Activity {
 	 * checks inputed credentials against any on the database
 	 */
 	public boolean checkCredentials(String email, String pass) {
-		// TODO check credentials against credentials in database
-		return true;
+		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+		String saved_email = preferences.getString("email", "");
+		String saved_pass = preferences.getString("pass", "");
+		if (saved_email.compareTo(email) == 0
+				&& saved_pass.compareTo(pass) == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	/*
-	 * onClick handler for new profile button on login page
-	 * brings users to profile creation form
+	 * onClick handler for new profile button on login page brings users to
+	 * profile creation form
 	 */
 	public void createProfile(View view) {
 		Intent intent = new Intent(this, CreateProfileActivity.class);
