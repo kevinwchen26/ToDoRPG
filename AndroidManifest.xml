@@ -22,7 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name="com.CS429.todorpg.LoginActivity"
+            android:label="login" >
+        </activity>
+        <activity
+            android:name="com.CS429.todorpg.CreateProfileActivity"
+            android:label="new_profile" >
+        </activity>
+        <activity
+            android:name="com.CS429.todorpg.MainPageActivity"
+            android:label="@string/title_activity_main_page" >
+        </activity>
     </application>
 
 </manifest>

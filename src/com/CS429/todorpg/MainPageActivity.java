@@ -2,7 +2,11 @@ package com.CS429.todorpg;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
+import android.view.View;
 
 public class MainPageActivity extends Activity {
 
@@ -19,4 +23,18 @@ public class MainPageActivity extends Activity {
 		return true;
 	}
 
+	public void checkChar(View view) {
+		// TODO start character page activity
+
+	}
+
+	public void logout(View view) {
+		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.remove("email").commit();
+		editor.remove("pass").commit();
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+
+	}
 }

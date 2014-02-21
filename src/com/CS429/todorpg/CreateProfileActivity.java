@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
@@ -49,6 +50,7 @@ public class CreateProfileActivity extends Activity {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString("email", email);
 		editor.putString("pass", pass);
+		editor.commit();
 	}
 
 	public void cancel(View view) {
