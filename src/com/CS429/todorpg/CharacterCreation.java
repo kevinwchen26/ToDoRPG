@@ -1,23 +1,22 @@
 package com.CS429.todorpg;
 
-import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.*;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class CharacterCreation extends Activity implements OnClickListener, OnItemSelectedListener{
 
@@ -27,6 +26,7 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 	EditText characterName;
 	Spinner spinner;
 	Intent intent;
+	AlertDialog dialog;
 	
 	
 	@Override
@@ -101,10 +101,29 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 	@SuppressLint("NewApi")
 	public void tempMessage(View view) {
 		String name = characterName.getText().toString();
-		if (name == null || name.isEmpty())
-			name = "Empty String";
-		Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-		Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
+		if (name == null || name.isEmpty()) {
+			dialog = WarningMessage();
+			dialog.show();
+		}
+		
+//		name = "Empty String";
+		
+//		Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
+		
+	}
+	private AlertDialog WarningMessage() {
+	    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this) 
+	        //set message, title, and icon
+	        .setTitle("Warning") 
+	        .setMessage("Please write name of Character") 
+	        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int whichButton) { 
+	                dialog.dismiss();
+	            }   
+	        })
+	        .create();
+	        return myQuittingDialogBox;
 	}
 
 	@Override
@@ -121,6 +140,7 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
 		selected = "Nothing Selected";
 	}
 
