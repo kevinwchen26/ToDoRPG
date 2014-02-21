@@ -20,4 +20,9 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	public void createCharacter(View view) {
+		Intent intent = new Intent(this, CharacterCreation.class);
+		startActivity(intent);
+	}
 }

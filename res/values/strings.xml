@@ -5,5 +5,11 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_character_creation">CharacterCreation</string>
-
+    
+    <string-array name="character_classes">
+        <item>Knight</item>
+        <item>Necromancer</item>
+        <item>Berserker</item>
+        <item>Sorcerer</item>
+    </string-array>
 </resources>
