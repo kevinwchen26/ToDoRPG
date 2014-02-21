@@ -55,12 +55,24 @@
             android:layout_weight="2">
             
             <!-- put spinner part here -->
+
+              <TextView
+                  android:id="@+id/textView1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentLeft="true"
+                  android:layout_alignParentTop="true"
+                  android:layout_marginTop="15dp"
+                  android:text="Select Class"
+                  android:textAppearance="?android:attr/textAppearanceSmall" />
+
               <Spinner
-		        android:id="@+id/select_class_spinner"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_centerHorizontal="true"
-		        android:layout_centerVertical="true" />
+                  android:id="@+id/select_class_spinner"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentLeft="true"
+                  android:layout_below="@+id/textView1" />
+
         </RelativeLayout>
         
 </LinearLayout>

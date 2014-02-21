@@ -7,9 +7,9 @@
     <string name="title_activity_character_creation">CharacterCreation</string>
     
     <string-array name="character_classes">
-        <item>Knight</item>
-        <item>Necromancer</item>
-        <item>Berserker</item>
-        <item>Sorcerer</item>
+        <item>Merchant</item>
+        <item>Storm Trooper</item>
+        <item>Engineer</item>
+        <item>Basketball Player</item>
     </string-array>
 </resources>
