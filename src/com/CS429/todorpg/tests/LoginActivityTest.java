@@ -34,9 +34,19 @@ public class LoginActivityTest extends
 	    assertNotNull("password is null", password);
 	}
 	
-	public void testResponse() {
-		boolean response = myLoginActivityTest.checkCredentials("email", "password");
+	public void testDefault() {
+		boolean response = myLoginActivityTest.checkCredentials("login", "pass");
 		assertTrue(response);
+	}
+	
+	public void testUser() {
+		boolean response = myLoginActivityTest.checkCredentials("login", "");
+		assertFalse(response);
+	}
+	
+	public void testPass() {
+		boolean response = myLoginActivityTest.checkCredentials("", "pass");
+		assertFalse(response);
 	}
 	
 	public void testLogin() {

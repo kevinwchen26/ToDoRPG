@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.Editable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -59,6 +60,7 @@ public class LoginActivity extends Activity {
 		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
 		String saved_email = preferences.getString("email", "");
 		String saved_pass = preferences.getString("pass", "");
+		//Log.d("This is email", saved_email);
 		if (saved_email.compareTo(email) == 0
 				&& saved_pass.compareTo(pass) == 0) {
 			return true;
