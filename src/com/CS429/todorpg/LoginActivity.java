@@ -27,19 +27,27 @@ public class LoginActivity extends Activity {
 		return true;
 	}
 
-	public void Login(View view) {
+	public void login(View view) {
 		// TODO save data and go to main page
 		EditText email_box = (EditText) findViewById(R.id.email_box);
 		EditText pass_box = (EditText) findViewById(R.id.password_box);
 		String email = email_box.getText().toString();
 		String pass = pass_box.getText().toString();
+		/*
+		 * check if credentials match any on database
+		 */
 		if (checkCredentials(email, pass)) {
 			SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putString("email", email);
 			editor.putString("pass", pass);
 			editor.commit();
+			Intent intent = new Intent(this, MainPageActivity.class);
+			startActivity(intent);
 		} else {
+			/*
+			 * fail message
+			 */
 			Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Email/Pass incorrect");
 			alert.setMessage("Your email or password is incorrect");
@@ -50,11 +58,18 @@ public class LoginActivity extends Activity {
 		}
 	}
 
+	/*
+	 * checks inputed credentials against any on the database
+	 */
 	public boolean checkCredentials(String email, String pass) {
 		// TODO check credentials against credentials in database
 		return true;
 	}
 
+	/*
+	 * onClick handler for new profile button on login page
+	 * brings users to profile creation form
+	 */
 	public void createProfile(View view) {
 		Intent intent = new Intent(this, CreateProfileActivity.class);
 		startActivity(intent);

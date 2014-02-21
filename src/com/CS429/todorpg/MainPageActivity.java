@@ -23,11 +23,19 @@ public class MainPageActivity extends Activity {
 		return true;
 	}
 
+	/*
+	 * onClick handler for character profile button
+	 * start character profile activity
+	 */
 	public void checkChar(View view) {
 		// TODO start character page activity
 
 	}
 
+	/*
+	 * onClick handler for logout button
+	 * deletes user credentials for preferences and returns to login
+	 */
 	public void logout(View view) {
 		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = preferences.edit();
