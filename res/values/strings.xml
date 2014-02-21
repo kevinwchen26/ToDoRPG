@@ -15,4 +15,12 @@
     <string name="wis">WIS</string>
     <string name="cha">CHA</string>
 
+    <string name="title_activity_character_creation">CharacterCreation</string>
+    
+    <string-array name="character_classes">
+        <item>Merchant</item>
+        <item>Storm Trooper</item>
+        <item>Engineer</item>
+        <item>Basketball Player</item>
+    </string-array>
 </resources>

@@ -47,6 +47,10 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" >
         </activity>
+        <activity
+            android:name="com.CS429.todorpg.CharacterCreation"
+            android:label="@string/title_activity_character_creation" >
+        </activity>
     </application>
 
 </manifest>

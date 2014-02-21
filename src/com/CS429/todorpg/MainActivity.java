@@ -124,4 +124,9 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+	
+	public void createCharacter(View view) {
+		Intent intent = new Intent(this, CharacterCreation.class);
+		startActivity(intent);
+	}
 }
