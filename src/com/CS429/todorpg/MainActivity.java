@@ -72,19 +72,19 @@ public class MainActivity extends Activity {
 				String character_selection_string = parent.getItemAtPosition(pos).toString().trim();
 				if(character_selection_string.equals("Choose Character")) {
 					SetInvisible();
-				} else if(character_selection_string.equals("1. Warrior")) {
+				} else if(character_selection_string.equals("Warrior")) {
 					character_image.setImageResource(R.drawable.warrior);
 					character_image.setVisibility(View.VISIBLE);
-				} else if(character_selection_string.equals("2. Log")) {
+				} else if(character_selection_string.equals("Log")) {
 					character_image.setImageResource(R.drawable.log);
 					character_image.setVisibility(View.VISIBLE);
-				} else if(character_selection_string.equals("3. Mage")) {
+				} else if(character_selection_string.equals("Mage")) {
 					character_image.setImageResource(R.drawable.mage);
 					character_image.setVisibility(View.VISIBLE);
-				} else if(character_selection_string.equals("4. Archer")) {
+				} else if(character_selection_string.equals("Archer")) {
 					character_image.setImageResource(R.drawable.archer);
 					character_image.setVisibility(View.VISIBLE);
-				} else if(character_selection_string.equals("5. Summoner")) {
+				} else if(character_selection_string.equals("Summoner")) {
 					character_image.setImageResource(R.drawable.summoner);
 					character_image.setVisibility(View.VISIBLE);
 				}
@@ -122,27 +122,27 @@ public class MainActivity extends Activity {
 		str_stat.setTextColor(Color.WHITE); con_stat.setTextColor(Color.WHITE);
 		dex_stat.setTextColor(Color.WHITE); int_stat.setTextColor(Color.WHITE);
 		wis_stat.setTextColor(Color.WHITE); cha_stat.setTextColor(Color.WHITE);
-		if(character_selection_string.equals("1. Warrior")) {
+		if(character_selection_string.equals("Warrior")) {
 			default_stat.setStrength(default_stat.getStrength() + 3);
 			default_stat.setConstitution(default_stat.getConstitution() + 3);
 			SetVisible();
 			str_stat.setTextColor(Color.RED); con_stat.setTextColor(Color.RED);
-		} else if(character_selection_string.equals("2. Log")) {
+		} else if(character_selection_string.equals("Log")) {
 			default_stat.setDexterity(default_stat.getDexterity() + 3);
 			default_stat.setWisdom(default_stat.getWisdom() + 3);
 			SetVisible();
 			dex_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
-		} else if(character_selection_string.equals("3. Mage")) {
+		} else if(character_selection_string.equals("Mage")) {
 			default_stat.setIntelligence(default_stat.getIntelligence() + 3);
 			default_stat.setWisdom(default_stat.getWisdom() + 3);
 			SetVisible();
 			int_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
-		} else if(character_selection_string.equals("4. Archer")) {
+		} else if(character_selection_string.equals("Archer")) {
 			default_stat.setDexterity(default_stat.getDexterity() + 3);
 			default_stat.setCharisma(default_stat.getCharisma() + 3);
 			dex_stat.setTextColor(Color.RED); cha_stat.setTextColor(Color.RED);
 			SetVisible();
-		} else if(character_selection_string.equals("5. Summoner")) {
+		} else if(character_selection_string.equals("Summoner")) {
 			default_stat.setCharisma(default_stat.getCharisma() + 3);
 			default_stat.setWisdom(default_stat.getWisdom() + 3);
 			cha_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
@@ -156,15 +156,15 @@ public class MainActivity extends Activity {
 		cha_stat.setText(Integer.toString(default_stat.getCharisma()));
 	}
 	private void Skill_explanation(String character_selection_string) {
-		if(character_selection_string.equals("1. Warrior")) {
+		if(character_selection_string.equals("Warrior")) {
 			WarriorSkills();
-		} else if(character_selection_string.equals("2. Log")) {
+		} else if(character_selection_string.equals("Log")) {
 			LogSkills();
-		} else if(character_selection_string.equals("3. Mage")) {
+		} else if(character_selection_string.equals("Mage")) {
 			MageSkills();
-		} else if(character_selection_string.equals("4. Archer")) {
+		} else if(character_selection_string.equals("Archer")) {
 			ArcherSkills();
-		} else if(character_selection_string.equals("5. Summoner")) {
+		} else if(character_selection_string.equals("Summoner")) {
 			SummonerSkills();
 		}
 	}
