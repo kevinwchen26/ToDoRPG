@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Mage extends Character{
 
+	//Bonus passive: basic attacks scale with int. Dmg still calculated with CON
 	public Mage(String Name) {
 		// TODO Auto-generated constructor stub
 		super(Name);
@@ -47,7 +48,9 @@ public class Mage extends Character{
 		int bonus = this.getINT()/2;
 		int total = base + bonus;
 		int reduction = this.getWIS() - enemy.getWIS();
-		total -= reduction;
+		total += reduction;
+		if(total < 0)
+			total = 0;
 		enemy.setHP(enemy.getHP() - total);
 		Random generator = new Random();
 		int chance = generator.nextInt(4);
@@ -56,7 +59,8 @@ public class Mage extends Character{
 		if(chance == 0)
 			enemy.applyBurn();
 			*/
-		
+		this.setMP(this.getMP() - 50);
+
 	}
 	
 	//SHHHHHHH
@@ -73,10 +77,14 @@ public class Mage extends Character{
 		int bonus = this.getINT()/4;
 		int total = base + bonus;
 		int reduction = this.getWIS() - enemy.getWIS();
-		total -= reduction;
+		total += reduction;
+		if(total < 0)
+			total = 0;
 		enemy.setHP(enemy.getHP() - total);
 
 		enemy.applyFreeze();
+		this.setMP(this.getMP() - 35);
+
 	}
 	
 	//Judgement
@@ -86,10 +94,14 @@ public class Mage extends Character{
 		int bonus = this.getINT();
 		int total = base + bonus;
 		int reduction = this.getWIS() - enemy.getWIS();
-		total -= reduction;
+		total += reduction;
+		if(total < 0)
+			total = 0;
 		enemy.setHP(enemy.getHP() - total);
 
 		enemy.setWIS(enemy.getWIS() - 50);
+		this.setMP(this.getMP() - 100);
+
 		
 		
 	}

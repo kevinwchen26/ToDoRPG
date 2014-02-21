@@ -2,6 +2,7 @@ package com.CS429.todorpg;
 
 public class Warrior extends Character {
 
+	//Bonus passive: warrior gains bonus hp per level based on defense
 	private int bonusCounter = 0;
 	public Warrior(String Name) {
 		// TODO Auto-generated constructor stub
@@ -29,10 +30,11 @@ public class Warrior extends Character {
 		
 	}
 	
+	
 	public void LevelStats(){
-		this.setSTR(this.getSTR() + 4);
+		this.setSTR(this.getSTR() + 3);
 		this.setCON(this.getCON() + 3);
-		this.setHP(this.getCON() * 20 + this.getHP());
+		this.setHP(this.getCON() * 15 + this.getHP());
 		this.setMP(this.getMP() + 10);
 		this.setDEX(this.getDEX() + 2);
 		this.setCHA(this.getCHA() + 2);
@@ -44,6 +46,7 @@ public class Warrior extends Character {
 	//Crushing Blow
 	//High physical damage, lowers enemy def permenantly 20 mana
 	public void Skill_1(Character enemy) {
+		this.setMP(this.getMP() - 20);
 		int base = 50;
 		int bonus = this.getSTR()/2;
 		int total = base + bonus;
@@ -52,6 +55,8 @@ public class Warrior extends Character {
 		int reduction = this.getCON() - enemy.getCON();
 		
 		total += reduction;
+		if(total < 0)
+			total = 0;
 		enemy.setHP(enemy.getHP() - total);
 		enemy.setCON(enemy.getCON() - 5);
 		
@@ -61,7 +66,8 @@ public class Warrior extends Character {
 	//Passive skill, gains bonus str for 5 turns, 35 mana
 	public void Skill_2(Character enemy) {
 		this.setSTR(this.getSTR() + 25);
-		
+		this.setMP(this.getMP() - 35);
+
 	}
 	
 	//Sit Still
@@ -69,6 +75,8 @@ public class Warrior extends Character {
 	public void Skill_3(Character enemy) {
 		//enemy skips turns
 		enemy.applyStun();
+		this.setMP(this.getMP() - 50);
+
 	}
 	
 	//Heaven's Descent
@@ -82,9 +90,13 @@ public class Warrior extends Character {
 		int reduction = (this.getCON() + 50 )- enemy.getCON();
 		
 		total += reduction;
+		if(total < 0)
+			total = 0;
 		enemy.setHP(enemy.getHP() - total);
 		System.out.println(total);
 		this.setHP(this.getHP() + total/4);
+		this.setMP(this.getMP() - 75);
+
 	}
 
 }

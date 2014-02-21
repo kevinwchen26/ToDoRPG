@@ -70,7 +70,7 @@ public class CharacterTest extends TestCase {
 		Warrior testWarrior = new Warrior("Warrior");
 		testWarrior.gainEXP(100);
 		assertEquals(testWarrior.getCON(), 16);
-		assertEquals(testWarrior.getSTR(), 17);
+		assertEquals(testWarrior.getSTR(), 16);
 		assertEquals(testWarrior.getDEX(), 12);
 		assertEquals(testWarrior.getCHA(), 12);
 		assertEquals(testWarrior.getINT(), 11);
@@ -79,7 +79,7 @@ public class CharacterTest extends TestCase {
 		//Test multiple level gains
 		testWarrior.gainEXP(1400);
 		assertEquals(testWarrior.getCON(), 25);
-		assertEquals(testWarrior.getSTR(), 29);
+		assertEquals(testWarrior.getSTR(), 25);
 		assertEquals(testWarrior.getDEX(), 18);
 		assertEquals(testWarrior.getCHA(), 18);
 		assertEquals(testWarrior.getINT(), 14);
@@ -118,19 +118,19 @@ public class CharacterTest extends TestCase {
 		Character enemy = new Character("Enemey");
 		
 		testMage.Skill_1(enemy);
-		assertEquals(enemy.getHP(), 62);
+		assertEquals(enemy.getHP(), 56);
 		
 		testMage.Skill_2(enemy);
 		assertTrue(enemy.isSilence());
-		assertEquals(testMage.getMP(), 96);
+		assertEquals(testMage.getMP(), 46);
 		
 		testMage.Skill_3(enemy);
-		assertEquals(enemy.getHP(), 37);
+		assertEquals(enemy.getHP(), 25);
 		assertTrue(enemy.isFrozen());
 		
 		enemy.setHP(300);
 		testMage.Skill_4(enemy);
-		assertEquals(enemy.getHP(), 160);
+		assertEquals(enemy.getHP(), 114);
 		assertEquals(enemy.getWIS(), -60);
 
 
@@ -140,6 +140,28 @@ public class CharacterTest extends TestCase {
 	public void testArcherSkills() {
 		Archer testArcher = new Archer("Archer");
 		Character enemy = new Character("Enemey");
+		
+		testArcher.attack(enemy);
+		
+		enemy.setHP(100);
+		
+		testArcher.Skill_1(enemy);
+		assertEquals(enemy.getHP(), 80);
+		
+		testArcher.Skill_2(enemy);
+		assertEquals(enemy.getHP(), 37);
+		assertTrue(enemy.isPoison());
+		
+		enemy.setHP(100);
+
+		testArcher.Skill_3(enemy);
+		assertEquals(enemy.getHP(), 47);
+		
+		enemy.setHP(300);
+
+		testArcher.Skill_4(enemy);
+		assertEquals(enemy.getHP(), 48);
+		assertTrue(enemy.isStun());
 
 	}
 	
@@ -147,13 +169,64 @@ public class CharacterTest extends TestCase {
 	public void testSummonerSkills() {
 		Summoner testSummoner = new Summoner("Summoner");
 		Character enemy = new Character("Enemey");
+		
+		testSummoner.Skill_1(enemy);
+		assertEquals(enemy.getHP(), 42);
+		assertEquals(testSummoner.getCON(), 50);
+				
+		enemy.setHP(100);
 
+		testSummoner.Skill_2(enemy);
+		assertEquals(enemy.getHP(), 45);
+		assertEquals(testSummoner.getINT(), 41);
+		
+		enemy.setHP(100);
+
+		testSummoner.Skill_3(enemy);
+		assertEquals(enemy.getHP(), 14);
+		assertEquals(testSummoner.getINT(), 56);
+		assertEquals(testSummoner.getSTR(), 40);
+		
+		enemy.setHP(300);
+
+		testSummoner.Skill_4(enemy);
+		assertEquals(enemy.getHP(), 139);
+		assertTrue(enemy.isBurn());
+		assertTrue(enemy.isFrozen());
+		assertTrue(enemy.isPoison());
+		assertTrue(enemy.isSilence());
+		assertTrue(enemy.isStun());
+		
+		assertEquals(testSummoner.getINT(), 66);
+		assertEquals(testSummoner.getSTR(), 50);
+		assertEquals(testSummoner.getDEX(), 20);
+		assertEquals(testSummoner.getWIS(), 23);
+		assertEquals(testSummoner.getCON(), 60);
 	}
 	
 	@Test
 	public void testLogSkills() {
 		Log testLog = new Log("Log");
 		Character enemy = new Character("Enemey");
+		
+		testLog.Skill_1(enemy);
+		assertEquals(enemy.getHP(), 46);
+		assertTrue(enemy.isSilence());
+		
+		testLog.Skill_2(enemy);
+		assertEquals(testLog.getCON(), 35);
+		assertEquals(testLog.getWIS(), 38);
+		assertEquals(testLog.getCHA(), 20);
+		
+		enemy.setHP(100);
+
+		testLog.Skill_3(enemy);
+		assertEquals(enemy.getHP(), 56);
+
+		enemy.setHP(300);
+		testLog.Skill_4(enemy);
+		assertEquals(enemy.getHP(), 137);
+		assertEquals(testLog.getHP(), 171);
 
 	}
 }
