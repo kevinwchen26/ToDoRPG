@@ -88,37 +88,37 @@ public class CharacterProfile extends Activity {
 	}
 	/*Set stat of initial character*/
 	private void InitializeStat(String character_selection_string) {
-		DefaultStat default_stat = new DefaultStat(10, 10, 10, 10, 10, 10);
+		Character default_stat = new Character(10, 10, 10, 10, 10, 10);
 		str_stat.setTextColor(Color.WHITE); con_stat.setTextColor(Color.WHITE);
 		dex_stat.setTextColor(Color.WHITE); int_stat.setTextColor(Color.WHITE);
 		wis_stat.setTextColor(Color.WHITE); cha_stat.setTextColor(Color.WHITE);
 		if(character_selection_string.equals("Warrior")) {
-			default_stat.setStrength(default_stat.getStrength() + 3);
-			default_stat.setConstitution(default_stat.getConstitution() + 3);
+			default_stat.setSTR(default_stat.getSTR() + 3);
+			default_stat.setCON(default_stat.getCON() + 3);
 			str_stat.setTextColor(Color.RED); con_stat.setTextColor(Color.RED);
 		} else if(character_selection_string.equals("Log")) {
-			default_stat.setDexterity(default_stat.getDexterity() + 3);
-			default_stat.setWisdom(default_stat.getWisdom() + 3);
+			default_stat.setDEX(default_stat.getDEX() + 3);
+			default_stat.setWIS(default_stat.getWIS() + 3);
 			dex_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
 		} else if(character_selection_string.equals("Mage")) {
-			default_stat.setIntelligence(default_stat.getIntelligence() + 3);
-			default_stat.setWisdom(default_stat.getWisdom() + 3);
+			default_stat.setINT(default_stat.getINT() + 3);
+			default_stat.setWIS(default_stat.getWIS() + 3);
 			int_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
 		} else if(character_selection_string.equals("Archer")) {
-			default_stat.setDexterity(default_stat.getDexterity() + 3);
-			default_stat.setCharisma(default_stat.getCharisma() + 3);
+			default_stat.setDEX(default_stat.getDEX() + 3);
+			default_stat.setCHA(default_stat.getCHA() + 3);
 			dex_stat.setTextColor(Color.RED); cha_stat.setTextColor(Color.RED);
 		} else if(character_selection_string.equals("Summoner")) {
-			default_stat.setCharisma(default_stat.getCharisma() + 3);
-			default_stat.setWisdom(default_stat.getWisdom() + 3);
+			default_stat.setCHA(default_stat.getCHA() + 3);
+			default_stat.setWIS(default_stat.getWIS() + 3);
 			cha_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
 		}
-		str_stat.setText(Integer.toString(default_stat.getStrength()));
-		con_stat.setText(Integer.toString(default_stat.getConstitution()));
-		dex_stat.setText(Integer.toString(default_stat.getDexterity()));
-		int_stat.setText(Integer.toString(default_stat.getIntelligence()));
-		wis_stat.setText(Integer.toString(default_stat.getWisdom()));
-		cha_stat.setText(Integer.toString(default_stat.getCharisma()));
+		str_stat.setText(Integer.toString(default_stat.getSTR()));
+		con_stat.setText(Integer.toString(default_stat.getCON()));
+		dex_stat.setText(Integer.toString(default_stat.getDEX()));
+		int_stat.setText(Integer.toString(default_stat.getINT()));
+		wis_stat.setText(Integer.toString(default_stat.getWIS()));
+		cha_stat.setText(Integer.toString(default_stat.getCHA()));
 	}
 	/*Show skills of character -- To be implemented later*/
 	private void Skill_explanation(String character_selection_string) {

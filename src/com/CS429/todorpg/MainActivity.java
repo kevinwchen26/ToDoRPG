@@ -59,14 +59,14 @@ public class MainActivity extends Activity {
 	}
 	/* Insert data to the database */
 	private void InsertData() {
-		DefaultStat default_stat = null;   			// temp ---- Remove
+		Character default_stat = null;   			// temp ---- Remove
 		database.beginTransaction();
 		try {
 			String sql = null;
 			sql = "insert into " + tableName + "(str, con, dex, _int, wis, cha) " +
-						"values('"+ default_stat.getStrength() +"', '"+ default_stat.getConstitution() +"', '" 
-						+ default_stat.getDexterity() +"', '"+ default_stat.getIntelligence() +"', '" 
-						+ default_stat.getWisdom() +"', '" + default_stat.getCharisma()+"')";
+						"values('"+ default_stat.getSTR() +"', '"+ default_stat.getCON() +"', '" 
+						+ default_stat.getDEX() +"', '"+ default_stat.getINT() +"', '" 
+						+ default_stat.getWIS() +"', '" + default_stat.getCHA()+"')";
 			database.execSQL(sql);
 			database.setTransactionSuccessful();
 		} catch(Exception e) {

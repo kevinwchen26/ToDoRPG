@@ -44,6 +44,15 @@ public class Character {
 		this.nextLevelEXP = 100;
 			
 	}
+	/*Second constructor for default stat*/
+	public Character(int STR, int CON, int DEX, int INT, int WIS, int CHA) {
+		this.STR = STR;
+		this.DEX = DEX;
+		this.INT = INT;
+		this.WIS = WIS;
+		this.CHA = CHA;
+		this.CON = CON;
+	}
 	//STUB Methods - these will be implemented in their respective classes
 	public void Skill_1(Character enemy) {
 		//STUB METHOD
