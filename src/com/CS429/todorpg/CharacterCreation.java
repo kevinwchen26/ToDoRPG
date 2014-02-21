@@ -3,6 +3,7 @@ package com.CS429.todorpg;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
@@ -24,6 +25,8 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 	ImageView img;
 	EditText characterName;
 	Spinner spinner;
+	Intent intent;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 		
 		// Name
 		characterName = (EditText)findViewById(R.id.character_name);
-		 
+		
 	}
 
 	@Override
@@ -103,11 +106,15 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View arg1, int pos,
-			long id) {
-		
-		selected = parent.getItemAtPosition(pos).toString();
-		
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+//		Toast.makeText(parent.getContext(), parent.getItemAtPosition(pos).toString(), Toast.LENGTH_SHORT).show();
+//		String character_selection_string;
+		String character_selection_string = parent.getItemAtPosition(pos).toString().trim();
+		intent = new Intent(CharacterCreation.this, CharacterProfile.class);
+		intent.putExtra("character", character_selection_string);
+		if(!character_selection_string.equals("Choose Character")) {
+			startActivity(intent);
+		}
 	}
 
 	@Override

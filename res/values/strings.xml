@@ -18,6 +18,7 @@
     <string name="title_activity_character_creation">CharacterCreation</string>
     
     <string-array name="character_classes">
+        <item>Choose Character</item>
         <item>Merchant</item>
         <item>Storm Trooper</item>
         <item>Engineer</item>

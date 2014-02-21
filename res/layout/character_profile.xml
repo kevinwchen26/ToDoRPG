@@ -131,7 +131,7 @@
 	        android:layout_margin="10dp"
 	        android:weightSum="10">
 			<ImageView 
-			    android:background="@drawable/warrior"
+			    android:background="@drawable/merchant"
 			    android:id="@+id/skill_1_image"
 			    android:layout_weight="3"
 			    android:layout_width="0sp"
@@ -154,7 +154,7 @@
 	        
 	        android:weightSum="10">
 			<ImageView 
-			    android:background="@drawable/log"
+			    android:background="@drawable/storm_trooper"
 			    android:id="@+id/skill_2_image"
 			    android:layout_weight="3"
 			    android:layout_width="0sp"
@@ -177,7 +177,7 @@
 	        
 	        android:weightSum="10">
 			<ImageView 
-			    android:background="@drawable/mage"
+			    android:background="@drawable/engineer"
 			    android:id="@+id/skill_3_image"
 			    android:layout_weight="3"
 			    android:layout_width="0sp"
@@ -199,7 +199,7 @@
 	        android:layout_margin="10dp"
 	        android:weightSum="10">
 			<ImageView 
-			    android:background="@drawable/archer"
+			    android:background="@drawable/basketball_player"
 			    android:id="@+id/skill_4_image"
 			    android:layout_weight="3"
 			    android:layout_width="0sp"
