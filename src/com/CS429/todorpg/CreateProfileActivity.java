@@ -50,4 +50,9 @@ public class CreateProfileActivity extends Activity {
 		editor.putString("email", email);
 		editor.putString("pass", pass);
 	}
+
+	public void cancel(View view) {
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+	}
 }

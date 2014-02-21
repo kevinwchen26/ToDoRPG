@@ -24,22 +24,30 @@
         android:hint="Enter Password"
         android:inputType="textPassword" />
 
-     <EditText
+    <EditText
         android:id="@+id/reenter_password_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/new_password_box"
         android:hint="Reenter Password"
         android:inputType="textPassword" />
-    
+
     <Button
         android:id="@+id/create_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/reenter_password_box"
-        android:text="Create Profile" 
-        android:onClick="createNewProfile">
+        android:onClick="createNewProfile"
+        android:text="Create Profile" >
     </Button>
 
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_button"
+        android:onClick="cancel"
+        android:text="Cancel" >
+    </Button>
 
 </RelativeLayout>
