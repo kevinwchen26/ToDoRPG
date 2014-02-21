@@ -41,6 +41,12 @@
         </activity>
 
         <uses-library android:name="android.test.runner" />
+
+        <activity
+            android:name="com.CS429.todorpg.CharacterProfile"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" >
+        </activity>
     </application>
 
 </manifest>
