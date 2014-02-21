@@ -37,6 +37,9 @@ public class LoginActivity extends Activity {
 		 * check if credentials match any on database
 		 */
 		if (checkCredentials(email, pass)) {
+			SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+			preferences.edit().putBoolean("logged_in", true);
+			preferences.edit().commit();
 			Intent intent = new Intent(this, MainPageActivity.class);
 			startActivity(intent);
 		} else {
@@ -60,7 +63,7 @@ public class LoginActivity extends Activity {
 		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
 		String saved_email = preferences.getString("email", "");
 		String saved_pass = preferences.getString("pass", "");
-		//Log.d("This is email", saved_email);
+		// Log.d("This is email", saved_email);
 		if (saved_email.compareTo(email) == 0
 				&& saved_pass.compareTo(pass) == 0) {
 			return true;

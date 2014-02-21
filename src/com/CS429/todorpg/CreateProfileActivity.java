@@ -38,16 +38,19 @@ public class CreateProfileActivity extends Activity {
 				.findViewById(R.id.reenter_password_box);
 		String repeat_pass = repeat_pass_box.getText().toString();
 		saveProfile(email, pass, repeat_pass);
-		//starts the main page
+		// starts the main page
 		Intent intent = new Intent(this, MainPageActivity.class);
 		startActivity(intent);
 
 	}
+
 	/*
 	 * Saves new profile to SharedPreferences
 	 * 
 	 * @param email the email to be saved
+	 * 
 	 * @param pass the pass to be saved
+	 * 
 	 * @param repeat_pass password doublecheck
 	 */
 	private void saveProfile(String email, String pass, String repeat_pass) {
@@ -62,15 +65,16 @@ public class CreateProfileActivity extends Activity {
 			return;
 		}
 		/*
-		 * saves credentials 
+		 * saves credentials
 		 */
 		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString("email", email);
 		editor.putString("pass", pass);
+		editor.putBoolean("logged_in", true);
 		editor.commit();
 	}
-	
+
 	/*
 	 * onClick handler for cancel button
 	 */

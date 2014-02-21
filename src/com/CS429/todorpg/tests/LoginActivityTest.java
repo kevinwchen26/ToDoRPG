@@ -36,7 +36,7 @@ public class LoginActivityTest extends
 	
 	public void testDefault() {
 		boolean response = myLoginActivityTest.checkCredentials("login", "pass");
-		assertTrue(response);
+		assertFalse(response);
 	}
 	
 	public void testUser() {

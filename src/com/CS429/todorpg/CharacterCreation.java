@@ -119,7 +119,6 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
 		selected = "Nothing Selected";
 	}
 

@@ -14,6 +14,11 @@ public class MainPageActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_page);
+		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+		if (preferences.getBoolean("logged_in", false)) {
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -24,17 +29,24 @@ public class MainPageActivity extends Activity {
 	}
 
 	/*
-	 * onClick handler for character profile button
-	 * start character profile activity
+	 * onClick handler for character profile button start character profile
+	 * activity
 	 */
 	public void checkChar(View view) {
-		// TODO start character page activity
+		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+		if (preferences.getBoolean("hasChar", false)) {
+			Intent intent = new Intent(this, CharacterProfile.class);
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent(this, CharacterCreation.class);
+			startActivity(intent);
+		}
 
 	}
 
 	/*
-	 * onClick handler for logout button
-	 * deletes user credentials for preferences and returns to login
+	 * onClick handler for logout button deletes user credentials for
+	 * preferences and returns to login
 	 */
 	public void logout(View view) {
 		Intent intent = new Intent(this, LoginActivity.class);
