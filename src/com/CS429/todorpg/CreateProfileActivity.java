@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -31,6 +33,11 @@ public class CreateProfileActivity extends Activity {
 		EditText repeat_pass_box = (EditText) this
 				.findViewById(R.id.reenter_password_box);
 		String repeat_pass = repeat_pass_box.getText().toString();
+		saveProfile(email, pass, repeat_pass);
+
+	}
+
+	private void saveProfile(String email, String pass, String repeat_pass) {
 		if (pass.compareTo(repeat_pass) != 0) {
 			Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Password mismatch");
@@ -38,5 +45,9 @@ public class CreateProfileActivity extends Activity {
 			alert.setCancelable(true);
 			return;
 		}
+		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString("email", email);
+		editor.putString("pass", pass);
 	}
 }
