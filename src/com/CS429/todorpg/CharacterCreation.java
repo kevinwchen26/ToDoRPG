@@ -7,8 +7,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 public class CharacterCreation extends Activity implements OnClickListener{
@@ -33,9 +34,14 @@ public class CharacterCreation extends Activity implements OnClickListener{
 		setCharacters();
 		
 		// Initialize image view
+	
 		img = (ImageView)findViewById(R.id.character_image);
-		Button left = (Button)findViewById(R.id.leftarrow);
-		Button right = (Button)findViewById(R.id.rightarrow);
+		
+		
+		
+		
+		ImageButton left = (ImageButton)findViewById(R.id.leftarrow);
+		ImageButton right = (ImageButton)findViewById(R.id.rightarrow);
 		left.setOnClickListener(this);
 		right.setOnClickListener(this);
 		

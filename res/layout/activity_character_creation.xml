@@ -7,72 +7,62 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="7"
     tools:context=".CharacterCreation" >
 
-        
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            >        
+                
             <!-- character image  -->
                 <ImageView
                     android:id="@+id/character_image"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                android:src="@drawable/collection"
-                />
-                
-        </RelativeLayout>         
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/collection"
+                    android:layout_weight="3.5"
+                /> 
         
-        <!-- temporary left right arrow button -->        
-        <RelativeLayout
-            android:layout_width = "match_parent"
-            android:layout_height="wrap_content"
-            >
-        <Button
-            android:id="@+id/leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="left"
-            />
+        <!-- temporary left right arrow button -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" >
+
+                    <ImageButton
+                        android:id="@+id/leftarrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/trans_left_arrow" />
+
+                    <ImageButton
+                        android:id="@+id/rightarrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/trans_right_arrow" />
+                </RelativeLayout>
         
-        <Button
-            android:id="@+id/rightarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="right"
-            />
-        </RelativeLayout>
-        
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
+            android:layout_height="0dp"
+            android:layout_weight="3">
             
             <!-- put spinner part here -->
 
-              <TextView
-                  android:id="@+id/textView1"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentLeft="true"
-                  android:layout_alignParentTop="true"
-                  android:layout_marginTop="15dp"
-                  android:text="Select Class"
-                  android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Select Class"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-              <Spinner
-                  android:id="@+id/select_class_spinner"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentLeft="true"
-                  android:layout_below="@+id/textView1" />
+            <Spinner
+                android:id="@+id/select_class_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
-        </RelativeLayout>
+        </LinearLayout>
         
 </LinearLayout>
