@@ -13,8 +13,8 @@ public class LoginActivityTest extends
 	private LoginActivity myLoginActivityTest;
 	private EditText email;
 	private EditText password;
-	private static final String login = "login ENTER ";
-	private static final String pass = "password ENTER ";
+	private static final String login = "L O G I N ENTER";
+	private static final String pass = "P A S S ENTER";
 
 	public LoginActivityTest() {
 		super(LoginActivity.class);
@@ -34,14 +34,18 @@ public class LoginActivityTest extends
 	    assertNotNull("password is null", password);
 	}
 	
-	public void testLogin() {
+	public void testResponse() {
 		boolean response = myLoginActivityTest.checkCredentials("email", "password");
 		assertTrue(response);
+	}
+	
+	public void testLogin() {
 		sendKeys(login);
 		sendKeys(pass);
-		sendKeys("ENTER");
 		String emailT = email.getText().toString();
-		assertFalse("Email should have login as String", emailT.equals("login"));
+		String passT = password.getText().toString();
+		assertTrue("Email should have login as String", emailT.equals("login"));
+		assertTrue("passT should have pass as String", passT.equals("pass"));
 	}
 	//testing
 
