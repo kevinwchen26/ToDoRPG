@@ -14,5 +14,6 @@ public class LoginActivityTest extends
 	public void testLogin() {
 		assertTrue(true);
 	}
+	//testing
 
 }
