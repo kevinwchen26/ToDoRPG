@@ -67,20 +67,17 @@ public class CharacterProfile extends Activity {
 		Bundle bundle = intent.getExtras();
 		String character = (String) bundle.get("character");
 		Log.d("Character name: ", character);
-		if(character.equals("Warrior")) {
-			character_image.setImageResource(R.drawable.warrior);
+		if(character.equals("Merchant")) {
+			character_image.setImageResource(R.drawable.merchant);
 			character_image.setVisibility(View.VISIBLE);
 		} else if(character.equals("Log")) {
-			character_image.setImageResource(R.drawable.log);
+			character_image.setImageResource(R.drawable.storm_trooper);
 			character_image.setVisibility(View.VISIBLE);
 		} else if(character.equals("Mage")) {
-			character_image.setImageResource(R.drawable.mage);
+			character_image.setImageResource(R.drawable.engineer);
 			character_image.setVisibility(View.VISIBLE);
 		} else if(character.equals("Archer")) {
-			character_image.setImageResource(R.drawable.archer);
-			character_image.setVisibility(View.VISIBLE);
-		} else if(character.equals("Summoner")) {
-			character_image.setImageResource(R.drawable.summoner);
+			character_image.setImageResource(R.drawable.basketball_player);
 			character_image.setVisibility(View.VISIBLE);
 		}
 		InitializeStat(character);
@@ -92,27 +89,23 @@ public class CharacterProfile extends Activity {
 		str_stat.setTextColor(Color.WHITE); con_stat.setTextColor(Color.WHITE);
 		dex_stat.setTextColor(Color.WHITE); int_stat.setTextColor(Color.WHITE);
 		wis_stat.setTextColor(Color.WHITE); cha_stat.setTextColor(Color.WHITE);
-		if(character_selection_string.equals("Warrior")) {
+		if(character_selection_string.equals("Merchant")) {
 			default_stat.setSTR(default_stat.getSTR() + 3);
 			default_stat.setCON(default_stat.getCON() + 3);
 			str_stat.setTextColor(Color.RED); con_stat.setTextColor(Color.RED);
-		} else if(character_selection_string.equals("Log")) {
+		} else if(character_selection_string.equals("Storm Trooper")) {
 			default_stat.setDEX(default_stat.getDEX() + 3);
 			default_stat.setWIS(default_stat.getWIS() + 3);
 			dex_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
-		} else if(character_selection_string.equals("Mage")) {
+		} else if(character_selection_string.equals("Engineer")) {
 			default_stat.setINT(default_stat.getINT() + 3);
 			default_stat.setWIS(default_stat.getWIS() + 3);
 			int_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
-		} else if(character_selection_string.equals("Archer")) {
+		} else if(character_selection_string.equals("Basketball Player")) {
 			default_stat.setDEX(default_stat.getDEX() + 3);
 			default_stat.setCHA(default_stat.getCHA() + 3);
 			dex_stat.setTextColor(Color.RED); cha_stat.setTextColor(Color.RED);
-		} else if(character_selection_string.equals("Summoner")) {
-			default_stat.setCHA(default_stat.getCHA() + 3);
-			default_stat.setWIS(default_stat.getWIS() + 3);
-			cha_stat.setTextColor(Color.RED); wis_stat.setTextColor(Color.RED);
-		}
+		} 
 		str_stat.setText(Integer.toString(default_stat.getSTR()));
 		con_stat.setText(Integer.toString(default_stat.getCON()));
 		dex_stat.setText(Integer.toString(default_stat.getDEX()));
@@ -122,67 +115,55 @@ public class CharacterProfile extends Activity {
 	}
 	/*Show skills of character -- To be implemented later*/
 	private void Skill_explanation(String character_selection_string) {
-		if(character_selection_string.equals("Warrior")) {
-			WarriorSkills();
-		} else if(character_selection_string.equals("Log")) {
+		if(character_selection_string.equals("Merchant")) {
+			MerchantSkills();
+		} else if(character_selection_string.equals("Storm Trooper")) {
 			LogSkills();
-		} else if(character_selection_string.equals("Mage")) {
+		} else if(character_selection_string.equals("Engineer")) {
 			MageSkills();
-		} else if(character_selection_string.equals("Archer")) {
+		} else if(character_selection_string.equals("Basketball Player")) {
 			ArcherSkills();
-		} else if(character_selection_string.equals("Summoner")) {
-			SummonerSkills();
 		}
 	}
-	private void WarriorSkills() {
-		skill_1_image.setImageResource(R.drawable.warrior);
-		skill_2_image.setImageResource(R.drawable.log);
-		skill_3_image.setImageResource(R.drawable.mage);
-		skill_4_image.setImageResource(R.drawable.archer);
-		skill_1_explanation.setText(SkillExplanation.warrior_skill_1);
-		skill_2_explanation.setText(SkillExplanation.warrior_skill_2);
-		skill_3_explanation.setText(SkillExplanation.warrior_skill_3);
-		skill_4_explanation.setText(SkillExplanation.warrior_skill_4);
+	private void MerchantSkills() {
+		skill_1_image.setImageResource(R.drawable.merchant);
+		skill_2_image.setImageResource(R.drawable.storm_trooper);
+		skill_3_image.setImageResource(R.drawable.engineer);
+		skill_4_image.setImageResource(R.drawable.basketball_player);
+		skill_1_explanation.setText(SkillExplanation.Merchant_skill_1);
+		skill_2_explanation.setText(SkillExplanation.Merchant_skill_2);
+		skill_3_explanation.setText(SkillExplanation.Merchant_skill_3);
+		skill_4_explanation.setText(SkillExplanation.Merchant_skill_4);
 	}
 	private void LogSkills() {
-		skill_1_image.setImageResource(R.drawable.log);
-		skill_2_image.setImageResource(R.drawable.warrior);
-		skill_3_image.setImageResource(R.drawable.mage);
-		skill_4_image.setImageResource(R.drawable.archer);
-		skill_1_explanation.setText(SkillExplanation.log_skill_1);
-		skill_2_explanation.setText(SkillExplanation.log_skill_2);
-		skill_3_explanation.setText(SkillExplanation.log_skill_3);
-		skill_4_explanation.setText(SkillExplanation.log_skill_4);
+		skill_1_image.setImageResource(R.drawable.storm_trooper);
+		skill_2_image.setImageResource(R.drawable.merchant);
+		skill_3_image.setImageResource(R.drawable.engineer);
+		skill_4_image.setImageResource(R.drawable.basketball_player);
+		skill_1_explanation.setText(SkillExplanation.Storm_Trooper_skill_1);
+		skill_2_explanation.setText(SkillExplanation.Storm_Trooper_skill_2);
+		skill_3_explanation.setText(SkillExplanation.Storm_Trooper_skill_3);
+		skill_4_explanation.setText(SkillExplanation.Storm_Trooper_skill_4);
 	}
 	private void MageSkills() {
-		skill_1_image.setImageResource(R.drawable.archer);
-		skill_2_image.setImageResource(R.drawable.log);
-		skill_3_image.setImageResource(R.drawable.mage);
-		skill_4_image.setImageResource(R.drawable.warrior);
-		skill_1_explanation.setText(SkillExplanation.mage_skill_1);
-		skill_2_explanation.setText(SkillExplanation.mage_skill_2);
-		skill_3_explanation.setText(SkillExplanation.mage_skill_3);
-		skill_4_explanation.setText(SkillExplanation.mage_skill_4);
+		skill_1_image.setImageResource(R.drawable.basketball_player);
+		skill_2_image.setImageResource(R.drawable.storm_trooper);
+		skill_3_image.setImageResource(R.drawable.engineer);
+		skill_4_image.setImageResource(R.drawable.merchant);
+		skill_1_explanation.setText(SkillExplanation.Engineer_skill_1);
+		skill_2_explanation.setText(SkillExplanation.Engineer_skill_2);
+		skill_3_explanation.setText(SkillExplanation.Engineer_skill_3);
+		skill_4_explanation.setText(SkillExplanation.Engineer_skill_4);
 	}
 	private void ArcherSkills() {
-		skill_1_image.setImageResource(R.drawable.mage);
-		skill_2_image.setImageResource(R.drawable.log);
-		skill_3_image.setImageResource(R.drawable.warrior);
-		skill_4_image.setImageResource(R.drawable.archer);
-		skill_1_explanation.setText(SkillExplanation.archer_skill_1);
-		skill_2_explanation.setText(SkillExplanation.archer_skill_2);
-		skill_3_explanation.setText(SkillExplanation.archer_skill_3);
-		skill_4_explanation.setText(SkillExplanation.archer_skill_4);
-	}
-	private void SummonerSkills() {
-		skill_1_image.setImageResource(R.drawable.warrior);
-		skill_2_image.setImageResource(R.drawable.mage);
-		skill_3_image.setImageResource(R.drawable.log);
-		skill_4_image.setImageResource(R.drawable.archer);
-		skill_1_explanation.setText(SkillExplanation.summoner_skill_1);
-		skill_2_explanation.setText(SkillExplanation.summoner_skill_2);
-		skill_3_explanation.setText(SkillExplanation.summoner_skill_3);
-		skill_4_explanation.setText(SkillExplanation.summoner_skill_4);
+		skill_1_image.setImageResource(R.drawable.engineer);
+		skill_2_image.setImageResource(R.drawable.storm_trooper);
+		skill_3_image.setImageResource(R.drawable.merchant);
+		skill_4_image.setImageResource(R.drawable.basketball_player);
+		skill_1_explanation.setText(SkillExplanation.Basketball_player_skill_1);
+		skill_2_explanation.setText(SkillExplanation.Basketball_player_skill_2);
+		skill_3_explanation.setText(SkillExplanation.Basketball_player_skill_3);
+		skill_4_explanation.setText(SkillExplanation.Basketball_player_skill_4	);
 	}
 }
 

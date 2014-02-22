@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.CS429.todorpg.MainActivity"
+            android:name="com.CS429.todorpg.StartMain"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity
+            android:name="com.CS429.todorpg.CharacterCreation"
+            android:label="@string/title_character_creation" >
+        </activity>
         <activity
             android:name="com.CS429.todorpg.CharacterProfile"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
-            android:theme="@android:style/Theme.Dialog">
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" >
         </activity>
     </application>
 
