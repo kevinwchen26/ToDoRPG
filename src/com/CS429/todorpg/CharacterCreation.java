@@ -82,16 +82,13 @@ public class CharacterCreation extends Activity implements OnClickListener, OnIt
 		switch (v.getId()){
 		case R.id.leftarrow:
 			curidx--;
-			if (curidx < 0) {
-				curidx = 3;
-			}
-			img.setImageDrawable(characters[curidx]);
+			if (curidx < 0) curidx = 3;
 			
+			img.setImageDrawable(characters[curidx]);
 			break;
 		case R.id.rightarrow:
 			curidx = (curidx + 1) % 4;
 			img.setImageDrawable(characters[curidx]);
-			
 			break;
 		}
 		
