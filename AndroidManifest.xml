@@ -39,6 +39,8 @@
             android:name="com.CS429.todorpg.Login"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity
+            android:name="com.CS429.todorpg.QuestCreation" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

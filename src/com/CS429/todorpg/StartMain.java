@@ -28,6 +28,7 @@ public class StartMain extends Activity {
 		findViewById(R.id.logout_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.register_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.create_character_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.quest_creation_btn).setOnClickListener(ButtonOption);
 	}
 
 	Button.OnClickListener ButtonOption = new Button.OnClickListener() {
@@ -42,6 +43,9 @@ public class StartMain extends Activity {
 					break;
 				case R.id.create_character_btn:
 					CharacterCreation();
+					break;
+				case R.id.quest_creation_btn:
+					QuestCreation();
 					break;
 				case R.id.logout_btn:
 					LogoutHandler();
@@ -72,6 +76,10 @@ public class StartMain extends Activity {
 		StaticClass.MY_ID = null;
 		header.setVisibility(View.VISIBLE);
 		sub_header.setVisibility(View.GONE);
+	}
+	public void QuestCreation() {
+		intent = new Intent(StartMain.this, QuestCreation.class);
+		startActivity(intent);
 	}
 
 

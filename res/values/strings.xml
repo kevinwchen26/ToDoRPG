@@ -10,7 +10,7 @@
     <string name="group_name">ToDoRPG Iteration 3</string>
     <string name="create_character">Create Character</string>
     <string name="current_info">My Character Information</string>
-    <string name="quest_info">My Quest Information</string>
+    <string name="quest_creation">Quest(Johnny - Paul)</string>
     <string name="availabe_quest_info">Available Quest Information</string>
     <string name="quit">Quit</string>
     <string name="user_name">ID</string>

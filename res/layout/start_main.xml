@@ -113,13 +113,13 @@
                 android:text="@string/current_info" />
 
             <Button
-                android:id="@+id/quest_info_btn"
+                android:id="@+id/quest_creation_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/blue_button"
                 android:minHeight="0dp"
-                android:text="@string/quest_info" />
+                android:text="@string/quest_creation" />
 
             <Button
                 android:id="@+id/availabe_quest_info_btn"
