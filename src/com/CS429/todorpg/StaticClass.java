@@ -13,6 +13,7 @@ public class StaticClass {
 	public static final String LOGIN_SUCCESS_MESSAGE = "Logged in Successfully";
 	public static final String WELCOME_MESSAGE = "Welcome";
 	public static final String LOGOUT_MESSAGE = "Logged out Successfully";
+	public static final String NEED_LOGIN_MESSAGE = "You have to login first";
 	
 	public static final String Merchant_skill_1 = "Merchant Skill 1";
 	public static final String Merchant_skill_2 = "Merchant Skill 2";

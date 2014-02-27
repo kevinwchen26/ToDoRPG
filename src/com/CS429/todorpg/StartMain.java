@@ -26,6 +26,7 @@ public class StartMain extends Activity {
 		user_id = (TextView) findViewById(R.id.user_id);
 		findViewById(R.id.login_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.logout_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.quit_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.register_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.create_character_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.quest_creation_btn).setOnClickListener(ButtonOption);
@@ -50,6 +51,8 @@ public class StartMain extends Activity {
 				case R.id.logout_btn:
 					LogoutHandler();
 					break;
+				case R.id.quit_btn:
+					finish();
 			}
 
 		}
@@ -65,8 +68,15 @@ public class StartMain extends Activity {
 		intent = new Intent(this, Login.class);
 		startActivityForResult(intent, 0);
 	}
-	
+	public boolean LoginStatus() {
+		if(StaticClass.MY_ID == null) return false;
+		else return true;
+	}
 	public void CharacterCreation() {
+		if(!LoginStatus()) {
+			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
+		}
 		intent = new Intent(StartMain.this, CharacterCreation.class);
 		startActivity(intent);
 	}
@@ -78,6 +88,7 @@ public class StartMain extends Activity {
 		sub_header.setVisibility(View.GONE);
 	}
 	public void QuestCreation() {
+		
 		intent = new Intent(StartMain.this, QuestCreation.class);
 		startActivity(intent);
 	}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="CharacterSelection">
+        <item>Choose Your Character</item>
+        <item>Warrior</item>
+        <item>Assassin</item>
+        <item>Mage</item>
+        <item>Archer</item>
+        <item>Summoner</item>
+    </string-array>
+</resources>
