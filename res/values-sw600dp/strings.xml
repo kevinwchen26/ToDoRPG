@@ -17,7 +17,7 @@
     <string name="login_password">Password</string>
     <string name="user_name_hint">Write email address</string>
     <string name="password_hint">write password</string>
-    <string name="register_email">Email :</string>
+    <string name="register_ID">Email :</string>
     <string name="register_password">Password :</string>
     <string name="confirm_password">Confirm Password :</string>
     <string name="text_character_selection">Select Character</string>

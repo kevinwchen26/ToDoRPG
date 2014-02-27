@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity
+        <activity
             android:name="com.CS429.todorpg.CharacterCreation"
             android:label="@string/title_character_creation" >
         </activity>
@@ -31,6 +31,19 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" >
         </activity>
+        <activity
+            android:name="com.CS429.todorpg.Register"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity
+            android:name="com.CS429.todorpg.Login"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

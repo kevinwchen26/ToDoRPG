@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">NewToDoRPG</string>
+    <string name="app_name">ToDoRPG</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="register">Register</string>
@@ -13,13 +13,13 @@
     <string name="quest_info">My Quest Information</string>
     <string name="availabe_quest_info">Available Quest Information</string>
     <string name="quit">Quit</string>
-    <string name="user_name">User name</string>
+    <string name="user_name">ID</string>
     <string name="login_password">Password</string>
-    <string name="user_name_hint">Write email address</string>
+    <string name="user_name_hint">Write your ID</string>
     <string name="password_hint">write password</string>
-    <string name="register_email">Email :</string>
-    <string name="register_password">Password :</string>
-    <string name="confirm_password">Confirm Password :</string>
+    <string name="register_ID">ID</string>
+    <string name="register_password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="text_character_selection">Select Character</string>
     <string name="str">STR</string>
     <string name="con">CON</string>
@@ -28,6 +28,14 @@
     <string name="wis">WIS</string>
     <string name="cha">CHA</string>
     <string name="title_character_creation">CharacterCreation</string>
+    <string name="warning_message">ID already exists</string>
+    <string name="cancel">Cancel</string>
+    <string name="name_message">ID Field is empty</string>
+    <string name="pw_message">Password Field is empty</string>
+    <string name="cpw_message">Confirm Password Field is empty</string>
+    <string name="pw_not_match_message">Passwords do not match</string>
+    <string name="no_id_exist">No such ID exists</string>
+    <string name="wrong_pw">ID and Password do not match</string>
 
     <string-array name="character_classes">
         <item>Choose Character</item>

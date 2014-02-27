@@ -130,40 +130,40 @@ public class CharacterProfile extends Activity {
 		skill_2_image.setImageResource(R.drawable.storm_trooper);
 		skill_3_image.setImageResource(R.drawable.engineer);
 		skill_4_image.setImageResource(R.drawable.basketball_player);
-		skill_1_explanation.setText(SkillExplanation.Merchant_skill_1);
-		skill_2_explanation.setText(SkillExplanation.Merchant_skill_2);
-		skill_3_explanation.setText(SkillExplanation.Merchant_skill_3);
-		skill_4_explanation.setText(SkillExplanation.Merchant_skill_4);
+		skill_1_explanation.setText(StaticClass.Merchant_skill_1);
+		skill_2_explanation.setText(StaticClass.Merchant_skill_2);
+		skill_3_explanation.setText(StaticClass.Merchant_skill_3);
+		skill_4_explanation.setText(StaticClass.Merchant_skill_4);
 	}
 	private void LogSkills() {
 		skill_1_image.setImageResource(R.drawable.storm_trooper);
 		skill_2_image.setImageResource(R.drawable.merchant);
 		skill_3_image.setImageResource(R.drawable.engineer);
 		skill_4_image.setImageResource(R.drawable.basketball_player);
-		skill_1_explanation.setText(SkillExplanation.Storm_Trooper_skill_1);
-		skill_2_explanation.setText(SkillExplanation.Storm_Trooper_skill_2);
-		skill_3_explanation.setText(SkillExplanation.Storm_Trooper_skill_3);
-		skill_4_explanation.setText(SkillExplanation.Storm_Trooper_skill_4);
+		skill_1_explanation.setText(StaticClass.Storm_Trooper_skill_1);
+		skill_2_explanation.setText(StaticClass.Storm_Trooper_skill_2);
+		skill_3_explanation.setText(StaticClass.Storm_Trooper_skill_3);
+		skill_4_explanation.setText(StaticClass.Storm_Trooper_skill_4);
 	}
 	private void MageSkills() {
 		skill_1_image.setImageResource(R.drawable.basketball_player);
 		skill_2_image.setImageResource(R.drawable.storm_trooper);
 		skill_3_image.setImageResource(R.drawable.engineer);
 		skill_4_image.setImageResource(R.drawable.merchant);
-		skill_1_explanation.setText(SkillExplanation.Engineer_skill_1);
-		skill_2_explanation.setText(SkillExplanation.Engineer_skill_2);
-		skill_3_explanation.setText(SkillExplanation.Engineer_skill_3);
-		skill_4_explanation.setText(SkillExplanation.Engineer_skill_4);
+		skill_1_explanation.setText(StaticClass.Engineer_skill_1);
+		skill_2_explanation.setText(StaticClass.Engineer_skill_2);
+		skill_3_explanation.setText(StaticClass.Engineer_skill_3);
+		skill_4_explanation.setText(StaticClass.Engineer_skill_4);
 	}
 	private void ArcherSkills() {
 		skill_1_image.setImageResource(R.drawable.engineer);
 		skill_2_image.setImageResource(R.drawable.storm_trooper);
 		skill_3_image.setImageResource(R.drawable.merchant);
 		skill_4_image.setImageResource(R.drawable.basketball_player);
-		skill_1_explanation.setText(SkillExplanation.Basketball_player_skill_1);
-		skill_2_explanation.setText(SkillExplanation.Basketball_player_skill_2);
-		skill_3_explanation.setText(SkillExplanation.Basketball_player_skill_3);
-		skill_4_explanation.setText(SkillExplanation.Basketball_player_skill_4	);
+		skill_1_explanation.setText(StaticClass.Basketball_player_skill_1);
+		skill_2_explanation.setText(StaticClass.Basketball_player_skill_2);
+		skill_3_explanation.setText(StaticClass.Basketball_player_skill_3);
+		skill_4_explanation.setText(StaticClass.Basketball_player_skill_4	);
 	}
 }
 
