@@ -104,7 +104,7 @@
                 android:text="@string/create_character" />
 
             <Button
-                android:id="@+id/current_info_btn"
+                android:id="@+id/character_info_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"

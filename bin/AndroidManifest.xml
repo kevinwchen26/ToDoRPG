@@ -24,13 +24,9 @@
         </activity>
         <activity
             android:name="com.CS429.todorpg.CharacterCreation"
-            android:label="@string/title_character_creation" >
-        </activity>
-        <activity
-            android:name="com.CS429.todorpg.CharacterProfile"
+            android:label="@string/title_character_creation"
             android:theme="@android:style/Theme.Dialog"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" >
-        </activity>
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
             android:name="com.CS429.todorpg.Register"
             android:theme="@android:style/Theme.Dialog"
@@ -39,8 +35,7 @@
             android:name="com.CS429.todorpg.Login"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-        <activity
-            android:name="com.CS429.todorpg.QuestCreation" />
+        <activity android:name="com.CS429.todorpg.QuestCreation" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

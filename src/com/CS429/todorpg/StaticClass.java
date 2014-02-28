@@ -4,6 +4,7 @@ public class StaticClass {
 	/* URL */
 	public final static String url_create_account = "http://todorpg.net46.net/ToDoRPG/create_account.php";
 	public final static String url_get_all_account_info = "http://todorpg.net46.net/ToDoRPG/get_all_account_info.php";
+	public final static String url_create_character = "http://todorpg.net46.net/ToDoRPG/create_character.php";
 
 	public static final String TAG_SUCCESS = "success";
 	public static final String TAG_DATA = "log_db";
@@ -14,26 +15,34 @@ public class StaticClass {
 	public static final String WELCOME_MESSAGE = "Welcome";
 	public static final String LOGOUT_MESSAGE = "Logged out Successfully";
 	public static final String NEED_LOGIN_MESSAGE = "You have to login first";
+	public static final String CHARACTER_CREATE_SUCCESS_MESSAGE = "Character created Successfully";
 	
-	public static final String Merchant_skill_1 = "Merchant Skill 1";
-	public static final String Merchant_skill_2 = "Merchant Skill 2";
-	public static final String Merchant_skill_3 = "Merchant Skill 3";
-	public static final String Merchant_skill_4 = "Merchant Skill 4";
+	public static final int LEVEL = 1;
 	
-	public static final String Storm_Trooper_skill_1 = "Storm Trooper Skill 1";
-	public static final String Storm_Trooper_skill_2 = "Storm Trooper Skill 2";
-	public static final String Storm_Trooper_skill_3 = "Storm Trooper Skill 3";
-	public static final String Storm_Trooper_skill_4 = "Storm Trooper Skill 4";
+	public static final String Warrior_skill_1 = "Warrior Skill 1";
+	public static final String Warrior_skill_2 = "Warrior Skill 2";
+	public static final String Warrior_skill_3 = "Warrior Skill 3";
+	public static final String Warrior_skill_4 = "Warrior Skill 4";
 	
-	public static final String Engineer_skill_1 = "Engineer Skill 1";
-	public static final String Engineer_skill_2 = "Engineer Skill 2";
-	public static final String Engineer_skill_3 = "Engineer Skill 3";
-	public static final String Engineer_skill_4 = "Engineer Skill 4";
+	public static final String Assassin_skill_1 = "Assassin Skill 1";
+	public static final String Assassin_skill_2 = "Assassin Skill 2";
+	public static final String Assassin_skill_3 = "Assassin Skill 3";
+	public static final String Assassin_skill_4 = "Assassin Skill 4";
 	
-	public static final String Basketball_player_skill_1 = "Basketball Player Skill 1";
-	public static final String Basketball_player_skill_2 = "Basketball Player Skill 2";
-	public static final String Basketball_player_skill_3 = "Basketball Player Skill 3";
-	public static final String Basketball_player_skill_4 = "Basketball Player Skill 4";
+	public static final String Mage_skill_1 = "Mage Skill 1";
+	public static final String Mage_skill_2 = "Mage Skill 2";
+	public static final String Mage_skill_3 = "Mage Skill 3";
+	public static final String Mage_skill_4 = "Mage Skill 4";
+	
+	public static final String Archer_skill_1 = "Archer Skill 1";
+	public static final String Archer_skill_2 = "Archer Skill 2";
+	public static final String Archer_skill_3 = "Archer Skill 3";
+	public static final String Archer_skill_4 = "Archer Skill 4";
+	
+	public static final String Summoner_skill_1 = "Summon Skill 1";
+	public static final String Summoner_skill_2=  "Summon Skill 2";
+	public static final String Summoner_skill_3 = "Summon Skill 3";
+	public static final String Summoner_skill_4 = "Summon Skill 4";
 
 	public static final int LOGIN_SUCCESS = 100;
 	public static String MY_ID;

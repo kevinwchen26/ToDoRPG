@@ -27,7 +27,6 @@
     <string name="int_">INT</string>
     <string name="wis">WIS</string>
     <string name="cha">CHA</string>
-    <string name="title_character_creation">CharacterCreation</string>
     <string name="warning_message">ID already exists</string>
     <string name="cancel">Cancel</string>
     <string name="name_message">ID Field is empty</string>
@@ -36,13 +35,8 @@
     <string name="pw_not_match_message">Passwords do not match</string>
     <string name="no_id_exist">No such ID exists</string>
     <string name="wrong_pw">ID and Password do not match</string>
-
-    <string-array name="character_classes">
-        <item>Choose Character</item>
-        <item>Merchant</item>
-        <item>Storm Trooper</item>
-        <item>Engineer</item>
-        <item>Basketball Player</item>
-    </string-array>
+    <string name="character_name">Character Name</string>
+    <string name="charter_spinner_prompt">Choose Your Character</string>
+    <string name="confirm">Create</string>
 
 </resources>
