@@ -1,7 +1,11 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,10 +27,13 @@ import android.widget.Toast;
 
 public class Login extends Activity {
 	private ProgressDialog pDialog;
-	LoginProgress login_progress = new LoginProgress();
 	EditText login_id, login_pw;
 	TextView no_id_message, wrong_pw_message, id_empty_message,
 			pw_empty_message;
+	MyCharacter MyCharacter = new MyCharacter();
+	JSONParser jsonParser = new JSONParser();
+	JSONObject detail;
+	Intent intent;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,7 +94,7 @@ public class Login extends Activity {
 						}
 					}
 				}
-				
+
 				int check = 0;
 				for (String id : ID_List) {
 					String[] log_info = id.split("[||]+");
@@ -126,10 +133,9 @@ public class Login extends Activity {
 					}
 				}
 				ShowWarningMessage(check);
-				if(check == 5) login_progress.execute();
-				/*
-				 * for(String id : ID_List) { Log.d("ID", id); }
-				 */
+				if (check == 5) {
+					MyCharacter.execute();
+				}
 				break;
 			case R.id.login_cancel_btn:
 				finish();
@@ -138,29 +144,56 @@ public class Login extends Activity {
 		}
 
 	};
-	class LoginProgress extends AsyncTask<String, String, String> {
+
+	class MyCharacter extends AsyncTask<String, String, String> {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			pDialog = new ProgressDialog(Login.this);
-			pDialog.setMessage("Loading your information now...");
+			pDialog.setMessage("Loading Character Information. Please wait...");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(true);
 			pDialog.show();
 		}
+
 		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
+		protected String doInBackground(String... arg) {
+			 int success;
+             try {
+                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                 params.add(new BasicNameValuePair("user_name", StaticClass.MY_ID));
+                 JSONObject json = jsonParser.makeHttpRequest(StaticClass.url_get_character_info, "GET", params);
+
+                 Log.d("Character Info", json.toString());
+
+                 success = json.getInt(StaticClass.TAG_SUCCESS);
+                 if (success == 1) {
+                	 StaticClass.CHARACTER_CREATED = true;
+                     JSONArray info = json.getJSONArray(StaticClass.TAG_INFO); 
+                     
+					detail = info.getJSONObject(0);
+					Log.d("Detail", detail.toString());
+					StaticClass.CLASS_INFO = new Character(detail.getString("character_name"), 
+							Integer.parseInt(detail.getString("str")),Integer.parseInt( detail.getString("con")), 
+							Integer.parseInt(detail.getString("dex")), Integer.parseInt(detail.getString("_int")),
+							Integer.parseInt(detail.getString("wis")), Integer.parseInt(detail.getString("cha")), 
+							Integer.parseInt(detail.getString("level")), detail.getString("class"));
+                 }else{
+                	 StaticClass.CHARACTER_CREATED = false;
+                 }
+             } catch (JSONException e) {
+                 e.printStackTrace();
+             }
+			
 			return null;
 		}
+
 		protected void onPostExecute(String result) {
-			Toast.makeText(Login.this, StaticClass.LOGIN_SUCCESS_MESSAGE, Toast.LENGTH_SHORT).show();
 			pDialog.dismiss();
-			login_progress.cancel(true);
-			Intent intent = new Intent();
+			MyCharacter.cancel(true);
 			setResult(StaticClass.LOGIN_SUCCESS, intent);
 			finish();
 		}
-		
+
 	}
 
 	@SuppressLint("NewApi")

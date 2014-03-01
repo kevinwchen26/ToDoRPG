@@ -17,6 +17,7 @@ public class Character {
 	private int CHA;
 	private int currentEXP;
 	private int nextLevelEXP;
+	private String CLASS;
 
 	// Status effects
 	private boolean stun = false;
@@ -47,13 +48,16 @@ public class Character {
 	}
 
 	/* Second constructor for default stat */
-	public Character(int STR, int CON, int DEX, int INT, int WIS, int CHA) {
+	public Character(String Name, int STR, int CON, int DEX, int INT, int WIS, int CHA, int LEVEL, String CLASS) {
+		this.Name = Name;
 		this.STR = STR;
 		this.DEX = DEX;
 		this.INT = INT;
 		this.WIS = WIS;
 		this.CHA = CHA;
 		this.CON = CON;
+		this.LEVEL = LEVEL;
+		this.CLASS = CLASS;
 	}
 
 	// STUB Methods - these will be implemented in their respective classes
@@ -275,5 +279,8 @@ public class Character {
 
 	public boolean isPoison() {
 		return poison;
+	}
+	public String getCLASS() {
+		return CLASS;
 	}
 }

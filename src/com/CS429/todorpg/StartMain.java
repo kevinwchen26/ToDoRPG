@@ -9,16 +9,21 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 public class StartMain extends Activity {
-	Intent intent;
+	public static Activity startMain_activity;
+	Intent intent, character_intent;
+	
 	RelativeLayout header, sub_header;
 	TextView user_id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_main);
+		startMain_activity = this;
 		ButtonHandler();
+		
 	}
 	private void ButtonHandler() {
 		header = (RelativeLayout) findViewById(R.id.header);
@@ -50,6 +55,7 @@ public class StartMain extends Activity {
 					QuestCreation();
 					break;
 				case R.id.character_info_btn:
+					CharacterInfo();
 					break;
 				case R.id.logout_btn:
 					LogoutHandler();
@@ -63,13 +69,27 @@ public class StartMain extends Activity {
 	};
 
 	private void RegisterHandler() {
-		intent = new Intent(this, Register.class);
-		startActivity(intent);
+		if(StaticClass.isNetworkConnected(startMain_activity)){
+			Log.d("STATUS", "CONNECTED");
+			intent = new Intent(this, Register.class);
+			startActivity(intent);
+		} else {
+			StaticClass.GetNetworkDialog(startMain_activity).show();
+			Log.d("STATUS", "NOT CONNECTED");
+			return;
+		}
 	}
 
 	private void LoginHandler() {
-		intent = new Intent(this, Login.class);
-		startActivityForResult(intent, 0);
+		if(StaticClass.isNetworkConnected(startMain_activity)){
+			Log.d("STATUS", "CONNECTED");
+			intent = new Intent(this, Login.class);
+			startActivityForResult(intent, 0);
+		} else {
+			StaticClass.GetNetworkDialog(startMain_activity).show(); 
+			Log.d("STATUS", "NOT CONNECTED");
+			return;
+		}
 	}
 	public boolean LoginStatus() {
 		if(StaticClass.MY_ID == null) return false;
@@ -81,13 +101,31 @@ public class StartMain extends Activity {
 			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
+		if(StaticClass.CHARACTER_CREATED) {
+			Toast.makeText(this, StaticClass.HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
+		}
 		intent = new Intent(StartMain.this, CharacterCreation.class);
 		startActivity(intent);
+	}
+	public void CharacterInfo() {
+		if(!LoginStatus()) {
+			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		if(!StaticClass.CHARACTER_CREATED) {
+			Toast.makeText(this, StaticClass.DONT_HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		intent = new Intent(StartMain.this, MyCharacterInfo.class);
+		startActivity(intent);
+		
 	}
 	public void LogoutHandler() {
 		Toast.makeText(this, StaticClass.LOGOUT_MESSAGE, Toast.LENGTH_SHORT).show();
 		/*TODO all personal info should be removed, right now id is the only info that user has */
 		StaticClass.MY_ID = null;
+		StaticClass.CLASS_INFO = null;
 		header.setVisibility(View.VISIBLE);
 		sub_header.setVisibility(View.GONE);
 	}
@@ -112,5 +150,4 @@ public class StartMain extends Activity {
 			sub_header.setVisibility(View.VISIBLE);
 		}
 	}
-
 }

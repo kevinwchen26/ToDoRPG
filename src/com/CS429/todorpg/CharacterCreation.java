@@ -123,19 +123,19 @@ public class CharacterCreation extends Activity {
 				character_selection_string = parent.getItemAtPosition(pos).toString().trim();
 				if (character_selection_string.equals("Choose Character")) {
 					SetInvisible();
-				} else if (character_selection_string.equals("Warrior")) {
+				} else if (character_selection_string.equals(StaticClass.WARRIOR)) {
 					character_image.setImageResource(R.drawable.warrior);
 					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals("Assassin")) {
+				} else if (character_selection_string.equals(StaticClass.ASSASSIN)) {
 					character_image.setImageResource(R.drawable.assassin);
 					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals("Mage")) {
+				} else if (character_selection_string.equals(StaticClass.MAGE)) {
 					character_image.setImageResource(R.drawable.mage);
 					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals("Archer")) {
+				} else if (character_selection_string.equals(StaticClass.ARCHER)) {
 					character_image.setImageResource(R.drawable.archer);
 					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals("Summoner")) {
+				} else if (character_selection_string.equals(StaticClass.SUMMONER)) {
 					character_image
 							.setImageResource(R.drawable.summoner);
 					character_image.setVisibility(View.VISIBLE);
@@ -153,38 +153,38 @@ public class CharacterCreation extends Activity {
 	}
 
 	private void InitializeStat(String character_selection_string) {
-		MyCharacter = new Character(10, 10, 10, 10, 10, 10);
+		MyCharacter = new Character("", 10, 10, 10, 10, 10, 10, 1, "");
 		str_stat.setTextColor(Color.WHITE);
 		con_stat.setTextColor(Color.WHITE);
 		dex_stat.setTextColor(Color.WHITE);
 		int_stat.setTextColor(Color.WHITE);
 		wis_stat.setTextColor(Color.WHITE);
 		cha_stat.setTextColor(Color.WHITE);
-		if (character_selection_string.equals("Warrior")) {
+		if (character_selection_string.equals(StaticClass.WARRIOR)) {
 			MyCharacter.setSTR(MyCharacter.getSTR() + 3);
 			MyCharacter.setCON(MyCharacter.getCON() + 3);
 			SetVisible();
 			str_stat.setTextColor(Color.RED);
 			con_stat.setTextColor(Color.RED);
-		} else if (character_selection_string.equals("Assassin")) {
+		} else if (character_selection_string.equals(StaticClass.ASSASSIN)) {
 			MyCharacter.setDEX(MyCharacter.getDEX() + 3);
 			MyCharacter.setWIS(MyCharacter.getWIS() + 3);
 			SetVisible();
 			dex_stat.setTextColor(Color.RED);
 			wis_stat.setTextColor(Color.RED);
-		} else if (character_selection_string.equals("Mage")) {
+		} else if (character_selection_string.equals(StaticClass.MAGE)) {
 			MyCharacter.setINT(MyCharacter.getINT() + 3);
 			MyCharacter.setWIS(MyCharacter.getWIS() + 3);
 			SetVisible();
 			int_stat.setTextColor(Color.RED);
 			wis_stat.setTextColor(Color.RED);
-		} else if (character_selection_string.equals("Archer")) {
+		} else if (character_selection_string.equals(StaticClass.ARCHER)) {
 			MyCharacter.setDEX(MyCharacter.getDEX() + 3);
 			MyCharacter.setCHA(MyCharacter.getCHA() + 3);
 			dex_stat.setTextColor(Color.RED);
 			cha_stat.setTextColor(Color.RED);
 			SetVisible();
-		} else if (character_selection_string.equals("Summoner")) {
+		} else if (character_selection_string.equals(StaticClass.SUMMONER)) {
 			MyCharacter.setCHA(MyCharacter.getCHA() + 3);
 			MyCharacter.setWIS(MyCharacter.getWIS() + 3);
 			cha_stat.setTextColor(Color.RED);
@@ -221,15 +221,15 @@ public class CharacterCreation extends Activity {
 	}
 
 	private void Skill_explanation(String character_selection_string) {
-		if (character_selection_string.equals("Warrior")) {
+		if (character_selection_string.equals(StaticClass.WARRIOR)) {
 			WarriorSkills();
-		} else if (character_selection_string.equals("Assassin")) {
+		} else if (character_selection_string.equals(StaticClass.ASSASSIN)) {
 			AssassinSkills();
-		} else if (character_selection_string.equals("Mage")) {
+		} else if (character_selection_string.equals(StaticClass.MAGE)) {
 			MageSkills();
-		} else if (character_selection_string.equals("Archer")) {
+		} else if (character_selection_string.equals(StaticClass.ARCHER)) {
 			ArcherSkills();
-		} else if (character_selection_string.equals("Summoner")) {
+		} else if (character_selection_string.equals(StaticClass.SUMMONER)) {
 			SummonerSkills();
 		}
 	}
@@ -316,6 +316,7 @@ public class CharacterCreation extends Activity {
 			Log.d("_int", Integer.toString(MyCharacter.getINT()));
 			Log.d("wis", Integer.toString(MyCharacter.getWIS()));
 			Log.d("cha", Integer.toString(MyCharacter.getCHA()));
+			Log.d("CLASS", character_spinner.getSelectedItem().toString());
 			params.add(new BasicNameValuePair("user_name", StaticClass.MY_ID));
 			params.add(new BasicNameValuePair("character_name", name));
 			params.add(new BasicNameValuePair("str", Integer.toString(MyCharacter.getSTR())));
@@ -324,7 +325,8 @@ public class CharacterCreation extends Activity {
 			params.add(new BasicNameValuePair("_int", Integer.toString(MyCharacter.getINT())));
 			params.add(new BasicNameValuePair("wis", Integer.toString(MyCharacter.getWIS())));
 			params.add(new BasicNameValuePair("cha", Integer.toString(MyCharacter.getCHA())));
-			params.add(new BasicNameValuePair("level", Integer.toString(StaticClass.LEVEL)));
+			params.add(new BasicNameValuePair("level", Integer.toString(StaticClass.INIT_LEVEL)));
+			params.add(new BasicNameValuePair("class", character_spinner.getSelectedItem().toString()));
 
 			JSONObject json = jsonParser.makeHttpRequest(
 					StaticClass.url_create_character, "POST", params);
@@ -336,6 +338,9 @@ public class CharacterCreation extends Activity {
 
 				if (success == 1) {
 					Log.d("Character Creation Status", "Character Created Successfully");
+					StaticClass.CLASS_INFO = new Character(name,MyCharacter.getSTR(), MyCharacter.getCON(),MyCharacter.getDEX(), MyCharacter.getINT(), 
+							MyCharacter.getWIS(),MyCharacter.getCHA(), StaticClass.INIT_LEVEL, character_spinner.getSelectedItem().toString());
+									
 				} else {
 				}
 			} catch (JSONException e) {
@@ -348,6 +353,7 @@ public class CharacterCreation extends Activity {
 			Toast.makeText(CharacterCreation.this, StaticClass.CHARACTER_CREATE_SUCCESS_MESSAGE, Toast.LENGTH_SHORT).show();
 			pDialog.dismiss();
 			insert.cancel(true);
+			StaticClass.CHARACTER_CREATED = true;
 			finish();
 			
 			

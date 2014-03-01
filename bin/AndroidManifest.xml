@@ -36,6 +36,7 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity android:name="com.CS429.todorpg.QuestCreation" />
+         <activity android:name="com.CS429.todorpg.MyCharacterInfo" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
