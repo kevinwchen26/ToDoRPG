@@ -3,8 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_margin="5dp"
-    android:orientation="vertical" >
-
+    android:orientation="vertical" xmlns:tools="http://schemas.android.com/tools" tools:context=".QuestCreation">
+    
     <TextView
         android:id="@+id/creation_quest_title_text"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:text="@string/quest_location" />
 
     <Button
-        android:id="@+id/creation_location"
+        android:id="@+id/creation_location_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/quest_location_btn" />
