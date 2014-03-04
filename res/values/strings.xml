@@ -36,7 +36,12 @@
     <string name="pw_not_match_message">Passwords do not match</string>
     <string name="no_id_exist">No such ID exists</string>
     <string name="wrong_pw">ID and Password do not match</string>
-
+    <string name="quest_title">Quest Title</string>
+    <string name="quest_location">Quest Location</string>
+    <string name="quest_location_btn">Add Location</string>
+    <string name="quest_description_text">Description</string>
+    <string name="quest_milestone_text">Milestones</string>
+	<string name="quest_milestone_btn">Add Milestone</string>
     <string-array name="character_classes">
         <item>Choose Character</item>
         <item>Merchant</item>
