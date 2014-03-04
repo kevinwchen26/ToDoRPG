@@ -48,7 +48,7 @@ public class MapActivity extends Activity implements LocationListener, OnMarkerC
 		map.addMarker(new MarkerOptions().title("Sydney")
 				.snippet("The most populous city in Australia.")
 				.position(sydney));
-		
+
 		setUpLocation();
 	}
 
@@ -74,7 +74,6 @@ public class MapActivity extends Activity implements LocationListener, OnMarkerC
 		getMenuInflater().inflate(R.menu.map, menu);
 		return true;
 	}
-
 	
 	/**
 	 * location setup method
