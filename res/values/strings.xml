@@ -42,6 +42,7 @@
     <string name="quest_description_text">Description</string>
     <string name="quest_milestone_text">Milestones</string>
 	<string name="quest_milestone_btn">Add Milestone</string>
+	
     <string-array name="character_classes">
         <item>Choose Character</item>
         <item>Merchant</item>

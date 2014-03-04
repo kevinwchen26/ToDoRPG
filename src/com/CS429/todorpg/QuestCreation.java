@@ -7,9 +7,13 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -70,12 +74,23 @@ public class QuestCreation extends Activity {
 		title = (EditText) findViewById(R.id.creation_quest_title);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_location_btn).setOnClickListener(ButtonListener);
+		findViewById(R.id.add_milestone_btn).setOnClickListener(ButtonListener);
 
 	
 	}
 	
 	private void openMilestonePopUp(){
-		
+		try{
+			// Get instance of layout infalter
+			LayoutInflater inflater = (LayoutInflater) QuestCreation.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View layout = inflater.inflate(R.layout.milestone_popup, (ViewGroup) findViewById(R.id.popup_element));
+			
+			popUp = new PopupWindow(layout, 300, 370, true);
+			popUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -90,6 +105,9 @@ public class QuestCreation extends Activity {
 				openMilestonePopUp();
 				break;
 			case R.id.creation_location_btn:
+				break;
+			case R.id.add_milestone_btn:
+				popUp.dismiss();
 				break;
 			}
 		}
