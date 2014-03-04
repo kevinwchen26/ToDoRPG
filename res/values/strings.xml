@@ -14,9 +14,8 @@
     <string name="int_">INT</string>
     <string name="wis">WIS</string>
     <string name="cha">CHA</string>
-
     <string name="title_activity_character_creation">CharacterCreation</string>
-    
+
     <string-array name="character_classes">
         <item>Choose Character</item>
         <item>Merchant</item>
@@ -24,4 +23,8 @@
         <item>Engineer</item>
         <item>Basketball Player</item>
     </string-array>
+
+    <string name="title_activity_map">MapActivity</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>
