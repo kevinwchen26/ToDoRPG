@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.widget.Toast;
 import android.util.Log;
 
+
 public class MapActivity extends Activity implements LocationListener, OnMarkerClickListener{
 
 	private LocationManager mManager;
@@ -47,7 +48,7 @@ public class MapActivity extends Activity implements LocationListener, OnMarkerC
 		map.addMarker(new MarkerOptions().title("Sydney")
 				.snippet("The most populous city in Australia.")
 				.position(sydney));
-
+		
 		setUpLocation();
 	}
 
@@ -74,6 +75,7 @@ public class MapActivity extends Activity implements LocationListener, OnMarkerC
 		return true;
 	}
 
+	
 	/**
 	 * location setup method
 	 */
