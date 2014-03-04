@@ -9,21 +9,26 @@ import android.view.Menu;
 
 public class MapActivity extends Activity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_map);
-		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		Double lat = getIntent().getDoubleExtra("lat", 0);
-		Double longitude = getIntent().getDoubleExtra("long", 0);
-		LatLng location = new LatLng(lat, longitude);
-		CameraUpdate center = CameraUpdateFactory.newLatLng(location);
-		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 
-		map.moveCamera(center);
-		map.animateCamera(zoom);
-		map.addMarker(new MarkerOptions().title("").snippet("").position(location));
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_map);
+
+        // Get a handle to the Map Fragment
+        GoogleMap map = ((MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map)).getMap();
+
+        LatLng sydney = new LatLng(-33.867, 151.206);
+
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+        map.addMarker(new MarkerOptions()
+                .title("Sydney")
+                .snippet("The most populous city in Australia.")
+                .position(sydney));
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
