@@ -1,6 +1,9 @@
 package com.CS429.todorpg;
 
+import java.util.ArrayList;
+
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.*;
 
 import android.app.Activity;
@@ -15,7 +18,7 @@ import android.view.Menu;
 import android.widget.Toast;
 import android.util.Log;
 
-public class MapActivity extends Activity implements LocationListener{
+public class MapActivity extends Activity implements LocationListener, OnMarkerClickListener{
 
 	private LocationManager mManager;
 	private double longtitude;
@@ -28,18 +31,23 @@ public class MapActivity extends Activity implements LocationListener{
 		Log.e("[MapActivity]", "++onCreate++");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		Double lat = getIntent().getDoubleExtra("lat", 0);
-		Double longitude = getIntent().getDoubleExtra("long", 0);
-		LatLng location = new LatLng(lat, longitude);
-		CameraUpdate center = CameraUpdateFactory.newLatLng(location);
-		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 
-		map.moveCamera(center);
-		map.animateCamera(zoom);
-		map.addMarker(new MarkerOptions().title("").snippet("").position(location));
-		
-		/*current location setting*/
+		// Get a handle to the Map Fragment
+		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(
+				R.id.map)).getMap();
+
+		LatLng sydney = new LatLng(-33.867, 151.206);
+
+		map.setMyLocationEnabled(true);
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+		for (MarkerOptions option : getQuests()) {
+			map.addMarker(option);
+		}
+		map.addMarker(new MarkerOptions().title("Sydney")
+				.snippet("The most populous city in Australia.")
+				.position(sydney));
+
 		setUpLocation();
 	}
 
@@ -113,4 +121,21 @@ public class MapActivity extends Activity implements LocationListener{
 		
 	}
 	
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		// pulls up quest info page
+		// TODO link to quest info page
+		return false;
+	}
+
+	public ArrayList<MarkerOptions> getQuests() {
+		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
+		MarkerOptions option = new MarkerOptions();
+		LatLng position = new LatLng(0, 0);
+		option.snippet("Body");
+		option.title("title");
+		option.position(position);
+		return options;
+
+	}
 }
