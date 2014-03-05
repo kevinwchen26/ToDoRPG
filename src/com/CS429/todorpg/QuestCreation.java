@@ -37,15 +37,20 @@ public class QuestCreation extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quest_creation);
-		WindowManager.LayoutParams params = getWindow().getAttributes();
-		params.width = WindowManager.LayoutParams.FILL_PARENT;
-		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-		getWindow().setAttributes(params);
+		ActivitySizeHandler();
 		FindViewByID();
 		
 	}
 	
 
+	private void ActivitySizeHandler() {
+		WindowManager.LayoutParams params = getWindow().getAttributes();
+		params.width = WindowManager.LayoutParams.FILL_PARENT;
+		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getWindow().setAttributes(params);
+	}
 	
 	private void setMilestones(String newMilestone) {
 		
