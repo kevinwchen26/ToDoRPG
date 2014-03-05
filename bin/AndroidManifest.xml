@@ -40,7 +40,9 @@
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
-            android:name="com.CS429.todorpg.QuestCreation" />
+            android:name="com.CS429.todorpg.QuestCreation"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
