@@ -14,7 +14,7 @@
     <EditText
         android:id="@+id/creation_quest_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="29dp"
         android:ems="10"
         android:inputType="text" >
     </EditText>
@@ -46,6 +46,19 @@
     </EditText>
 
     <TextView
+        android:id="@+id/creation_quest_duration_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_duration" />
+
+    <EditText
+        android:id="@+id/creation_quest_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10" />
+
+    <TextView
         android:id="@+id/creation_quest_milestone_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,10 +71,21 @@
         android:layout_weight="0.77" >
     </ListView>
 
+    <EditText
+        android:id="@+id/creation_quest_milestone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
     <Button
         android:id="@+id/creation_milestone_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="0.02"
         android:text="@string/quest_milestone_btn" />
 
 </LinearLayout>

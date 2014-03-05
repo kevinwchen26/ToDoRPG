@@ -27,9 +27,9 @@ import android.widget.Toast;
 
 public class QuestCreation extends Activity {
 	
-	EditText title;
+	EditText title, newMilestone;
 	ListView milestones;
-	PopupWindow popUp;
+	ArrayList<String> listOfMilestones = new ArrayList<String>();
 
 	
 	@Override
@@ -42,30 +42,15 @@ public class QuestCreation extends Activity {
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		getWindow().setAttributes(params);
 		FindViewByID();
-		setMilestones();
-		setMilestoneButton();
 		
 	}
 	
-	private void setMilestoneButton() {
-		LayoutInflater inflater = (LayoutInflater) QuestCreation.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.milestone_popup, (ViewGroup) findViewById(R.id.popup_element));
-		Button milestoneButton = (Button) layout.findViewById(R.id.add_milestone_btn);
-		
-		milestoneButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Toast.makeText(getApplicationContext(), "HI", 0).show();
-				popUp.dismiss();
-			}
-			
-		});
-	}
+
 	
-	private void setMilestones() {
+	private void setMilestones(String newMilestone) {
 		
-		String[] values = new String[]{"HI", "test" };
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
+		listOfMilestones.add(newMilestone);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listOfMilestones);
 		
 		//Assign adapter to list view
 		milestones.setAdapter(adapter);
@@ -92,13 +77,14 @@ public class QuestCreation extends Activity {
 	
 	private void FindViewByID() {
 		milestones = (ListView) findViewById(R.id.quest_milestones);
+		newMilestone = (EditText)findViewById(R.id.creation_quest_milestone);
 		title = (EditText) findViewById(R.id.creation_quest_title);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_location_btn).setOnClickListener(ButtonListener);
 
 	
 	}
-
+/*
 	private void openMilestonePopUp(){
 		try{
 			// Get instance of layout infalter
@@ -113,7 +99,7 @@ public class QuestCreation extends Activity {
 		}
 	}
 	
-	
+	*/
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 
 		@SuppressLint("NewApi")
@@ -121,8 +107,8 @@ public class QuestCreation extends Activity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.creation_milestone_btn:
-				Toast.makeText(getApplicationContext(), "HI", 0).show();
-				openMilestonePopUp();
+				String milestone = newMilestone.getText().toString();
+				setMilestones(milestone);
 				break;
 			case R.id.creation_location_btn:
 				break;
