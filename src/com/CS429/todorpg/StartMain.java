@@ -130,9 +130,22 @@ public class StartMain extends Activity {
 		sub_header.setVisibility(View.GONE);
 	}
 	public void QuestCreation() {
-		
-		intent = new Intent(StartMain.this, QuestCreation.class);
-		startActivity(intent);
+		if(!LoginStatus()) {
+			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
+		} else {
+			if(StaticClass.isNetworkConnected(startMain_activity)){
+				Log.d("STATUS", "CONNECTED");
+				intent = new Intent(StartMain.this, QuestCreation.class);
+				startActivity(intent);
+			} else {
+				StaticClass.GetNetworkDialog(startMain_activity).show(); 
+				Log.d("STATUS", "NOT CONNECTED");
+				return;
+			}
+			
+			
+		}
 	}
 
 
