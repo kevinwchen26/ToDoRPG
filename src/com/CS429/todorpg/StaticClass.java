@@ -4,6 +4,7 @@ public class StaticClass {
 	/* URL */
 	public final static String url_create_account = "http://todorpg.net46.net/ToDoRPG/create_account.php";
 	public final static String url_get_all_account_info = "http://todorpg.net46.net/ToDoRPG/get_all_account_info.php";
+	public final static String url_create_quest = "http://todorpg.net46.net/ToDoRPG/create_quest.php";
 
 	public static final String TAG_SUCCESS = "success";
 	public static final String TAG_DATA = "log_db";

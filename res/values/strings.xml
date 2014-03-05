@@ -43,6 +43,7 @@
     <string name="quest_milestone_text">Milestones</string>
 	<string name="quest_milestone_btn">Add Milestone</string>
 	<string name="quest_duration">Duration(Hours)</string>
+	<string name="quest_submit">Submit</string>
 	
     <string-array name="character_classes">
         <item>Choose Character</item>

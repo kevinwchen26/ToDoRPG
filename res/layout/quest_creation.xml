@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" xmlns:tools="http://schemas.android.com/tools" tools:context=".QuestCreation">
+     xmlns:tools="http://schemas.android.com/tools" >
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" tools:context=".QuestCreation">
     
     <TextView
         android:id="@+id/creation_quest_title_text"
@@ -66,17 +70,17 @@
 
     <ListView
         android:id="@+id/quest_milestones"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.77" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
     </ListView>
 
     <EditText
         android:id="@+id/creation_quest_milestone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10" >
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="text" >
 
         <requestFocus />
     </EditText>
@@ -84,8 +88,14 @@
     <Button
         android:id="@+id/creation_milestone_btn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.02"
+        android:layout_height="40dp"
         android:text="@string/quest_milestone_btn" />
 
+    <Button
+        android:id="@+id/creation_quest_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_submit" />
+
 </LinearLayout>
+</ScrollView>

@@ -1,7 +1,10 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,10 +30,10 @@ import android.widget.Toast;
 
 public class QuestCreation extends Activity {
 	
-	EditText title, newMilestone;
+	EditText title, duration, description, newMilestone;
 	ListView milestones;
 	ArrayList<String> listOfMilestones = new ArrayList<String>();
-
+	JSONParser jsonParser = new JSONParser();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,55 +59,64 @@ public class QuestCreation extends Activity {
 		
 		listOfMilestones.add(newMilestone);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listOfMilestones);
-		
 		//Assign adapter to list view
 		milestones.setAdapter(adapter);
-		milestones.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-				//Listview clicked item index
-				int itemPosition = position;
-				
-				//Listview clicked item value
-				String itemValue = (String) milestones.getItemAtPosition(position);
-				
-				//show alert
-				 Toast.makeText(getApplicationContext(),
-	                      "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-	                      .show();
-			} 
-			
-			
-		});
 	}
 	
 	private void FindViewByID() {
 		milestones = (ListView) findViewById(R.id.quest_milestones);
 		newMilestone = (EditText)findViewById(R.id.creation_quest_milestone);
+		duration = (EditText) findViewById(R.id.creation_quest_duration);
+		description = (EditText) findViewById(R.id.creation_quest_description);
 		title = (EditText) findViewById(R.id.creation_quest_title);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_location_btn).setOnClickListener(ButtonListener);
+		findViewById(R.id.creation_quest_submit).setOnClickListener(ButtonListener);
 
 	
 	}
-/*
-	private void openMilestonePopUp(){
-		try{
-			// Get instance of layout infalter
-			LayoutInflater inflater = (LayoutInflater) QuestCreation.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View layout = inflater.inflate(R.layout.milestone_popup, (ViewGroup) findViewById(R.id.popup_element));
+	
+	private void postQuest() {
+		String questTitle = title.getText().toString();
+		String questDuration = duration.getText().toString();
+		String questDescription = description.getText().toString();
+		String questMilestones = collapseMilestones();
+		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("quest_title", questTitle));
+		params.add(new BasicNameValuePair("quest_description", questDescription));
+		params.add(new BasicNameValuePair("quest_difficulty", Integer.toString(listOfMilestones.size())));
+		params.add(new BasicNameValuePair("creator_name", ""));
+		params.add(new BasicNameValuePair("quest_duration", questDuration));
+		params.add(new BasicNameValuePair("quest_milestone", questMilestones));
 
-			popUp = new PopupWindow(layout, 300, 370, true);
-			popUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
-		}
-		catch (Exception e){
+		
+		JSONObject json = jsonParser.makeHttpRequest(
+				StaticClass.url_create_quest, "POST", params);
+		
+		Log.d("Create Response", json.toString());
+
+		try {
+			int success = json.getInt(StaticClass.TAG_SUCCESS);
+
+			if (success == 1) {
+				Log.d("Quest Status", "Quest Created Successfully");
+			} else {
+			}
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
-	*/
+	private String collapseMilestones() {
+		String retval = "";
+		for(String str : listOfMilestones)
+			retval += str + "_";
+		return retval;
+			
+	}
+
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 
 		@SuppressLint("NewApi")
@@ -116,6 +128,12 @@ public class QuestCreation extends Activity {
 				setMilestones(milestone);
 				break;
 			case R.id.creation_location_btn:
+				break;
+			case R.id.creation_quest_submit:
+				Log.d("Quest Creation", "Post Start");
+
+				postQuest();
+				Log.d("Quest Creation", "Post finished");
 				break;
 
 			}
