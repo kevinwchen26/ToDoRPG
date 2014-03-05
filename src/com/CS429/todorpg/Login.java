@@ -9,9 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.CS429.CLASS.Character;
-import com.CS429.Utils.EncryptPassword;
-import com.CS429.Utils.JSONParser;
+import com.CS429.todorpg.Class.Character;
+import com.CS429.todorpg.Utils.EncryptPassword;
+import com.CS429.todorpg.Utils.JSONParser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

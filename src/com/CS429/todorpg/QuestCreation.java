@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.CS429.Utils.JSONParser;
+import com.CS429.todorpg.Utils.JSONParser;
 
 public class QuestCreation extends Activity {
 

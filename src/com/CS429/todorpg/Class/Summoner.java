@@ -1,4 +1,4 @@
-package com.CS429.CLASS;
+package com.CS429.todorpg.Class;
 
 
 public class Summoner extends Character {

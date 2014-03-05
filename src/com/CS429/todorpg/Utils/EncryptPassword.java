@@ -1,4 +1,4 @@
-package com.CS429.Utils;
+package com.CS429.todorpg.Utils;
 
 import java.security.MessageDigest;
 

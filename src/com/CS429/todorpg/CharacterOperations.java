@@ -1,11 +1,11 @@
 package com.CS429.todorpg;
 
-import com.CS429.CLASS.Archer;
-import com.CS429.CLASS.Assassin;
-import com.CS429.CLASS.Character;
-import com.CS429.CLASS.Mage;
-import com.CS429.CLASS.Summoner;
-import com.CS429.CLASS.Warrior;
+import com.CS429.todorpg.Class.Archer;
+import com.CS429.todorpg.Class.Assassin;
+import com.CS429.todorpg.Class.Character;
+import com.CS429.todorpg.Class.Mage;
+import com.CS429.todorpg.Class.Summoner;
+import com.CS429.todorpg.Class.Warrior;
 
 import android.annotation.SuppressLint;
 

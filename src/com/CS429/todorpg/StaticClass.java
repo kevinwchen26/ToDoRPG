@@ -1,6 +1,6 @@
 package com.CS429.todorpg;
 
-import com.CS429.CLASS.Character;
+import com.CS429.todorpg.Class.Character;
 
 import android.app.Activity;
 import android.app.AlertDialog;

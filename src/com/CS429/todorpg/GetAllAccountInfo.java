@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.CS429.Utils.JSONParser;
+import com.CS429.todorpg.Utils.JSONParser;
 
 import android.os.AsyncTask;
 import android.util.Log;
