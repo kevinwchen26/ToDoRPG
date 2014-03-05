@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,6 +35,7 @@ public class QuestCreation extends Activity {
 	ListView milestones;
 	ArrayList<String> listOfMilestones = new ArrayList<String>();
 	JSONParser jsonParser = new JSONParser();
+	CreateQuest createQuest = new CreateQuest();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,47 +78,6 @@ public class QuestCreation extends Activity {
 	
 	}
 	
-	private void postQuest() {
-		String questTitle = title.getText().toString();
-		String questDuration = duration.getText().toString();
-		String questDescription = description.getText().toString();
-		String questMilestones = collapseMilestones();
-		
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("quest_title", questTitle));
-		params.add(new BasicNameValuePair("quest_description", questDescription));
-		params.add(new BasicNameValuePair("quest_difficulty", Integer.toString(listOfMilestones.size())));
-		params.add(new BasicNameValuePair("creator_name", ""));
-		params.add(new BasicNameValuePair("quest_duration", questDuration));
-		params.add(new BasicNameValuePair("quest_milestone", questMilestones));
-
-		
-		JSONObject json = jsonParser.makeHttpRequest(
-				StaticClass.url_create_quest, "POST", params);
-		
-		Log.d("Create Response", json.toString());
-
-		try {
-			int success = json.getInt(StaticClass.TAG_SUCCESS);
-
-			if (success == 1) {
-				Log.d("Quest Status", "Quest Created Successfully");
-			} else {
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private String collapseMilestones() {
-		String retval = "";
-		for(String str : listOfMilestones)
-			retval += str + "_";
-		return retval;
-			
-	}
-
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 
 		@SuppressLint("NewApi")
@@ -131,14 +92,79 @@ public class QuestCreation extends Activity {
 				break;
 			case R.id.creation_quest_submit:
 				Log.d("Quest Creation", "Post Start");
+				createQuest.execute();
+				finish();
 
-				postQuest();
 				Log.d("Quest Creation", "Post finished");
 				break;
 
 			}
 		}
-
 	};
 	
+	class CreateQuest extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		protected void doInBackground() {
+			String questTitle = title.getText().toString();
+			String questDuration = duration.getText().toString();
+			String questDescription = description.getText().toString();
+			String questMilestones = collapseMilestones();
+			
+			//TODO
+			String currentlyLoggedIn = "";
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("quest_title", questTitle));
+			params.add(new BasicNameValuePair("quest_description", questDescription));
+			params.add(new BasicNameValuePair("quest_difficulty", Integer.toString(listOfMilestones.size())));
+			params.add(new BasicNameValuePair("creator_name", "Test"));
+			params.add(new BasicNameValuePair("quest_duration", questDuration));
+			params.add(new BasicNameValuePair("quest_milestone", questMilestones));
+
+			
+			JSONObject json = jsonParser.makeHttpRequest(
+					StaticClass.url_create_quest, "POST", params);
+			
+			Log.d("Create Response", json.toString());
+
+			try {
+				int success = json.getInt(StaticClass.TAG_SUCCESS);
+
+				if (success == 1) {
+					Log.d("Quest Status", "Quest Created Successfully");
+				} else {
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		protected void onPostExecute(String file_url) {
+			Toast.makeText(QuestCreation.this, StaticClass.QUEST_SUCCESS, Toast.LENGTH_SHORT).show();
+			createQuest.cancel(true);
+
+			finish();
+		}
+		
+		
+	}
+	
+	
+	
+	private String collapseMilestones() {
+		String retval = "";
+		for(String str : listOfMilestones)
+			retval += str + "_";
+		return retval;
+			
+	}
+
+	
+
 }

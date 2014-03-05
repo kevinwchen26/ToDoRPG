@@ -16,6 +16,10 @@ public class StaticClass {
 	public static final String LOGOUT_MESSAGE = "Logged out Successfully";
 	public static final String NEED_LOGIN_MESSAGE = "You have to login first";
 	
+	public static final String QUEST_SUCCESS ="Quest Made!";
+	public static final String QUEST_FAIL ="Incomplete Quest!";
+
+	
 	public static final String Merchant_skill_1 = "Merchant Skill 1";
 	public static final String Merchant_skill_2 = "Merchant Skill 2";
 	public static final String Merchant_skill_3 = "Merchant Skill 3";
