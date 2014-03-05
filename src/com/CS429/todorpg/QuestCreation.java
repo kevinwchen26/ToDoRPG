@@ -53,7 +53,7 @@ public class QuestCreation extends Activity {
 		params.width = WindowManager.LayoutParams.FILL_PARENT;
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getWindow().setAttributes(params);
 	}
 	
