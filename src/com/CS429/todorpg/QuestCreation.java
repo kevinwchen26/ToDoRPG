@@ -105,12 +105,7 @@ public class QuestCreation extends Activity {
 	class CreateQuest extends AsyncTask<String, String, String> {
 
 		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		protected void doInBackground() {
+		protected String doInBackground(String... args) {
 			String questTitle = title.getText().toString();
 			String questDuration = duration.getText().toString();
 			String questDescription = description.getText().toString();
@@ -143,6 +138,8 @@ public class QuestCreation extends Activity {
 				e.printStackTrace();
 			}
 			
+			return null;
+			
 		}
 		
 		protected void onPostExecute(String file_url) {
@@ -151,6 +148,7 @@ public class QuestCreation extends Activity {
 
 			finish();
 		}
+
 		
 		
 	}
