@@ -1,4 +1,4 @@
-package com.CS429.todorpg;
+package com.CS429.CLASS;
 
 import java.util.Random;
 

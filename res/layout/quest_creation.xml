@@ -1,14 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     xmlns:tools="http://schemas.android.com/tools" >
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" tools:context=".QuestCreation">
     
-    <!--  :) -->
-    <TextView 
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/creation_quest_title_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Johnny - Paul : Quest Creation\nRemove TextView when you guys start coding" />
-    
+        android:text="@string/quest_title"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <EditText
+        android:id="@+id/creation_quest_title"
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:ems="10"
+        android:inputType="text" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/creation_location_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_location" />
+
+    <Button
+        android:id="@+id/creation_location_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_location_btn" />
+
+    <TextView
+        android:id="@+id/creation_quest_description_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_description_text" />
+
+    <EditText
+        android:id="@+id/creation_quest_description"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:ems="10"
+        android:inputType="text" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/creation_quest_duration_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_duration" />
+
+    <EditText
+        android:id="@+id/creation_quest_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/creation_quest_milestone_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_milestone_text" />
+
+    <ListView
+        android:id="@+id/quest_milestones"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+    </ListView>
+
+    <EditText
+        android:id="@+id/creation_quest_milestone"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/creation_milestone_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="@string/quest_milestone_btn" />
+
+    <Button
+        android:id="@+id/creation_quest_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quest_submit" />
 
 </LinearLayout>
+</ScrollView>

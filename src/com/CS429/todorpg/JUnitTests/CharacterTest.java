@@ -2,13 +2,13 @@ package com.CS429.todorpg.JUnitTests;
 
 import org.junit.Test;
 
-import com.CS429.todorpg.Archer;
-import com.CS429.todorpg.Character;
+import com.CS429.CLASS.Archer;
+import com.CS429.CLASS.Assassin;
+import com.CS429.CLASS.Character;
+import com.CS429.CLASS.Mage;
+import com.CS429.CLASS.Summoner;
+import com.CS429.CLASS.Warrior;
 import com.CS429.todorpg.CharacterOperations;
-import com.CS429.todorpg.Log;
-import com.CS429.todorpg.Mage;
-import com.CS429.todorpg.Summoner;
-import com.CS429.todorpg.Warrior;
 
 import junit.framework.TestCase;
 
@@ -36,7 +36,7 @@ public class CharacterTest extends TestCase {
 		assertEquals(testSummoner.getWIS(), 13);
 		assertEquals(testSummoner.getCHA(), 13);
 		
-		Log testLog = new Log("Log");
+		Assassin testLog = new Assassin("Log");
 		assertEquals(testLog.getName(), "Log");
 		assertEquals(testLog.getDEX(), 13);
 		assertEquals(testLog.getWIS(), 13);
@@ -214,7 +214,7 @@ public class CharacterTest extends TestCase {
 	
 	@Test
 	public void testLogSkills() {
-		Log testLog = new Log("Log");
+		Assassin testLog = new Assassin("Log");
 		Character enemy = new Character("Enemey");
 		
 		testLog.Skill_1(enemy);

@@ -1,16 +1,17 @@
-package com.CS429.todorpg;
+package com.CS429.CLASS;
 
-public class Log extends Character {
+
+public class Assassin extends Character {
 
 	// Bonus passive: all skill deal hybrid damage , bonus true damage is added
 	// from CHA
-	public Log(String Name) {
+	public Assassin(String Name) {
 		super(Name);
 		this.setDEX(this.getDEX() + 3);
 		this.setWIS(this.getWIS() + 3);
 	}
 
-	public Log(String name, int HP, int MP, int Level, int CON, int STR,
+	public Assassin(String name, int HP, int MP, int Level, int CON, int STR,
 			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp) {
 		super(name);
 		this.setHP(HP);

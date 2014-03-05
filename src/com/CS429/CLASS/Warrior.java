@@ -1,4 +1,5 @@
-package com.CS429.todorpg;
+package com.CS429.CLASS;
+
 
 public class Warrior extends Character {
 
