@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name="com.CS429.todorpg.MainPageActivity"
-            android:label="@string/title_activity_main_page" >
+            android:label="Main Page" >
         </activity>
 
         <uses-library android:name="android.test.runner" />
@@ -54,7 +54,7 @@
         </activity>
         <activity
             android:name="com.CS429.todorpg.MapActivity"
-            android:label="@string/title_activity_map" >
+            android:label="Map Activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -86,9 +86,6 @@
         <activity android:name="com.CS429.todorpg.MyCharacterInfo" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>

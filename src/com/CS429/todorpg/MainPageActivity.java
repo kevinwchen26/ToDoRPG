@@ -32,17 +32,6 @@ public class MainPageActivity extends Activity {
 	 * onClick handler for character profile button start character profile
 	 * activity
 	 */
-	public void checkChar(View view) {
-		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-		if (preferences.getBoolean("hasChar", false)) {
-			Intent intent = new Intent(this, CharacterProfile.class);
-			startActivity(intent);
-		} else {
-			Intent intent = new Intent(this, CharacterCreation.class);
-			startActivity(intent);
-		}
-
-	}
 
 	/*
 	 * onClick handler for logout button deletes user credentials for
