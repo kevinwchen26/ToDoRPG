@@ -10,34 +10,25 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.JSONParser;
-import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
 	
 	EditText title, duration, description, newMilestone;
 	ListView milestones;
-	Spinner location;
+	Spinner location_spinner;
 	ArrayList<String> listOfMilestones = new ArrayList<String>();
 	JSONParser jsonParser = new JSONParser();
 	CreateQuest createQuest = new CreateQuest();
@@ -49,19 +40,7 @@ public class QuestCreation extends Activity {
 		setContentView(R.layout.quest_creation);
 		ActivitySizeHandler();
 		FindViewByID();
-		setUpSpinners();
-		
 	}
-	
-	private void setUpSpinners() {
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		        R.array.yes_no, android.R.layout.simple_spinner_item);
-		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		location.setAdapter(adapter);
-	}
-	
 
 	private void ActivitySizeHandler() {
 		WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -86,7 +65,7 @@ public class QuestCreation extends Activity {
 		duration = (EditText) findViewById(R.id.creation_quest_duration);
 		description = (EditText) findViewById(R.id.creation_quest_description);
 		title = (EditText) findViewById(R.id.creation_quest_title);
-		location = (Spinner)findViewById(R.id.creation_quest_location);
+		location_spinner = (Spinner)findViewById(R.id.creation_quest_location);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_quest_submit).setOnClickListener(ButtonListener);
 
@@ -123,7 +102,7 @@ public class QuestCreation extends Activity {
 			String questDuration = duration.getText().toString();
 			String questDescription = description.getText().toString();
 			String questMilestones = collapseMilestones();
-			String questLocation = location.getSelectedItem().toString();
+			String questLocation = location_spinner.getSelectedItem().toString();
 			String questLocationLat = null;
 			String questLocationLong = null;
 			Log.d("Location Spinner", questLocation);
