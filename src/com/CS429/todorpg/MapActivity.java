@@ -55,7 +55,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	/**
 	 * location setup method
 	 */
-	private LatLng getLocation() {
+	public LatLng getLocation() {
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		// check if GPS is enabled
 		boolean GPSenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);

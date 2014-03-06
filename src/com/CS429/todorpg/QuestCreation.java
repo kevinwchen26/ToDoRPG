@@ -27,14 +27,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.JSONParser;
+import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
 	
 	EditText title, duration, description, newMilestone;
 	ListView milestones;
+	Spinner location;
 	ArrayList<String> listOfMilestones = new ArrayList<String>();
 	JSONParser jsonParser = new JSONParser();
 	CreateQuest createQuest = new CreateQuest();
@@ -46,7 +49,17 @@ public class QuestCreation extends Activity {
 		setContentView(R.layout.quest_creation);
 		ActivitySizeHandler();
 		FindViewByID();
+		setUpSpinners();
 		
+	}
+	
+	private void setUpSpinners() {
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        R.array.yes_no, android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		location.setAdapter(adapter);
 	}
 	
 
@@ -73,8 +86,8 @@ public class QuestCreation extends Activity {
 		duration = (EditText) findViewById(R.id.creation_quest_duration);
 		description = (EditText) findViewById(R.id.creation_quest_description);
 		title = (EditText) findViewById(R.id.creation_quest_title);
+		location = (Spinner)findViewById(R.id.creation_quest_location);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
-		findViewById(R.id.creation_location_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_quest_submit).setOnClickListener(ButtonListener);
 
 	
@@ -89,8 +102,6 @@ public class QuestCreation extends Activity {
 			case R.id.creation_milestone_btn:
 				String milestone = newMilestone.getText().toString();
 				setMilestones(milestone);
-				break;
-			case R.id.creation_location_btn:
 				break;
 			case R.id.creation_quest_submit:
 				Log.d("Quest Creation", "Post Start");
@@ -112,7 +123,16 @@ public class QuestCreation extends Activity {
 			String questDuration = duration.getText().toString();
 			String questDescription = description.getText().toString();
 			String questMilestones = collapseMilestones();
-			
+			String questLocation = location.getSelectedItem().toString();
+			String questLocationLat = null;
+			String questLocationLong = null;
+			Log.d("Location Spinner", questLocation);
+			if(questLocation.equals("Yes")){
+			//MapActivity map = new MapActivity();
+			//	LatLng latlong = map.getLocation();
+			//	questLocationLat = Double.toString(latlong.latitude);
+			//	questLocationLat = Double.toString(latlong.longitude);
+			}
 			//TODO
 			String currentlyLoggedIn = "";
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -120,6 +140,8 @@ public class QuestCreation extends Activity {
 			params.add(new BasicNameValuePair("quest_description", questDescription));
 			params.add(new BasicNameValuePair("quest_difficulty", Integer.toString(listOfMilestones.size())));
 			params.add(new BasicNameValuePair("creator_name", "Test"));
+			params.add(new BasicNameValuePair("quest_location_lat", questLocationLat));
+			params.add(new BasicNameValuePair("quest_location_long", questLocationLong));
 			params.add(new BasicNameValuePair("quest_duration", questDuration));
 			params.add(new BasicNameValuePair("quest_milestone", questMilestones));
 
