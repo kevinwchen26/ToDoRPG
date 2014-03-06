@@ -35,6 +35,7 @@ public class StartMain extends Activity {
 		findViewById(R.id.register_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.create_character_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.quest_creation_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.availabe_quest_info_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.character_info_btn).setOnClickListener(ButtonOption);
 	}
 
@@ -54,6 +55,9 @@ public class StartMain extends Activity {
 				case R.id.quest_creation_btn:
 					QuestCreation();
 					break;
+				case R.id.availabe_quest_info_btn:
+					AvailableQuests();
+					break;
 				case R.id.character_info_btn:
 					CharacterInfo();
 					break;
@@ -65,6 +69,8 @@ public class StartMain extends Activity {
 			}
 
 		}
+
+		
 
 	};
 
@@ -142,12 +148,25 @@ public class StartMain extends Activity {
 				StaticClass.GetNetworkDialog(startMain_activity).show(); 
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
-			}
-			
-			
+			}			
 		}
 	}
-
+	private void AvailableQuests() {
+		if(!LoginStatus()) {
+			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
+		} else {
+			if(StaticClass.isNetworkConnected(startMain_activity)){
+				Log.d("STATUS", "AvailableQuests: CONNECTED");
+				intent = new Intent(StartMain.this, QuestInfo.class);
+				startActivity(intent);
+			} else {
+				StaticClass.GetNetworkDialog(startMain_activity).show(); 
+				Log.d("STATUS", "NOT CONNECTED");
+				return;
+			}			
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

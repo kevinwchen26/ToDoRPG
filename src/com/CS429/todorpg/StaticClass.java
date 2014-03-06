@@ -17,6 +17,10 @@ public class StaticClass {
 	public final static String url_get_character_info = "http://todorpg.net46.net/ToDoRPG/get_character_info.php";
 	public final static String url_create_quest = "http://todorpg.net46.net/ToDoRPG/create_quest.php";
 	
+	/* Shared Preferences Keys */
+	public final static String MY_PREFERENCES = ",yPrefs";
+	public final static String PREF_USERNAME = "prefUserName";
+	
 	public static final String TAG_SUCCESS = "success";
 	public static final String TAG_DATA = "log_db";
 	public static final String TAG_INFO = "character";

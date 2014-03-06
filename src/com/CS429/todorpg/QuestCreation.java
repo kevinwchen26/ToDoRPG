@@ -11,27 +11,20 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.JSONParser;
-import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
 	
@@ -41,6 +34,7 @@ public class QuestCreation extends Activity {
 	ArrayList<String> listOfMilestones = new ArrayList<String>();
 	JSONParser jsonParser = new JSONParser();
 	CreateQuest createQuest = new CreateQuest();
+	SharedPreferences prefs;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +44,7 @@ public class QuestCreation extends Activity {
 		ActivitySizeHandler();
 		FindViewByID();
 		setUpSpinners();
+		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
 		
 	}
 	
@@ -135,11 +130,17 @@ public class QuestCreation extends Activity {
 			}
 			//TODO
 			String currentlyLoggedIn = "";
+			// Get user ID
+			String userName = "";
+			if (prefs.contains(StaticClass.PREF_USERNAME)) {
+				userName = prefs.getString(StaticClass.PREF_USERNAME, "NOT_LOGGED_IN_CHECK_CODE");
+			}
+			
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("quest_title", questTitle));
 			params.add(new BasicNameValuePair("quest_description", questDescription));
 			params.add(new BasicNameValuePair("quest_difficulty", Integer.toString(listOfMilestones.size())));
-			params.add(new BasicNameValuePair("creator_name", "Test"));
+			params.add(new BasicNameValuePair("creator_name", userName));
 			params.add(new BasicNameValuePair("quest_location_lat", questLocationLat));
 			params.add(new BasicNameValuePair("quest_location_long", questLocationLong));
 			params.add(new BasicNameValuePair("quest_duration", questDuration));
