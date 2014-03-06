@@ -33,7 +33,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		// Get a handle to the Map Fragment
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
-		LatLng myLocation = getLocation();
+		LatLng myLocation = getLocation(this);
 
 		map.setMyLocationEnabled(true);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 13));
@@ -41,7 +41,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		for (MarkerOptions option : getQuests()) {
 			map.addMarker(option);
 		}
-		map.addMarker(new MarkerOptions().title("Test").snippet("My Location.").position(getLocation()));
+		map.addMarker(new MarkerOptions().title("Test").snippet("My Location.").position(getLocation(this)));
 
 	}
 
@@ -55,8 +55,8 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	/**
 	 * location setup method
 	 */
-	public LatLng getLocation() {
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+	public static LatLng getLocation(Context context) {
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		// check if GPS is enabled
 		boolean GPSenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		// check if network is enabled
@@ -67,7 +67,6 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 			return new LatLng(0, 0);
 
 		} else {// at least one of them is available
-			Criteria criteria = new Criteria();
 			String locationProvider = LocationManager.NETWORK_PROVIDER;
 			Location location = locationManager.getLastKnownLocation(locationProvider);
 			double latitude = location.getLatitude();
