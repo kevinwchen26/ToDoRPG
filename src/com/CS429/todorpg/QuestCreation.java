@@ -73,6 +73,47 @@ public class QuestCreation extends Activity {
 	
 	}
 	
+	public Boolean validate() {
+		String questTitle = title.getText().toString();
+		String questDuration = duration.getText().toString();
+		String questDescription = description.getText().toString();
+		String questMilestones = collapseMilestones();
+		String questLocation = location_spinner.getSelectedItem().toString();
+		Boolean validateStatus = true;
+		if(questTitle.length() == 0) {
+			title.setError("Please add a title.");
+			Toast.makeText(QuestCreation.this, "Please add a title.", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
+
+		}
+		if(questDuration.length() == 0) {
+			duration.setError("Please add a duration (hours)");
+			Toast.makeText(QuestCreation.this, "Please add a duration (hours).", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
+
+		}
+		
+		if(questDescription.length() == 0) {
+			description.setError("Please add a description.");
+			Toast.makeText(QuestCreation.this, "Please add a description.", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
+
+		}
+		
+		if(questMilestones.length() == 0) {
+			Toast.makeText(QuestCreation.this, "Please add a few milestones.", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
+
+		}
+		if(!questLocation.equals("Yes") || !questLocation.equals("No")) {
+			Toast.makeText(QuestCreation.this, "Please select location.", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
+
+		}
+		return 	validateStatus;
+	}
+	
+	
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 
 		@SuppressLint("NewApi")
@@ -84,11 +125,14 @@ public class QuestCreation extends Activity {
 				setMilestones(milestone);
 				break;
 			case R.id.creation_quest_submit:
-				Log.d("Quest Creation", "Post Start");
-				createQuest.execute();
-				finish();
+				if(validate()){
+					createQuest.execute();
+					finish();
+				}
+				else
+					Toast.makeText(QuestCreation.this, StaticClass.QUEST_FAIL, Toast.LENGTH_SHORT).show();
 
-				Log.d("Quest Creation", "Post finished");
+
 				break;
 
 			}
