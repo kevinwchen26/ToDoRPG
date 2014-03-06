@@ -10,7 +10,7 @@
     <string name="group_name">ToDoRPG Iteration 3</string>
     <string name="create_character">Create Character</string>
     <string name="current_info">My Character Information</string>
-    <string name="quest_creation">Quest(Johnny - Paul)</string>
+    <string name="quest_creation">Create Quest</string>
     <string name="availabe_quest_info">Available Quest Information</string>
     <string name="quit">Quit</string>
     <string name="user_name">ID</string>
@@ -41,16 +41,14 @@
     <string name="quest_location_btn">Add Location</string>
     <string name="quest_description_text">Description</string>
     <string name="quest_milestone_text">Milestones</string>
-	<string name="quest_milestone_btn">Add Milestone</string>
-	<string name="quest_duration">Duration(Hours)</string>
-	<string name="quest_submit">Submit</string>
-	<string name="level">LEVEL</string>
-	<string name="character_name">Character Name</string>
-	<string name="charter_spinner_prompt">Choose Your Character</string>
+    <string name="quest_milestone_btn">Add Milestone</string>
+    <string name="quest_duration">Duration(Hours)</string>
+    <string name="quest_submit">Submit</string>
+    <string name="level">LEVEL</string>
+    <string name="character_name">Character Name</string>
+    <string name="charter_spinner_prompt">Choose Your Character</string>
+    <string name="location_spinner_prompt">Do you need Location?</string>
     <string name="confirm">Create</string>
     <string name="my_name">NAME</string>
-    <string-array name="yes_no">
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
+
 </resources>

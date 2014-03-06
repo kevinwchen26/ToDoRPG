@@ -9,10 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.CS429.todorpg.Class.Character;
-import com.CS429.todorpg.Utils.EncryptPassword;
-import com.CS429.todorpg.Utils.JSONParser;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -27,7 +23,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.CS429.todorpg.Class.Character;
+import com.CS429.todorpg.Utils.EncryptPassword;
+import com.CS429.todorpg.Utils.JSONParser;
 
 public class Login extends Activity {
 	private ProgressDialog pDialog;

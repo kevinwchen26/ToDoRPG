@@ -1,7 +1,7 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
-
+import com.CS429.todorpg.Class.Character;
 public class Quest {
 
 	private String title;
@@ -26,7 +26,7 @@ public class Quest {
 	public String getParty() {
 		String party = "";
 		for(Character curr : this.party)
-			party += curr.getName(1) + " ";
+			party += curr.getName() + " ";
 
 		return party;
 	}
