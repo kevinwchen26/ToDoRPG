@@ -110,9 +110,9 @@ public class CharacterCreation extends Activity {
 					finish();
 					break;
 			}
-			
+
 		}
-		
+
 	};
 
 	private void SpinnerListener() {
@@ -296,7 +296,7 @@ public class CharacterCreation extends Activity {
 		skill_4_explanation.setText(StaticClass.Summoner_skill_4);
 		SetVisible();
 	}
-	
+
 	class InsertData extends AsyncTask<String, String, String> {
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -343,7 +343,7 @@ public class CharacterCreation extends Activity {
 					Log.d("Character Creation Status", "Character Created Successfully");
 					StaticClass.CLASS_INFO = new Character(name,MyCharacter.getSTR(), MyCharacter.getCON(),MyCharacter.getDEX(), MyCharacter.getINT(), 
 							MyCharacter.getWIS(),MyCharacter.getCHA(), StaticClass.INIT_LEVEL, character_spinner.getSelectedItem().toString());
-									
+
 				} else {
 				}
 			} catch (JSONException e) {
@@ -358,10 +358,10 @@ public class CharacterCreation extends Activity {
 			insert.cancel(true);
 			StaticClass.CHARACTER_CREATED = true;
 			finish();
-			
-			
+
+
 		}
-		
+
 	}
 
 }

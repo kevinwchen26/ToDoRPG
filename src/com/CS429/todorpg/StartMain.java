@@ -163,4 +163,5 @@ public class StartMain extends Activity {
 			sub_header.setVisibility(View.VISIBLE);
 		}
 	}
+
 }

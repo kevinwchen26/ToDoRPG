@@ -32,6 +32,8 @@ public class StaticClass {
 	public static final String DONT_HAVE_CHARACTER_MESSAGE = "You don't have a character";
 	public static final String TAG_CHECK_INTERNET = "Internet is not connected";
 	public static final String QUEST_SUCCESS ="Quest Made!";
+	public static final String QUEST_FAIL ="Incomplete Quest!";
+
 	
 	public static final String WARRIOR = "Warrior";
 	public static final String ASSASSIN = "Assassin";
