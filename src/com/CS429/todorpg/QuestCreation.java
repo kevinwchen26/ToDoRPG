@@ -60,7 +60,6 @@ public class QuestCreation extends Activity {
 	private void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = milestones.getAdapter();
         if (listAdapter == null) {
-            // pre-condition
             return;
         }
 
@@ -130,7 +129,7 @@ public class QuestCreation extends Activity {
 			validateStatus = false;
 
 		}
-		if(!questLocation.equals("Yes") || !questLocation.equals("No")) {
+		if(!questLocation.equals("Yes") && !questLocation.equals("No")) {
 			Toast.makeText(QuestCreation.this, "Please select location.", Toast.LENGTH_SHORT).show();
 			validateStatus = false;
 
