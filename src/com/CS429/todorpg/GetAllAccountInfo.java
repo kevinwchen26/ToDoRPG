@@ -14,7 +14,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 /* Get Login info */
-class GetAllAccountInfo extends AsyncTask<String, String, String> {
+public class GetAllAccountInfo extends AsyncTask<String, String, String> {
 	JSONParser jsonParser = new JSONParser();
 	static boolean data_check;
 	static JSONArray account = null;
