@@ -1,6 +1,14 @@
-package com.CS429.todorpg;
+package com.CS429.todorpg.JUnitTests;
 
 import org.junit.Test;
+
+import com.CS429.todorpg.Archer;
+import com.CS429.todorpg.Character;
+import com.CS429.todorpg.CharacterOperations;
+import com.CS429.todorpg.Log;
+import com.CS429.todorpg.Mage;
+import com.CS429.todorpg.Summoner;
+import com.CS429.todorpg.Warrior;
 
 import junit.framework.TestCase;
 
