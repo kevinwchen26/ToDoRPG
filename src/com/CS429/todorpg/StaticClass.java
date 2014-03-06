@@ -80,15 +80,30 @@ public class StaticClass {
 		NetworkInfo mobile; 
 		NetworkInfo wifi; 
 		 
+		// Need workaround 
 		cManager=(ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE); 
-		mobile = cManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE); 
-		wifi = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
+		//mobile = cManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE); 
+		//wifi = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
+		 if (cManager != null) {
+			 NetworkInfo netInfo = cManager.getActiveNetworkInfo();
+			 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+				 return true;
+			 }
+			 else {
+				 return false;
+			 }
+			 
+		 }
+		 else
+			 return false;
 		 
+		 /*
 		if(mobile.isConnected() || wifi.isConnected()) {
 			return true;
 		}
 		else 
 			return false;
+			*/
 	}
 	public static AlertDialog GetNetworkDialog(Activity activity) {
 	    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity) 
