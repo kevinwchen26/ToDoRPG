@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,7 @@ import android.widget.Toast;
 import com.CS429.todorpg.Utils.JSONParser;
 
 public class QuestCreation extends Activity {
-	
+	private ProgressDialog pDialog;
 	EditText title, duration, description, newMilestone;
 	ListView milestones;
 	Spinner location_spinner;
@@ -95,7 +96,14 @@ public class QuestCreation extends Activity {
 	};
 	
 	class CreateQuest extends AsyncTask<String, String, String> {
-
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = new ProgressDialog(QuestCreation.this);
+			pDialog.setMessage("Creating Character now...");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(true);
+			pDialog.show();
+		}
 		@Override
 		protected String doInBackground(String... args) {
 			String questTitle = title.getText().toString();
@@ -147,6 +155,7 @@ public class QuestCreation extends Activity {
 		
 		protected void onPostExecute(String file_url) {
 			Toast.makeText(QuestCreation.this, StaticClass.QUEST_SUCCESS, Toast.LENGTH_SHORT).show();
+			pDialog.dismiss();
 			createQuest.cancel(true);
 
 			finish();
