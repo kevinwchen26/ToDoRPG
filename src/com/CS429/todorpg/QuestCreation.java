@@ -15,10 +15,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -52,12 +54,32 @@ public class QuestCreation extends Activity {
 		getWindow().setAttributes(params);
 	}
 	
+	private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = milestones.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+	
 	private void setMilestones(String newMilestone) {
 		
 		listOfMilestones.add(newMilestone);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listOfMilestones);
 		//Assign adapter to list view
 		milestones.setAdapter(adapter);
+		setListViewHeightBasedOnChildren(milestones);
 	}
 	
 	private void FindViewByID() {
