@@ -1,8 +1,8 @@
-package com.CS429.todorpg;
+package com.CS429.todorpg.Utils;
 
 import java.security.MessageDigest;
 
-class EncryptPassword {
+public class EncryptPassword {
 	public static String Encrypt(String password) throws Exception {
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		md.update(password.getBytes());

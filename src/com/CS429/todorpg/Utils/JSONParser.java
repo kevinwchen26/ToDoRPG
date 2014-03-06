@@ -1,4 +1,4 @@
-package com.CS429.todorpg;
+package com.CS429.todorpg.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
