@@ -90,7 +90,9 @@ public class Login extends Activity {
 							ID_List.add(object
 									.getString(StaticClass.TAG_USER_NAME)
 									+ "||"
-									+ object.getString(StaticClass.TAG_PASSWORD));
+									+ object.getString(StaticClass.TAG_PASSWORD)
+									+ "||"
+									+ object.getString("profile_id"));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -100,6 +102,7 @@ public class Login extends Activity {
 
 				int check = 0;
 				for (String id : ID_List) {
+					Log.w("ToDo",id);
 					String[] log_info = id.split("[||]+");
 					try {
 						String encrypted_password = null;
@@ -121,7 +124,8 @@ public class Login extends Activity {
 							Log.d("I'm here", "ID FOUND!");
 							if (encrypted_password.equals(log_info[1])) {
 								Log.d("I'm here too", "PW found");
-								StaticClass.MY_ID = log_info[0];
+								StaticClass.MY_USERNAME = log_info[0];
+								Log.w("ToDo",log_info[2]);
 								check = 5;
 								break;
 							} else {
@@ -163,7 +167,7 @@ public class Login extends Activity {
 			 int success;
              try {
                  List<NameValuePair> params = new ArrayList<NameValuePair>();
-                 params.add(new BasicNameValuePair("user_name", StaticClass.MY_ID));
+                 params.add(new BasicNameValuePair("user_name", StaticClass.MY_USERNAME));
                  JSONObject json = jsonParser.makeHttpRequest(StaticClass.url_get_character_info, "GET", params);
 
                  Log.d("Character Info", json.toString());

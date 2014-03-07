@@ -311,7 +311,7 @@ public class CharacterCreation extends Activity {
 			String name = character_name.getText().toString();
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			Log.d("user_name", StaticClass.MY_ID);
+			Log.d("user_name", StaticClass.MY_USERNAME);
 			Log.d("character_name", name);
 			Log.d("str", Integer.toString(MyCharacter.getSTR()));
 			Log.d("con", Integer.toString(MyCharacter.getCON()));
@@ -320,7 +320,7 @@ public class CharacterCreation extends Activity {
 			Log.d("wis", Integer.toString(MyCharacter.getWIS()));
 			Log.d("cha", Integer.toString(MyCharacter.getCHA()));
 			Log.d("CLASS", character_spinner.getSelectedItem().toString());
-			params.add(new BasicNameValuePair("user_name", StaticClass.MY_ID));
+			params.add(new BasicNameValuePair("user_name", StaticClass.MY_USERNAME));
 			params.add(new BasicNameValuePair("character_name", name));
 			params.add(new BasicNameValuePair("str", Integer.toString(MyCharacter.getSTR())));
 			params.add(new BasicNameValuePair("con", Integer.toString(MyCharacter.getCON())));

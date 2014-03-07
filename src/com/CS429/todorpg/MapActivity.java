@@ -89,9 +89,9 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	
 	@Override
 	public boolean onMarkerClick(Marker marker) {
-		// pulls up quest info page
-		// TODO link to quest info page
-		
+		String title = marker.getTitle();
+		String[] words = title.split(" ");
+		int quest_id = Integer.parseInt(words[1]);
 		return false;
 	}
 

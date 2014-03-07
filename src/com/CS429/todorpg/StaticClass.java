@@ -70,7 +70,7 @@ public class StaticClass {
 	public static final String Summoner_skill_4 = "Summon Skill 4";
 
 	public static final int LOGIN_SUCCESS = 100;
-	public static String MY_ID;
+	public static String MY_USERNAME;
 	public static boolean LOGGED_ID;
 	public static boolean CHARACTER_CREATED;
 	
