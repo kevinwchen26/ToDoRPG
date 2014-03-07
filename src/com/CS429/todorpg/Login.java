@@ -12,7 +12,10 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,9 +40,13 @@ public class Login extends Activity {
 	JSONParser jsonParser = new JSONParser();
 	JSONObject detail;
 	Intent intent;
+	
+	// Persistent Data
+	SharedPreferences prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
@@ -127,6 +134,15 @@ public class Login extends Activity {
 								StaticClass.MY_USERNAME = log_info[0];
 								Log.w("ToDo",log_info[2]);
 								check = 5;
+								
+								// Store the USER ID into persistent storage
+								Editor editor = prefs.edit();
+								editor.putString(StaticClass.PREF_USERNAME, log_info[0]); // user_name
+								if (!editor.commit()){
+									Log.d("PREF", "USER_NAME NOT STORED"); 
+								}
+								
+								
 								break;
 							} else {
 								check = 4;
