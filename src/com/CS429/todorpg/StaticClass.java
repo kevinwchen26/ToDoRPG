@@ -136,4 +136,18 @@ public class StaticClass {
 	        .create();
 	        return myQuittingDialogBox;
 	}
+	
+	public static AlertDialog sendAlertMessage(Activity activity, String title, String msg) {
+	    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity) 
+	        //set message, title, and icon
+	        .setTitle("Warning") 
+	        .setMessage(msg) 
+	        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int whichButton) { 
+	                dialog.dismiss();
+	            }   
+	        })
+	        .create();
+	        return myQuittingDialogBox;
+	}
 }
