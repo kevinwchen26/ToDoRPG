@@ -36,6 +36,7 @@ public class StartMain extends Activity {
 		findViewById(R.id.create_character_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.quest_creation_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.character_info_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.join_quest_btn).setOnClickListener(ButtonOption);
 	}
 
 	Button.OnClickListener ButtonOption = new Button.OnClickListener() {
@@ -60,6 +61,9 @@ public class StartMain extends Activity {
 				case R.id.logout_btn:
 					LogoutHandler();
 					break;
+				case R.id.join_quest_btn:
+					JoinHandler();
+					break;
 				case R.id.quit_btn:
 					finish();
 			}
@@ -68,6 +72,25 @@ public class StartMain extends Activity {
 
 	};
 
+	private void JoinHandler(){
+		if(!LoginStatus()) {
+			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
+		} else {
+			if(StaticClass.isNetworkConnected(startMain_activity)){
+				Log.d("STATUS", "CONNECTED");
+				intent = new Intent(StartMain.this, MapActivity.class);
+				startActivity(intent);
+			} else {
+				StaticClass.GetNetworkDialog(startMain_activity).show(); 
+				Log.d("STATUS", "NOT CONNECTED");
+				return;
+			}
+			
+			
+		}
+	}
+	
 	private void RegisterHandler() {
 		if(StaticClass.isNetworkConnected(startMain_activity)){
 			Log.d("STATUS", "CONNECTED");

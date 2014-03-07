@@ -40,7 +40,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		// Get a handle to the Map Fragment
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
-		LatLng myLocation = getLocation();
+		LatLng myLocation = getLocation(this);
 
 		map.setMyLocationEnabled(true);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 13));
@@ -52,7 +52,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		map.addMarker(new MarkerOptions().title("Test").snippet("My Location.").position(getLocation()));
+		map.addMarker(new MarkerOptions().title("Test").snippet("My Location.").position(getLocation(this)));
 
 	}
 
@@ -66,8 +66,8 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	/**
 	 * location setup method
 	 */
-	public LatLng getLocation() {
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+	public static LatLng getLocation(Context context) {
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		// check if network is enabled
 		boolean Networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -98,6 +98,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	public boolean onMarkerClick(Marker marker) {
 		// pulls up quest info page
 		// TODO link to quest info page
+		
 		return false;
 	}
 

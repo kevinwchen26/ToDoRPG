@@ -11,7 +11,7 @@
         android:id="@+id/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true" >
 
         <TextView
             android:id="@+id/group_name"
@@ -26,7 +26,7 @@
             android:id="@+id/register_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
+            android:layout_alignParentLeft="true"
             android:layout_margin="3dp"
             android:background="@drawable/blue_button"
             android:minHeight="0dp"
@@ -48,13 +48,13 @@
             android:textSize="12sp"
             android:textStyle="bold|italic" />
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:id="@+id/sub_header"
-        android:layout_below="@id/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_below="@id/header"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/user_id"
@@ -129,6 +129,15 @@
                 android:background="@drawable/blue_button"
                 android:minHeight="0dp"
                 android:text="@string/availabe_quest_info" />
+
+            <Button
+                android:id="@+id/join_quest_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/blue_button"
+                android:minHeight="0dp"
+                android:text="Find Quests to Join" />
 
             <Button
                 android:id="@+id/quit_btn"
