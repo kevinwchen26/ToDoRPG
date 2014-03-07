@@ -109,7 +109,6 @@ public class Login extends Activity {
 
 				int check = 0;
 				for (String id : ID_List) {
-					Log.w("ToDo",id);
 					String[] log_info = id.split("[||]+");
 					try {
 						String encrypted_password = null;
@@ -132,12 +131,12 @@ public class Login extends Activity {
 							if (encrypted_password.equals(log_info[1])) {
 								Log.d("I'm here too", "PW found");
 								StaticClass.MY_USERNAME = log_info[0];
-								Log.w("ToDo",log_info[2]);
 								check = 5;
 								
 								// Store the USER ID into persistent storage
 								Editor editor = prefs.edit();
 								editor.putString(StaticClass.PREF_USERNAME, log_info[0]); // user_name
+								editor.putString("profile_id", log_info[2]);
 								if (!editor.commit()){
 									Log.d("PREF", "USER_NAME NOT STORED"); 
 								}

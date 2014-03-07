@@ -15,38 +15,38 @@ import com.CS429.todorpg.Utils.JSONParser;
 
 public class NearestQuest extends AsyncTask<String, String, String>{
 
-	private JSONParser jsonparser = new JSONParser();
+	private JSONParser jsonparser;
 	private JSONObject json;
-	private static JSONArray quests;
 	
-	@Override
-	protected String doInBackground(String... arg0) {
+	/**
+	 * Initialization
+	 */
+	private void init(){
+		jsonparser = new JSONParser();
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		json = jsonparser.makeHttpRequest(
 				StaticClass.url_get_quests, "GET", params);
 		//test printing
 		Log.d("QUEST", json.toString());
-		
-		try {
-			if(json == null)
-				Log.d("TESTING", "json is null, what is going on??");
-			
-			quests = json.getJSONArray("all_quest_info");
-	
-			//test printing
-			Log.d("QUEST", quests.toString());
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		return quests.toString();
 	}
 	
 	public JSONArray getQuests(){
-		if(quests == null)
-			Log.d("TEST", "quest is null");
-		
-		return quests;
+//		try {
+//			JSONArray data = json.getJSONArray("all_quest_info");
+//			
+//			//test printing
+//			Log.d("QUEST", data.toString());
+//			return data;
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+		return null;
+	}
+
+	@Override
+	protected String doInBackground(String... arg0) {
+		init();
+		return null;
 	}
 	
 }

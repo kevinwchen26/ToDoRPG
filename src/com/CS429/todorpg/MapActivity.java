@@ -1,11 +1,15 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.CS429.todorpg.Utils.JSONParser;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.*;
@@ -14,10 +18,12 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -32,6 +38,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	private double latitude;
 	private String provider;
 	private NearestQuest questInBackground;
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +51,19 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
 		LatLng myLocation = getLocation(this);
-
+		map.setOnMarkerClickListener(this);
 		map.setMyLocationEnabled(true);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 13));
 
-//		try {
-//			for (MarkerOptions option : getQuests()) {
-//				map.addMarker(option);
-//			}
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-		map.addMarker(new MarkerOptions().title("Test").snippet("My Location.").position(getLocation(this)));
+		try {
+			for (MarkerOptions option : getQuests()) {
+				map.addMarker(option);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		map.addMarker(new MarkerOptions().title("Quest 14").snippet("My Location.").position(getLocation(this)));
 
 	}
 
@@ -81,16 +89,8 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		} else {// at least one of them is available
 			String locationProvider = LocationManager.NETWORK_PROVIDER;
 			Location location = locationManager.getLastKnownLocation(locationProvider);
-			
-			double latitude = 0;
-			double longitude = 0;
-			if(location == null){
-				//currently do nothing..
-			}
-			else{
-				latitude = location.getLatitude();
-				longitude = location.getLongitude();
-			}
+			double latitude = location.getLatitude();
+			double longitude = location.getLongitude();
 			return new LatLng(latitude, longitude);
 		}
 	}
@@ -99,42 +99,48 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	public boolean onMarkerClick(Marker marker) {
 		String title = marker.getTitle();
 		String[] words = title.split(" ");
-		int quest_id = Integer.parseInt(words[1]);
+		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
+		prefs.edit().putString("quest_id", words[1]).commit();
+		new PutRelationship().execute();
 		return false;
 	}
 
 	public ArrayList<MarkerOptions> getQuests() throws JSONException {
 		
 		JSONArray quests = questInBackground.getQuests();
-		//wait until quests is not null
-		while(quests == null)
-			quests = questInBackground.getQuests();
-		
-		Log.d("QUEST", "finally quest is not null: out of loop");
-		Log.d("QUEST", "length: " + quests.length());
-		
 		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
-		//iterate all data in quests jsonarray
-		for(int i = 0; i < quests.length(); ++i){
-			JSONObject object = quests.getJSONObject(i);
-			MarkerOptions option = new MarkerOptions();
-			LatLng position = new LatLng(object.getDouble("quest_location_lat"),
-					object.getDouble("quest_location_long"));
-			option.snippet("quest_description");
-			option.title("quest_title");
-			option.position(position);
-			options.add(option);
+		// iterate all data in quests jsonarray
+		// for (int i = 0; i < quests.length(); ++i) {
+		// JSONObject object = quests.getJSONObject(i);
+		// MarkerOptions option = new MarkerOptions();
+		// LatLng position = new LatLng(object.getDouble("quest_location_lat"),
+		// object.getDouble("quest_location_long"));
+		// option.snippet("quest_description");
+		// option.title("quest_title");
+		// option.position(position);
+		// options.add(option);
+		// }
+
+		return options;
+
+	}
+
+	class PutRelationship extends AsyncTask<String, String, String> {
+
+		@Override 
+		protected String doInBackground(String... arg0) {
+			String quest_id = prefs.getString("quest_id", "-1");
+			String profile_id = prefs.getString("profile_id", "-1");
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("quest_id", quest_id));
+			params.add(new BasicNameValuePair("profile_id", profile_id));
+			Log.w("ToDo", quest_id);
+			Log.w("ToDo", profile_id);
+			System.out.println(quest_id);
+			System.out.println(profile_id);
+			new JSONParser().makeHttpRequest(StaticClass.url_update_party, "POST", params);
+			return null;
 		}
-		
-		return options;
-/*		
-		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
-		MarkerOptions option = new MarkerOptions();
-		LatLng position = new LatLng(0, 0);
-		option.snippet("Body");
-		option.title("title");
-		option.position(position);
-		return options;
-*/
+
 	}
 }
