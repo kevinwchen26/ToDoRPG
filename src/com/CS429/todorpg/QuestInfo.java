@@ -9,26 +9,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.CS429.todorpg.Class.Character;
-import com.CS429.todorpg.Utils.JSONParser;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.CS429.todorpg.Utils.JSONParser;
 
 public class QuestInfo extends Activity {
 	
@@ -108,12 +109,17 @@ public class QuestInfo extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent,
                         final View view, final int position, long id) {
-                	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                	// When the user clicks an item in the 
+                	
+                	/*
+                	Button.OnClickListener ButtonOption = new Button.OnClickListener() {
                 	    @Override
-                	    public void onClick(DialogInterface dialog, int which) {
+                	    public void onClick(View view) {
+                	    	// Depending on the Quest's status, we want to perform different logic
+            	        	JSONObject thisQuest = questJsonList[position];
                 	        switch (which){
                 	        case DialogInterface.BUTTON_POSITIVE:
-                	            //Yes button touched, Activate this quest.
+                	            // Yes button touched, Activate this quest.
                 	        	TextView questActive = (TextView) view.findViewById(R.id.isQuestActive);
                 	        	questActive.setTextColor(getResources().getColor(R.color.red));
                 	        	questActive.setText("ACTIVE");
@@ -140,12 +146,102 @@ public class QuestInfo extends Activity {
                 	            break;
                 	        }
                 	    }
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							
+						}
                 	};
+                	
+
                 	
                 	AlertDialog.Builder builder = new AlertDialog.Builder(QuestInfo.this);
                 	builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
                 	    .setNegativeButton("No", dialogClickListener).show();
-                    
+                	*/
+                	try {
+                		// Create Quest Dialog
+                		 
+
+						String questDialogTitle = questJsonList[position].getString("quest_title");
+						String questDescription = questJsonList[position].getString("quest_description");
+						final String questStatus = questJsonList[position].getString("quest_status");
+						
+						final Dialog dialog = new Dialog(QuestInfo.this);
+						dialog.setContentView(R.layout.quest_dialog);
+	                	dialog.setTitle(questDialogTitle);
+	                	
+						TextView questDialogDescription = (TextView) dialog.findViewById(R.id.questDialogDescription);
+						questDialogDescription.setText(questDescription);
+						Button questStatusButton = (Button) dialog.findViewById(R.id.questStatusButton);
+						Button questDeleteButton = (Button) dialog.findViewById(R.id.questDeleteButton);
+						Button questCancelButton = (Button) dialog.findViewById(R.id.questCancelButton);
+						
+						if ("ACTIVE".equals(questStatus)) {
+							questStatusButton.setText("De-Activate");
+						}
+						else if ("INACTIVE".equals(questStatus)) {
+							questStatusButton.setText("Activate");
+						}
+						
+						questStatusButton.setOnClickListener(new OnClickListener(){
+							@Override
+							public void onClick(View v){
+                	        	try {
+                	        		// UPDATE quest status on DB
+                	        		Log.d("SIZE", "Number of quests: " + Integer.toString(questJsonList.length));
+									
+									
+									// Change UI
+                	        		String updatedStatus = "";
+									TextView questActive = (TextView) view.findViewById(R.id.isQuestActive);
+	                	        	if ("ACTIVE".equals(questStatus)){
+	                	        		questActive.setTextColor(getResources().getColor(R.color.light_grey));
+	                	        		updatedStatus = "INACTIVE";
+	                	        	}
+	                	        	else if ("INACTIVE".equals(questStatus)) {
+	                	        		questActive.setTextColor(getResources().getColor(R.color.red));
+	                	        		updatedStatus = "ACTIVE";
+	                	        	}
+	                	        	
+	                	        	UpdateQuest uq = new UpdateQuest();
+									uq.execute(updatedStatus, questJsonList[position].getString("quest_id"));
+	                	        	
+	                	        	questActive.setText(updatedStatus);
+	                	        	questJsonList[position].put("quest_status", updatedStatus);
+	                	        	
+									Toast.makeText(QuestInfo.this, "Quest status updated",
+	                						Toast.LENGTH_SHORT).show();
+									
+								} catch (JSONException e) {
+									Toast.makeText(QuestInfo.this, "Failed to update quest",
+	                						Toast.LENGTH_SHORT).show();
+									e.printStackTrace();
+								}
+								dialog.dismiss();
+							}
+						});
+						questDeleteButton.setOnClickListener(new OnClickListener(){
+							@Override
+							public void onClick(View v){
+								Toast.makeText(QuestInfo.this, "Not implemented yet",
+                						Toast.LENGTH_SHORT).show();
+								dialog.dismiss();
+							}
+						});
+						questCancelButton.setOnClickListener(new OnClickListener(){
+							@Override
+							public void onClick(View v){
+								dialog.dismiss();
+							}
+						});
+	                	
+	                	dialog.show();
+	                	
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}   
                 }
                 public OnItemClickListener init(JSONObject [] questJsonList) {
                     this.questJsonList = questJsonList;
