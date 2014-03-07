@@ -18,10 +18,23 @@ public class StaticClass {
 	public final static String url_create_quest = "http://todorpg.net46.net/ToDoRPG/create_quest.php";
 	public final static String url_get_quests = "http://todorpg.net46.net/ToDoRPG/get_quests.php";
 	public final static String url_update_party = "http://todorpg.net46.net/ToDoRPG/add_party_member.php";
-
+	public final static String url_get_users_quest = "http://todorpg.net46.net/ToDoRPG/get_users_quest.php";
+	
 	/* Shared Preferences Keys */
 	public final static String MY_PREFERENCES = ",yPrefs";
 	public final static String PREF_USERNAME = "prefUserName";
+	public final static String PREF_IS_LOGGED_IN = "pref_is_logged_in";
+	
+	public final static String PREF_CHARACTER_NAME = "character_name";
+	public final static String PREF_CHARACTER_STR = "character_str";
+	public final static String PREF_CHARACTER_CON = "character_con";
+	public final static String PREF_CHARACTER_DEX = "character_dex";
+	public final static String PREF_CHARACTER_INT = "character_int";
+	public final static String PREF_CHARACTER_WIS = "character_wis";
+	public final static String PREF_CHARACTER_CHA = "character_cha";
+	public final static String PREF_CHARACTER_LEVEL = "character_level";
+	public final static String PREF_CHARACTER_CLASS = "character_class";
+	public final static String PREF_CHARACTER_EXISTS = "character_exists"; // Does the user have a character
 	
 	public static final String TAG_SUCCESS = "success";
 	public static final String TAG_DATA = "log_db";
@@ -75,7 +88,7 @@ public class StaticClass {
 	public static final String Summoner_skill_4 = "Summon Skill 4";
 
 	public static final int LOGIN_SUCCESS = 100;
-	public static String MY_USERNAME;
+	public static String MY_ID;
 	public static boolean LOGGED_ID;
 	public static boolean CHARACTER_CREATED;
 	
