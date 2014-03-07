@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
@@ -53,6 +54,8 @@ public class CharacterCreation extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES,
+				Context.MODE_PRIVATE); 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.character_creation);

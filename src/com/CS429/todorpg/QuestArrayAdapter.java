@@ -3,7 +3,11 @@ package com.CS429.todorpg;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +16,7 @@ import android.widget.TextView;
 
 /**
  * 
- * @author Paul Kim
+ * @author paulkim6 / jcheng26
  * 
  * Custom ArrayAdapter for the main list view used in QuestInfo
  *
@@ -36,13 +40,28 @@ public class QuestArrayAdapter extends ArrayAdapter<JSONObject> {
 		
 		JSONObject questJson = quests[position];
 		
-		// Get quest_title and quest_description
+		// Each quest JSONObject comes in a form like this:
+		// {"quest_location_lat" : "", "quest_desciption":"Finish the 473 Homework before Unoffical",
+		// "quest_title":"473 Homework Rush", "creater_name":"Patrick", "quest_difficulty":"1",
+		// "quest_duration":"5", "quest_milestone":"Milestone1_ Milestone2_", "quest_id":"14", "quest_location_long":"",
+		// "quest_status":"INACTIVE"}
+		// WARNING: FOR NOW ALL VALUES ARE STRING. CONVERT TO INT / DOUBLE BEFORE USE.
+		
+		// Get quest_title and quest_description for now.
 		View rowView = inflater.inflate(layout, parent, false);
 		TextView questTitle = (TextView) rowView.findViewById(R.id.questTitle);
 		TextView questDescription = (TextView) rowView.findViewById(R.id.questDescription);
+		TextView isQuestActive = (TextView) rowView.findViewById(R.id.isQuestActive);
 		try {
 			questTitle.setText(questJson.getString("quest_title"));
 			questDescription.setText(questJson.getString("quest_description"));
+			String questStatus = questJson.getString("quest_status");
+			if ("ACTIVE".equals(questStatus))
+				isQuestActive.setTextColor(Color.RED);
+			else
+				isQuestActive.setTextColor(Color.parseColor("#939393"));
+			
+			isQuestActive.setText(questStatus);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
