@@ -211,7 +211,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 
 		protected void onPostExecute(String result) {
 			try {
-					Toast.makeText(MapActivity.this, result, Toast.LENGTH_LONG).show();
+				new AlertDialog.Builder(context).setMessage(result).show();
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
