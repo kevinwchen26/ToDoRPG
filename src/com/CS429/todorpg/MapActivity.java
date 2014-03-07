@@ -2,10 +2,15 @@ package com.CS429.todorpg;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.*;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +18,14 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.widget.Toast;
 import android.util.Log;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MapActivity extends Activity implements OnMarkerClickListener {
 
 	private double longtitude;
@@ -38,8 +45,12 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		map.setMyLocationEnabled(true);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 13));
 
-		for (MarkerOptions option : getQuests()) {
-			map.addMarker(option);
+		try {
+			for (MarkerOptions option : getQuests()) {
+				map.addMarker(option);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 		map.addMarker(new MarkerOptions().title("Test").snippet("My Location.").position(getLocation()));
 
@@ -57,17 +68,14 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	 */
 	public LatLng getLocation() {
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		// check if GPS is enabled
-		boolean GPSenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		// check if network is enabled
 		boolean Networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 		// none of providers is available
-		if (!GPSenabled && !Networkenabled) {
+		if (!Networkenabled) {
 			return new LatLng(0, 0);
 
 		} else {// at least one of them is available
-			Criteria criteria = new Criteria();
 			String locationProvider = LocationManager.NETWORK_PROVIDER;
 			Location location = locationManager.getLastKnownLocation(locationProvider);
 			double latitude = location.getLatitude();
@@ -76,6 +84,16 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		}
 	}
 
+	/**
+	 * 
+	 */
+	private void getNerestQuest(){
+		JSONArray quests = NearestQuest.getInstance().getQuests();
+		
+		
+		
+	}
+	
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		// pulls up quest info page
@@ -83,7 +101,24 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		return false;
 	}
 
-	public ArrayList<MarkerOptions> getQuests() {
+	public ArrayList<MarkerOptions> getQuests() throws JSONException {
+		JSONArray quests = NearestQuest.getInstance().getQuests();
+
+		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
+		//iterate all data in quests jsonarray
+		for(int i = 0; i < quests.length(); ++i){
+			JSONObject object = quests.getJSONObject(i);
+			MarkerOptions option = new MarkerOptions();
+			LatLng position = new LatLng(object.getDouble("quest_location_lat"),
+					object.getDouble("quest_location_long"));
+			option.snippet("quest_description");
+			option.title("quest_title");
+			option.position(position);
+			options.add(option);
+		}
+		
+		return options;
+/*		
 		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
 		MarkerOptions option = new MarkerOptions();
 		LatLng position = new LatLng(0, 0);
@@ -91,6 +126,6 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		option.title("title");
 		option.position(position);
 		return options;
-
+*/
 	}
 }
