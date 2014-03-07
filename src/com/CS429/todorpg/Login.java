@@ -136,8 +136,8 @@ public class Login extends Activity {
 								// Store the USER ID and LOG IN STATUS into persistent storage
 								Editor editor = prefs.edit();
 								editor.putString(StaticClass.PREF_USERNAME, log_info[0]); // user_name
-																editor.putString("profile_id", log_info[2]);
-editor.putBoolean(StaticClass.PREF_IS_LOGGED_IN, true);
+								editor.putString("profile_id", log_info[2]);
+								editor.putBoolean(StaticClass.PREF_IS_LOGGED_IN, true);
 								if (!editor.commit()){
 									Log.d("PREF", "USER_NAME NOT STORED"); 
 								}
