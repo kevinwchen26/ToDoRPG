@@ -66,6 +66,9 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		map.addMarker(new MarkerOptions().title("Quest 14").snippet("My Location.").position(getLocation(this)));
@@ -138,24 +141,39 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		return false;
 	}
 
-	public ArrayList<MarkerOptions> getQuests() throws JSONException {
+	public ArrayList<MarkerOptions> getQuests() throws JSONException, InterruptedException {
 
+		//check if quests is null
 		JSONArray quests = questInBackground.getQuests();
+		
 		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
+		if(quests == null){//waitied but still null means it doesn't have any quests
+			Log.d("JSONQUEST", "still null??");
+			return options;
+		}
+		
+		Log.d("JSONQUEST", "length is; " + quests.length());
 		// iterate all data in quests jsonarray
-		// for (int i = 0; i < quests.length(); ++i) {
-		// JSONObject object = quests.getJSONObject(i);
-		// MarkerOptions option = new MarkerOptions();
-		// LatLng position = new LatLng(object.getDouble("quest_location_lat"),
-		// object.getDouble("quest_location_long"));
-		// option.snippet("quest_description");
-		// option.title("quest_title");
-		// option.position(position);
-		// options.add(option);
-		// }
-
+		 for (int i = 0; i < quests.length(); ++i) {
+			 JSONObject object = quests.getJSONObject(i);
+			 MarkerOptions option = new MarkerOptions();
+			 
+			//check if lat long are valid
+			 String tmp1 = object.getString("quest_location_lat");
+			 String tmp2 = object.getString("quest_location_long");
+			 if((tmp1 == null || tmp1.isEmpty()) || (tmp2 == null || tmp2.isEmpty()))
+				 continue;
+			 
+			 LatLng position = new LatLng(object.getDouble("quest_location_lat"),
+					 object.getDouble("quest_location_long"));
+			 option.snippet(object.getString("quest_description"));
+			 option.title(object.getString("quest_title"));
+			 option.position(position);
+			 options.add(option);
+			 Log.d("JSONQUEST", object.toString());
+		 }
+		Log.d("JSONQUEST", "done??");
 		return options;
-
 	}
 
 	class PutRelationship extends AsyncTask<String, String, String> {

@@ -17,36 +17,49 @@ public class NearestQuest extends AsyncTask<String, String, String>{
 
 	private JSONParser jsonparser;
 	private JSONObject json;
+	private static JSONArray quests;
+	private Object lock = new Object();
 	
 	/**
 	 * Initialization
 	 */
 	private void init(){
-		jsonparser = new JSONParser();
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		json = jsonparser.makeHttpRequest(
-				StaticClass.url_get_quests, "GET", params);
-		//test printing
-		Log.d("QUEST", json.toString());
+		synchronized(lock){
+			jsonparser = new JSONParser();
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			json = jsonparser.makeHttpRequest(
+					StaticClass.url_get_quests, "GET", params);
+			//test printing
+			Log.d("QUEST", json.toString());
+			
+			try {
+				quests = json.getJSONArray("all_quest_info");
+				
+				//test printing
+				Log.d("QUEST", quests.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public JSONArray getQuests(){
-//		try {
-//			JSONArray data = json.getJSONArray("all_quest_info");
-//			
-//			//test printing
-//			Log.d("QUEST", data.toString());
-//			return data;
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-		return null;
+		synchronized(lock){
+			if(quests == null)
+				Log.d("QUEST", "quest is null");
+			return quests;
+		}
 	}
 
 	@Override
 	protected String doInBackground(String... arg0) {
 		init();
 		return null;
+	}
+	
+	
+	@Override
+	protected void onPostExecute(String arg){
 	}
 	
 }
