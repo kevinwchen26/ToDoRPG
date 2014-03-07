@@ -1,8 +1,12 @@
 package com.CS429.todorpg;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -14,17 +18,23 @@ import android.util.Log;
 public class StartMain extends Activity {
 	public static Activity startMain_activity;
 	Intent intent, character_intent;
-	
+
 	RelativeLayout header, sub_header;
 	TextView user_id;
+
+	// Persistent Data
+	SharedPreferences prefs;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_main);
+		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
 		startMain_activity = this;
 		ButtonHandler();
-		
+
 	}
+
 	private void ButtonHandler() {
 		header = (RelativeLayout) findViewById(R.id.header);
 		sub_header = (RelativeLayout) findViewById(R.id.sub_header);
@@ -44,61 +54,59 @@ public class StartMain extends Activity {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-				case R.id.register_btn:
-					RegisterHandler();
-					break;
-				case R.id.login_btn:
-					LoginHandler();
-					break;
-				case R.id.create_character_btn:
-					CharacterCreation();
-					break;
-				case R.id.quest_creation_btn:
-					QuestCreation();
-					break;
-				case R.id.availabe_quest_info_btn:
-					AvailableQuests();
-					break;
-				case R.id.character_info_btn:
-					CharacterInfo();
-					break;
-				case R.id.logout_btn:
-					LogoutHandler();
-					break;
-				case R.id.join_quest_btn:
-					JoinHandler();
-					break;
-				case R.id.quit_btn:
-					finish();
+			case R.id.register_btn:
+				RegisterHandler();
+				break;
+			case R.id.login_btn:
+				LoginHandler();
+				break;
+			case R.id.create_character_btn:
+				CharacterCreation();
+				break;
+			case R.id.quest_creation_btn:
+				QuestCreation();
+				break;
+			case R.id.availabe_quest_info_btn:
+				AvailableQuests();
+				break;
+			case R.id.character_info_btn:
+				CharacterInfo();
+				break;
+			case R.id.logout_btn:
+				LogoutHandler();
+				break;
+			case R.id.join_quest_btn:
+				JoinHandler();
+				break;
+			case R.id.quit_btn:
+				clearSharedPreferences();
+				finish();
 			}
 
 		}
 
-		
-
 	};
 
-	private void JoinHandler(){
-		if(!LoginStatus()) {
+	private void JoinHandler() {
+		if (!LoginStatus()) {
 			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		} else {
-			if(StaticClass.isNetworkConnected(startMain_activity)){
+			if (StaticClass.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "CONNECTED");
 				intent = new Intent(StartMain.this, MapActivity.class);
 				startActivity(intent);
 			} else {
-				StaticClass.GetNetworkDialog(startMain_activity).show(); 
+				StaticClass.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
 			}
-			
-			
+
 		}
 	}
-	
+
 	private void RegisterHandler() {
-		if(StaticClass.isNetworkConnected(startMain_activity)){
+		if (StaticClass.isNetworkConnected(startMain_activity)) {
 			Log.d("STATUS", "CONNECTED");
 			intent = new Intent(this, Register.class);
 			startActivity(intent);
@@ -110,84 +118,116 @@ public class StartMain extends Activity {
 	}
 
 	private void LoginHandler() {
-		if(StaticClass.isNetworkConnected(startMain_activity)){
+		if (StaticClass.isNetworkConnected(startMain_activity)) {
 			Log.d("STATUS", "CONNECTED");
 			intent = new Intent(this, Login.class);
 			startActivityForResult(intent, 0);
 		} else {
-			StaticClass.GetNetworkDialog(startMain_activity).show(); 
+			StaticClass.GetNetworkDialog(startMain_activity).show();
 			Log.d("STATUS", "NOT CONNECTED");
 			return;
 		}
 	}
+
 	public boolean LoginStatus() {
-		if(StaticClass.MY_USERNAME == null) return false;
-		else return true;
+		if (StaticClass.MY_ID == null)
+			return false;
+		else
+			return true;
 	}
+
+	public void clearSharedPreferences() {
+		Editor editor = prefs.edit();
+		editor.clear();
+		editor.commit();
+	}
+
+	public boolean characterStatus() {
+		if (prefs.contains(StaticClass.PREF_CHARACTER_EXISTS))
+			return prefs.getBoolean(StaticClass.PREF_CHARACTER_EXISTS, false);
+		else
+			return false;
+	}
+
 	public void CharacterCreation() {
 		// TODO Check if user created character
-		if(!LoginStatus()) {
+		if (!LoginStatus()) {
 			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if(StaticClass.CHARACTER_CREATED) {
+		if (StaticClass.CHARACTER_CREATED) {
 			Toast.makeText(this, StaticClass.HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		intent = new Intent(StartMain.this, CharacterCreation.class);
 		startActivity(intent);
 	}
+
 	public void CharacterInfo() {
-		if(!LoginStatus()) {
+		if (!LoginStatus()) {
 			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if(!StaticClass.CHARACTER_CREATED) {
+
+		if (!characterStatus()) {
 			Toast.makeText(this, StaticClass.DONT_HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		intent = new Intent(StartMain.this, MyCharacterInfo.class);
 		startActivity(intent);
-		
+
 	}
+
 	public void LogoutHandler() {
 		Toast.makeText(this, StaticClass.LOGOUT_MESSAGE, Toast.LENGTH_SHORT).show();
-		/*TODO all personal info should be removed, right now id is the only info that user has */
-		StaticClass.MY_USERNAME = null;
+		/*
+		 * TODO all personal info should be removed, right now id is the only
+		 * info that user has
+		 */
+
+		// Clear out Shared Preferences
+		clearSharedPreferences();
+
+		StaticClass.MY_ID = null;
 		StaticClass.CLASS_INFO = null;
 		header.setVisibility(View.VISIBLE);
 		sub_header.setVisibility(View.GONE);
 	}
+
 	public void QuestCreation() {
-		if(!LoginStatus()) {
+		if (!LoginStatus()) {
 			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
+		} else if (!characterStatus()) {
+			Toast.makeText(this, StaticClass.DONT_HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
+			return;
 		} else {
-			if(StaticClass.isNetworkConnected(startMain_activity)){
+			if (StaticClass.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "CONNECTED");
 				intent = new Intent(StartMain.this, QuestCreation.class);
 				startActivity(intent);
 			} else {
-				StaticClass.GetNetworkDialog(startMain_activity).show(); 
+				StaticClass.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
-			}			
+			}
 		}
 	}
+
 	private void AvailableQuests() {
-		if(!LoginStatus()) {
+		if (!LoginStatus()) {
 			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		} else {
-			if(StaticClass.isNetworkConnected(startMain_activity)){
+			if (StaticClass.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "AvailableQuests: CONNECTED");
 				intent = new Intent(StartMain.this, QuestInfo.class);
 				startActivity(intent);
 			} else {
-				StaticClass.GetNetworkDialog(startMain_activity).show(); 
+				StaticClass.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
-			}			
+			}
 		}
 	}
 
@@ -197,11 +237,12 @@ public class StartMain extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode == StaticClass.LOGIN_SUCCESS) {
+		if (resultCode == StaticClass.LOGIN_SUCCESS) {
 			header.setVisibility(View.GONE);
-			user_id.setText(StaticClass.WELCOME_MESSAGE + " " + StaticClass.MY_USERNAME);
+			user_id.setText(StaticClass.WELCOME_MESSAGE + " " + StaticClass.MY_ID);
 			sub_header.setVisibility(View.VISIBLE);
 		}
 	}
