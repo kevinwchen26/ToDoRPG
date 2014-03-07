@@ -149,13 +149,14 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 			//check if lat long are valid
 			 String tmp1 = object.getString("quest_location_lat");
 			 String tmp2 = object.getString("quest_location_long");
+			 String id = object.getString("quest_id");
 			 if((tmp1 == null || tmp1.isEmpty()) || (tmp2 == null || tmp2.isEmpty()))
 				 continue;
 			 
 			 LatLng position = new LatLng(object.getDouble("quest_location_lat"),
 					 object.getDouble("quest_location_long"));
 			 option.snippet(object.getString("quest_description"));
-			 option.title(object.getString("quest_title"));
+			 option.title("Quest "+id+" "+object.getString("quest_title"));
 			 option.position(position);
 			 options.add(option);
 			 Log.d("JSONQUEST", object.toString());
@@ -198,14 +199,13 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 
 		protected void onPostExecute(String result) {
 			try {
-					Toast.makeText(MapActivity.this, result, Toast.LENGTH_SHORT).show();
+				new AlertDialog.Builder(context).setMessage(result).show();
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			pDialog.dismiss();
-			finish();
 		}
 	}
 }
