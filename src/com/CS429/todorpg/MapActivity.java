@@ -115,18 +115,6 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 					prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
 					prefs.edit().putString("quest_id", words[1]).commit();
 					new PutRelationship().execute();
-					// try {
-					// Thread.sleep(1000);
-					// AlertDialog.Builder builder = new
-					// AlertDialog.Builder(context);
-					//
-					// if (json == null)
-					// builder.setMessage("Failed to Join Quest").show();
-					// builder.setMessage(json.getString("success")).show();
-					// } catch (Exception e) {
-					// // TODO Auto-generated catch block
-					// e.printStackTrace();
-					// }
 					break;
 
 				case DialogInterface.BUTTON_NEGATIVE:
