@@ -21,6 +21,18 @@ public class StaticClass {
 	/* Shared Preferences Keys */
 	public final static String MY_PREFERENCES = ",yPrefs";
 	public final static String PREF_USERNAME = "prefUserName";
+	public final static String PREF_IS_LOGGED_IN = "pref_is_logged_in";
+	
+	public final static String PREF_CHARACTER_NAME = "character_name";
+	public final static String PREF_CHARACTER_STR = "character_str";
+	public final static String PREF_CHARACTER_CON = "character_con";
+	public final static String PREF_CHARACTER_DEX = "character_dex";
+	public final static String PREF_CHARACTER_INT = "character_int";
+	public final static String PREF_CHARACTER_WIS = "character_wis";
+	public final static String PREF_CHARACTER_CHA = "character_cha";
+	public final static String PREF_CHARACTER_LEVEL = "character_level";
+	public final static String PREF_CHARACTER_CLASS = "character_class";
+	public final static String PREF_CHARACTER_EXISTS = "character_exists"; // Does the user have a character
 	
 	public static final String TAG_SUCCESS = "success";
 	public static final String TAG_DATA = "log_db";

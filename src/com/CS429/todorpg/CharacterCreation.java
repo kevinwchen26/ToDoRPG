@@ -15,6 +15,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +35,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CharacterCreation extends Activity {
+	// Persistent Data
+	SharedPreferences prefs;
+	
 	private ProgressDialog pDialog;
 	JSONParser jsonParser = new JSONParser();
 	InsertData insert = new InsertData();
@@ -341,8 +346,24 @@ public class CharacterCreation extends Activity {
 
 				if (success == 1) {
 					Log.d("Character Creation Status", "Character Created Successfully");
+					String characterClass = character_spinner.getSelectedItem().toString();
 					StaticClass.CLASS_INFO = new Character(name,MyCharacter.getSTR(), MyCharacter.getCON(),MyCharacter.getDEX(), MyCharacter.getINT(), 
 							MyCharacter.getWIS(),MyCharacter.getCHA(), StaticClass.INIT_LEVEL, character_spinner.getSelectedItem().toString());
+					// Store character creation status here
+					Editor editor = prefs.edit();
+					editor.putString(StaticClass.PREF_CHARACTER_NAME, name);
+					editor.putInt(StaticClass.PREF_CHARACTER_STR, MyCharacter.getSTR());
+					editor.putInt(StaticClass.PREF_CHARACTER_CON, MyCharacter.getCON());
+					editor.putInt(StaticClass.PREF_CHARACTER_DEX, MyCharacter.getDEX());
+					editor.putInt(StaticClass.PREF_CHARACTER_INT, MyCharacter.getINT());
+					editor.putInt(StaticClass.PREF_CHARACTER_WIS, MyCharacter.getWIS());
+					editor.putInt(StaticClass.PREF_CHARACTER_CHA, MyCharacter.getCHA());
+					editor.putInt(StaticClass.PREF_CHARACTER_LEVEL, StaticClass.INIT_LEVEL);
+					editor.putString(StaticClass.PREF_CHARACTER_CLASS, characterClass);
+					editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, true);
+					if (!editor.commit()){
+						Log.d("PREF", "USER_NAME NOT STORED"); 
+					}
 
 				} else {
 				}

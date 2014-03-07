@@ -74,7 +74,6 @@ public class QuestInfo extends Activity {
 			try {
 				int success = json.getInt(StaticClass.TAG_SUCCESS);
 				if (success == 1) {
-		        	StaticClass.CHARACTER_CREATED = true;
 		            JSONArray rows = json.getJSONArray("rows");
 		            questRows = new JSONObject [rows.length()];
 		            for (int i = 0; i < rows.length(); i++) {
