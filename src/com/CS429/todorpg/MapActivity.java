@@ -61,7 +61,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 13));
 
 		try {
-			for (MarkerOptions option : getQuests()) {
+			for (MarkerOptions option : getQuests(questInBackground)) {
 				map.addMarker(option);
 			}
 		} catch (JSONException e) {
@@ -129,7 +129,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		return false;
 	}
 
-	public ArrayList<MarkerOptions> getQuests() throws JSONException, InterruptedException {
+	public static ArrayList<MarkerOptions> getQuests(NearestQuest questInBackground) throws JSONException, InterruptedException {
 
 		//check if quests is null
 		JSONArray quests = questInBackground.getQuests();
