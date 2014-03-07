@@ -79,6 +79,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	public boolean onMarkerClick(Marker marker) {
 		// pulls up quest info page
 		// TODO link to quest info page
+		
 		return false;
 	}
 
