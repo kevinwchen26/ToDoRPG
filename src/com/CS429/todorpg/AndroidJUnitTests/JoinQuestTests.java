@@ -52,10 +52,9 @@ public class JoinQuestTests extends ActivityInstrumentationTestCase2<MapActivity
 			}
 			
 		});
-		getInstrumentation().waitForIdleSync();
-		assertTrue("Could not find Text",solo.searchButton("Yes")); // alert dialog appeared
+		assertTrue(solo.waitForText("Are you sure you want to join this quest?")); // alert dialog appeared
 		solo.waitForDialogToClose();
-		assertTrue(solo.searchText("You are already a member of this quest"));
+		assertTrue(solo.waitForText("You are already a member of this quest"));
 		
 	}
 
