@@ -16,7 +16,10 @@ import com.google.android.gms.maps.model.*;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
@@ -39,17 +42,19 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	private String provider;
 	private NearestQuest questInBackground;
 	private SharedPreferences prefs;
+	private Context context;
+	public ProgressDialog pDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		context = this;
 		questInBackground = new NearestQuest();
 		questInBackground.execute();
 
 		// Get a handle to the Map Fragment
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
 		LatLng myLocation = getLocation(this);
 		map.setOnMarkerClickListener(this);
 		map.setMyLocationEnabled(true);
@@ -62,7 +67,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
+
 		map.addMarker(new MarkerOptions().title("Quest 14").snippet("My Location.").position(getLocation(this)));
 
 	}
@@ -94,19 +99,47 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 			return new LatLng(latitude, longitude);
 		}
 	}
-	
+
 	@Override
-	public boolean onMarkerClick(Marker marker) {
-		String title = marker.getTitle();
-		String[] words = title.split(" ");
-		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
-		prefs.edit().putString("quest_id", words[1]).commit();
-		new PutRelationship().execute();
+	public boolean onMarkerClick(final Marker marker) {
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					String title = marker.getTitle();
+					String[] words = title.split(" ");
+					prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
+					prefs.edit().putString("quest_id", words[1]).commit();
+					new PutRelationship().execute();
+					// try {
+					// Thread.sleep(1000);
+					// AlertDialog.Builder builder = new
+					// AlertDialog.Builder(context);
+					//
+					// if (json == null)
+					// builder.setMessage("Failed to Join Quest").show();
+					// builder.setMessage(json.getString("success")).show();
+					// } catch (Exception e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
+					break;
+
+				case DialogInterface.BUTTON_NEGATIVE:
+					break;
+				}
+			}
+		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Are you sure you want to join this quest?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+
 		return false;
 	}
 
 	public ArrayList<MarkerOptions> getQuests() throws JSONException {
-		
+
 		JSONArray quests = questInBackground.getQuests();
 		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
 		// iterate all data in quests jsonarray
@@ -127,20 +160,46 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 
 	class PutRelationship extends AsyncTask<String, String, String> {
 
-		@Override 
+		private JSONObject json;
+
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = new ProgressDialog(MapActivity.this);
+			pDialog.setMessage("Joining Quest...");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(true);
+			pDialog.show();
+		}
+
+		@Override
 		protected String doInBackground(String... arg0) {
 			String quest_id = prefs.getString("quest_id", "-1");
 			String profile_id = prefs.getString("profile_id", "-1");
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("quest_id", quest_id));
 			params.add(new BasicNameValuePair("profile_id", profile_id));
-			Log.w("ToDo", quest_id);
-			Log.w("ToDo", profile_id);
-			System.out.println(quest_id);
-			System.out.println(profile_id);
-			new JSONParser().makeHttpRequest(StaticClass.url_update_party, "POST", params);
-			return null;
+
+			JSONObject json = new JSONParser().makeHttpRequest(StaticClass.url_update_party, "POST", params);
+
+			try {
+				return json.getString("success");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "Failed to add quest";
 		}
 
+		protected void onPostExecute(String result) {
+			try {
+					Toast.makeText(MapActivity.this, result, Toast.LENGTH_SHORT).show();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			pDialog.dismiss();
+			finish();
+		}
 	}
 }
