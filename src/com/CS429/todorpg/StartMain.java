@@ -115,7 +115,7 @@ public class StartMain extends Activity {
 		}
 	}
 	public boolean LoginStatus() {
-		if(StaticClass.MY_ID == null) return false;
+		if(StaticClass.MY_USERNAME == null) return false;
 		else return true;
 	}
 	public void CharacterCreation() {
@@ -147,7 +147,7 @@ public class StartMain extends Activity {
 	public void LogoutHandler() {
 		Toast.makeText(this, StaticClass.LOGOUT_MESSAGE, Toast.LENGTH_SHORT).show();
 		/*TODO all personal info should be removed, right now id is the only info that user has */
-		StaticClass.MY_ID = null;
+		StaticClass.MY_USERNAME = null;
 		StaticClass.CLASS_INFO = null;
 		header.setVisibility(View.VISIBLE);
 		sub_header.setVisibility(View.GONE);
@@ -182,7 +182,7 @@ public class StartMain extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == StaticClass.LOGIN_SUCCESS) {
 			header.setVisibility(View.GONE);
-			user_id.setText(StaticClass.WELCOME_MESSAGE + " " + StaticClass.MY_ID);
+			user_id.setText(StaticClass.WELCOME_MESSAGE + " " + StaticClass.MY_USERNAME);
 			sub_header.setVisibility(View.VISIBLE);
 		}
 	}
