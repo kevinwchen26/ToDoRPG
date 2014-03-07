@@ -48,13 +48,13 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		map.setMyLocationEnabled(true);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 13));
 
-		try {
-			for (MarkerOptions option : getQuests()) {
-				map.addMarker(option);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			for (MarkerOptions option : getQuests()) {
+//				map.addMarker(option);
+//			}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		map.addMarker(new MarkerOptions().title("Test").snippet("My Location.").position(getLocation(this)));
 
 	}
@@ -81,8 +81,16 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 		} else {// at least one of them is available
 			String locationProvider = LocationManager.NETWORK_PROVIDER;
 			Location location = locationManager.getLastKnownLocation(locationProvider);
-			double latitude = location.getLatitude();
-			double longitude = location.getLongitude();
+			
+			double latitude = 0;
+			double longitude = 0;
+			if(location == null){
+				//currently do nothing..
+			}
+			else{
+				latitude = location.getLatitude();
+				longitude = location.getLongitude();
+			}
 			return new LatLng(latitude, longitude);
 		}
 	}
@@ -98,6 +106,13 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	public ArrayList<MarkerOptions> getQuests() throws JSONException {
 		
 		JSONArray quests = questInBackground.getQuests();
+		//wait until quests is not null
+		while(quests == null)
+			quests = questInBackground.getQuests();
+		
+		Log.d("QUEST", "finally quest is not null: out of loop");
+		Log.d("QUEST", "length: " + quests.length());
+		
 		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
 		//iterate all data in quests jsonarray
 		for(int i = 0; i < quests.length(); ++i){
