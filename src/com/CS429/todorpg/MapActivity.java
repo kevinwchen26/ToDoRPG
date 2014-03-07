@@ -31,11 +31,14 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	private double longtitude;
 	private double latitude;
 	private String provider;
+	private NearestQuest questInBackground;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		questInBackground = new NearestQuest();
+		questInBackground.execute();
 
 		// Get a handle to the Map Fragment
 		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -83,16 +86,6 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 			return new LatLng(latitude, longitude);
 		}
 	}
-
-	/**
-	 * 
-	 */
-	private void getNerestQuest(){
-		JSONArray quests = NearestQuest.getInstance().getQuests();
-		
-		
-		
-	}
 	
 	@Override
 	public boolean onMarkerClick(Marker marker) {
@@ -103,8 +96,8 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	}
 
 	public ArrayList<MarkerOptions> getQuests() throws JSONException {
-		JSONArray quests = NearestQuest.getInstance().getQuests();
-
+		
+		JSONArray quests = questInBackground.getQuests();
 		ArrayList<MarkerOptions> options = new ArrayList<MarkerOptions>();
 		//iterate all data in quests jsonarray
 		for(int i = 0; i < quests.length(); ++i){

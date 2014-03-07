@@ -8,22 +8,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.CS429.todorpg.Utils.JSONParser;
 
-public class NearestQuest {
+public class NearestQuest extends AsyncTask<String, String, String>{
 
-	private static NearestQuest quests;
 	private JSONParser jsonparser;
 	private JSONObject json;
-	
-	/**
-	 * Constructor
-	 */
-	private NearestQuest(){
-		init();
-	}
 	
 	/**
 	 * Initialization
@@ -37,17 +30,6 @@ public class NearestQuest {
 		Log.d("QUEST", json.toString());
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public static synchronized NearestQuest getInstance(){
-		if(quests == null)
-			quests = new NearestQuest();
-		return quests;
-	}
-	
-	
 	public JSONArray getQuests(){
 		try {
 			JSONArray data = json.getJSONArray("all_quest_info");
@@ -58,6 +40,12 @@ public class NearestQuest {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	protected String doInBackground(String... arg0) {
+		init();
 		return null;
 	}
 	
