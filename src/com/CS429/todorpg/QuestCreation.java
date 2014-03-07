@@ -166,11 +166,6 @@ public class QuestCreation extends Activity {
 	class CreateQuest extends AsyncTask<String, String, String> {
 		protected void onPreExecute() {
 			super.onPreExecute();
-			pDialog = new ProgressDialog(QuestCreation.this);
-			pDialog.setMessage("Creating Character now...");
-			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(true);
-			pDialog.show();
 		}
 		@Override
 		protected String doInBackground(String... args) {
@@ -229,7 +224,6 @@ public class QuestCreation extends Activity {
 		
 		protected void onPostExecute(String file_url) {
 			Toast.makeText(QuestCreation.this, StaticClass.QUEST_SUCCESS, Toast.LENGTH_SHORT).show();
-			pDialog.dismiss();
 			createQuest.cancel(true);
 
 			finish();

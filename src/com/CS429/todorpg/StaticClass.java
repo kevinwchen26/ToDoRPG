@@ -19,6 +19,7 @@ public class StaticClass {
 	public final static String url_get_quests = "http://todorpg.net46.net/ToDoRPG/get_quests.php";
 	public final static String url_update_party = "http://todorpg.net46.net/ToDoRPG/add_party_member.php";
 	public final static String url_get_users_quest = "http://todorpg.net46.net/ToDoRPG/get_users_quest.php";
+	public final static String url_update_quest = "http://todorpg.net46.net/ToDoRPG/update_quest.php";
 	
 	/* Shared Preferences Keys */
 	public final static String MY_PREFERENCES = ",yPrefs";
@@ -129,6 +130,20 @@ public class StaticClass {
 	        //set message, title, and icon
 	        .setTitle("Warning") 
 	        .setMessage(StaticClass.TAG_CHECK_INTERNET) 
+	        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int whichButton) { 
+	                dialog.dismiss();
+	            }   
+	        })
+	        .create();
+	        return myQuittingDialogBox;
+	}
+	
+	public static AlertDialog sendAlertMessage(Activity activity, String title, String msg) {
+	    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity) 
+	        //set message, title, and icon
+	        .setTitle("Warning") 
+	        .setMessage(msg) 
 	        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int whichButton) { 
 	                dialog.dismiss();
