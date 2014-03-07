@@ -38,23 +38,41 @@ public class JoinQuestTests extends ActivityInstrumentationTestCase2<MapActivity
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
-	public void testJoinQuest() throws Exception {
+	public void testJoinTestPass() throws Exception {
 		solo.assertCurrentActivity("wrong activity", MapActivity.class);
 		final GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.map)).getMap();
 		assertNotNull(map);
 		Handler handler = new Handler(Looper.getMainLooper());
-		handler.post(new Runnable(){ //adds first test marker
+		handler.post(new Runnable() { // adds first test marker
 
 			@Override
 			public void run() {
-				map.addMarker(new MarkerOptions().title("Quest 14").snippet("My Location.").position(MapActivity.getLocation(activity)));
-
+				map.clear();
+				int num = (int) (Math.random() * 10000+1);
+				Marker marker = map.addMarker(new MarkerOptions().title("Quest " + num).snippet("My Location.").position(MapActivity.getLocation(activity)));
+				activity.onMarkerClick(marker);
 			}
-			
 		});
-		assertTrue(solo.waitForText("Are you sure you want to join this quest?")); // alert dialog appeared
-		solo.waitForDialogToClose();
-		assertTrue(solo.waitForText("You are already a member of this quest"));
+		assertTrue(solo.searchText("Quest Joined"));
+
 	}
 
+	public void testJoinTestFail() throws Exception {
+		solo.assertCurrentActivity("wrong activity", MapActivity.class);
+		final GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.map)).getMap();
+		assertNotNull(map);
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(new Runnable() { // adds first test marker
+
+			@Override
+			public void run() {
+				map.clear();
+				Marker marker = map.addMarker(new MarkerOptions().title("Quest 14").snippet("My Location.").position(MapActivity.getLocation(activity)));
+				activity.onMarkerClick(marker);
+			}
+
+		});
+		assertTrue(solo.searchText("You are already a member of this quest"));
+
+	}
 }

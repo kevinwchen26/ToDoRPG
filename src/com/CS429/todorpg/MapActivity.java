@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
@@ -211,7 +212,12 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 
 		protected void onPostExecute(String result) {
 			try {
-				new AlertDialog.Builder(context).setMessage(result).show();
+				AlertDialog.Builder builder =new  AlertDialog.Builder(context).setMessage(result);
+				builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int id) {
+				        dialog.cancel();
+				    }
+				}).show();
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
