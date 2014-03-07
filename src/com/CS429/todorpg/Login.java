@@ -40,13 +40,14 @@ public class Login extends Activity {
 	JSONParser jsonParser = new JSONParser();
 	JSONObject detail;
 	Intent intent;
-	
+
 	// Persistent Data
 	SharedPreferences prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
+		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES,
+				Context.MODE_PRIVATE);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
@@ -130,16 +131,18 @@ public class Login extends Activity {
 								Log.d("I'm here too", "PW found");
 								StaticClass.MY_ID = log_info[0];
 								check = 5;
-								
-								// Store the USER ID and LOG IN STATUS into persistent storage
+
+								// Store the USER ID and LOG IN STATUS into
+								// persistent storage
 								Editor editor = prefs.edit();
-								editor.putString(StaticClass.PREF_USERNAME, log_info[0]); // user_name
-								editor.putBoolean(StaticClass.PREF_IS_LOGGED_IN, true);
-								if (!editor.commit()){
-									Log.d("PREF", "USER_NAME NOT STORED"); 
+								editor.putString(StaticClass.PREF_USERNAME,
+										log_info[0]); // user_name
+								editor.putBoolean(
+										StaticClass.PREF_IS_LOGGED_IN, true);
+								if (!editor.commit()) {
+									Log.d("PREF", "USER_NAME NOT STORED");
 								}
-								
-								
+
 								break;
 							} else {
 								check = 4;
@@ -177,28 +180,35 @@ public class Login extends Activity {
 
 		@Override
 		protected String doInBackground(String... arg) {
-			 int success;
-             try {
-                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                 params.add(new BasicNameValuePair("user_name", StaticClass.MY_ID));
-                 JSONObject json = jsonParser.makeHttpRequest(StaticClass.url_get_character_info, "GET", params);
+			int success;
+			try {
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params.add(new BasicNameValuePair("user_name",
+						StaticClass.MY_ID));
+				JSONObject json = jsonParser.makeHttpRequest(
+						StaticClass.url_get_character_info, "GET", params);
 
-                 Log.d("Character Info", json.toString());
+				Log.d("Character Info", json.toString());
 
-                 success = json.getInt(StaticClass.TAG_SUCCESS);
-                 if (success == 1) {
-                	 StaticClass.CHARACTER_CREATED = true;
-                     JSONArray info = json.getJSONArray(StaticClass.TAG_INFO); 
-                     
+				success = json.getInt(StaticClass.TAG_SUCCESS);
+				if (success == 1) {
+					StaticClass.CHARACTER_CREATED = true;
+					JSONArray info = json.getJSONArray(StaticClass.TAG_INFO);
+
 					detail = info.getJSONObject(0);
 					Log.d("Detail", detail.toString());
 					// Static class update
-					StaticClass.CLASS_INFO = new Character(detail.getString("character_name"), 
-							Integer.parseInt(detail.getString("str")),Integer.parseInt( detail.getString("con")), 
-							Integer.parseInt(detail.getString("dex")), Integer.parseInt(detail.getString("_int")),
-							Integer.parseInt(detail.getString("wis")), Integer.parseInt(detail.getString("cha")), 
-							Integer.parseInt(detail.getString("level")), detail.getString("class"));
-					
+					StaticClass.CLASS_INFO = new Character(
+							detail.getString("character_name"),
+							Integer.parseInt(detail.getString("str")),
+							Integer.parseInt(detail.getString("con")),
+							Integer.parseInt(detail.getString("dex")),
+							Integer.parseInt(detail.getString("_int")),
+							Integer.parseInt(detail.getString("wis")),
+							Integer.parseInt(detail.getString("cha")),
+							Integer.parseInt(detail.getString("level")),
+							detail.getString("class"));
+
 					int STR = Integer.parseInt(detail.getString("str"));
 					int CON = Integer.parseInt(detail.getString("con"));
 					int DEX = Integer.parseInt(detail.getString("dex"));
@@ -207,10 +217,11 @@ public class Login extends Activity {
 					int CHA = Integer.parseInt(detail.getString("cha"));
 					int LEVEL = Integer.parseInt(detail.getString("level"));
 					String CLASS = detail.getString("class");
-					
-					// Shared Preferences Save 
+
+					// Shared Preferences Save
 					Editor editor = prefs.edit();
-					editor.putString(StaticClass.PREF_CHARACTER_NAME, detail.getString("character_name"));
+					editor.putString(StaticClass.PREF_CHARACTER_NAME,
+							detail.getString("character_name"));
 					editor.putInt(StaticClass.PREF_CHARACTER_STR, STR);
 					editor.putInt(StaticClass.PREF_CHARACTER_CON, CON);
 					editor.putInt(StaticClass.PREF_CHARACTER_DEX, DEX);
@@ -220,24 +231,23 @@ public class Login extends Activity {
 					editor.putInt(StaticClass.PREF_CHARACTER_LEVEL, LEVEL);
 					editor.putString(StaticClass.PREF_CHARACTER_CLASS, CLASS);
 					editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, true);
-					
-					if (!editor.commit()){
-						// Shared Preferences Save 
-						Log.d("PREF", "CHARACTER NOT STORED"); 
+
+					if (!editor.commit()) {
+						// Shared Preferences Save
+						Log.d("PREF", "CHARACTER NOT STORED");
 					}
-                 }
-                 else{
-					 Editor editor = prefs.edit();
-					 editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, false);
-                	 StaticClass.CHARACTER_CREATED = false;
-                	 if (!editor.commit()){
- 						// Shared Preferences Save 
- 						Log.d("PREF", "CHARACTER MISSING MESSAGE NOT STORED"); 
- 					}
-                 }
-             } catch (JSONException e) {
-                 e.printStackTrace();
-             }
+				} else {
+					Editor editor = prefs.edit();
+					editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, false);
+					StaticClass.CHARACTER_CREATED = false;
+					if (!editor.commit()) {
+						// Shared Preferences Save
+						Log.d("PREF", "CHARACTER MISSING MESSAGE NOT STORED");
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 
 			return null;
 		}

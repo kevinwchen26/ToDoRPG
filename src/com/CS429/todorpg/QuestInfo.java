@@ -15,8 +15,10 @@ import com.CS429.todorpg.Utils.JSONParser;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -24,6 +26,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class QuestInfo extends Activity {
@@ -100,16 +104,47 @@ public class QuestInfo extends Activity {
             listView.setAdapter(adapter);
             
             listView.setOnItemClickListener(new OnItemClickListener() {
-                JSONObject [] questJsonList;
+                JSONObject [] questJsonList; // The appropriate quest can be accessed with 'position'
                 @Override
                 public void onItemClick(AdapterView<?> parent,
-                        View view, int position, long id) {
-                	/*
-                    String jsonString = om.writeValueAsString(contactList[position - 1]);
-                    Intent contactInfoActivity = new Intent(view.getContext(), ContactInfo.class);
-                    contactInfoActivity.putExtra("jsonString", jsonString);
-                    startActivity(contactInfoActivity);
-                    */
+                        final View view, final int position, long id) {
+                	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                	    @Override
+                	    public void onClick(DialogInterface dialog, int which) {
+                	        switch (which){
+                	        case DialogInterface.BUTTON_POSITIVE:
+                	            //Yes button touched, Activate this quest.
+                	        	TextView questActive = (TextView) view.findViewById(R.id.isQuestActive);
+                	        	questActive.setTextColor(getResources().getColor(R.color.red));
+                	        	questActive.setText("ACTIVE");
+                	        	
+                	        	try {
+                	        		// UPDATE quest status on DB
+                	        		Log.d("SIZE", "Number of quests: " + Integer.toString(questJsonList.length));
+									UpdateQuest uq = new UpdateQuest();
+									uq.execute("ACTIVE", questJsonList[position].getString("quest_id"));
+									Toast.makeText(QuestInfo.this, "Clicked YES",
+	                						Toast.LENGTH_SHORT).show();
+									
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+                	        	
+                	            break;
+
+                	        case DialogInterface.BUTTON_NEGATIVE:
+                	            //No button clicked
+                	        	Toast.makeText(QuestInfo.this, "Clicked NO",
+                						Toast.LENGTH_SHORT).show();
+                	            break;
+                	        }
+                	    }
+                	};
+                	
+                	AlertDialog.Builder builder = new AlertDialog.Builder(QuestInfo.this);
+                	builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                	    .setNegativeButton("No", dialogClickListener).show();
                     
                 }
                 public OnItemClickListener init(JSONObject [] questJsonList) {
@@ -118,6 +153,40 @@ public class QuestInfo extends Activity {
                 }
                 
             }.init(questRows));
+		}
+	}
+	
+	class UpdateQuest extends AsyncTask<String, String, String> {
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+            		
+		@Override
+		protected String doInBackground(String... arg) {
+			// Get user ID, use it to pull quests from database
+			String status = arg[0];
+			String quest_id = arg[1];
+        	JSONParser jsonParser = new JSONParser();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("status", status));
+            params.add(new BasicNameValuePair("quest_id", quest_id));
+            JSONObject json = jsonParser.makeHttpRequest(StaticClass.url_update_quest, "GET", params);
+     		Log.d("Quest Update info", json.toString());
+			try {
+				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				if (success == 1) {
+		            // SUCCESSFULLY UPDATED DATABASE.
+					Log.d("Quest info", "QUEST STATUS UPDATED");
+		         }else{
+		        	Log.d("Quest info", "QUEST STATUS UPDATE FAIL");
+		         }
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		protected void onPostExecute(String result) {
 		}
 	}
 }
