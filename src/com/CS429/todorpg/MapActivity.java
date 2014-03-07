@@ -199,7 +199,6 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 				e.printStackTrace();
 			}
 			pDialog.dismiss();
-			finish();
 		}
 	}
 }
