@@ -32,6 +32,8 @@ public class QuestInfo extends Activity {
 	JSONObject[] questRows;
 	Intent intent;
 	int check_option;
+	QuestArrayAdapter adapter;
+	ListView listView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,10 +111,10 @@ public class QuestInfo extends Activity {
 		protected void onPostExecute(String result) {
 			pDialog.dismiss();
 
-			ListView listView = (ListView) findViewById(R.id.questList);
+			listView = (ListView) findViewById(R.id.questList);
 
 			if (questRows != null && questRows.length > 0) {
-				QuestArrayAdapter adapter = new QuestArrayAdapter(
+				adapter = new QuestArrayAdapter(
 						QuestInfo.this, R.layout.quest_row, questRows);
 				listView.setAdapter(adapter);
 
@@ -125,6 +127,8 @@ public class QuestInfo extends Activity {
 							final View view, final int position, long id) {
 							intent = new Intent(QuestInfo.this, QuestDetail.class);
 							try {
+								Log.d("OPTION", check_option+"");
+								intent.putExtra("option", check_option);
 								intent.putExtra("position", position);
 								intent.putExtra("quest_id", questJsonList[position].getString("quest_id"));
 								intent.putExtra("questJsonList_length", questJsonList.length);
@@ -142,6 +146,7 @@ public class QuestInfo extends Activity {
 								e.printStackTrace();
 							}
 							startActivity(intent);
+							finish();
 						/*
 						 * TODO I am not sure What active and deactive does, so I commented active dialog things.
 						 *      If this we need this, just remove line 127 ~ 144 and uncommnet that :)

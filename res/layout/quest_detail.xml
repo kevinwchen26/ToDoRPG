@@ -116,12 +116,13 @@
             android:text="Status"
             android:textSize="14sp" />
 
-        <TextView
+        <Button
             android:id="@+id/my_status"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:textSize="14sp"
+            android:gravity="left"
             android:background="@android:color/transparent"
             android:textStyle="bold|italic" />
     </LinearLayout>
@@ -197,5 +198,14 @@
             android:textSize="14sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
+    
+    <Button
+            android:id="@+id/save"
+            android:text="GO BACK TO LIST"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="left"
+            android:textStyle="bold|italic" />
 
 </LinearLayout>

@@ -57,6 +57,7 @@ public class StaticClass {
 	public static final String QUEST_FAIL ="Incomplete Quest!";
 	public static final int SINGLE_USER_INFO = 100;
 	public static final int ALL_USER_INFO = 200;
+	public static final int STATUS_CHANGED = 1000;
 
 	
 	public static final String WARRIOR = "Warrior";
