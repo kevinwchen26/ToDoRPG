@@ -16,6 +16,7 @@ public class Quest {
 	private String difficulty;
 	private String duration;
 	private String milestone;
+	private int quest_id;
 
 	public Quest(String title, String location, Character leader, String description, int hours, ArrayList<String> milestones){
 		this.setTitle(title);
@@ -29,8 +30,9 @@ public class Quest {
 	}
 	
 	/*This constructor is for Search Bar*/
-	public Quest(String title, String leader, String difficulty, String duration, 
+	public Quest(int quest_id, String title, String leader, String difficulty, String duration, 
 			String status, String location, String milestone, String description){
+		this.quest_id = quest_id;
 		this.title = title;
 		this.leader = leader;
 		this.difficulty = difficulty;
@@ -55,6 +57,9 @@ public class Quest {
 		for(String ms : this.milestones)
 			retval += ms + " ";
 		return retval;
+	}
+	public int getQuestId() {
+		return quest_id;
 	}
 
 	//Getters and Setters

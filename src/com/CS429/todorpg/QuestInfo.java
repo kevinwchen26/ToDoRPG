@@ -144,7 +144,7 @@ public class QuestInfo extends Activity {
 					questRows = new JSONObject[rows.length()];
 					for (int i = 0; i < rows.length(); i++) {
 						questRows[i] = rows.getJSONObject(i);
-						current_quest.add(new Quest(questRows[i].getString("quest_title"), 
+						current_quest.add(new Quest(questRows[i].getInt("quest_id"), questRows[i].getString("quest_title"), 
 								questRows[i].getString("creator_name"),questRows[i].getString("quest_difficulty"),
 								questRows[i].getString("quest_duration"), questRows[i].getString("quest_status"),
 								questRows[i].getString("quest_location_long"), questRows[i].getString("quest_milestone"),
@@ -180,7 +180,8 @@ public class QuestInfo extends Activity {
 							if(QuestArrayAdapter.isFiltered)
 								selected = QuestArrayAdapter.filterResultsData.get(position);
 							else selected = current_quest.get(position);
-							
+							Log.d("ID", position+"");
+							intent.putExtra("quest_id", selected.getQuestId());
 							intent.putExtra("option", check_option);
 							intent.putExtra("quest_title", selected.getTitle());
 							intent.putExtra("creator_name", selected.getLeader());
@@ -190,7 +191,7 @@ public class QuestInfo extends Activity {
 							intent.putExtra("quest_location", selected.getLocation());
 							intent.putExtra("quest_milestone", selected.getMilestone());
 							intent.putExtra("quest_description", selected.getDescription());
-								
+							Log.d("GRRRR", selected.getStatus());
 							startActivity(intent);
 							finish();
 						

@@ -26,12 +26,15 @@ public class QuestDetail extends Activity {
 			my_milestone, my_description;
 	Button my_status;
 	int check_option;
+	String updatedStatus;
+	int quest_id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quest_detail);
 		intent = getIntent();
 		check_option = intent.getIntExtra("option", -1);
+		quest_id = intent.getIntExtra("quest_id", -1);
 		FindViewById();
 		setMessage();
 
@@ -79,7 +82,7 @@ public class QuestDetail extends Activity {
 											"questJsonList_length", -1)));
 	
 					// Change UI
-					String updatedStatus = "";
+					Log.d("LINE 83 current_status", intent.getStringExtra("quest_status"));
 					if ("ACTIVE".equals(intent.getStringExtra("quest_status"))) {
 						my_status.setTextColor(getResources().getColor(
 								R.color.light_grey));
@@ -105,6 +108,8 @@ public class QuestDetail extends Activity {
 	
 					Toast.makeText(QuestDetail.this, "Quest status updated",
 							Toast.LENGTH_SHORT).show();
+					
+					
 					break;
 				case R.id.save:
 					intent = new Intent(QuestDetail.this, QuestInfo.class);
@@ -127,13 +132,15 @@ public class QuestDetail extends Activity {
 
 		@Override
 		protected String doInBackground(String... arg) {
+			Log.d("LINE 133 current_status", arg[0]);
+			Log.d("LINE 134 current_id", quest_id+"");
 			// Get user ID, use it to pull quests from database
-			String status = arg[0];
-			String quest_id = arg[1];
+			String status = arg[0];//arg[0];
+			String _id = Integer.toString(quest_id);
 			JSONParser jsonParser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("status", status));
-			params.add(new BasicNameValuePair("quest_id", quest_id));
+			params.add(new BasicNameValuePair("quest_id",_id));
 			JSONObject json = jsonParser.makeHttpRequest(
 					StaticClass.url_update_quest, "GET", params);
 			Log.d("Quest Update info", json.toString());
