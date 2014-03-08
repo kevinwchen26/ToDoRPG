@@ -16,10 +16,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -34,6 +39,7 @@ public class QuestInfo extends Activity {
 	int check_option;
 	QuestArrayAdapter adapter;
 	ListView listView;
+	ArrayList<Quest> current_quest;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,6 +50,7 @@ public class QuestInfo extends Activity {
 		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES,
 				Context.MODE_PRIVATE);
 		FetchQuests fq = new FetchQuests();
+		current_quest = new ArrayList<Quest>();
 		fq.execute();
 	}
 
@@ -52,6 +59,48 @@ public class QuestInfo extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.quest_info, menu);
 		return true;
+	}
+	
+	/* Scroll Handler */
+	private void ListScrollHandler() {
+		listView.setOnScrollListener(new OnScrollListener() {
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+				int count = current_quest.size();
+				if(count == totalItemCount || adapter.filtered_size == totalItemCount) return;
+
+				if(loadMore) {
+//					Toast.makeText(getApplicationContext(), "WAIT ", Toast.LENGTH_SHORT).show();
+					adapter.count += visibleItemCount;
+					adapter.notifyDataSetChanged();
+				} 
+			}
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+			}
+		});
+	}
+	
+	/* Item Search Handler */
+	private void SearchHandler() {
+		EditText search = (EditText) findViewById(R.id.footer_search);
+		search.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,	int after) {
+				
+			}
+			@Override
+			public void afterTextChanged(Editable s) {
+				QuestArrayAdapter.isFiltered = true;	
+				adapter.getFilter().filter(s.toString());
+			}
+		});
 	}
 
 	class FetchQuests extends AsyncTask<String, String, String> {
@@ -95,6 +144,11 @@ public class QuestInfo extends Activity {
 					questRows = new JSONObject[rows.length()];
 					for (int i = 0; i < rows.length(); i++) {
 						questRows[i] = rows.getJSONObject(i);
+						current_quest.add(new Quest(questRows[i].getString("quest_title"), 
+								questRows[i].getString("creator_name"),questRows[i].getString("quest_difficulty"),
+								questRows[i].getString("quest_duration"), questRows[i].getString("quest_status"),
+								questRows[i].getString("quest_location_long"), questRows[i].getString("quest_milestone"),
+								questRows[i].getString("quest_description")));
 					}
 
 				} else {
@@ -104,7 +158,7 @@ public class QuestInfo extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			Log.d("SIZE OF ARRAYLIST", current_quest.size()+"");
 			return null;
 		}
 
@@ -114,44 +168,51 @@ public class QuestInfo extends Activity {
 			listView = (ListView) findViewById(R.id.questList);
 
 			if (questRows != null && questRows.length > 0) {
-				adapter = new QuestArrayAdapter(
-						QuestInfo.this, R.layout.quest_row, questRows);
+				adapter = new QuestArrayAdapter(QuestInfo.this, current_quest);
 				listView.setAdapter(adapter);
 
 				listView.setOnItemClickListener(new OnItemClickListener() {
-					JSONObject[] questJsonList; // The appropriate quest can be
-												// accessed with 'position'
-
 					@Override
 					public void onItemClick(AdapterView<?> parent,
 							final View view, final int position, long id) {
 							intent = new Intent(QuestInfo.this, QuestDetail.class);
-							try {
-								Log.d("OPTION", check_option+"");
-								intent.putExtra("option", check_option);
-								intent.putExtra("position", position);
-								intent.putExtra("quest_id", questJsonList[position].getString("quest_id"));
-								intent.putExtra("questJsonList_length", questJsonList.length);
-								intent.putExtra("quest_title", questJsonList[position].getString("quest_title"));
-								intent.putExtra("quest_description", questJsonList[position].getString("quest_description"));
-								intent.putExtra("quest_difficulty", questJsonList[position].getString("quest_difficulty"));
-								intent.putExtra("creator_name", questJsonList[position].getString("creator_name"));
-								intent.putExtra("quest_duration", questJsonList[position].getString("quest_duration"));
-								intent.putExtra("quest_milestone", questJsonList[position].getString("quest_milestone"));
-								intent.putExtra("quest_location_lat", questJsonList[position].getString("quest_location_lat"));
-								intent.putExtra("quest_location_long", questJsonList[position].getString("quest_location_long"));
-								intent.putExtra("quest_status", questJsonList[position].getString("quest_status"));
-							} catch (JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							Quest selected;
+							if(QuestArrayAdapter.isFiltered)
+								selected = QuestArrayAdapter.filterResultsData.get(position);
+							else selected = current_quest.get(position);
+							
+							intent.putExtra("option", check_option);
+							intent.putExtra("quest_title", selected.getTitle());
+							intent.putExtra("creator_name", selected.getLeader());
+							intent.putExtra("quest_difficulty", selected.getDifficulty());
+							intent.putExtra("quest_duration", selected.getDuration());
+							intent.putExtra("quest_status", selected.getStatus());
+							intent.putExtra("quest_location", selected.getLocation());
+							intent.putExtra("quest_milestone", selected.getMilestone());
+							intent.putExtra("quest_description", selected.getDescription());
+								
 							startActivity(intent);
 							finish();
-						/*
-						 * TODO I am not sure What active and deactive does, so I commented active dialog things.
-						 *      If this we need this, just remove line 127 ~ 144 and uncommnet that :)
-						 * 
-						 * */
+						
+					}
+				});
+				
+
+			} else {
+				StaticClass.sendAlertMessage(QuestInfo.this, "No Quests Found",
+						"You must create a quest first").show();
+			}
+			
+			SearchHandler();
+			ListScrollHandler();
+		}
+	}
+}
+
+		
+/*
+ *  	TODO : Moved previous code here
+						 
 						/*try {
 							// Create Quest Dialog
 
@@ -268,21 +329,11 @@ public class QuestInfo extends Activity {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}*/
-					}
 
-					public OnItemClickListener init(JSONObject[] questJsonList) {
-						this.questJsonList = questJsonList;
-						return this;
-					}
-
-				}.init(questRows));
-			} else {
-				StaticClass.sendAlertMessage(QuestInfo.this, "No Quests Found",
-						"You must create a quest first").show();
-			}
-		}
-	}
-
+		
+		
+		
+		
 	/*class UpdateQuest extends AsyncTask<String, String, String> {
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -318,4 +369,3 @@ public class QuestInfo extends Activity {
 		protected void onPostExecute(String result) {
 		}
 	}*/
-}

@@ -6,11 +6,16 @@ public class Quest {
 
 	private String title;
 	private String location; 
+	private String leader;
 	private ArrayList<Character> party = new ArrayList<Character>();
 	private String description;
 	private int hours; 
 	private int interval;
 	private ArrayList<String> milestones;
+	private String status;
+	private String difficulty;
+	private String duration;
+	private String milestone;
 
 	public Quest(String title, String location, Character leader, String description, int hours, ArrayList<String> milestones){
 		this.setTitle(title);
@@ -20,6 +25,20 @@ public class Quest {
 		this.setHours(hours);
 		this.milestones = milestones;
 		this.setInterval(hours/(this.milestones.size()));
+
+	}
+	
+	/*This constructor is for Search Bar*/
+	public Quest(String title, String leader, String difficulty, String duration, 
+			String status, String location, String milestone, String description){
+		this.title = title;
+		this.leader = leader;
+		this.difficulty = difficulty;
+		this.duration = duration;
+		this.status = status;
+		this.location = location;
+		this.milestone = milestone;
+		this.description = description;
 
 	}
 
@@ -39,9 +58,23 @@ public class Quest {
 	}
 
 	//Getters and Setters
-
+	public String getLeader() {
+		return leader;
+	}
+	public String getStatus() {
+		return status;
+	}
 	public String getTitle() {
 		return title;
+	}
+	public String getDifficulty() {
+		return difficulty;
+	}
+	public String getDuration() {
+		return duration;
+	}
+	public String getMilestone() {
+		return milestone;
 	}
 
 	public void setTitle(String title) {
