@@ -17,6 +17,7 @@ import android.widget.TextView;
 /**
  * 
  * @author paulkim6 / jcheng26
+ * 	edited by hlim10 / partner 1
  * 
  * Custom ArrayAdapter for the main list view used in QuestInfo
  *
@@ -50,11 +51,11 @@ public class QuestArrayAdapter extends ArrayAdapter<JSONObject> {
 		// Get quest_title and quest_description for now.
 		View rowView = inflater.inflate(layout, parent, false);
 		TextView questTitle = (TextView) rowView.findViewById(R.id.questTitle);
-		TextView questDescription = (TextView) rowView.findViewById(R.id.questDescription);
+		TextView creator_id = (TextView) rowView.findViewById(R.id.creator_id);
 		TextView isQuestActive = (TextView) rowView.findViewById(R.id.isQuestActive);
 		try {
 			questTitle.setText(questJson.getString("quest_title"));
-			questDescription.setText(questJson.getString("quest_description"));
+			creator_id.setText(questJson.getString("creator_name"));
 			String questStatus = questJson.getString("quest_status");
 			if ("ACTIVE".equals(questStatus))
 				isQuestActive.setTextColor(Color.RED);

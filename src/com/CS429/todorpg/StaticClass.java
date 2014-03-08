@@ -1,6 +1,6 @@
 package com.CS429.todorpg;
 
-import com.CS429.todorpg.Class.Character;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.CS429.todorpg.Class.Character;
 
 public class StaticClass {
 	/* URL */
@@ -53,6 +55,8 @@ public class StaticClass {
 	public static final String TAG_CHECK_INTERNET = "Internet is not connected";
 	public static final String QUEST_SUCCESS ="Quest Made!";
 	public static final String QUEST_FAIL ="Incomplete Quest!";
+	public static final int SINGLE_USER_INFO = 100;
+	public static final int ALL_USER_INFO = 200;
 
 	
 	public static final String WARRIOR = "Warrior";
@@ -94,6 +98,8 @@ public class StaticClass {
 	public static boolean CHARACTER_CREATED;
 	
 	public static Character CLASS_INFO;
+	
+	public static ArrayList<Quest> myQuest = new ArrayList<Quest>();
 	
 	public static boolean isNetworkConnected(Activity activity) {
 		ConnectivityManager cManager; 
