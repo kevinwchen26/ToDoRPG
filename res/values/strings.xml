@@ -7,11 +7,10 @@
     <string name="register">Register</string>
     <string name="log_in">Login</string>
     <string name="log_out">Logout</string>
-    <string name="group_name">ToDoRPG Iteration 3</string>
+    <string name="group_name">ToDoRPG Iteration 4</string>
     <string name="create_character">Create Character</string>
     <string name="current_info">My Character Information</string>
     <string name="quest_creation">Create Quest</string>
-    <string name="availabe_quest_info">View Current Quests Information</string>
     <string name="quit">Quit</string>
     <string name="user_name">ID</string>
     <string name="login_password">Password</string>
@@ -44,19 +43,16 @@
 	<string name="quest_milestone_btn">Add Milestone</string>
 	<string name="quest_duration">Duration(Hours)</string>
 	<string name="quest_submit">Submit</string>
-	<string name="my_name">NAME</string>
 	<string name="level">LEVEL</string>
 	<string name="character_name">Character Name</string>
 	<string name="charter_spinner_prompt">Choose Your Character</string>
-    <string name="confirm">Create</string>
     <string name="my_name">NAME</string>
-
-    <string-array name="yes_no">
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-
-    <string name="title_activity_quest_info">QuestInfo</string>
+    <string name="my_quest_info">Quest List</string>
+    <string name="single_user_quest_info">View My Quest</string>
     <string name="location_spinner_prompt">Do you need Location?</string>
     <string name="confirm">Create</string>
+    <string name="all_quest">View All Quests</string>
+    <string name="creator_id_field">Leader</string>
+    <string name="join">Find Quest to join</string>
+    <string name="empty_place">Empty place</string>
 </resources>

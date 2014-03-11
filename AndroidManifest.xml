@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.CS429.todorpg"
+    android:installLocation="preferExternal"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -73,7 +74,10 @@
         </activity>
         <activity
             android:name="com.CS429.todorpg.QuestInfo"
-            android:label="@string/title_activity_quest_info" >
+            android:label="@string/my_quest_info" >
+        </activity>
+        <activity
+            android:name="com.CS429.todorpg.QuestDetail">
         </activity>
     </application>
 

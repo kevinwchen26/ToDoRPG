@@ -10,16 +10,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
 public class StartMain extends Activity {
 	public static Activity startMain_activity;
 	Intent intent, character_intent;
 
-	RelativeLayout header, sub_header;
+	LinearLayout header, sub_header;
 	TextView user_id;
 
 	// Persistent Data
@@ -36,18 +36,20 @@ public class StartMain extends Activity {
 	}
 
 	private void ButtonHandler() {
-		header = (RelativeLayout) findViewById(R.id.header);
-		sub_header = (RelativeLayout) findViewById(R.id.sub_header);
+		header = (LinearLayout) findViewById(R.id.header);
+		sub_header = (LinearLayout) findViewById(R.id.sub_header);
 		user_id = (TextView) findViewById(R.id.user_id);
 		findViewById(R.id.login_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.logout_btn).setOnClickListener(ButtonOption);
-		findViewById(R.id.quit_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.register_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.create_character_btn).setOnClickListener(ButtonOption);
-		findViewById(R.id.quest_creation_btn).setOnClickListener(ButtonOption);
-		findViewById(R.id.availabe_quest_info_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.character_info_btn).setOnClickListener(ButtonOption);
-		findViewById(R.id.join_quest_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.quest_creation_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.my_quest_info_btn).setOnClickListener(ButtonOption);
+//		findViewById(R.id.join_quest_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.all_quest_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.quit_btn).setOnClickListener(ButtonOption);
+		
 	}
 
 	Button.OnClickListener ButtonOption = new Button.OnClickListener() {
@@ -60,27 +62,32 @@ public class StartMain extends Activity {
 			case R.id.login_btn:
 				LoginHandler();
 				break;
-			case R.id.create_character_btn:
-				CharacterCreation();
-				break;
-			case R.id.quest_creation_btn:
-				QuestCreation();
-				break;
-			case R.id.availabe_quest_info_btn:
-				AvailableQuests();
-				break;
-			case R.id.character_info_btn:
-				CharacterInfo();
-				break;
 			case R.id.logout_btn:
 				LogoutHandler();
 				break;
+			case R.id.create_character_btn:			// Create Character
+				CharacterCreation();
+				break;
+			case R.id.character_info_btn:			// My Character Infomation
+				CharacterInfo();
+				break;
+			case R.id.quest_creation_btn: 			// Create Quest
+				QuestCreation();
+				break;
+			case R.id.my_quest_info_btn:			// View My Quest
+				MyQuestInfo();
+				break;
+			case R.id.all_quest_btn:				// View All Quest
+				AllQuestInfo();
+				break;
+			
 			case R.id.join_quest_btn:
 				JoinHandler();
 				break;
-			case R.id.quit_btn:
+			case R.id.quit_btn:						// Quit 
 				clearSharedPreferences();
 				finish();
+				break;
 			}
 
 		}
@@ -214,20 +221,33 @@ public class StartMain extends Activity {
 		}
 	}
 
-	private void AvailableQuests() {
+	private void MyQuestInfo() {
 		if (!LoginStatus()) {
 			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		} else {
 			if (StaticClass.isNetworkConnected(startMain_activity)) {
-				Log.d("STATUS", "AvailableQuests: CONNECTED");
+				Log.d("STATUS", "My Quests: CONNECTED");
 				intent = new Intent(StartMain.this, QuestInfo.class);
+				intent.putExtra("option", StaticClass.SINGLE_USER_INFO);
 				startActivity(intent);
 			} else {
 				StaticClass.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
 			}
+		}
+	}
+	private void AllQuestInfo() {
+		if (StaticClass.isNetworkConnected(startMain_activity)) {
+			Log.d("STATUS", "My Quests: CONNECTED");
+			intent = new Intent(StartMain.this, QuestInfo.class);
+			intent.putExtra("option", StaticClass.ALL_USER_INFO);
+			startActivity(intent);
+		} else {
+			StaticClass.GetNetworkDialog(startMain_activity).show();
+			Log.d("STATUS", "NOT CONNECTED");
+			return;
 		}
 	}
 
