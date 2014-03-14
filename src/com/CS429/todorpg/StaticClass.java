@@ -55,6 +55,9 @@ public class StaticClass {
 	public static final String TAG_CHECK_INTERNET = "Internet is not connected";
 	public static final String QUEST_SUCCESS ="Quest Made!";
 	public static final String QUEST_FAIL ="Incomplete Quest!";
+	public final static String TAG_ERROR = "ERROR";
+	public final static String TAG_CONFIRM_CANCEL = "Do you really want to cancel?";
+	public final static String delimiter = "@#$";
 	public static final int SINGLE_USER_INFO = 100;
 	public static final int ALL_USER_INFO = 200;
 	public static final int STATUS_CHANGED = 1000;

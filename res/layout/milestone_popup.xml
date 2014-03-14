@@ -1,27 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id ="@+id/popup_element"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/background_dark" >
 
-    <TextView
-        android:id="@+id/popup_milestone_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/quest_milestone_text" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/new_milestone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10" />
+        <TextView
+            android:id="@+id/mCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:background="@drawable/blue_button"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/add_milestone_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/quest_milestone_btn" />
+        <EditText
+            android:id="@+id/mEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:textSize="12sp" />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal"
+            android:weightSum="12" >
+
+            <Button
+                android:id="@+id/milestone_cancel"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="cancel" />
+
+            <Button
+                android:id="@+id/milestone_next"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="4"
+                android:text="Next" />
+
+            <Button
+                android:id="@+id/milestone_upload"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="4"
+                android:text="Upload" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
