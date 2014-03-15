@@ -121,9 +121,9 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
-            android:gravity="left"
             android:background="@android:color/transparent"
+            android:gravity="left"
+            android:textSize="14sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
 
@@ -179,14 +179,14 @@
         android:layout_width="fill_parent"
         android:layout_height="0sp"
         android:layout_margin="10dp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:orientation="horizontal"
         android:weightSum="10" >
 
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="3.7"
             android:text="Description"
             android:textSize="14sp" />
 
@@ -198,14 +198,50 @@
             android:textSize="14sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
-    
-    <Button
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="0.3"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="12" >
+
+        <Button
             android:id="@+id/save"
-            android:text="GO BACK TO LIST"
-            android:layout_width="wrap_content"
+            android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:gravity="left"
+            android:layout_weight="4"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:text="Back"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:text="Delete"
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/join"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:text="Join"
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout>

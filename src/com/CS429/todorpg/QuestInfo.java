@@ -201,7 +201,7 @@ public class QuestInfo extends Activity {
 
 			} else {
 				StaticClass.sendAlertMessage(QuestInfo.this, "No Quests Found",
-						"You must create a quest first").show();
+						StaticClass.TAG_NO_QUEST_WARNING).show();
 			}
 			
 			SearchHandler();
