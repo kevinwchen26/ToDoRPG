@@ -12,14 +12,21 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.CS429.todorpg.Utils.JSONParser;
 
@@ -29,9 +36,13 @@ public class QuestDetail extends Activity {
 			my_milestone, my_description;
 	Button my_status;
 	int check_option;
-	String updatedStatus, leader;
+	String updatedStatus, todo_list;
+	static String leader;
 	int quest_id;
 	JSONParser jsonParser = new JSONParser();
+	ArrayList<MyToDoList> arrData;
+	ToDoListAdapter adapter;
+	ListView listView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +52,10 @@ public class QuestDetail extends Activity {
 		check_option = intent.getIntExtra("option", -1);
 		quest_id = intent.getIntExtra("quest_id", -1);
 		leader = intent.getStringExtra("creator_name");
+		todo_list = intent.getStringExtra("quest_milestone");
 		FindViewById();
+		arrData = new ArrayList<MyToDoList>();
+		
 		setMessage();
 
 	}
@@ -49,22 +63,26 @@ public class QuestDetail extends Activity {
 	private void FindViewById() {
 		my_title = (TextView) findViewById(R.id.my_title);
 		my_leader = (TextView) findViewById(R.id.my_leader);
-		my_difficulty = (TextView) findViewById(R.id.my_difficulty);
-		my_duration = (TextView) findViewById(R.id.my_duration);
+//		my_difficulty = (TextView) findViewById(R.id.my_difficulty);
+//		my_duration = (TextView) findViewById(R.id.my_duration);
 		my_location = (TextView) findViewById(R.id.my_location);
 		my_status = (Button) findViewById(R.id.my_status);
 		my_status.setOnClickListener(ButtonClick);
-		my_milestone = (TextView) findViewById(R.id.my_milestone);
+//		my_milestone = (TextView) findViewById(R.id.my_milestone);
 		my_description = (TextView) findViewById(R.id.my_description);
+		listView =(ListView) findViewById(R.id.todo_list_listview);
 	}
 
 	private void setMessage() {
 		my_title.setText(intent.getStringExtra("quest_title"));
 		my_leader.setText(intent.getStringExtra("creator_name"));
-		my_difficulty.setText(intent.getStringExtra("quest_difficulty"));
-		my_duration.setText(intent.getStringExtra("quest_duration"));
+//		my_difficulty.setText(intent.getStringExtra("quest_difficulty"));
+//		my_duration.setText(intent.getStringExtra("quest_duration"));
 		my_location.setText(intent.getStringExtra("quest_location_lat"));
-		my_milestone.setText(intent.getStringExtra("quest_milestone"));
+//		my_milestone.setText(intent.getStringExtra("quest_milestone"));
+		HandleToDoList();
+		
+//		my_milestone.setText(split_list);
 		my_description.setText(intent.getStringExtra("quest_description"));
 		my_status.setText(intent.getStringExtra("quest_status"));
 		if (intent.getStringExtra("quest_status").equals("ACTIVE")) {
@@ -77,8 +95,31 @@ public class QuestDetail extends Activity {
 		findViewById(R.id.delete).setOnClickListener(ButtonClick);
 		findViewById(R.id.join).setOnClickListener(ButtonClick);
 	}
+	private void HandleToDoList() {
+		String[] my_list = todo_list.split("[" + StaticClass.delimiter + "]+");
+		for(String list : my_list) {
+			arrData.add(new MyToDoList(list));
+		}
+		System.out.println(arrData.size());
+		adapter = new ToDoListAdapter(QuestDetail.this, arrData);
+		listView.setAdapter(adapter);
+		
+		/*listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent,
+					final View view, final int position, long id) {
+				 MyToDoList current_list = (MyToDoList) parent.getItemAtPosition(position);
+				    Toast.makeText(getApplicationContext(),
+				      "Clicked on Row: " + current_list.getList(),
+				      Toast.LENGTH_LONG).show();
+				
+			}
+		});*/
+	}
+
 	private void SetVisible() {
-		System.out.println(my_leader + " " + StaticClass.MY_ID);
+		
+		System.out.println(leader + " : " + StaticClass.MY_ID);
 		if(leader.equals(StaticClass.MY_ID)) {
 			findViewById(R.id.delete).setVisibility(View.VISIBLE);
 		} else {

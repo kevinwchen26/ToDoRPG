@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0sp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
         android:orientation="horizontal"
         android:weightSum="10" >
 
@@ -18,22 +18,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Title"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_title"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0sp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
         android:orientation="horizontal"
         android:weightSum="10" >
 
@@ -42,17 +42,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Leader"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_leader"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
 
+    <!--
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0sp"
@@ -66,14 +67,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Difficulty"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_difficulty"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
 
@@ -90,22 +91,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Duration"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_duration"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
-    </LinearLayout>
+    </LinearLayout> -->
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0sp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
         android:orientation="horizontal"
         android:weightSum="10" >
 
@@ -114,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Status"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/my_status"
@@ -123,15 +124,15 @@
             android:layout_weight="7"
             android:background="@android:color/transparent"
             android:gravity="left"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0sp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
         android:orientation="horizontal"
         android:weightSum="10" >
 
@@ -140,22 +141,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Location"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_location"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0sp"
-        android:layout_margin="10dp"
-        android:layout_weight="2"
+        android:layout_margin="5dp"
+        android:layout_weight="7"
         android:orientation="horizontal"
         android:weightSum="10" >
 
@@ -164,38 +165,49 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Milestone"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/my_milestone"
+        <LinearLayout
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
-            android:textStyle="bold|italic" />
+            android:orientation="vertical" >
+            <ListView 
+                android:id="@+id/todo_list_listview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+
+           <!--  <TextView
+                android:id="@+id/my_milestone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textStyle="bold|italic" /> -->
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0sp"
         android:layout_margin="10dp"
-        android:layout_weight="3"
+        android:layout_weight="2.7"
         android:orientation="horizontal"
         android:weightSum="10" >
 
         <TextView
             android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:layout_weight="3.7"
+            android:layout_weight="3"
             android:text="Description"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_description"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
 
