@@ -22,6 +22,7 @@ import android.widget.Toast;
 public class StartMain extends Activity {
 	public static Activity startMain_activity;
 	Intent intent, character_intent;
+	AlertDialog.Builder builder;
 
 	LinearLayout header, sub_header;
 	TextView user_id;
@@ -56,6 +57,7 @@ public class StartMain extends Activity {
 //		findViewById(R.id.join_quest_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.all_quest_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.quit_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.battle_demo_btn).setOnClickListener(ButtonOption);
 		
 	}
 
@@ -94,6 +96,9 @@ public class StartMain extends Activity {
 			case R.id.quit_btn:						// Quit 
 				clearSharedPreferences();
 				finish();
+				break;
+			case R.id.battle_demo_btn:				// Battle Demo
+				BattleDemo();
 				break;
 			}
 
@@ -258,9 +263,8 @@ public class StartMain extends Activity {
 		}
 	}
 	
-	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
 	public void makeBattleDemoMessages () {
+		builder = new AlertDialog.Builder(this);
 		builder.setTitle(StaticClass.TAG_ERROR);
 		builder.setMessage(StaticClass.BATTLE_CLASS_LOG_ERROR);
 		
@@ -268,6 +272,7 @@ public class StartMain extends Activity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
 				intent = new Intent(StartMain.this, BattleActivity.class);
 				intent.putExtra("default", true);
 				startActivity(intent);
@@ -285,6 +290,7 @@ public class StartMain extends Activity {
 		
 	}
 	public void BattleDemo() {
+
 		if (!LoginStatus() || !characterStatus()) {
 			battleMsg = builder.create();
 			battleMsg.show();			
@@ -292,8 +298,8 @@ public class StartMain extends Activity {
 		} else {
 			if (StaticClass.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "My Profile: CONNECTED");
-				intent = new Intent(StartMain.this, QuestInfo.class);
-				intent.putExtra("option", StaticClass.SINGLE_USER_INFO);
+				intent = new Intent(StartMain.this, BattleActivity.class);
+				intent.putExtra("default", false);
 				startActivity(intent);
 			} else {
 				StaticClass.GetNetworkDialog(startMain_activity).show();

@@ -6,9 +6,11 @@ import java.util.List;
 import com.CS429.todorpg.Class.Warrior;
 import com.CS429.todorpg.Class.Character;
 
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 public class BattleActivity extends Activity {
 	
@@ -19,12 +21,14 @@ public class BattleActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.battle);
 		intent = getIntent();
 		defaultClass = intent.getBooleanExtra("default", true);
 		setUpBattle();
 	}
 	
+
 	public void getCharacters() {
 		
 		//*** Will need to change to pull all members of a party in the next iteration ***//
