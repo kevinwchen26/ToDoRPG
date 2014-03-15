@@ -23,6 +23,8 @@ public class StaticClass {
 	public final static String url_get_users_quest = "http://todorpg.net46.net/ToDoRPG/get_users_quest.php";
 	public final static String url_update_quest = "http://todorpg.net46.net/ToDoRPG/update_quest.php";
 	public final static String url_delete_quest = "http://todorpg.net46.net/ToDoRPG/delete_quest.php";
+	public final static String url_update_quest_member = "http://todorpg.net46.net/ToDoRPG/update_quest_member.php";
+	
 	
 	/* Shared Preferences Keys */
 	public final static String MY_PREFERENCES = ",yPrefs";
@@ -67,7 +69,7 @@ public class StaticClass {
 	public static final int SINGLE_USER_INFO = 100;
 	public static final int ALL_USER_INFO = 200;
 	public static final int STATUS_CHANGED = 1000;
-
+	public static final int TAG_MAX_NUM = 4;
 	
 	public static final String WARRIOR = "Warrior";
 	public static final String ASSASSIN = "Assassin";
