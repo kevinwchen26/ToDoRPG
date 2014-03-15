@@ -61,6 +61,9 @@ public class StaticClass {
 	public static final int SINGLE_USER_INFO = 100;
 	public static final int ALL_USER_INFO = 200;
 	public static final int STATUS_CHANGED = 1000;
+	
+	
+	public static final String BATTLE_CLASS_LOG_ERROR = "Proceed with default class?";
 
 	
 	public static final String WARRIOR = "Warrior";

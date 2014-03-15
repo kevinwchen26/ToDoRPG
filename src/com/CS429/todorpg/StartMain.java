@@ -1,7 +1,11 @@
 package com.CS429.todorpg;
 
+import com.CS429.todorpg.Class.Warrior;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -25,6 +29,8 @@ public class StartMain extends Activity {
 	// Persistent Data
 	SharedPreferences prefs;
 
+	//Battle Demo prompt
+	AlertDialog battleMsg;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +38,7 @@ public class StartMain extends Activity {
 		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
 		startMain_activity = this;
 		ButtonHandler();
+		makeBattleDemoMessages();
 
 	}
 
@@ -249,6 +256,52 @@ public class StartMain extends Activity {
 			Log.d("STATUS", "NOT CONNECTED");
 			return;
 		}
+	}
+	
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+	public void makeBattleDemoMessages () {
+		builder.setTitle(StaticClass.TAG_ERROR);
+		builder.setMessage(StaticClass.BATTLE_CLASS_LOG_ERROR);
+		
+		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				intent = new Intent(StartMain.this, BattleActivity.class);
+				intent.putExtra("default", true);
+				startActivity(intent);
+			}
+		});
+		
+		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {			
+				dialog.dismiss();
+				Toast.makeText(StartMain.this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+	}
+	public void BattleDemo() {
+		if (!LoginStatus() || !characterStatus()) {
+			battleMsg = builder.create();
+			battleMsg.show();			
+			return;
+		} else {
+			if (StaticClass.isNetworkConnected(startMain_activity)) {
+				Log.d("STATUS", "My Profile: CONNECTED");
+				intent = new Intent(StartMain.this, QuestInfo.class);
+				intent.putExtra("option", StaticClass.SINGLE_USER_INFO);
+				startActivity(intent);
+			} else {
+				StaticClass.GetNetworkDialog(startMain_activity).show();
+				Log.d("STATUS", "NOT CONNECTED");
+				return;
+			}
+		}
+		
 	}
 
 	@Override
