@@ -255,7 +255,7 @@ public class StartMain extends Activity {
 			Log.d("STATUS", "My Quests: CONNECTED");
 			intent = new Intent(StartMain.this, QuestInfo.class);
 			intent.putExtra("option", StaticClass.ALL_USER_INFO);
-			startActivity(intent);
+			this.startActivity(intent);
 		} else {
 			StaticClass.GetNetworkDialog(startMain_activity).show();
 			Log.d("STATUS", "NOT CONNECTED");
@@ -275,7 +275,7 @@ public class StartMain extends Activity {
 				dialog.dismiss();
 				intent = new Intent(StartMain.this, BattleActivity.class);
 				intent.putExtra("default", true);
-				startActivity(intent);
+				StartMain.this.startActivity(intent);
 			}
 		});
 		

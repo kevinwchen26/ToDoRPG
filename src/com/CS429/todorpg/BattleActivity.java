@@ -9,12 +9,19 @@ import com.CS429.todorpg.Class.Character;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 public class BattleActivity extends Activity {
 	
 	boolean defaultClass;
+	int width, height;
+	LinearLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo;
 	Intent intent;
 	List<Character> party;
 	Character boss;
@@ -22,10 +29,53 @@ public class BattleActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setUpLayout();
+		interpretIntent();
+		setUpBattle();
 		setContentView(R.layout.battle);
+		FindViewById();
+		setUpActivity();
+
+	}
+	public void setUpActivity() {
+		battleScreen.setLayoutParams(new LinearLayout.LayoutParams(width, height/2));
+	    battleNavigator.setLayoutParams(new LinearLayout.LayoutParams(width, height/2));
+	    enemyInfo.setLayoutParams(new LinearLayout.LayoutParams(width/4, height/2));
+	    playerInfo.setLayoutParams(new LinearLayout.LayoutParams(width/4, height/2));
+	    actionMenu.setLayoutParams(new LinearLayout.LayoutParams(width/2, height/2));
+
+	}
+	
+	public void FindViewById() {
+		battleScreen = (LinearLayout) findViewById(R.id.battle_screen);
+		battleNavigator = (LinearLayout) findViewById(R.id.battle_navigator);
+		enemyInfo = (LinearLayout) findViewById(R.id.battle_enemy_info);
+		actionMenu = (LinearLayout) findViewById(R.id.battle_action_menu);
+		playerInfo = (LinearLayout) findViewById(R.id.battle_character_info);
+	}
+	
+	public void interpretIntent() {
 		intent = getIntent();
 		defaultClass = intent.getBooleanExtra("default", true);
-		setUpBattle();
+	}
+	
+	public void setUpLayout() {
+		
+		 //Remove title bar
+	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //Remove notification bar
+	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    // Sets to landscape 
+	 	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	    // Get screen size
+	    Display display = getWindowManager().getDefaultDisplay();
+	    Point size = new Point();
+	    display.getSize(size);
+	    width = size.x;
+	    height = size.y;
+	    
+
+
 	}
 	
 

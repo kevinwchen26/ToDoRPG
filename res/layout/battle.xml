@@ -2,7 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:layout_margin="5dp" >
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/battle_screen"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/battle_navigator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/battle_enemy_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quest_description_text" />
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/battle_action_menu"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="vertical" >
+				<TextView
+           			 android:layout_width="wrap_content"
+           			 android:layout_height="wrap_content"
+          			  android:text="@string/quest_description_text" />
+		
+         </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/battle_character_info"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="vertical" >
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quest_description_text" />
+
+         </LinearLayout>
+       
+    </LinearLayout>
+    
 
 </LinearLayout>

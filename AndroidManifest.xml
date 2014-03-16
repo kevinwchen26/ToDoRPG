@@ -84,8 +84,7 @@
             android:name="com.CS429.todorpg.QuestDetail">
         </activity>
         <activity
-            android:name="com.CS429.todorpg.BattleActivity"
-            android:theme="@android:style/Theme.Dialog" >
+            android:name="com.CS429.todorpg.BattleActivity" >
         </activity>
     </application>
 
