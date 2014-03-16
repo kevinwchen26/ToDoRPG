@@ -14,13 +14,15 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class BattleActivity extends Activity {
 	
 	boolean defaultClass;
 	int width, height;
-	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo;
+	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo, enemySide, playerSide;
+	ImageView enemyImage, playerImage;
 	Intent intent;
 	ArrayList<Character> party;
 	Character boss;
@@ -37,13 +39,26 @@ public class BattleActivity extends Activity {
 
 	}
 	public void setUpActivity() {
-		RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(width, height/2);
-		battleScreen.setLayoutParams(layoutParams1);
-	    battleNavigator.setLayoutParams(layoutParams1);
-	    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width/4, height/2);
-	    enemyInfo.setLayoutParams(layoutParams);
-	    playerInfo.setLayoutParams(layoutParams);
-	    actionMenu.setLayoutParams(layoutParams);
+		// Set up upper half of screen
+		battleScreen.setLayoutParams(new RelativeLayout.LayoutParams(width, height/2));
+		
+		RelativeLayout.LayoutParams battleNav = new RelativeLayout.LayoutParams(width, height/2);
+		battleNav.addRule(RelativeLayout.BELOW, battleScreen.getId());
+	    battleNavigator.setLayoutParams(battleNav);
+	    
+	    
+	    enemySide.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height/2));
+	    playerSide.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height/2));
+
+	    
+	    // Set up lower half of screen
+	    enemyInfo.setLayoutParams(new RelativeLayout.LayoutParams(width/4, height/2));
+	    playerInfo.setLayoutParams(new RelativeLayout.LayoutParams(width/4, height/2));
+	    actionMenu.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height/2));
+	    
+	    enemyImage.setImageResource(R.drawable.warrior_enemy);
+	    playerImage.setImageResource(R.drawable.warrior_player);
+
 
 	}
 	
@@ -53,6 +68,11 @@ public class BattleActivity extends Activity {
 		enemyInfo = (RelativeLayout) findViewById(R.id.battle_enemy_info);
 		actionMenu = (RelativeLayout) findViewById(R.id.battle_action_menu);
 		playerInfo = (RelativeLayout) findViewById(R.id.battle_character_info);
+		enemySide = (RelativeLayout) findViewById(R.id.battle_enemy_side);
+		playerSide = (RelativeLayout) findViewById(R.id.battle_player_side);
+		enemyImage = (ImageView) findViewById(R.id.battle_enemy_image);
+		playerImage = (ImageView) findViewById(R.id.battle_player_image);
+
 	}
 	
 	public void interpretIntent() {

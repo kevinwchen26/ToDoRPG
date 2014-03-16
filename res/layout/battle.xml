@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/battle_screen"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:background="@drawable/battle_border" >
     
@@ -22,7 +22,8 @@
          <ImageView
             android:id="@+id/battle_enemy_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
             
         </ImageView>
         
@@ -33,13 +34,15 @@
     	android:id="@+id/battle_player_side"
     	android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/battle_enemy_side">
         
        
          <ImageView
             android:id="@+id/battle_player_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
             
         </ImageView>
         
@@ -53,7 +56,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/battle_border" >
+        android:background="@drawable/battle_border">
 
         <RelativeLayout
             android:id="@+id/battle_enemy_info"
@@ -65,13 +68,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/quest_description_text" />
+            
          </RelativeLayout>
 
          <RelativeLayout
              android:id="@+id/battle_action_menu"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:orientation="vertical" >
+             android:orientation="vertical"
+             android:layout_toRightOf="@id/battle_enemy_info" >
 				<TextView
            			 android:layout_width="wrap_content"
            			 android:layout_height="wrap_content"
@@ -83,7 +88,8 @@
              android:id="@+id/battle_character_info"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:orientation="vertical" >
+             android:orientation="vertical"
+             android:layout_toRightOf="@id/battle_action_menu" >
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
