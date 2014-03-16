@@ -6,7 +6,6 @@ import java.util.List;
 import com.CS429.todorpg.Class.Warrior;
 import com.CS429.todorpg.Class.Character;
 
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,15 +14,15 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class BattleActivity extends Activity {
 	
 	boolean defaultClass;
 	int width, height;
-	LinearLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo;
+	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo;
 	Intent intent;
-	List<Character> party;
+	ArrayList<Character> party;
 	Character boss;
 
 	@Override
@@ -38,20 +37,22 @@ public class BattleActivity extends Activity {
 
 	}
 	public void setUpActivity() {
-		battleScreen.setLayoutParams(new LinearLayout.LayoutParams(width, height/2));
-	    battleNavigator.setLayoutParams(new LinearLayout.LayoutParams(width, height/2));
-	    enemyInfo.setLayoutParams(new LinearLayout.LayoutParams(width/4, height/2));
-	    playerInfo.setLayoutParams(new LinearLayout.LayoutParams(width/4, height/2));
-	    actionMenu.setLayoutParams(new LinearLayout.LayoutParams(width/2, height/2));
+		RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(width, height/2);
+		battleScreen.setLayoutParams(layoutParams1);
+	    battleNavigator.setLayoutParams(layoutParams1);
+	    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width/4, height/2);
+	    enemyInfo.setLayoutParams(layoutParams);
+	    playerInfo.setLayoutParams(layoutParams);
+	    actionMenu.setLayoutParams(layoutParams);
 
 	}
 	
 	public void FindViewById() {
-		battleScreen = (LinearLayout) findViewById(R.id.battle_screen);
-		battleNavigator = (LinearLayout) findViewById(R.id.battle_navigator);
-		enemyInfo = (LinearLayout) findViewById(R.id.battle_enemy_info);
-		actionMenu = (LinearLayout) findViewById(R.id.battle_action_menu);
-		playerInfo = (LinearLayout) findViewById(R.id.battle_character_info);
+		battleScreen = (RelativeLayout) findViewById(R.id.battle_screen);
+		battleNavigator = (RelativeLayout) findViewById(R.id.battle_navigator);
+		enemyInfo = (RelativeLayout) findViewById(R.id.battle_enemy_info);
+		actionMenu = (RelativeLayout) findViewById(R.id.battle_action_menu);
+		playerInfo = (RelativeLayout) findViewById(R.id.battle_character_info);
 	}
 	
 	public void interpretIntent() {
