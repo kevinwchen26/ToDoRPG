@@ -38,7 +38,7 @@ public class QuestCreation extends Activity {
 	SharedPreferences prefs;
 	String milestones_to_string;
 	public static boolean milestone_written = false;
-	public static ArrayList<String> milestones = new ArrayList<String>();
+	public static ArrayList<String> milestones;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class QuestCreation extends Activity {
 		setContentView(R.layout.quest_creation);
 		ActivitySizeHandler();
 		FindViewByID();
+		milestones = new ArrayList<String>();
 		SpinnerListener();
 		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);	
 	}
