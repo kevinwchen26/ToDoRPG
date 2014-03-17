@@ -10,20 +10,19 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,13 +30,15 @@ import com.CS429.todorpg.Utils.JSONParser;
 
 public class QuestCreation extends Activity {
 	private ProgressDialog pDialog;
-	EditText title, duration, description, newMilestone;
-	ListView milestones;
+	EditText title, duration, description; //, newMilestone;
+//	ListView milestones;
 	Spinner location_spinner;
-	ArrayList<String> listOfMilestones = new ArrayList<String>();
 	JSONParser jsonParser = new JSONParser();
 	CreateQuest createQuest = new CreateQuest();
 	SharedPreferences prefs;
+	String milestones_to_string;
+	public static boolean milestone_written = false;
+	public static ArrayList<String> milestones = new ArrayList<String>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class QuestCreation extends Activity {
 		setContentView(R.layout.quest_creation);
 		ActivitySizeHandler();
 		FindViewByID();
+		SpinnerListener();
 		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);	
 	}
 	private void ActivitySizeHandler() {
@@ -56,37 +58,26 @@ public class QuestCreation extends Activity {
 		WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getWindow().setAttributes(params);
 	}
-	
-	private void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = milestones.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
+	private void SpinnerListener() {
+		location_spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+				if(location_spinner.getSelectedItem().toString().equals("Yes")){
+					/*Log.d("spinner", location_spinner.getSelectedItem().toString());
+					Intent intent = new Intent(QuestCreation.this, MapActivity.class);
+					startActivity(intent);*/
+				}
+			}
 
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
-	
-	private void setMilestones(String newMilestone) {
-		
-		listOfMilestones.add(newMilestone);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listOfMilestones);
-		//Assign adapter to list view
-		milestones.setAdapter(adapter);
-		setListViewHeightBasedOnChildren(milestones);
+		});
 	}
 	
+	
 	private void FindViewByID() {
-		milestones = (ListView) findViewById(R.id.quest_milestones);
-		newMilestone = (EditText)findViewById(R.id.creation_quest_milestone);
 		duration = (EditText) findViewById(R.id.creation_quest_duration);
 		description = (EditText) findViewById(R.id.creation_quest_description);
 		title = (EditText) findViewById(R.id.creation_quest_title);
@@ -101,7 +92,6 @@ public class QuestCreation extends Activity {
 		String questTitle = title.getText().toString();
 		String questDuration = duration.getText().toString();
 		String questDescription = description.getText().toString();
-		String questMilestones = collapseMilestones();
 		String questLocation = location_spinner.getSelectedItem().toString();
 		Boolean validateStatus = true;
 		if(questTitle.length() == 0) {
@@ -123,12 +113,12 @@ public class QuestCreation extends Activity {
 			validateStatus = false;
 
 		}
-		
-		if(questMilestones.length() == 0) {
-			Toast.makeText(QuestCreation.this, "Please add a few milestones.", Toast.LENGTH_SHORT).show();
+		if(milestones_to_string == null) {
+			Toast.makeText(QuestCreation.this, "Please add at least one milestone.", Toast.LENGTH_SHORT).show();
 			validateStatus = false;
 
 		}
+		
 		if(!questLocation.equals("Yes") && !questLocation.equals("No")) {
 			Toast.makeText(QuestCreation.this, "Please select location.", Toast.LENGTH_SHORT).show();
 			validateStatus = false;
@@ -145,10 +135,15 @@ public class QuestCreation extends Activity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.creation_milestone_btn:
-				String milestone = newMilestone.getText().toString();
-				setMilestones(milestone);
+				Intent intent = new Intent(QuestCreation.this, QuestMilestone.class);
+				intent.putExtra("count", 1);
+				startActivity(intent);
 				break;
 			case R.id.creation_quest_submit:
+				if(milestone_written) {
+					InsertData();
+					Log.d("MILESTONE", milestones_to_string);
+				}
 				if(validate()){
 					createQuest.execute();
 					finish();
@@ -163,6 +158,17 @@ public class QuestCreation extends Activity {
 		}
 	};
 	
+	private void InsertData() {
+		StringBuffer sb = new StringBuffer();
+		int i = 0;
+		for(; i < milestones.size() - 1; i++){
+			sb.append(milestones.get(i) + StaticClass.delimiter);
+		}
+		sb.append(milestones.get(i));
+		milestones_to_string = sb.toString();
+		
+	}
+	
 	class CreateQuest extends AsyncTask<String, String, String> {
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -172,16 +178,14 @@ public class QuestCreation extends Activity {
 			String questTitle = title.getText().toString();
 			String questDuration = duration.getText().toString();
 			String questDescription = description.getText().toString();
-			String questMilestones = collapseMilestones();
+//			String questMilestones = collapseMilestones();
 			String questLocation = location_spinner.getSelectedItem().toString();
+			Log.d("spinner1", questLocation);
 			String questLocationLat = null;
 			String questLocationLong = null;
 			Log.d("Location Spinner", questLocation);
 			if(questLocation.equals("Yes")){
-			//MapActivity map = new MapActivity();
-			//	LatLng latlong = map.getLocation();
-			//	questLocationLat = Double.toString(latlong.latitude);
-			//	questLocationLat = Double.toString(latlong.longitude);
+				Log.d("spinner", questLocation);
 			}
 			//TODO
 			String currentlyLoggedIn = "";
@@ -194,12 +198,12 @@ public class QuestCreation extends Activity {
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("quest_title", questTitle));
 			params.add(new BasicNameValuePair("quest_description", questDescription));
-			params.add(new BasicNameValuePair("quest_difficulty", Integer.toString(listOfMilestones.size())));
+			params.add(new BasicNameValuePair("quest_difficulty", 5+""));//Integer.toString(listOfMilestones.size())));
 			params.add(new BasicNameValuePair("creator_name", userName));
 			params.add(new BasicNameValuePair("quest_location_lat", questLocationLat));
 			params.add(new BasicNameValuePair("quest_location_long", questLocationLong));
 			params.add(new BasicNameValuePair("quest_duration", questDuration));
-			params.add(new BasicNameValuePair("quest_milestone", questMilestones));
+			params.add(new BasicNameValuePair("quest_milestone", milestones_to_string));
 
 			
 			JSONObject json = jsonParser.makeHttpRequest(
@@ -228,21 +232,5 @@ public class QuestCreation extends Activity {
 
 			finish();
 		}
-
-		
-		
 	}
-	
-	
-	
-	private String collapseMilestones() {
-		String retval = "";
-		for(String str : listOfMilestones)
-			retval += str + "_";
-		return retval;
-			
-	}
-
-	
-
 }

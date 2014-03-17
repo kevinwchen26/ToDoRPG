@@ -177,13 +177,13 @@
         android:weightSum="10" >
 
         <Button
-            android:id="@+id/something_new"
+            android:id="@+id/battle_demo_btn"
             android:layout_width="0sp"
             android:layout_height="fill_parent"
             android:layout_weight="5"
             android:background="@drawable/my_button"
             android:minHeight="0dp"
-            android:text="@string/empty_place" />
+            android:text="@string/battle_demo_text" />
 
         <Button
             android:id="@+id/quit_btn"
@@ -195,5 +195,6 @@
             android:minHeight="0dp"
             android:text="@string/quit" />
     </LinearLayout>
+
 
 </LinearLayout>

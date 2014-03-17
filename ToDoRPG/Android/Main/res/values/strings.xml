@@ -55,4 +55,5 @@
     <string name="creator_id_field">Leader</string>
     <string name="join">Find Quest to join</string>
     <string name="empty_place">Empty place</string>
+    <string name="battle_demo_text">Battle Demo</string>
 </resources>
