@@ -13,8 +13,8 @@ public class Quest {
 	private int interval;
 	private ArrayList<String> milestones;
 	private String status;
-	private String difficulty;
-	private String duration;
+	private String due_date;
+	private String member;
 	private String milestone;
 	private int quest_id;
 
@@ -30,13 +30,13 @@ public class Quest {
 	}
 	
 	/*This constructor is for Search Bar*/
-	public Quest(int quest_id, String title, String leader, String difficulty, String duration, 
+	public Quest(int quest_id, String title, String leader, String due_date, String member, 
 			String status, String location, String milestone, String description){
 		this.quest_id = quest_id;
 		this.title = title;
 		this.leader = leader;
-		this.difficulty = difficulty;
-		this.duration = duration;
+		this.due_date = due_date;
+		this.member = member;
 		this.status = status;
 		this.location = location;
 		this.milestone = milestone;
@@ -72,11 +72,11 @@ public class Quest {
 	public String getTitle() {
 		return title;
 	}
-	public String getDifficulty() {
-		return difficulty;
+	public String getDueDate() {
+		return due_date;
 	}
-	public String getDuration() {
-		return duration;
+	public String getMember() {
+		return member;
 	}
 	public String getMilestone() {
 		return milestone;

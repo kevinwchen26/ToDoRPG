@@ -22,6 +22,9 @@ public class StaticClass {
 	public final static String url_update_party = "http://todorpg.net46.net/ToDoRPG/add_party_member.php";
 	public final static String url_get_users_quest = "http://todorpg.net46.net/ToDoRPG/get_users_quest.php";
 	public final static String url_update_quest = "http://todorpg.net46.net/ToDoRPG/update_quest.php";
+	public final static String url_delete_quest = "http://todorpg.net46.net/ToDoRPG/delete_quest.php";
+	public final static String url_update_quest_member = "http://todorpg.net46.net/ToDoRPG/update_quest_member.php";
+	
 	
 	/* Shared Preferences Keys */
 	public final static String MY_PREFERENCES = ",yPrefs";
@@ -55,23 +58,25 @@ public class StaticClass {
 	public static final String TAG_CHECK_INTERNET = "Internet is not connected";
 	public static final String QUEST_SUCCESS ="Quest Made!";
 	public static final String QUEST_FAIL ="Incomplete Quest!";
-	public final static String TAG_ERROR = "ERROR";
-	public final static String TAG_CONFIRM_CANCEL = "Do you really want to cancel?";
+	public static final String TAG_ERROR = "ERROR";
+	public static final String TAG_CONFIRM_CANCEL = "Do you really want to cancel?";
+	public static final String TAG_DELETE = "Do you really want to remove this quest?";
+	public static final String TAG_CHECK_REMOVE = "REMOVE";
+	public static final String TAG_CANCEL = "CANCEL";
+	public static final String TAG_NO_QUEST_WARNING = "You don't have any quest now";
+	public static final String TAG_NO_PERMISSION = "You don't have a permission to change this status";
 	public final static String delimiter = "@#$";
 	public static final int SINGLE_USER_INFO = 100;
 	public static final int ALL_USER_INFO = 200;
 	public static final int STATUS_CHANGED = 1000;
-	
-	
-	public static final String BATTLE_CLASS_LOG_ERROR = "Proceed with default class?";
-
+	public static final int TAG_MAX_NUM = 4;
 	
 	public static final String WARRIOR = "Warrior";
 	public static final String ASSASSIN = "Assassin";
 	public static final String MAGE = "Mage";
 	public static final String ARCHER = "Archer";
 	public static final String SUMMONER = "Summoner";
-	
+	public static final String BATTLE_CLASS_LOG_ERROR = "Proceed with default class?";
 	public static final int INIT_LEVEL = 1;
 	
 	public static final String Warrior_skill_1 = "Warrior Skill 1";

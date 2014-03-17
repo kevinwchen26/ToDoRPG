@@ -145,8 +145,8 @@ public class QuestInfo extends Activity {
 					for (int i = 0; i < rows.length(); i++) {
 						questRows[i] = rows.getJSONObject(i);
 						current_quest.add(new Quest(questRows[i].getInt("quest_id"), questRows[i].getString("quest_title"), 
-								questRows[i].getString("creator_name"),questRows[i].getString("quest_difficulty"),
-								questRows[i].getString("quest_duration"), questRows[i].getString("quest_status"),
+								questRows[i].getString("creator_name"),questRows[i].getString("quest_due"),
+								questRows[i].getString("quest_member"), questRows[i].getString("quest_status"),
 								questRows[i].getString("quest_location_long"), questRows[i].getString("quest_milestone"),
 								questRows[i].getString("quest_description")));
 					}
@@ -185,8 +185,8 @@ public class QuestInfo extends Activity {
 							intent.putExtra("option", check_option);
 							intent.putExtra("quest_title", selected.getTitle());
 							intent.putExtra("creator_name", selected.getLeader());
-							intent.putExtra("quest_difficulty", selected.getDifficulty());
-							intent.putExtra("quest_duration", selected.getDuration());
+							intent.putExtra("quest_member", selected.getMember());
+							intent.putExtra("quest_due", selected.getDueDate());
 							intent.putExtra("quest_status", selected.getStatus());
 							intent.putExtra("quest_location", selected.getLocation());
 							intent.putExtra("quest_milestone", selected.getMilestone());
@@ -201,7 +201,7 @@ public class QuestInfo extends Activity {
 
 			} else {
 				StaticClass.sendAlertMessage(QuestInfo.this, "No Quests Found",
-						"You must create a quest first").show();
+						StaticClass.TAG_NO_QUEST_WARNING).show();
 			}
 			
 			SearchHandler();
