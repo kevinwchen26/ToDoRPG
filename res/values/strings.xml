@@ -40,12 +40,12 @@
     <string name="quest_location_btn">Add Location</string>
     <string name="quest_description_text">Description</string>
     <string name="quest_milestone_text">Milestones</string>
-	<string name="quest_milestone_btn">Add Milestone</string>
-	<string name="quest_duration">Duration(Hours)</string>
-	<string name="quest_submit">Submit</string>
-	<string name="level">LEVEL</string>
-	<string name="character_name">Character Name</string>
-	<string name="charter_spinner_prompt">Choose Your Character</string>
+    <string name="quest_milestone_btn">Add Milestone</string>
+    <string name="quest_duration">Duration(Hours)</string>
+    <string name="quest_submit">Submit</string>
+    <string name="level">LEVEL</string>
+    <string name="character_name">Character Name</string>
+    <string name="charter_spinner_prompt">Choose Your Character</string>
     <string name="my_name">NAME</string>
     <string name="my_quest_info">Quest List</string>
     <string name="single_user_quest_info">View My Quest</string>
@@ -55,4 +55,8 @@
     <string name="creator_id_field">Leader</string>
     <string name="join">Find Quest to join</string>
     <string name="empty_place">Empty place</string>
+    <string name="maximum_spinner_prompt">please choose maximum capacity</string>
+    <string name="title_activity_alarm">AlarmActivity</string>
+    <string name="title_activity_alarm_notification">AlarmNotification</string>
+
 </resources>

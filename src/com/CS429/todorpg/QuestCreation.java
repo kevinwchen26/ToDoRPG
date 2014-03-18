@@ -1,6 +1,7 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -10,10 +11,14 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,18 +32,23 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.JSONParser;
+import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
-	private ProgressDialog pDialog;
-	EditText title, duration, description; //, newMilestone;
+//	private ProgressDialog pDialog;
+	EditText title, month, day, description; //, newMilestone;
 //	ListView milestones;
 	Spinner location_spinner;
+	Spinner maximum_spinner;
 	JSONParser jsonParser = new JSONParser();
 	CreateQuest createQuest = new CreateQuest();
 	SharedPreferences prefs;
 	String milestones_to_string;
+	String alarmType;
 	public static boolean milestone_written = false;
 	public static ArrayList<String> milestones;
+	
+	private int capacity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,7 @@ public class QuestCreation extends Activity {
 		milestones = new ArrayList<String>();
 		SpinnerListener();
 		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);	
+		LocationHandler.setHandler(QuestCreation.this);
 	}
 	private void ActivitySizeHandler() {
 		WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -64,34 +75,55 @@ public class QuestCreation extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				if(location_spinner.getSelectedItem().toString().equals("Yes")){
-					/*Log.d("spinner", location_spinner.getSelectedItem().toString());
-					Intent intent = new Intent(QuestCreation.this, MapActivity.class);
-					startActivity(intent);*/
+					//prevent app crash due to location service anavailability
+					if(!LocationHandler.getLocation())
+						finish();
+					
+					
 				}
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void onNothingSelected(AdapterView<?> parent) {
 			}
 
+		});
+		
+		maximum_spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				capacity = Integer.parseInt(maximum_spinner.getSelectedItem().toString());
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				//default set to 1
+				capacity = 1;
+			}
 		});
 	}
 	
 	
 	private void FindViewByID() {
-		duration = (EditText) findViewById(R.id.creation_quest_duration);
+//		duration = (EditText) findViewById(R.id.creation_quest_duration);
+		month = (EditText)findViewById(R.id.creation_month);
+		day = (EditText)findViewById(R.id.creation_day);
+		
 		description = (EditText) findViewById(R.id.creation_quest_description);
 		title = (EditText) findViewById(R.id.creation_quest_title);
 		location_spinner = (Spinner)findViewById(R.id.creation_quest_location);
+		maximum_spinner = (Spinner)findViewById(R.id.creation_quest_maximum_number);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_quest_submit).setOnClickListener(ButtonListener);
-
-	
+		findViewById(R.id.creation_alarm).setOnClickListener(ButtonListener);
 	}
 	
 	public Boolean validate() {
 		String questTitle = title.getText().toString();
-		String questDuration = duration.getText().toString();
+//		String questDuration = duration.getText().toString();
+		String questDueMonth = month.getText().toString();
+		String questDueDay = day.getText().toString();
 		String questDescription = description.getText().toString();
 		String questLocation = location_spinner.getSelectedItem().toString();
 		Boolean validateStatus = true;
@@ -101,11 +133,17 @@ public class QuestCreation extends Activity {
 			validateStatus = false;
 
 		}
+/*		
 		if(questDuration.length() == 0) {
 			duration.setError("Please add a duration (hours)");
 			Toast.makeText(QuestCreation.this, "Please add a duration (hours).", Toast.LENGTH_SHORT).show();
 			validateStatus = false;
 
+		}
+*/		
+		if(questDueMonth.length() == 0 || questDueDay.length() == 0){
+			Toast.makeText(QuestCreation.this, "please add due date", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
 		}
 		
 		if(questDescription.length() == 0) {
@@ -129,6 +167,63 @@ public class QuestCreation extends Activity {
 	}
 	
 	
+	/************************need to fill out this form soon for alarm***********************************************************/
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data){
+		super.onActivityResult(requestCode, resultCode, data);
+		//case for alarm setting
+		if(resultCode == RESULT_OK && data != null){
+			if(requestCode == 0){
+//				Toast.makeText(getApplicationContext(), data.getExtras().getString("alarm"), Toast.LENGTH_SHORT).show();
+				alarmType = data.getStringExtra("alarm");
+			}
+		}
+	}
+	
+	
+	/**
+	 * This method handles real alarm set...
+	 * maybe I can use alarm intent or do alarm programatically...thinking...
+	 */
+	private void setAlarms(){
+		Log.d("[AlarmTest]", "Start Alarm setting");
+		
+//	    Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+		Intent intent = new Intent(QuestCreation.this, RingtoneService.class);
+	    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+	    
+	    String uri = getRingtoneForAlarm();
+	    Log.d("[AlarmTest]", "double check: " + uri);
+	    intent.putExtra("Ringtone", uri);
+	    intent.putExtra("type", alarmType);
+	    intent.putExtra("month", month.getText().toString());
+	    intent.putExtra("day", day.getText().toString());
+	    intent.putExtra("title", title.getText().toString());
+	    
+	    Calendar calendar = Calendar.getInstance();
+	    Log.d("[AlarmTest]", "Time set: " + calendar.getTime());
+	    calendar.add(Calendar.SECOND, 5);
+	    
+	    startService(intent);
+
+	}
+
+	/**
+	 * This gets the ringtone uri to play when the device is awaken on the alarm
+	 * 
+	 * @return ringtone uri
+	 */
+	private String getRingtoneForAlarm(){
+		Log.d("[AlarmTest]", "Start ringtone setting");
+		
+		Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+		Log.d("[AlarmTest]", "Uri: " + uri);
+		return uri.toString();
+	}
+	
+	/****************************************************************************************************************************/
+	
+	
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 
 		@SuppressLint("NewApi")
@@ -147,14 +242,17 @@ public class QuestCreation extends Activity {
 				}
 				if(validate()){
 					createQuest.execute();
+					setAlarms();	//alarm set
 					finish();
 				}
 				else
 					Toast.makeText(QuestCreation.this, StaticClass.QUEST_FAIL, Toast.LENGTH_SHORT).show();
-
-
 				break;
 
+			case R.id.creation_alarm:
+				Intent AlarmIntent = new Intent(QuestCreation.this, AlarmActivity.class);
+				startActivityForResult(AlarmIntent, 0);
+				break;
 			}
 		}
 	};
@@ -176,8 +274,15 @@ public class QuestCreation extends Activity {
 		}
 		@Override
 		protected String doInBackground(String... args) {
+			
 			String questTitle = title.getText().toString();
-			String questDuration = duration.getText().toString();
+	//		String questDuration = duration.getText().toString();
+			
+			/****ADDED ****/
+			String due_date = new String(month + "/" + day);	//due date in form of "month/day"
+			String maximum_capacity = String.valueOf(capacity);	//maximum capacity
+			/*************/
+			
 			String questDescription = description.getText().toString();
 //			String questMilestones = collapseMilestones();
 			String questLocation = location_spinner.getSelectedItem().toString();
@@ -203,7 +308,7 @@ public class QuestCreation extends Activity {
 			params.add(new BasicNameValuePair("creator_name", userName));
 			params.add(new BasicNameValuePair("quest_location_lat", questLocationLat));
 			params.add(new BasicNameValuePair("quest_location_long", questLocationLong));
-			params.add(new BasicNameValuePair("quest_duration", questDuration));
+//			params.add(new BasicNameValuePair("quest_duration", questDuration));
 			params.add(new BasicNameValuePair("quest_milestone", milestones_to_string));
 
 			
