@@ -67,9 +67,15 @@
             android:background="@drawable/battle_border" >
             
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quest_description_text" />
+            	android:id="@+id/battle_enemy_info_name"
+           		android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:textColor="@color/white" />
+            <TextView
+            	android:id="@+id/battle_enemy_info_hp"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:textColor="@color/white" />
             
          </RelativeLayout>
 
@@ -79,11 +85,27 @@
              android:layout_height="wrap_content"
              android:orientation="vertical"
              android:background="@drawable/battle_border" >
-				<TextView
-           			 android:layout_width="wrap_content"
-           			 android:layout_height="wrap_content"
-          			  android:text="@string/quest_description_text" />
-		
+				 <Button
+        			android:id="@+id/battle_attack_btn"
+        			android:layout_width="wrap_content"
+       				android:layout_height="wrap_content"
+        			android:text="@string/battle_attack_text" />
+				 <Spinner
+            		android:id="@+id/battle_skills_spinner"
+           			android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		android:background="@color/white"
+            		android:prompt="@string/battle_skills_text" />
+				 <Button
+        			android:id="@+id/battle_items_btn"
+        			android:layout_width="wrap_content"
+       				android:layout_height="wrap_content"
+        			android:text="@string/battle_items_text" />
+				 <Button
+        			android:id="@+id/battle_pass_btn"
+        			android:layout_width="wrap_content"
+       				android:layout_height="wrap_content"
+        			android:text="@string/battle_pass_text" />
          </RelativeLayout>
 
          <RelativeLayout
@@ -92,14 +114,25 @@
              android:layout_height="wrap_content"
              android:orientation="vertical"
              android:background="@drawable/battle_border" >
+
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quest_description_text" />
+            	android:id="@+id/battle_player_info_name"
+           		android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:textColor="@color/white" />
+            <TextView
+            	android:id="@+id/battle_player_info_hp"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:textColor="@color/white" />
+            <TextView
+            	android:id="@+id/battle_player_info_mp"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:textColor="@color/white" />
 
          </RelativeLayout>
        
     </RelativeLayout>
-    
 
 </RelativeLayout>

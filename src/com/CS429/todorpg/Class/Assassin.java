@@ -9,6 +9,8 @@ public class Assassin extends Character {
 		super(Name);
 		this.setDEX(this.getDEX() + 3);
 		this.setWIS(this.getWIS() + 3);
+		this.setMaxHP(this.getHP());
+		this.setMaxMP(this.getMP());
 	}
 
 	public Assassin(String name, int HP, int MP, int Level, int CON, int STR,
@@ -25,7 +27,8 @@ public class Assassin extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-
+		this.setMaxHP(HP);
+		this.setMaxMP(MP);
 	}
 
 	public void LevelStats() {
@@ -62,7 +65,7 @@ public class Assassin extends Character {
 		this.setCHA(this.getCHA() + 10);
 	}
 
-	// All out brawl
+	// Fist Up
 	// Low damage, ignores defenses
 	public void Skill_3(Character enemy) {
 		int base = 20;
@@ -72,7 +75,7 @@ public class Assassin extends Character {
 		enemy.setHP(enemy.getHP() - total - this.getCHA());
 	}
 
-	// Armageddon
+	// Cauterize
 	// Ult: High damage, heals for 50% dmg done and applies burn
 	public void Skill_4(Character enemy) {
 		int base = 80;

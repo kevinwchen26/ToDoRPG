@@ -11,6 +11,8 @@ public class Archer extends Character {
 		this.setCHA(this.getCHA() + 3);
 		this.setDEX(this.getDEX() + 3);
 		this.setMP(this.getMP() + (this.getDEX() + this.getCHA()));
+		this.setMaxHP(this.getHP());
+		this.setMaxMP(this.getMP());
 
 	}
 
@@ -28,7 +30,8 @@ public class Archer extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-
+		this.setMaxHP(HP);
+		this.setMaxMP(MP);
 	}
 
 	public void LevelStats() {

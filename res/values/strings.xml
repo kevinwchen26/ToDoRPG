@@ -56,4 +56,9 @@
     <string name="join">Find Quest to join</string>
     <string name="empty_place">Empty place</string>
     <string name="battle_demo_text">Battle Demo</string>
+    <string name="battle_attack_text">Attack</string>
+    <string name="battle_skills_text">Skills</string>
+    <string name="battle_items_text">Items</string>
+    <string name="battle_pass_text">Pass</string>
+        
 </resources>

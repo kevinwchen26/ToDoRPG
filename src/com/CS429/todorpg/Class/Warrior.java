@@ -12,7 +12,8 @@ public class Warrior extends Character {
 		this.setSTR(this.getSTR() + 3);
 		this.setCON(this.getCON() + 3);
 		this.setHP(this.getCON() * 20 + this.getHP());
-
+		this.setMaxHP(this.getHP());
+		this.setMaxMP(this.getMP());
 	}
 
 	public Warrior(String name, int HP, int MP, int Level, int CON, int STR,
@@ -29,7 +30,8 @@ public class Warrior extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-
+		this.setMaxHP(HP);
+		this.setMaxMP(MP);
 	}
 
 	public void LevelStats() {
