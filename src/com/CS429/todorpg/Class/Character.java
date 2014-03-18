@@ -235,6 +235,9 @@ public class Character {
 	}
 
 	public int getHP() {
+		if (HP < 0)
+			HP = 0;
+		
 		return HP;
 	}
 
@@ -243,6 +246,8 @@ public class Character {
 	}
 
 	public int getMP() {
+		if(MP < 0 ) 
+			MP = 0;
 		return MP;
 	}
 

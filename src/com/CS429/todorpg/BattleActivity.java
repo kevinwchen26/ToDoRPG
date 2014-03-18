@@ -15,7 +15,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -32,14 +34,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BattleActivity extends Activity {
-	
-	boolean defaultClass;
+	enum Gamestate { Ready, Running, Paused, Gameover };
+	Gamestate gamestate;
+	boolean defaultClass, playerTurn;
 	int width, height;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo, enemySide, playerSide;
 	Button attackButton, itemsButton, passButton;
 	Spinner skillsSpinner;
 	TextView enemyName, enemyHP, playerName, playerHP, playerMP;
-	ImageView enemyImage, playerImage;
+	ImageView enemyImage, playerImage, playerEffect;
+	AnimationDrawable playerWalk, playerAttack, playerSkill1, playerSkill2, playerSkill3, playerSkill4;
 	Intent intent;
 	ArrayList<Character> party;
 	Character player;
@@ -54,7 +58,29 @@ public class BattleActivity extends Activity {
 		setContentView(R.layout.battle);
 		FindViewById();
 		setUpActivity();
+		playerTurn = true;
+		gamestate = Gamestate.Running;
 
+	}
+	
+	private void startGameLoop() {
+		while(gamestate == Gamestate.Running)
+		{
+			if(!playerTurn)
+				bossAttack();
+		}
+	}
+	private void bossAttack() {
+		boss.attack(player);
+		update();
+		changeTurn();
+	}
+	
+	private void disablePlayerButtons() {
+		attackButton.setEnabled(false);
+	}
+	private void enablePlayerButtons() {
+		attackButton.setEnabled(true);
 	}
 	
 	private void setUpActivity() {
@@ -78,8 +104,12 @@ public class BattleActivity extends Activity {
 		playerSide.setLayoutParams(playerSideParams);
 			    
 		//Set the player images
-	    enemyImage.setImageResource(R.drawable.warrior_enemy);
-	    playerImage.setImageResource(R.drawable.warrior_player);
+	    enemyImage.setImageResource(R.drawable.test_sprite);
+	    playerImage.setBackgroundResource(R.drawable.warrior_walk);
+	    RelativeLayout.LayoutParams playerEffectParams = new RelativeLayout.LayoutParams(playerEffect.getLayoutParams());
+	    playerEffectParams.addRule(RelativeLayout.LEFT_OF, playerImage.getId());
+	    playerEffect.setLayoutParams(playerEffectParams);
+	    
 	}
 	
 	private void setUpBattleNavigator() {
@@ -118,11 +148,14 @@ public class BattleActivity extends Activity {
 	    
 	}
 	
-	private void setSpinnerSkills() {
+	private void setPlayer() {
 		int skillArray = -1;
 	    
 		if(player instanceof Warrior){
 			skillArray = R.array.warrior_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
 		else if(player instanceof Assassin){
 			skillArray = R.array.assassins_skills;
@@ -141,6 +174,22 @@ public class BattleActivity extends Activity {
 	    skillsSpinner.setAdapter(spinnerCountShoesArrayAdapter);
 	}
 	
+	private void waitForEffectAnimationDone(AnimationDrawable anim) {
+		final AnimationDrawable a = anim;
+        int timeBetweenChecks = 300;
+        Handler h = new Handler();
+        h.postDelayed(new Runnable(){
+            public void run(){
+                if (a.getCurrent() != a.getFrame(a.getNumberOfFrames() - 1)){
+                	waitForEffectAnimationDone(a);
+                } else{
+                    playerEffect.setBackgroundResource(R.color.transparent);;
+                }
+            }
+        }, timeBetweenChecks);
+
+	}
+	
 	
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 
@@ -150,9 +199,15 @@ public class BattleActivity extends Activity {
 			switch (view.getId()) {
 			case R.id.battle_attack_btn:
 				player.attack(boss);
+				playerEffect.setBackgroundResource(R.drawable.player_attack);
+				playerAttack = (AnimationDrawable) playerEffect.getBackground();
+				playerAttack.start();
+				waitForEffectAnimationDone(playerAttack);
 				update();
+				//changeTurn();
 				break;
 			case R.id.battle_items_btn:
+				player.setHP(player.getHP() + 20);
 				break;
 			case R.id.battle_pass_btn:
 				break;
@@ -164,17 +219,27 @@ public class BattleActivity extends Activity {
 	
 	private void changeTurn() {
 		// TODO: Change currentmember,
-		setSpinnerSkills();
+		if(playerTurn) {
+			setPlayer();
+			enablePlayerButtons();
+		}
+		else {
+			disablePlayerButtons();
+			playerTurn = false;
+		}
 	}
 	
+	//Updates the screen
 	private void update() {
 		enemyName.setText(boss.getName());
-	    enemyHP.setText(boss.getHP() + "/" + boss.getMaxHP());
+	    enemyHP.setText("HP" + boss.getHP() + "/" + boss.getMaxHP());
 	    
 	    
 	    playerName.setText(player.getName());
 	    playerHP.setText("HP " + player.getHP() + "/" + player.getMaxHP());
 	    playerMP.setText("MP " + player.getMP() + "/" + player.getMaxMP());
+	    
+	    // Need to add check game conditions. 
 	}
 	
 	private void setUpBattleMenu() {
@@ -240,7 +305,7 @@ public class BattleActivity extends Activity {
 	    	
 	    });
 	    
-	    setSpinnerSkills();
+	    setPlayer();
 	}
 	
 	
@@ -255,6 +320,7 @@ public class BattleActivity extends Activity {
 		playerSide = (RelativeLayout) findViewById(R.id.battle_player_side);
 		enemyImage = (ImageView) findViewById(R.id.battle_enemy_image);
 		playerImage = (ImageView) findViewById(R.id.battle_player_image);
+		playerEffect = (ImageView) findViewById(R.id.battle_player_effect);
 		attackButton = (Button) findViewById(R.id.battle_attack_btn);
 		skillsSpinner = (Spinner) findViewById(R.id.battle_skills_spinner);
 		itemsButton = (Button) findViewById(R.id.battle_items_btn);
@@ -293,13 +359,15 @@ public class BattleActivity extends Activity {
 
 	private void getCharacters() {
 		
-		//*** Will need to change to pull all members of a party in the next iteration ***//
-		Character newPlayer = CharacterOperations.pullCharacter(StaticClass.CLASS_INFO.getCLASS(),
+		//*** Pull user's character info ***//
+		Character leader = CharacterOperations.pullCharacter(StaticClass.CLASS_INFO.getCLASS(),
 				StaticClass.CLASS_INFO.getName(), StaticClass.CLASS_INFO.getHP(), StaticClass.CLASS_INFO.getMP(), 
 				StaticClass.CLASS_INFO.getLEVEL(), StaticClass.CLASS_INFO.getCON(), StaticClass.CLASS_INFO.getSTR(), 
 				StaticClass.CLASS_INFO.getDEX(), StaticClass.CLASS_INFO.getINT(), StaticClass.CLASS_INFO.getWIS(), 
 				StaticClass.CLASS_INFO.getCHA(), StaticClass.CLASS_INFO.getcurrentEXP(), StaticClass.CLASS_INFO.getnextLevelEXP());
-		party.add(newPlayer);
+		party.add(leader);
+		
+		//*** Will need to change to pull all members of a party in the next iteration, for loop ^^^^^^^^ ***//
 	}
 	
 	private void makeBoss() {
