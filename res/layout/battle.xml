@@ -16,7 +16,8 @@
     	android:id="@+id/battle_enemy_side"
     	android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/transparent">
         
        
          <ImageView
@@ -35,7 +36,7 @@
     	android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_toRightOf="@id/battle_enemy_side">
+        android:background="@color/transparent">
         
        
          <ImageView
@@ -62,7 +63,8 @@
             android:id="@+id/battle_enemy_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:background="@drawable/battle_border" >
             
             <TextView
             android:layout_width="wrap_content"
@@ -76,7 +78,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:orientation="vertical"
-             android:layout_toRightOf="@id/battle_enemy_info" >
+             android:background="@drawable/battle_border" >
 				<TextView
            			 android:layout_width="wrap_content"
            			 android:layout_height="wrap_content"
@@ -89,7 +91,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:orientation="vertical"
-             android:layout_toRightOf="@id/battle_action_menu" >
+             android:background="@drawable/battle_border" >
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

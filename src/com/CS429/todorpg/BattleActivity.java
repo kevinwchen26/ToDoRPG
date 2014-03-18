@@ -38,31 +38,47 @@ public class BattleActivity extends Activity {
 		setUpActivity();
 
 	}
-	public void setUpActivity() {
-		// Set up upper half of screen
+	
+	private void setUpBattleScreen() {
+		// Set up battle screen. 
 		battleScreen.setLayoutParams(new RelativeLayout.LayoutParams(width, height/2));
+		battleScreen.setBackgroundResource(R.drawable.battle_background);
 		
+		// Set up upper half of screen
+		RelativeLayout.LayoutParams playerSideParams = new RelativeLayout.LayoutParams(width/2, height/2);
+		playerSideParams.addRule(RelativeLayout.RIGHT_OF, enemySide.getId());
+		    
+		enemySide.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height/2));			    
+		playerSide.setLayoutParams(playerSideParams);
+			    
+		//Set the player images
+	    enemyImage.setImageResource(R.drawable.warrior_enemy);
+	    playerImage.setImageResource(R.drawable.warrior_player);
+	}
+	
+	private void setUpBattleNavigator() {
+		// Set up Battle navigator
 		RelativeLayout.LayoutParams battleNav = new RelativeLayout.LayoutParams(width, height/2);
 		battleNav.addRule(RelativeLayout.BELOW, battleScreen.getId());
 	    battleNavigator.setLayoutParams(battleNav);
-	    
-	    
-	    enemySide.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height/2));
-	    playerSide.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height/2));
-
-	    
+			    
 	    // Set up lower half of screen
+		RelativeLayout.LayoutParams actionMenuParams = new RelativeLayout.LayoutParams(width/2, height/2);
+		actionMenuParams.addRule(RelativeLayout.RIGHT_OF, enemyInfo.getId());
+				
+		RelativeLayout.LayoutParams playerInfoParams = new RelativeLayout.LayoutParams(width/4, height/2);
+		playerInfoParams.addRule(RelativeLayout.RIGHT_OF, actionMenu.getId());
+				
 	    enemyInfo.setLayoutParams(new RelativeLayout.LayoutParams(width/4, height/2));
-	    playerInfo.setLayoutParams(new RelativeLayout.LayoutParams(width/4, height/2));
-	    actionMenu.setLayoutParams(new RelativeLayout.LayoutParams(width/2, height/2));
-	    
-	    enemyImage.setImageResource(R.drawable.warrior_enemy);
-	    playerImage.setImageResource(R.drawable.warrior_player);
-
-
+	    playerInfo.setLayoutParams(playerInfoParams);
+	    actionMenu.setLayoutParams(actionMenuParams);
+	}
+	private void setUpActivity() {
+		setUpBattleScreen();
+		setUpBattleNavigator();
 	}
 	
-	public void FindViewById() {
+	private void FindViewById() {
 		battleScreen = (RelativeLayout) findViewById(R.id.battle_screen);
 		battleNavigator = (RelativeLayout) findViewById(R.id.battle_navigator);
 		enemyInfo = (RelativeLayout) findViewById(R.id.battle_enemy_info);
@@ -75,12 +91,12 @@ public class BattleActivity extends Activity {
 
 	}
 	
-	public void interpretIntent() {
+	private void interpretIntent() {
 		intent = getIntent();
 		defaultClass = intent.getBooleanExtra("default", true);
 	}
 	
-	public void setUpLayout() {
+	private void setUpLayout() {
 		
 		 //Remove title bar
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -100,7 +116,7 @@ public class BattleActivity extends Activity {
 	}
 	
 
-	public void getCharacters() {
+	private void getCharacters() {
 		
 		//*** Will need to change to pull all members of a party in the next iteration ***//
 		Character newPlayer = CharacterOperations.pullCharacter(StaticClass.CLASS_INFO.getCLASS(),
@@ -111,13 +127,13 @@ public class BattleActivity extends Activity {
 		party.add(newPlayer);
 	}
 	
-	public void makeBoss() {
+	private void makeBoss() {
 		boss = new Character("Boss");
 		//*** Add new parameters later ***//
 
 	}
 	
-	public void setUpBattle(){
+	private void setUpBattle(){
 		party = new ArrayList<Character>();
 		if(defaultClass){
 			party.add(new Warrior("Bob"));
