@@ -80,12 +80,28 @@
             android:name="com.CS429.todorpg.QuestInfo"
             android:label="@string/my_quest_info" >
         </activity>
+        <activity android:name="com.CS429.todorpg.QuestDetail" >
+        </activity>
         <activity
-            android:name="com.CS429.todorpg.QuestDetail">
+            android:name="com.CS429.todorpg.AlarmActivity"
+            android:label="@string/title_activity_alarm" >
         </activity>
         <activity
             android:name="com.CS429.todorpg.BattleActivity" >
         </activity>
+        <activity
+            android:name="com.CS429.todorpg.BattleActivity" >
+        </activity>
+         <activity
+            android:name="com.CS429.todorpg.ToDoListStatusSetup"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+       	<receiver
+            android:name="com.CS429.todorpg.AlarmReceiver"
+            android:process=":remote" />
+        <service
+            android:name="com.CS429.todorpg.RingtoneService"
+            android:enabled="true"/> 
     </application>
 
 </manifest>

@@ -12,21 +12,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.CS429.todorpg.Utils.JSONParser;
 
@@ -36,14 +32,15 @@ public class QuestDetail extends Activity {
 			my_milestone, my_description;
 	Button my_status;
 	int check_option;
-	String updatedStatus, todo_list, member, due_date, title, status, location, description;
+	String updatedStatus, todo_list, member, due_date, title, status, location, description, progress_status, done_status;
 	static String leader;
 	int quest_id;
 	JSONParser jsonParser = new JSONParser();
-	ArrayList<MyToDoList> arrData;
+	ArrayList<MyToDoList> todo_list_data;
 	ArrayList<String> member_list;
 	ToDoListAdapter adapter;
 	ListView listView;
+	String[] my_list;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +55,10 @@ public class QuestDetail extends Activity {
 		todo_list = intent.getStringExtra("quest_milestone");
 		member = intent.getStringExtra("quest_member");
 		description = intent.getStringExtra("quest_description");
+		progress_status = intent.getStringExtra("progress_status");
+		done_status = intent.getStringExtra("done_status");
 		FindViewById();
-		arrData = new ArrayList<MyToDoList>();
+		todo_list_data = new ArrayList<MyToDoList>();
 
 		setMessage();
 
@@ -103,7 +102,6 @@ public class QuestDetail extends Activity {
 		for(int i = 0; i < member_list.size(); i++) {
 			System.out.println(member_list.get(i));
 			new_member = new_member.concat("[" + member_list.get(i) + "] ");
-//			new_member = ((i==0)? (new_member.concat(member_list.get(i))) : (", " + new_member.concat(member_list.get(i))));
 		}
 		if(new_member.equals("[] ")) {
 			my_member.setText("NONE");
@@ -128,13 +126,34 @@ public class QuestDetail extends Activity {
 	}
 
 	private void HandleToDoList() {
-		String[] my_list = todo_list.split("[" + StaticClass.delimiter + "]+");
+		my_list = todo_list.split("[" + StaticClass.delimiter + "]+");
 		for (String list : my_list) {
-			arrData.add(new MyToDoList(list));
+			todo_list_data.add(new MyToDoList(list));
+			
 		}
-		System.out.println(arrData.size());
-		adapter = new ToDoListAdapter(QuestDetail.this, arrData);
+		System.out.println(todo_list_data.size());
+		adapter = new ToDoListAdapter(QuestDetail.this, todo_list_data);
 		listView.setAdapter(adapter);
+		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent,
+					final View view, final int position, long id) {
+				if(!leader.equals(StaticClass.MY_ID)) {
+					Toast.makeText(QuestDetail.this, leader + " " + StaticClass.MY_ID, Toast.LENGTH_SHORT).show();
+					Toast.makeText(QuestDetail.this, StaticClass.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
+					return;
+				}
+				intent = new Intent(QuestDetail.this, ToDoListStatusSetup.class);
+				intent.putExtra("quest_id", quest_id);
+				intent.putExtra("progress_status", progress_status);
+				intent.putExtra("done_status", done_status);
+				startActivityForResult(intent, 0);
+				
+//				Toast.makeText(QuestDetail.this, "HEllo World " + my_list[position], Toast.LENGTH_SHORT).show();
+				
+			}
+		});
 
 		/*
 		 * listView.setOnItemClickListener(new OnItemClickListener() {
@@ -148,6 +167,7 @@ public class QuestDetail extends Activity {
 		 * } });
 		 */
 	}
+	
 
 	private void SetVisible() {
 
@@ -304,7 +324,15 @@ public class QuestDetail extends Activity {
 		startActivity(intent);
 		finish();
 	}
-
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == StaticClass.TAG_WORK_STATUS) {
+			adapter.notifyDataSetChanged();
+			listView.setAdapter(adapter);
+//			listView.invalidate();
+			
+		}
+	}
 	class UpdateQuest extends AsyncTask<String, String, String> {
 		protected void onPreExecute() {
 			super.onPreExecute();

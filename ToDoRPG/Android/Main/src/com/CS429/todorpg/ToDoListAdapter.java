@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ToDoListAdapter extends BaseAdapter {
 	private final Context context;
 	private ArrayList<MyToDoList> data;
 	private LayoutInflater inflater;
-	CheckBox check;
+	static ImageView progress_img, done_img;
+	static boolean progress_status, done_status;
 
+	// CheckBox check;
 	public ToDoListAdapter(Context context, ArrayList<MyToDoList> data) {
 		this.context = context;
 		this.data = data;
@@ -47,21 +48,29 @@ public class ToDoListAdapter extends BaseAdapter {
 					false);
 		}
 
-		check = (CheckBox) convertView.findViewById(R.id.checkBox);
-		check.setVisibility(View.GONE);
-		if(QuestDetail.leader.equals(StaticClass.MY_ID)) {
-			check.setVisibility(View.VISIBLE);
-		}
+		/*
+		 * check = (CheckBox) convertView.findViewById(R.id.checkBox);
+		 * check.setVisibility(View.GONE);
+		 * if(QuestDetail.leader.equals(StaticClass.MY_ID)) {
+		 * check.setVisibility(View.VISIBLE); }
+		 */
 		TextView todolist = (TextView) convertView.findViewById(R.id.todo_list);
 		todolist.setText(data.get(position).getList());
-		check.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-//				Toast.makeText(context, ", Toast.LENGTH_SHORT).show();
-					
-			}
-			
-		});
+		ImageView progress_img = (ImageView) convertView
+				.findViewById(R.id.progress_img);
+		ImageView done_img = (ImageView) convertView
+				.findViewById(R.id.done_img);
+		progress_img.setImageResource(R.drawable.progress_btn);
+		done_img.setImageResource(R.drawable.done_img);
+		/*
+		 * progress_img.setVisibility(View.GONE);
+		 * done_img.setVisibility(View.GONE);
+		 */
+
+		if (!progress_status) progress_img.setVisibility(View.GONE);
+		else progress_img.setVisibility(View.VISIBLE);
+		if (!done_status) done_img.setVisibility(View.GONE);
+		else done_img.setVisibility(View.VISIBLE);
 
 		return convertView;
 	}

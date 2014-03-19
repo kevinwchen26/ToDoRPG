@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout
+   <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -43,14 +43,71 @@
             android:id="@+id/creation_quest_duration_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quest_duration" />
+            android:text="due date" />
 
-        <EditText
-            android:id="@+id/creation_quest_duration"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
+            android:orientation="horizontal"
+            android:weightSum="6">
+            
+        	<TextView
+        	    android:id="@+id/month"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+				android:text="month"
+				android:layout_weight="1" />
+        	
+        	<EditText
+           		android:id="@+id/creation_month"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:ems="2"
+            	android:maxLength="2"
+            	android:inputType="number"
+            	android:layout_weight="2" />
+        	
+        	<TextView
+        	    android:id="@+id/day"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+				android:text="day"
+				android:layout_weight="1" />
+        	
+        	<EditText
+           		android:id="@+id/creation_day"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:ems="2"
+            	android:maxLength="2"
+            	android:inputType="number"
+            	android:layout_weight="2" />
+            
+        </LinearLayout>
+        
+        <Button
+                android:id="@+id/creation_alarm"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:textColor="#6ca4bc"
+                android:textSize="30sp"
+                android:text="alarm setting" />
+
+        
+        <TextView
+            android:id="@+id/creation_maximum_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="maximum members" />
+        
+        <Spinner
+            android:id="@+id/creation_quest_maximum_number"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/maximum_member"
+            android:prompt="@string/maximum_spinner_prompt" />
+        
 
         <TextView
             android:id="@+id/creation_location_text"
@@ -65,12 +122,9 @@
             android:entries="@array/location_setting"
             android:prompt="@string/location_spinner_prompt" />
 
-        <TextView
-            android:id="@+id/creation_current_location"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
+ 
+                
+        
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

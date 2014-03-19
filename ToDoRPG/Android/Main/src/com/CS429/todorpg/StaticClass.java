@@ -24,6 +24,7 @@ public class StaticClass {
 	public final static String url_update_quest = "http://todorpg.net46.net/ToDoRPG/update_quest.php";
 	public final static String url_delete_quest = "http://todorpg.net46.net/ToDoRPG/delete_quest.php";
 	public final static String url_update_quest_member = "http://todorpg.net46.net/ToDoRPG/update_quest_member.php";
+	public final static String url_update_work_status = "http://todorpg.net46.net/ToDoRPG/update_work_status.php";
 	
 	
 	/* Shared Preferences Keys */
@@ -46,6 +47,7 @@ public class StaticClass {
 	public static final String TAG_DATA = "log_db";
 	public static final String TAG_INFO = "character";
 	public static final String TAG_USER_NAME = "user_name";
+	public static final float TAG_INIT_EXP = 0.0f;
 	public static final String TAG_PASSWORD = "password";
 	public static final String ACCOUNT_CREATION_MESSAGE = "Your account has been created successfully";
 	public static final String LOGIN_SUCCESS_MESSAGE = "Logged in Successfully";
@@ -70,6 +72,7 @@ public class StaticClass {
 	public static final int ALL_USER_INFO = 200;
 	public static final int STATUS_CHANGED = 1000;
 	public static final int TAG_MAX_NUM = 4;
+	public static final int TAG_WORK_STATUS = 1432;
 	
 	public static final String WARRIOR = "Warrior";
 	public static final String ASSASSIN = "Assassin";

@@ -148,7 +148,7 @@ public class QuestInfo extends Activity {
 								questRows[i].getString("creator_name"),questRows[i].getString("quest_due"),
 								questRows[i].getString("quest_member"), questRows[i].getString("quest_status"),
 								questRows[i].getString("quest_location_long"), questRows[i].getString("quest_milestone"),
-								questRows[i].getString("quest_description")));
+								questRows[i].getString("quest_description"),questRows[i].getString("progress_status"),questRows[i].getString("done_status")));
 					}
 
 				} else {
@@ -191,6 +191,8 @@ public class QuestInfo extends Activity {
 							intent.putExtra("quest_location", selected.getLocation());
 							intent.putExtra("quest_milestone", selected.getMilestone());
 							intent.putExtra("quest_description", selected.getDescription());
+							intent.putExtra("progress_status", selected.getProgressStstus());
+							intent.putExtra("done_status", selected.getDoneStatus());
 							Log.d("GRRRR", selected.getStatus());
 							startActivity(intent);
 							finish();
