@@ -16,6 +16,8 @@ public class Quest {
 	private String due_date;
 	private String member;
 	private String milestone;
+	private String progress_status;
+	private String done_status;
 	private int quest_id;
 
 	public Quest(String title, String location, Character leader, String description, int hours, ArrayList<String> milestones){
@@ -31,7 +33,7 @@ public class Quest {
 	
 	/*This constructor is for Search Bar*/
 	public Quest(int quest_id, String title, String leader, String due_date, String member, 
-			String status, String location, String milestone, String description){
+			String status, String location, String milestone, String description, String progress_status, String done_status){
 		this.quest_id = quest_id;
 		this.title = title;
 		this.leader = leader;
@@ -41,6 +43,8 @@ public class Quest {
 		this.location = location;
 		this.milestone = milestone;
 		this.description = description;
+		this.progress_status = progress_status;
+		this.done_status = done_status;
 
 	}
 
@@ -63,6 +67,12 @@ public class Quest {
 	}
 
 	//Getters and Setters
+	public String getProgressStstus() {
+		return progress_status;
+	}
+	public String getDoneStatus() {
+		return done_status;
+	}
 	public String getLeader() {
 		return leader;
 	}

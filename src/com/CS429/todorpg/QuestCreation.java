@@ -310,6 +310,8 @@ public class QuestCreation extends Activity {
 			params.add(new BasicNameValuePair("quest_location_long", questLocationLong));
 //			params.add(new BasicNameValuePair("quest_duration", questDuration));
 			params.add(new BasicNameValuePair("quest_milestone", milestones_to_string));
+			params.add(new BasicNameValuePair("progress_status", "false"));
+			params.add(new BasicNameValuePair("done_status", "false"));
 
 			
 			JSONObject json = jsonParser.makeHttpRequest(
