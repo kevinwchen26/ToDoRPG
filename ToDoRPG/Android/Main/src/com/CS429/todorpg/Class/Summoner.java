@@ -12,6 +12,8 @@ public class Summoner extends Character {
 		this.setWIS(this.getWIS() + 3);
 		this.setCHA(this.getCHA() + 3);
 		this.setMP(this.getMP() + (this.getINT() + this.getWIS()));
+		this.setMaxHP(this.getHP());
+		this.setMaxMP(this.getMP());
 
 	}
 
@@ -29,7 +31,8 @@ public class Summoner extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-
+		this.setMaxHP(HP);
+		this.setMaxMP(MP);
 	}
 
 	public void LevelStats() {

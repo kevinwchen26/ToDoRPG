@@ -12,6 +12,8 @@ public class Mage extends Character {
 		this.setWIS(this.getWIS() + 3);
 		this.setINT(this.getINT() + 3);
 		this.setMP(this.getMP() + (this.getINT() + this.getWIS()));
+		this.setMaxHP(this.getHP());
+		this.setMaxMP(this.getMP());
 	}
 
 	public Mage(String name, int HP, int MP, int Level, int CON, int STR,
@@ -28,7 +30,8 @@ public class Mage extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-
+		this.setMaxHP(HP);
+		this.setMaxMP(MP);
 	}
 
 	public void LevelStats() {

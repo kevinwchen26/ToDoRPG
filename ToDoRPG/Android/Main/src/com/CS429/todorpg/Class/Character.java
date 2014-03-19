@@ -6,6 +6,8 @@ public class Character {
 	// Few notes: CON functions as Physical dmg variable, and WIS as Magic dmg
 	// variable
 	private String Name;
+	private int maxHP;
+	private int maxMP;
 	private int HP;
 	private int MP;
 	private int LEVEL;
@@ -34,6 +36,8 @@ public class Character {
 	public Character(String Name) {
 		this.setName(Name);
 		this.setHP(100);
+		this.setMaxHP(100);
+		this.setMaxMP(50);
 		this.setMP(50);
 		this.setCON(10);
 		this.setSTR(10);
@@ -58,6 +62,7 @@ public class Character {
 		this.CON = CON;
 		this.LEVEL = LEVEL;
 		this.CLASS = CLASS;
+		
 	}
 
 	// STUB Methods - these will be implemented in their respective classes
@@ -230,6 +235,9 @@ public class Character {
 	}
 
 	public int getHP() {
+		if (HP < 0)
+			HP = 0;
+		
 		return HP;
 	}
 
@@ -238,6 +246,8 @@ public class Character {
 	}
 
 	public int getMP() {
+		if(MP < 0 ) 
+			MP = 0;
 		return MP;
 	}
 
@@ -282,5 +292,21 @@ public class Character {
 	}
 	public String getCLASS() {
 		return CLASS;
+	}
+
+	public int getMaxHP() {
+		return maxHP;
+	}
+
+	public void setMaxHP(int maxHP) {
+		this.maxHP = maxHP;
+	}
+
+	public int getMaxMP() {
+		return maxMP;
+	}
+
+	public void setMaxMP(int maxMP) {
+		this.maxMP = maxMP;
 	}
 }
