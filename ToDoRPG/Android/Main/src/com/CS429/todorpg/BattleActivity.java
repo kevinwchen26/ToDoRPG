@@ -34,8 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BattleActivity extends Activity {
-	enum Gamestate { Ready, Running, Paused, Gameover };
-	Gamestate gamestate;
 	boolean defaultClass, playerTurn;
 	int width, height;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo, enemySide, playerSide;
@@ -59,21 +57,12 @@ public class BattleActivity extends Activity {
 		FindViewById();
 		setUpActivity();
 		playerTurn = true;
-		gamestate = Gamestate.Running;
 
 	}
-	
-	private void startGameLoop() {
-		while(gamestate == Gamestate.Running)
-		{
-			if(!playerTurn)
-				bossAttack();
-		}
-	}
-	private void bossAttack() {
+
+	private void bossAI() {
 		boss.attack(player);
 		update();
-		changeTurn();
 	}
 	
 	private void disablePlayerButtons() {
@@ -204,7 +193,6 @@ public class BattleActivity extends Activity {
 				playerAttack.start();
 				waitForEffectAnimationDone(playerAttack);
 				update();
-				//changeTurn();
 				break;
 			case R.id.battle_items_btn:
 				player.setHP(player.getHP() + 20);
@@ -217,17 +205,7 @@ public class BattleActivity extends Activity {
 	};
 	
 	
-	private void changeTurn() {
-		// TODO: Change currentmember,
-		if(playerTurn) {
-			setPlayer();
-			enablePlayerButtons();
-		}
-		else {
-			disablePlayerButtons();
-			playerTurn = false;
-		}
-	}
+	
 	
 	//Updates the screen
 	private void update() {
@@ -240,6 +218,32 @@ public class BattleActivity extends Activity {
 	    playerMP.setText("MP " + player.getMP() + "/" + player.getMaxMP());
 	    
 	    // Need to add check game conditions. 
+	    // if(checkGameConditions())
+	    
+	    // change turns
+	    changeTurn();
+	    
+	    
+	}
+	
+	//Change turns
+	private void changeTurn() {
+		if(playerTurn) {
+			playerTurn = false;
+			disablePlayerButtons();
+			bossAI();
+		}
+		//Boss just finished turn
+		else {
+			playerTurn = true;
+			enablePlayerButtons();
+			//Prompt message, 'This character's turn'
+			
+		}
+	}
+	//Return true if game is over
+	private boolean checkGameConditions() {
+		return false;
 	}
 	
 	private void setUpBattleMenu() {
