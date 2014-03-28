@@ -140,8 +140,9 @@ public class QuestDetail extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent,
 					final View view, final int position, long id) {
-				if(!leader.equals(UserInfo.MY_ID)) {
-					Toast.makeText(QuestDetail.this, leader + " " + UserInfo.MY_ID, Toast.LENGTH_SHORT).show();
+				String username = ((UserInfo)getApplicationContext()).getUserName();
+				if(!leader.equals(username)) {
+					Toast.makeText(QuestDetail.this, leader + " " + username, Toast.LENGTH_SHORT).show();
 					Toast.makeText(QuestDetail.this, Constants.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
 					return;
 				}
@@ -171,9 +172,10 @@ public class QuestDetail extends Activity {
 	
 
 	private void SetVisible() {
+		String username=((UserInfo)getApplicationContext()).getUserName();
 
-		System.out.println(leader + " : " + UserInfo.MY_ID);
-		if (leader.equals(UserInfo.MY_ID)) {
+		System.out.println(leader + " : " + username);
+		if (leader.equals(username)) {
 			findViewById(R.id.delete).setVisibility(View.VISIBLE);
 		} else {
 			findViewById(R.id.join).setVisibility(View.VISIBLE);
@@ -190,6 +192,7 @@ public class QuestDetail extends Activity {
 
 	Button.OnClickListener ButtonClick = new Button.OnClickListener() {
 
+		String username= ((UserInfo)getApplicationContext()).getUserName();
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
@@ -201,7 +204,7 @@ public class QuestDetail extends Activity {
 				break;
 			case R.id.join:
 				GetMemberList();
-				if(member_list.contains(UserInfo.MY_ID)) {
+				if(member_list.contains(username)) {
 					Toast.makeText(QuestDetail.this, "You are alreay a member of this Quest", Toast.LENGTH_SHORT).show();
 					return;
 				} else if(member_list.size() >= Constants.TAG_MAX_NUM) { 
@@ -225,7 +228,9 @@ public class QuestDetail extends Activity {
 	};
 	private void UpdateActiveStatus() {
 		// UPDATE quest status on DB
-		if (leader.equals(UserInfo.MY_ID)) {
+		String username= ((UserInfo)getApplicationContext()).getUserName();
+
+		if (leader.equals(username)) {
 			if ("ACTIVE".equals(intent.getStringExtra("quest_status"))) {
 				my_status.setTextColor(getResources().getColor(
 						R.color.light_grey));
@@ -380,7 +385,9 @@ public class QuestDetail extends Activity {
 
 		@Override
 		protected String doInBackground(String... args) {
-			member = member.concat(UserInfo.MY_ID + Constants.delimiter);
+			String username= ((UserInfo)getApplicationContext()).getUserName();
+
+			member = member.concat(username + Constants.delimiter);
 			String _id = Integer.toString(quest_id);
 			JSONParser jsonParser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();

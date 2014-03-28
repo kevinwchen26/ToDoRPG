@@ -1,22 +1,17 @@
 package com.CS429.todorpg;
 
-import com.CS429.todorpg.Class.Warrior;
 import com.CS429.todorpg.Utils.Constants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +24,7 @@ public class StartMain extends Activity {
 	TextView user_id;
 
 	// Persistent Data
-	SharedPreferences prefs;
+	//SharedPreferences prefs;
 
 	//Battle Demo prompt
 	AlertDialog battleMsg;
@@ -37,7 +32,7 @@ public class StartMain extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_main);
-		prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+		//prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
 		startMain_activity = this;
 		ButtonHandler();
 		makeBattleDemoMessages();
@@ -150,23 +145,25 @@ public class StartMain extends Activity {
 	}
 
 	public boolean LoginStatus() {
-		if (UserInfo.MY_ID == null)
-			return false;
-		else
-			return true;
+		return ((UserInfo)getApplicationContext()).isLoggedIn();
+//		if (UserInfo.username == null)
+//			return false;
+//		else
+//			return true;
 	}
 
 	public void clearSharedPreferences() {
-		Editor editor = prefs.edit();
-		editor.clear();
-		editor.commit();
+//		Editor editor = prefs.edit();
+//		editor.clear();
+//		editor.commit();
 	}
 
 	public boolean characterStatus() {
-		if (prefs.contains(Constants.PREF_CHARACTER_EXISTS))
-			return prefs.getBoolean(Constants.PREF_CHARACTER_EXISTS, false);
-		else
-			return false;
+		return ((UserInfo)getApplicationContext()).hasCharacter();
+//		if (prefs.contains(Constants.PREF_CHARACTER_EXISTS))
+//			return prefs.getBoolean(Constants.PREF_CHARACTER_EXISTS, false);
+//		else
+//			return false;
 	}
 
 	public void CharacterCreation() {
@@ -175,7 +172,7 @@ public class StartMain extends Activity {
 			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if (UserInfo.CHARACTER_CREATED) {
+		if (((UserInfo)getApplicationContext()).hasCharacter()) {
 			Toast.makeText(this, Constants.HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -208,8 +205,9 @@ public class StartMain extends Activity {
 		// Clear out Shared Preferences
 		clearSharedPreferences();
 
-		UserInfo.MY_ID = null;
-		UserInfo.CLASS_INFO = null;
+//		UserInfo.username = null;
+//		UserInfo.CLASS_INFO = null;
+		((UserInfo)getApplicationContext()).logout();
 		header.setVisibility(View.VISIBLE);
 		sub_header.setVisibility(View.GONE);
 	}
@@ -320,9 +318,9 @@ public class StartMain extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == UserInfo.LOGIN_SUCCESS) {
+		if (resultCode == Constants.LOGIN_SUCCESS) {
 			header.setVisibility(View.GONE);
-			user_id.setText(Constants.WELCOME_MESSAGE + " " + UserInfo.MY_ID);
+			user_id.setText(Constants.WELCOME_MESSAGE + " " + ((UserInfo)getApplicationContext()).getUserName());
 			sub_header.setVisibility(View.VISIBLE);
 		}
 	}

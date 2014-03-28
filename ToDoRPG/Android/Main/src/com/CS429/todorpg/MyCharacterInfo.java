@@ -18,15 +18,15 @@ public class MyCharacterInfo extends Activity {
 		FindViewById();
 		ShowInfo();
 		
-		Log.d("CHARACTER_NAME", UserInfo.CLASS_INFO.getName());
-		Log.d("STR", Integer.toString(UserInfo.CLASS_INFO.getSTR()));
-		Log.d("CON", Integer.toString(UserInfo.CLASS_INFO.getCON()));
-		Log.d("DEX", Integer.toString(UserInfo.CLASS_INFO.getDEX()));
-		Log.d("INT", Integer.toString(UserInfo.CLASS_INFO.getINT()));
-		Log.d("WIS", Integer.toString(UserInfo.CLASS_INFO.getWIS()));
-		Log.d("CHA", Integer.toString(UserInfo.CLASS_INFO.getCHA()));
-		Log.d("CLASS", UserInfo.CLASS_INFO.getCLASS());
-		Log.d("LEVEL", Integer.toString(UserInfo.CLASS_INFO.getLEVEL()));
+//		Log.d("CHARACTER_NAME", UserInfo.CLASS_INFO.getName());
+//		Log.d("STR", Integer.toString(UserInfo.CLASS_INFO.getSTR()));
+//		Log.d("CON", Integer.toString(UserInfo.CLASS_INFO.getCON()));
+//		Log.d("DEX", Integer.toString(UserInfo.CLASS_INFO.getDEX()));
+//		Log.d("INT", Integer.toString(UserInfo.CLASS_INFO.getINT()));
+//		Log.d("WIS", Integer.toString(UserInfo.CLASS_INFO.getWIS()));
+//		Log.d("CHA", Integer.toString(UserInfo.CLASS_INFO.getCHA()));
+//		Log.d("CLASS", UserInfo.CLASS_INFO.getCLASS());
+//		Log.d("LEVEL", Integer.toString(UserInfo.CLASS_INFO.getLEVEL()));
 	}
 	public void FindViewById() {
 		character_name = (TextView) findViewById(R.id.character_name);
@@ -40,26 +40,27 @@ public class MyCharacterInfo extends Activity {
 		character_cha = (TextView) findViewById(R.id.character_cha);
 	}
 	public void ShowInfo() {
-		character_name.setText(UserInfo.CLASS_INFO.getName());
-		String character = UserInfo.CLASS_INFO.getCLASS();
-		if(character.equals(Constants.WARRIOR)) {
+		com.CS429.todorpg.Class.Character character = ((UserInfo)getApplicationContext()).getCharacter();
+		character_name.setText(character.getName());
+		String characterClass = character.getCLASS();
+		if(characterClass.equals(Constants.WARRIOR)) {
 			character_image.setImageResource(R.drawable.warrior);
-		} else if(character.equals(Constants.ASSASSIN)) {
+		} else if(characterClass.equals(Constants.ASSASSIN)) {
 			character_image.setImageResource(R.drawable.assassin);
-		} else if(character.equals(Constants.MAGE)) {
+		} else if(characterClass.equals(Constants.MAGE)) {
 			character_image.setImageResource(R.drawable.mage);
-		} else if(character.equals(Constants.ARCHER)) {
+		} else if(characterClass.equals(Constants.ARCHER)) {
 			character_image.setImageResource(R.drawable.archer);
-		} else if(character.equals(Constants.SUMMONER)) {
+		} else if(characterClass.equals(Constants.SUMMONER)) {
 			character_image.setImageResource(R.drawable.summoner);
 		}
-		character_level.setText(Integer.toString(UserInfo.CLASS_INFO.getLEVEL()));
-		character_str.setText(Integer.toString(UserInfo.CLASS_INFO.getSTR()));
-		character_con.setText(Integer.toString(UserInfo.CLASS_INFO.getCON()));
-		character_dex.setText(Integer.toString(UserInfo.CLASS_INFO.getDEX()));
-		character_int.setText(Integer.toString(UserInfo.CLASS_INFO.getINT()));
-		character_wis.setText(Integer.toString(UserInfo.CLASS_INFO.getWIS()));
-		character_cha.setText(Integer.toString(UserInfo.CLASS_INFO.getCHA()));
+		character_level.setText(Integer.toString(character.getLEVEL()));
+		character_str.setText(Integer.toString(character.getSTR()));
+		character_con.setText(Integer.toString(character.getCON()));
+		character_dex.setText(Integer.toString(character.getDEX()));
+		character_int.setText(Integer.toString(character.getINT()));
+		character_wis.setText(Integer.toString(character.getWIS()));
+		character_cha.setText(Integer.toString(character.getCHA()));
 		
 	}
 }

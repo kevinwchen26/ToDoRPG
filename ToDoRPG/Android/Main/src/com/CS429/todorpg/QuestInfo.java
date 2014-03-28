@@ -11,9 +11,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,7 +32,7 @@ import com.CS429.todorpg.Utils.JSONParser;
 public class QuestInfo extends Activity {
 	private ProgressDialog pDialog;
 	// Persistent Data
-	SharedPreferences prefs;
+	//SharedPreferences prefs;
 	JSONObject[] questRows;
 	Intent intent;
 	int check_option;
@@ -48,8 +46,8 @@ public class QuestInfo extends Activity {
 		intent = getIntent();
 		check_option = intent.getIntExtra("option", -1);
 		Log.d("VAL", Integer.toString(check_option));
-		prefs = getSharedPreferences(Constants.MY_PREFERENCES,
-				Context.MODE_PRIVATE);
+//		prefs = getSharedPreferences(Constants.MY_PREFERENCES,
+//				Context.MODE_PRIVATE);
 		FetchQuests fq = new FetchQuests();
 		current_quest = new ArrayList<Quest>();
 		fq.execute();
@@ -120,10 +118,15 @@ public class QuestInfo extends Activity {
 			String userName = "";
 
 			JSONParser jsonParser = new JSONParser();
-			if(check_option == Constants.SINGLE_USER_INFO && prefs.contains(Constants.PREF_USERNAME)) {
-				userName = prefs.getString(Constants.PREF_USERNAME,
-						"NOT_LOGGED_IN_CHECK_CODE");
+			UserInfo user = (UserInfo)getApplicationContext();
+			if(check_option == Constants.SINGLE_USER_INFO && user.isLoggedIn()) {
+				userName = user.getUserName();
+//				userName = prefs.getString(Constants.PREF_USERNAME,
+//						);
 			} 
+			else{
+				userName="NOT_LOGGED_IN_CHECK_CODE";
+			}
 			Log.d("User Name", userName);
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("userName", userName));

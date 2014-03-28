@@ -12,11 +12,8 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,7 +30,6 @@ import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
-import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
 //	private ProgressDialog pDialog;
@@ -43,7 +39,7 @@ public class QuestCreation extends Activity {
 	Spinner maximum_spinner;
 	JSONParser jsonParser = new JSONParser();
 	CreateQuest createQuest = new CreateQuest();
-	SharedPreferences prefs;
+	//SharedPreferences prefs;
 	String milestones_to_string;
 	String alarmType;
 	public static boolean milestone_written = false;
@@ -60,7 +56,7 @@ public class QuestCreation extends Activity {
 		FindViewByID();
 		milestones = new ArrayList<String>();
 		SpinnerListener();
-		prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);	
+		//prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);	
 		LocationHandler.setHandler(QuestCreation.this);
 	}
 	private void ActivitySizeHandler() {
@@ -298,8 +294,13 @@ public class QuestCreation extends Activity {
 			String currentlyLoggedIn = "";
 			// Get user ID
 			String userName = "";
-			if (prefs.contains(Constants.PREF_USERNAME)) {
-				userName = prefs.getString(Constants.PREF_USERNAME, "NOT_LOGGED_IN_CHECK_CODE");
+			UserInfo user = (UserInfo)getApplicationContext();
+			if (user.isLoggedIn()) {
+				user.getUserName();
+				//userName = prefs.getString(Constants.PREF_USERNAME, );
+			}
+			else{
+				userName="NOT_LOGGED_IN_CHECK_CODE";
 			}
 			
 			List<NameValuePair> params = new ArrayList<NameValuePair>();

@@ -1,21 +1,9 @@
 package com.CS429.todorpg.AndroidJUnitTests;
 
-import org.junit.Test;
-
 import com.CS429.todorpg.Login;
-import com.CS429.todorpg.R;
-import com.CS429.todorpg.StartMain;
-import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.model.*;
 import com.robotium.solo.Solo;
 
-import android.app.Instrumentation.ActivityMonitor;
-import android.os.Handler;
-import android.os.Looper;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
-import android.widget.Button;
 
 public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 

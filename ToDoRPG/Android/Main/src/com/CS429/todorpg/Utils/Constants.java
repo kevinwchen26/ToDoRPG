@@ -99,4 +99,7 @@ public class Constants {
 	public static final String Summoner_skill_2 = "Summon Skill 2";
 	public static final String Summoner_skill_3 = "Summon Skill 3";
 	public static final String Summoner_skill_4 = "Summon Skill 4";
+	
+	public static final int LOGIN_SUCCESS = 100;
+
 }

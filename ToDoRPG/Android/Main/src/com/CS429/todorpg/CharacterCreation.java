@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 public class CharacterCreation extends Activity {
 	// Persistent Data
-	SharedPreferences prefs;
+	//SharedPreferences prefs;
 	
 	private ProgressDialog pDialog;
 	JSONParser jsonParser = new JSONParser();
@@ -55,8 +55,8 @@ public class CharacterCreation extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		prefs = getSharedPreferences(Constants.MY_PREFERENCES,
-				Context.MODE_PRIVATE); 
+//		prefs = getSharedPreferences(Constants.MY_PREFERENCES,
+//				Context.MODE_PRIVATE); 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.character_creation);
@@ -318,18 +318,18 @@ public class CharacterCreation extends Activity {
 		@Override
 		protected String doInBackground(String... arg) {
 			String name = character_name.getText().toString();
-
+			UserInfo user = (UserInfo)getApplicationContext();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			Log.d("user_name", UserInfo.MY_ID);
-			Log.d("character_name", name);
-			Log.d("str", Integer.toString(MyCharacter.getSTR()));
-			Log.d("con", Integer.toString(MyCharacter.getCON()));
-			Log.d("dex", Integer.toString(MyCharacter.getDEX()));
-			Log.d("_int", Integer.toString(MyCharacter.getINT()));
-			Log.d("wis", Integer.toString(MyCharacter.getWIS()));
-			Log.d("cha", Integer.toString(MyCharacter.getCHA()));
-			Log.d("CLASS", character_spinner.getSelectedItem().toString());
-			params.add(new BasicNameValuePair("user_name", UserInfo.MY_ID));
+//			Log.d("user_name", UserInfo.username);
+//			Log.d("character_name", name);
+//			Log.d("str", Integer.toString(MyCharacter.getSTR()));
+//			Log.d("con", Integer.toString(MyCharacter.getCON()));
+//			Log.d("dex", Integer.toString(MyCharacter.getDEX()));
+//			Log.d("_int", Integer.toString(MyCharacter.getINT()));
+//			Log.d("wis", Integer.toString(MyCharacter.getWIS()));
+//			Log.d("cha", Integer.toString(MyCharacter.getCHA()));
+//			Log.d("CLASS", character_spinner.getSelectedItem().toString());
+			params.add(new BasicNameValuePair("user_name", user.getUserName()));
 			params.add(new BasicNameValuePair("character_name", name));
 			params.add(new BasicNameValuePair("str", Integer.toString(MyCharacter.getSTR())));
 			params.add(new BasicNameValuePair("con", Integer.toString(MyCharacter.getCON())));
@@ -351,23 +351,24 @@ public class CharacterCreation extends Activity {
 				if (success == 1) {
 					Log.d("Character Creation Status", "Character Created Successfully");
 					String characterClass = character_spinner.getSelectedItem().toString();
-					UserInfo.CLASS_INFO = new Character(name,MyCharacter.getSTR(), MyCharacter.getCON(),MyCharacter.getDEX(), MyCharacter.getINT(), 
-							MyCharacter.getWIS(),MyCharacter.getCHA(), Constants.INIT_LEVEL, character_spinner.getSelectedItem().toString());
+					user.createCharacter(name, MyCharacter.getSTR(), MyCharacter.getCON(), MyCharacter.getDEX(), 
+							MyCharacter.getINT(), MyCharacter.getWIS(), MyCharacter.getCHA(), Constants.INIT_LEVEL, characterClass);
+					
 					// Store character creation status here
-					Editor editor = prefs.edit();
-					editor.putString(Constants.PREF_CHARACTER_NAME, name);
-					editor.putInt(Constants.PREF_CHARACTER_STR, MyCharacter.getSTR());
-					editor.putInt(Constants.PREF_CHARACTER_CON, MyCharacter.getCON());
-					editor.putInt(Constants.PREF_CHARACTER_DEX, MyCharacter.getDEX());
-					editor.putInt(Constants.PREF_CHARACTER_INT, MyCharacter.getINT());
-					editor.putInt(Constants.PREF_CHARACTER_WIS, MyCharacter.getWIS());
-					editor.putInt(Constants.PREF_CHARACTER_CHA, MyCharacter.getCHA());
-					editor.putInt(Constants.PREF_CHARACTER_LEVEL, Constants.INIT_LEVEL);
-					editor.putString(Constants.PREF_CHARACTER_CLASS, characterClass);
-					editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, true);
-					if (!editor.commit()){
-						Log.d("PREF", "USER_NAME NOT STORED"); 
-					}
+//					Editor editor = prefs.edit();
+//					editor.putString(Constants.PREF_CHARACTER_NAME, name);
+//					editor.putInt(Constants.PREF_CHARACTER_STR, MyCharacter.getSTR());
+//					editor.putInt(Constants.PREF_CHARACTER_CON, MyCharacter.getCON());
+//					editor.putInt(Constants.PREF_CHARACTER_DEX, MyCharacter.getDEX());
+//					editor.putInt(Constants.PREF_CHARACTER_INT, MyCharacter.getINT());
+//					editor.putInt(Constants.PREF_CHARACTER_WIS, MyCharacter.getWIS());
+//					editor.putInt(Constants.PREF_CHARACTER_CHA, MyCharacter.getCHA());
+//					editor.putInt(Constants.PREF_CHARACTER_LEVEL, Constants.INIT_LEVEL);
+//					editor.putString(Constants.PREF_CHARACTER_CLASS, characterClass);
+//					editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, true);
+//					if (!editor.commit()){
+//						Log.d("PREF", "USER_NAME NOT STORED"); 
+//					}
 
 				} else {
 				}
@@ -381,7 +382,8 @@ public class CharacterCreation extends Activity {
 			Toast.makeText(CharacterCreation.this, Constants.CHARACTER_CREATE_SUCCESS_MESSAGE, Toast.LENGTH_SHORT).show();
 			pDialog.dismiss();
 			insert.cancel(true);
-			UserInfo.CHARACTER_CREATED = true;
+			
+			((UserInfo)getApplicationContext()).createdCharacter();
 			finish();
 
 

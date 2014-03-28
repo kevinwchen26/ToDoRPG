@@ -2,8 +2,6 @@ package com.CS429.todorpg;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import android.app.AlarmManager;

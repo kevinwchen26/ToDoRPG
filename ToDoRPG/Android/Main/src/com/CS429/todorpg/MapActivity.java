@@ -41,9 +41,10 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 	private double latitude;
 	private String provider;
 	private NearestQuest questInBackground;
-	private SharedPreferences prefs;
+	//private SharedPreferences prefs;
 	private Context context;
 	public ProgressDialog pDialog;
+	private String selectedText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +113,10 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 				case DialogInterface.BUTTON_POSITIVE:
 					String title = marker.getTitle();
 					String[] words = title.split(" ");
-					prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
-					prefs.edit().putString("quest_id", words[1]).commit();
-					new PutRelationship().execute();
+					selectedText=words[1];
+//					prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+//					prefs.edit().putString("quest_id", words[1]).commit();
+//					new PutRelationship().execute();
 					break;
 
 				case DialogInterface.BUTTON_NEGATIVE:
@@ -180,10 +182,9 @@ public class MapActivity extends Activity implements OnMarkerClickListener {
 
 		@Override
 		protected String doInBackground(String... arg0) {
-			String quest_id = prefs.getString("quest_id", "-1");
-			String profile_id = prefs.getString("profile_id", "-1");
+			String profile_id = ((UserInfo)getApplicationContext()).getProfileID();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("quest_id", quest_id));
+			params.add(new BasicNameValuePair("quest_id", selectedText));
 			params.add(new BasicNameValuePair("profile_id", profile_id));
 
 			JSONObject json = new JSONParser().makeHttpRequest(Constants.url_update_party, "POST", params);
