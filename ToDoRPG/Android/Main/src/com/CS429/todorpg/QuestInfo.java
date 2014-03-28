@@ -28,6 +28,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
 
 public class QuestInfo extends Activity {
@@ -47,7 +48,7 @@ public class QuestInfo extends Activity {
 		intent = getIntent();
 		check_option = intent.getIntExtra("option", -1);
 		Log.d("VAL", Integer.toString(check_option));
-		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES,
+		prefs = getSharedPreferences(Constants.MY_PREFERENCES,
 				Context.MODE_PRIVATE);
 		FetchQuests fq = new FetchQuests();
 		current_quest = new ArrayList<Quest>();
@@ -119,8 +120,8 @@ public class QuestInfo extends Activity {
 			String userName = "";
 
 			JSONParser jsonParser = new JSONParser();
-			if(check_option == StaticClass.SINGLE_USER_INFO && prefs.contains(StaticClass.PREF_USERNAME)) {
-				userName = prefs.getString(StaticClass.PREF_USERNAME,
+			if(check_option == Constants.SINGLE_USER_INFO && prefs.contains(Constants.PREF_USERNAME)) {
+				userName = prefs.getString(Constants.PREF_USERNAME,
 						"NOT_LOGGED_IN_CHECK_CODE");
 			} 
 			Log.d("User Name", userName);
@@ -129,16 +130,16 @@ public class QuestInfo extends Activity {
 			
 			JSONObject json;
 
-			if(check_option == StaticClass.SINGLE_USER_INFO) {
+			if(check_option == Constants.SINGLE_USER_INFO) {
 				json = jsonParser.makeHttpRequest(
-						StaticClass.url_get_users_quest, "GET", params);
+						Constants.url_get_users_quest, "GET", params);
 			} else {
 				json = jsonParser.makeHttpRequest(
-						StaticClass.url_get_quests, "GET", params);
+						Constants.url_get_quests, "GET", params);
 			}
 			Log.d("Quest info", json.toString());
 			try {
-				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				int success = json.getInt(Constants.TAG_SUCCESS);
 				if (success == 1) {
 					JSONArray rows = json.getJSONArray("rows");
 					questRows = new JSONObject[rows.length()];
@@ -202,8 +203,8 @@ public class QuestInfo extends Activity {
 				
 
 			} else {
-				StaticClass.sendAlertMessage(QuestInfo.this, "No Quests Found",
-						StaticClass.TAG_NO_QUEST_WARNING).show();
+				UserInfo.sendAlertMessage(QuestInfo.this, "No Quests Found",
+						Constants.TAG_NO_QUEST_WARNING).show();
 			}
 			
 			SearchHandler();

@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
 
 public class QuestDetail extends Activity {
@@ -68,7 +69,7 @@ public class QuestDetail extends Activity {
 		if(member == null) {
 			return;
 		}
-		String[] split = member.split("["+ StaticClass.delimiter +"]+");
+		String[] split = member.split("["+ Constants.delimiter +"]+");
 		for(String member : split) {
 			member_list.add(member);
 		}
@@ -126,7 +127,7 @@ public class QuestDetail extends Activity {
 	}
 
 	private void HandleToDoList() {
-		my_list = todo_list.split("[" + StaticClass.delimiter + "]+");
+		my_list = todo_list.split("[" + Constants.delimiter + "]+");
 		for (String list : my_list) {
 			todo_list_data.add(new MyToDoList(list));
 			
@@ -139,9 +140,9 @@ public class QuestDetail extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent,
 					final View view, final int position, long id) {
-				if(!leader.equals(StaticClass.MY_ID)) {
-					Toast.makeText(QuestDetail.this, leader + " " + StaticClass.MY_ID, Toast.LENGTH_SHORT).show();
-					Toast.makeText(QuestDetail.this, StaticClass.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
+				if(!leader.equals(UserInfo.MY_ID)) {
+					Toast.makeText(QuestDetail.this, leader + " " + UserInfo.MY_ID, Toast.LENGTH_SHORT).show();
+					Toast.makeText(QuestDetail.this, Constants.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
 					return;
 				}
 				intent = new Intent(QuestDetail.this, ToDoListStatusSetup.class);
@@ -171,8 +172,8 @@ public class QuestDetail extends Activity {
 
 	private void SetVisible() {
 
-		System.out.println(leader + " : " + StaticClass.MY_ID);
-		if (leader.equals(StaticClass.MY_ID)) {
+		System.out.println(leader + " : " + UserInfo.MY_ID);
+		if (leader.equals(UserInfo.MY_ID)) {
 			findViewById(R.id.delete).setVisibility(View.VISIBLE);
 		} else {
 			findViewById(R.id.join).setVisibility(View.VISIBLE);
@@ -200,10 +201,10 @@ public class QuestDetail extends Activity {
 				break;
 			case R.id.join:
 				GetMemberList();
-				if(member_list.contains(StaticClass.MY_ID)) {
+				if(member_list.contains(UserInfo.MY_ID)) {
 					Toast.makeText(QuestDetail.this, "You are alreay a member of this Quest", Toast.LENGTH_SHORT).show();
 					return;
-				} else if(member_list.size() >= StaticClass.TAG_MAX_NUM) { 
+				} else if(member_list.size() >= Constants.TAG_MAX_NUM) { 
 					Toast.makeText(QuestDetail.this, "This quest has max member", Toast.LENGTH_SHORT).show();
 					return;
 				}
@@ -224,7 +225,7 @@ public class QuestDetail extends Activity {
 	};
 	private void UpdateActiveStatus() {
 		// UPDATE quest status on DB
-		if (leader.equals(StaticClass.MY_ID)) {
+		if (leader.equals(UserInfo.MY_ID)) {
 			if ("ACTIVE".equals(intent.getStringExtra("quest_status"))) {
 				my_status.setTextColor(getResources().getColor(
 						R.color.light_grey));
@@ -253,7 +254,7 @@ public class QuestDetail extends Activity {
 					Toast.LENGTH_SHORT).show();
 		} else {
 			Toast.makeText(QuestDetail.this,
-					StaticClass.TAG_NO_PERMISSION, Toast.LENGTH_SHORT)
+					Constants.TAG_NO_PERMISSION, Toast.LENGTH_SHORT)
 					.show();
 		}
 	}
@@ -261,8 +262,8 @@ public class QuestDetail extends Activity {
 	private AlertDialog DeleteDialog() {
 		AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
 				// set message, title, and icon
-				.setMessage(StaticClass.TAG_DELETE)
-				.setPositiveButton(StaticClass.TAG_CHECK_REMOVE,
+				.setMessage(Constants.TAG_DELETE)
+				.setPositiveButton(Constants.TAG_CHECK_REMOVE,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int which) {
@@ -273,7 +274,7 @@ public class QuestDetail extends Activity {
 								FinishActivities();
 							}
 						})
-				.setNegativeButton(StaticClass.TAG_CANCEL,
+				.setNegativeButton(Constants.TAG_CANCEL,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
@@ -298,12 +299,12 @@ public class QuestDetail extends Activity {
 		params.add(new BasicNameValuePair("quest_id", Integer
 				.toString(quest_id)));
 		JSONObject json = jsonParser.makeHttpRequest(
-				StaticClass.url_delete_quest, "POST", params);
+				Constants.url_delete_quest, "POST", params);
 
 		Log.d("DELETE STATUS", "DeleteDataHelper(): " + json.toString());
 
 		try {
-			int success = json.getInt(StaticClass.TAG_SUCCESS);
+			int success = json.getInt(Constants.TAG_SUCCESS);
 
 			if (success == 1) {
 				System.out.println("delete success");
@@ -318,15 +319,15 @@ public class QuestDetail extends Activity {
 	private void FinishActivities() {
 		intent = new Intent(QuestDetail.this, QuestInfo.class);
 		Log.d("check_option", check_option + "");
-		if (check_option == StaticClass.SINGLE_USER_INFO) {
-			intent.putExtra("option", StaticClass.SINGLE_USER_INFO);
+		if (check_option == Constants.SINGLE_USER_INFO) {
+			intent.putExtra("option", Constants.SINGLE_USER_INFO);
 		}
 		startActivity(intent);
 		finish();
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == StaticClass.TAG_WORK_STATUS) {
+		if (resultCode == Constants.TAG_WORK_STATUS) {
 			adapter.notifyDataSetChanged();
 			listView.setAdapter(adapter);
 //			listView.invalidate();
@@ -350,10 +351,10 @@ public class QuestDetail extends Activity {
 			params.add(new BasicNameValuePair("status", status));
 			params.add(new BasicNameValuePair("quest_id", _id));
 			JSONObject json = jsonParser.makeHttpRequest(
-					StaticClass.url_update_quest, "GET", params);
+					Constants.url_update_quest, "GET", params);
 			Log.d("Quest Update info", json.toString());
 			try {
-				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				int success = json.getInt(Constants.TAG_SUCCESS);
 				if (success == 1) {
 					// SUCCESSFULLY UPDATED DATABASE.
 					Log.d("Quest info", "QUEST STATUS UPDATED");
@@ -379,17 +380,17 @@ public class QuestDetail extends Activity {
 
 		@Override
 		protected String doInBackground(String... args) {
-			member = member.concat(StaticClass.MY_ID + StaticClass.delimiter);
+			member = member.concat(UserInfo.MY_ID + Constants.delimiter);
 			String _id = Integer.toString(quest_id);
 			JSONParser jsonParser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("quest_id", _id));
 			params.add(new BasicNameValuePair("quest_member", member));
 			JSONObject json = jsonParser.makeHttpRequest(
-					StaticClass.url_update_quest_member, "GET", params);
+					Constants.url_update_quest_member, "GET", params);
 			Log.d("Quest Member info", json.toString());
 			try {
-				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				int success = json.getInt(Constants.TAG_SUCCESS);
 				if (success == 1) {
 					// SUCCESSFULLY UPDATED DATABASE.
 					Log.d("Quest Member info", "QUEST MEMBER UPDATED");

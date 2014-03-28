@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.CS429.todorpg.Class.Character;
+import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.EncryptPassword;
 import com.CS429.todorpg.Utils.JSONParser;
 
@@ -46,7 +47,7 @@ public class Login extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
+		prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
@@ -95,9 +96,9 @@ public class Login extends Activity {
 						try {
 							object = GetAllAccountInfo.account.getJSONObject(i);
 							ID_List.add(object
-									.getString(StaticClass.TAG_USER_NAME)
+									.getString(Constants.TAG_USER_NAME)
 									+ "||"
-									+ object.getString(StaticClass.TAG_PASSWORD)
+									+ object.getString(Constants.TAG_PASSWORD)
 									+ "||"
 									+ object.getString("profile_id"));
 						} catch (JSONException e) {
@@ -130,14 +131,14 @@ public class Login extends Activity {
 							Log.d("I'm here", "ID FOUND!");
 							if (encrypted_password.equals(log_info[1])) {
 								Log.d("I'm here too", "PW found");
-								StaticClass.MY_ID = log_info[0];
+								UserInfo.MY_ID = log_info[0];
 								check = 5;
 								
 								// Store the USER ID and LOG IN STATUS into persistent storage
 								Editor editor = prefs.edit();
-								editor.putString(StaticClass.PREF_USERNAME, log_info[0]); // user_name
+								editor.putString(Constants.PREF_USERNAME, log_info[0]); // user_name
 								editor.putString("profile_id", log_info[2]);
-								editor.putBoolean(StaticClass.PREF_IS_LOGGED_IN, true);
+								editor.putBoolean(Constants.PREF_IS_LOGGED_IN, true);
 								if (!editor.commit()){
 									Log.d("PREF", "USER_NAME NOT STORED"); 
 								}
@@ -183,20 +184,20 @@ public class Login extends Activity {
 			 int success;
              try {
                  List<NameValuePair> params = new ArrayList<NameValuePair>();
-                 params.add(new BasicNameValuePair("user_name", StaticClass.MY_ID));
-                 JSONObject json = jsonParser.makeHttpRequest(StaticClass.url_get_character_info, "GET", params);
+                 params.add(new BasicNameValuePair("user_name", UserInfo.MY_ID));
+                 JSONObject json = jsonParser.makeHttpRequest(Constants.url_get_character_info, "GET", params);
 
                  Log.d("Character Info", json.toString());
 
-                 success = json.getInt(StaticClass.TAG_SUCCESS);
+                 success = json.getInt(Constants.TAG_SUCCESS);
                  if (success == 1) {
-                	 StaticClass.CHARACTER_CREATED = true;
-                     JSONArray info = json.getJSONArray(StaticClass.TAG_INFO); 
+                	 UserInfo.CHARACTER_CREATED = true;
+                     JSONArray info = json.getJSONArray(Constants.TAG_INFO); 
                      
 					detail = info.getJSONObject(0);
 					Log.d("Detail", detail.toString());
 					// Static class update
-					StaticClass.CLASS_INFO = new Character(detail.getString("character_name"), 
+					UserInfo.CLASS_INFO = new Character(detail.getString("character_name"), 
 							Integer.parseInt(detail.getString("str")),Integer.parseInt( detail.getString("con")), 
 							Integer.parseInt(detail.getString("dex")), Integer.parseInt(detail.getString("_int")),
 							Integer.parseInt(detail.getString("wis")), Integer.parseInt(detail.getString("cha")), 
@@ -213,16 +214,16 @@ public class Login extends Activity {
 					
 					// Shared Preferences Save 
 					Editor editor = prefs.edit();
-					editor.putString(StaticClass.PREF_CHARACTER_NAME, detail.getString("character_name"));
-					editor.putInt(StaticClass.PREF_CHARACTER_STR, STR);
-					editor.putInt(StaticClass.PREF_CHARACTER_CON, CON);
-					editor.putInt(StaticClass.PREF_CHARACTER_DEX, DEX);
-					editor.putInt(StaticClass.PREF_CHARACTER_INT, INT);
-					editor.putInt(StaticClass.PREF_CHARACTER_WIS, WIS);
-					editor.putInt(StaticClass.PREF_CHARACTER_CHA, CHA);
-					editor.putInt(StaticClass.PREF_CHARACTER_LEVEL, LEVEL);
-					editor.putString(StaticClass.PREF_CHARACTER_CLASS, CLASS);
-					editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, true);
+					editor.putString(Constants.PREF_CHARACTER_NAME, detail.getString("character_name"));
+					editor.putInt(Constants.PREF_CHARACTER_STR, STR);
+					editor.putInt(Constants.PREF_CHARACTER_CON, CON);
+					editor.putInt(Constants.PREF_CHARACTER_DEX, DEX);
+					editor.putInt(Constants.PREF_CHARACTER_INT, INT);
+					editor.putInt(Constants.PREF_CHARACTER_WIS, WIS);
+					editor.putInt(Constants.PREF_CHARACTER_CHA, CHA);
+					editor.putInt(Constants.PREF_CHARACTER_LEVEL, LEVEL);
+					editor.putString(Constants.PREF_CHARACTER_CLASS, CLASS);
+					editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, true);
 					
 					if (!editor.commit()){
 						// Shared Preferences Save 
@@ -231,8 +232,8 @@ public class Login extends Activity {
                  }
                  else{
 					 Editor editor = prefs.edit();
-					 editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, false);
-                	 StaticClass.CHARACTER_CREATED = false;
+					 editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, false);
+                	 UserInfo.CHARACTER_CREATED = false;
                 	 if (!editor.commit()){
  						// Shared Preferences Save 
  						Log.d("PREF", "CHARACTER MISSING MESSAGE NOT STORED"); 
@@ -248,7 +249,7 @@ public class Login extends Activity {
 		protected void onPostExecute(String result) {
 			pDialog.dismiss();
 			MyCharacter.cancel(true);
-			setResult(StaticClass.LOGIN_SUCCESS, intent);
+			setResult(UserInfo.LOGIN_SUCCESS, intent);
 			finish();
 		}
 

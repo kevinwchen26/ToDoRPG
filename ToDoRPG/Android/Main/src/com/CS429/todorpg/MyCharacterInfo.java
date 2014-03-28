@@ -1,5 +1,7 @@
 package com.CS429.todorpg;
 
+import com.CS429.todorpg.Utils.Constants;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,15 +18,15 @@ public class MyCharacterInfo extends Activity {
 		FindViewById();
 		ShowInfo();
 		
-		Log.d("CHARACTER_NAME", StaticClass.CLASS_INFO.getName());
-		Log.d("STR", Integer.toString(StaticClass.CLASS_INFO.getSTR()));
-		Log.d("CON", Integer.toString(StaticClass.CLASS_INFO.getCON()));
-		Log.d("DEX", Integer.toString(StaticClass.CLASS_INFO.getDEX()));
-		Log.d("INT", Integer.toString(StaticClass.CLASS_INFO.getINT()));
-		Log.d("WIS", Integer.toString(StaticClass.CLASS_INFO.getWIS()));
-		Log.d("CHA", Integer.toString(StaticClass.CLASS_INFO.getCHA()));
-		Log.d("CLASS", StaticClass.CLASS_INFO.getCLASS());
-		Log.d("LEVEL", Integer.toString(StaticClass.CLASS_INFO.getLEVEL()));
+		Log.d("CHARACTER_NAME", UserInfo.CLASS_INFO.getName());
+		Log.d("STR", Integer.toString(UserInfo.CLASS_INFO.getSTR()));
+		Log.d("CON", Integer.toString(UserInfo.CLASS_INFO.getCON()));
+		Log.d("DEX", Integer.toString(UserInfo.CLASS_INFO.getDEX()));
+		Log.d("INT", Integer.toString(UserInfo.CLASS_INFO.getINT()));
+		Log.d("WIS", Integer.toString(UserInfo.CLASS_INFO.getWIS()));
+		Log.d("CHA", Integer.toString(UserInfo.CLASS_INFO.getCHA()));
+		Log.d("CLASS", UserInfo.CLASS_INFO.getCLASS());
+		Log.d("LEVEL", Integer.toString(UserInfo.CLASS_INFO.getLEVEL()));
 	}
 	public void FindViewById() {
 		character_name = (TextView) findViewById(R.id.character_name);
@@ -38,26 +40,26 @@ public class MyCharacterInfo extends Activity {
 		character_cha = (TextView) findViewById(R.id.character_cha);
 	}
 	public void ShowInfo() {
-		character_name.setText(StaticClass.CLASS_INFO.getName());
-		String character = StaticClass.CLASS_INFO.getCLASS();
-		if(character.equals(StaticClass.WARRIOR)) {
+		character_name.setText(UserInfo.CLASS_INFO.getName());
+		String character = UserInfo.CLASS_INFO.getCLASS();
+		if(character.equals(Constants.WARRIOR)) {
 			character_image.setImageResource(R.drawable.warrior);
-		} else if(character.equals(StaticClass.ASSASSIN)) {
+		} else if(character.equals(Constants.ASSASSIN)) {
 			character_image.setImageResource(R.drawable.assassin);
-		} else if(character.equals(StaticClass.MAGE)) {
+		} else if(character.equals(Constants.MAGE)) {
 			character_image.setImageResource(R.drawable.mage);
-		} else if(character.equals(StaticClass.ARCHER)) {
+		} else if(character.equals(Constants.ARCHER)) {
 			character_image.setImageResource(R.drawable.archer);
-		} else if(character.equals(StaticClass.SUMMONER)) {
+		} else if(character.equals(Constants.SUMMONER)) {
 			character_image.setImageResource(R.drawable.summoner);
 		}
-		character_level.setText(Integer.toString(StaticClass.CLASS_INFO.getLEVEL()));
-		character_str.setText(Integer.toString(StaticClass.CLASS_INFO.getSTR()));
-		character_con.setText(Integer.toString(StaticClass.CLASS_INFO.getCON()));
-		character_dex.setText(Integer.toString(StaticClass.CLASS_INFO.getDEX()));
-		character_int.setText(Integer.toString(StaticClass.CLASS_INFO.getINT()));
-		character_wis.setText(Integer.toString(StaticClass.CLASS_INFO.getWIS()));
-		character_cha.setText(Integer.toString(StaticClass.CLASS_INFO.getCHA()));
+		character_level.setText(Integer.toString(UserInfo.CLASS_INFO.getLEVEL()));
+		character_str.setText(Integer.toString(UserInfo.CLASS_INFO.getSTR()));
+		character_con.setText(Integer.toString(UserInfo.CLASS_INFO.getCON()));
+		character_dex.setText(Integer.toString(UserInfo.CLASS_INFO.getDEX()));
+		character_int.setText(Integer.toString(UserInfo.CLASS_INFO.getINT()));
+		character_wis.setText(Integer.toString(UserInfo.CLASS_INFO.getWIS()));
+		character_cha.setText(Integer.toString(UserInfo.CLASS_INFO.getCHA()));
 		
 	}
 }

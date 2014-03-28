@@ -364,11 +364,11 @@ public class BattleActivity extends Activity {
 	private void getCharacters() {
 		
 		//*** Pull user's character info ***//
-		Character leader = CharacterOperations.pullCharacter(StaticClass.CLASS_INFO.getCLASS(),
-				StaticClass.CLASS_INFO.getName(), StaticClass.CLASS_INFO.getHP(), StaticClass.CLASS_INFO.getMP(), 
-				StaticClass.CLASS_INFO.getLEVEL(), StaticClass.CLASS_INFO.getCON(), StaticClass.CLASS_INFO.getSTR(), 
-				StaticClass.CLASS_INFO.getDEX(), StaticClass.CLASS_INFO.getINT(), StaticClass.CLASS_INFO.getWIS(), 
-				StaticClass.CLASS_INFO.getCHA(), StaticClass.CLASS_INFO.getcurrentEXP(), StaticClass.CLASS_INFO.getnextLevelEXP());
+		Character leader = CharacterOperations.pullCharacter(UserInfo.CLASS_INFO.getCLASS(),
+				UserInfo.CLASS_INFO.getName(), UserInfo.CLASS_INFO.getHP(), UserInfo.CLASS_INFO.getMP(), 
+				UserInfo.CLASS_INFO.getLEVEL(), UserInfo.CLASS_INFO.getCON(), UserInfo.CLASS_INFO.getSTR(), 
+				UserInfo.CLASS_INFO.getDEX(), UserInfo.CLASS_INFO.getINT(), UserInfo.CLASS_INFO.getWIS(), 
+				UserInfo.CLASS_INFO.getCHA(), UserInfo.CLASS_INFO.getcurrentEXP(), UserInfo.CLASS_INFO.getnextLevelEXP());
 		party.add(leader);
 		
 		//*** Will need to change to pull all members of a party in the next iteration, for loop ^^^^^^^^ ***//
