@@ -89,16 +89,19 @@
             android:name="com.CS429.todorpg.AlarmNotification"
             android:label="@string/title_activity_alarm_notification" >
         </activity>
-         <activity
+        <activity
             android:name="com.CS429.todorpg.ToDoListStatusSetup"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-       	<receiver
+
+        <receiver
             android:name="com.CS429.todorpg.AlarmReceiver"
             android:process=":remote" />
+
         <service
             android:name="com.CS429.todorpg.RingtoneService"
-            android:enabled="true"/> 
+            android:enabled="true" />
+
     </application>
 
 </manifest>

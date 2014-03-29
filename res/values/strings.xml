@@ -61,6 +61,8 @@
     <string name="choose_option">Please choose one of following options</string>
     <string name="progress">In Progress</string>
     <string name="done">Done</string>
-	<string name="okay">Change status</string>
-	<string name="cancel_btn">Cancel</string>
+    <string name="okay">Change status</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="title_activity_calendar_view">CalendarView</string>
+
 </resources>
