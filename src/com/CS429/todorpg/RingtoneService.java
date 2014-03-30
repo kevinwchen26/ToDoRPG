@@ -92,7 +92,7 @@ public class RingtoneService extends Service{
 	 * 
 	 * @param title
 	 */
-	private void cancelAlarm(String title){
+	public static synchronized void cancelAlarm(String title){
 		AlarmPair<AlarmManager, PendingIntent> pair = AlarmTable.get(title);
 		pair.getFirst().cancel(pair.getSecond());
 		AlarmTable.remove(title);

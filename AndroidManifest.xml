@@ -102,6 +102,10 @@
             android:name="com.CS429.todorpg.RingtoneService"
             android:enabled="true" />
 
+        <activity
+            android:name="com.CS429.todorpg.CalendarView"
+            android:label="@string/title_activity_calendar_view" >
+        </activity>
     </application>
 
 </manifest>
