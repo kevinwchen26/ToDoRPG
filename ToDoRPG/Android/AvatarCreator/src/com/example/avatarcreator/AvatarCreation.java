@@ -16,12 +16,12 @@ import android.widget.ImageView;
 
 /**
  * 
- * @author Chandra Sekhar Nayak
- * @version 1.0
+ * @author paulkim6, kwchen3
  * 
- * This class is an activity and will displayed first when application starts 
- * This Activity will display small images in a grid view
- * It also shows a button showing "Merge" on it. When clicks merges the small image chunks
+ * Class that holds relevant information of Avatar
+ * Based some segments of code off of this URL: 
+ * http://www.chansek.com/2012/06/merge-multiple-images-into-one-image-in.html
+ *
  */
 public class AvatarCreation extends Activity implements OnClickListener {
 	
@@ -125,8 +125,8 @@ public class AvatarCreation extends Activity implements OnClickListener {
 		
 		//create a canvas for drawing all those small images
 		Canvas canvas = new Canvas(bitmap);
-		canvas.drawBitmap(avatar.getHelmImage(), 30,30, null);
 		canvas.drawBitmap(avatar.getFaceImage(), 50,50, null);
+		canvas.drawBitmap(avatar.getHelmImage(), 30,30, null);
 		
 		/*
 		int count = 0;
