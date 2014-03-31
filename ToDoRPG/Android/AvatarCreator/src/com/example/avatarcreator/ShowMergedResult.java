@@ -1,9 +1,11 @@
 package com.example.avatarcreator;
 
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.widget.ImageView;
 
@@ -18,6 +20,16 @@ public class ShowMergedResult extends Activity {
 		Bitmap bitmap = getIntent().getParcelableExtra("merged_image");
 		ImageView image = (ImageView) findViewById(R.id.merged_image);
 		image.setImageBitmap(bitmap);
+			
+		// Scale image size to match screen (requires minimum API level 13)
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int screenWidth = size.x;
+		int screenHeight = size.y;
+		
+		image.getLayoutParams().height = screenWidth / 2;
+		image.getLayoutParams().width = screenHeight / 2;
 		
 	}
 
