@@ -1,5 +1,7 @@
 package com.CS429.todorpg;
 
+import com.CS429.todorpg.Utils.Constants;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -102,8 +104,8 @@ public class QuestMilestone extends Activity {
 	private AlertDialog GetFinishStepOption() {
 		AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
 				// set message, title, and icon
-				.setTitle(StaticClass.TAG_ERROR)
-				.setMessage(StaticClass.TAG_CONFIRM_CANCEL)
+				.setTitle(Constants.TAG_ERROR)
+				.setMessage(Constants.TAG_CONFIRM_CANCEL)
 				.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
@@ -126,7 +128,7 @@ public class QuestMilestone extends Activity {
 
 	private AlertDialog GetNullDataHandleDialog() {
 		AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
-				.setTitle(StaticClass.TAG_ERROR)
+				.setTitle(Constants.TAG_ERROR)
 				.setMessage("Fill in the blank")
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {

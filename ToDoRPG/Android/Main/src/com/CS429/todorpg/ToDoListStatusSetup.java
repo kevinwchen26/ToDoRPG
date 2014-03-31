@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
 
 public class ToDoListStatusSetup extends Activity {
@@ -120,7 +121,7 @@ public class ToDoListStatusSetup extends Activity {
 			switch (view.getId()) {
 			case R.id.ok_btn:
 				StatusUpdate();
-				setResult(StaticClass.TAG_WORK_STATUS, intent);
+				setResult(Constants.TAG_WORK_STATUS, intent);
 				finish();
 				break;
 			case R.id.cancel_btn:
@@ -152,10 +153,10 @@ public class ToDoListStatusSetup extends Activity {
 			params.add(new BasicNameValuePair("quest_id", Integer.toString(quest_id)));
 			System.out.println(Boolean.toString(ToDoListAdapter.progress_status) + " : " + Boolean.toString(ToDoListAdapter.done_status));
 			JSONObject json = jsonParser.makeHttpRequest(
-					StaticClass.url_update_work_status, "GET", params);
+					Constants.url_update_work_status, "GET", params);
 			Log.d("Work Update info", json.toString());
 			try {
-				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				int success = json.getInt(Constants.TAG_SUCCESS);
 				if (success == 1) {
 					// SUCCESSFULLY UPDATED DATABASE.
 					Log.d("Quest info", "WORK STATUS UPDATED");

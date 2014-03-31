@@ -1,21 +1,17 @@
 package com.CS429.todorpg;
 
-import com.CS429.todorpg.Class.Warrior;
+import com.CS429.todorpg.Utils.Constants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +24,7 @@ public class StartMain extends Activity {
 	TextView user_id;
 
 	// Persistent Data
-	SharedPreferences prefs;
+	//SharedPreferences prefs;
 
 	//Battle Demo prompt
 	AlertDialog battleMsg;
@@ -36,7 +32,7 @@ public class StartMain extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_main);
-		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
+		//prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
 		startMain_activity = this;
 		ButtonHandler();
 		makeBattleDemoMessages();
@@ -108,15 +104,15 @@ public class StartMain extends Activity {
 
 	private void JoinHandler() {
 		if (!LoginStatus()) {
-			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		} else {
-			if (StaticClass.isNetworkConnected(startMain_activity)) {
+			if (UserInfo.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "CONNECTED");
 				intent = new Intent(StartMain.this, MapActivity.class);
 				startActivity(intent);
 			} else {
-				StaticClass.GetNetworkDialog(startMain_activity).show();
+				UserInfo.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
 			}
@@ -125,57 +121,59 @@ public class StartMain extends Activity {
 	}
 
 	private void RegisterHandler() {
-		if (StaticClass.isNetworkConnected(startMain_activity)) {
+		if (UserInfo.isNetworkConnected(startMain_activity)) {
 			Log.d("STATUS", "CONNECTED");
 			intent = new Intent(this, Register.class);
 			startActivity(intent);
 		} else {
-			StaticClass.GetNetworkDialog(startMain_activity).show();
+			UserInfo.GetNetworkDialog(startMain_activity).show();
 			Log.d("STATUS", "NOT CONNECTED");
 			return;
 		}
 	}
 
 	private void LoginHandler() {
-		if (StaticClass.isNetworkConnected(startMain_activity)) {
+		if (UserInfo.isNetworkConnected(startMain_activity)) {
 			Log.d("STATUS", "CONNECTED");
 			intent = new Intent(this, Login.class);
 			startActivityForResult(intent, 0);
 		} else {
-			StaticClass.GetNetworkDialog(startMain_activity).show();
+			UserInfo.GetNetworkDialog(startMain_activity).show();
 			Log.d("STATUS", "NOT CONNECTED");
 			return;
 		}
 	}
 
 	public boolean LoginStatus() {
-		if (StaticClass.MY_ID == null)
-			return false;
-		else
-			return true;
+		return ((UserInfo)getApplicationContext()).isLoggedIn();
+//		if (UserInfo.username == null)
+//			return false;
+//		else
+//			return true;
 	}
 
 	public void clearSharedPreferences() {
-		Editor editor = prefs.edit();
-		editor.clear();
-		editor.commit();
+//		Editor editor = prefs.edit();
+//		editor.clear();
+//		editor.commit();
 	}
 
 	public boolean characterStatus() {
-		if (prefs.contains(StaticClass.PREF_CHARACTER_EXISTS))
-			return prefs.getBoolean(StaticClass.PREF_CHARACTER_EXISTS, false);
-		else
-			return false;
+		return ((UserInfo)getApplicationContext()).hasCharacter();
+//		if (prefs.contains(Constants.PREF_CHARACTER_EXISTS))
+//			return prefs.getBoolean(Constants.PREF_CHARACTER_EXISTS, false);
+//		else
+//			return false;
 	}
 
 	public void CharacterCreation() {
 		// TODO Check if user created character
 		if (!LoginStatus()) {
-			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if (StaticClass.CHARACTER_CREATED) {
-			Toast.makeText(this, StaticClass.HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
+		if (((UserInfo)getApplicationContext()).hasCharacter()) {
+			Toast.makeText(this, Constants.HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		intent = new Intent(StartMain.this, CharacterCreation.class);
@@ -184,12 +182,12 @@ public class StartMain extends Activity {
 
 	public void CharacterInfo() {
 		if (!LoginStatus()) {
-			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
 		if (!characterStatus()) {
-			Toast.makeText(this, StaticClass.DONT_HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, Constants.DONT_HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		intent = new Intent(StartMain.this, MyCharacterInfo.class);
@@ -198,7 +196,7 @@ public class StartMain extends Activity {
 	}
 
 	public void LogoutHandler() {
-		Toast.makeText(this, StaticClass.LOGOUT_MESSAGE, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, Constants.LOGOUT_MESSAGE, Toast.LENGTH_SHORT).show();
 		/*
 		 * TODO all personal info should be removed, right now id is the only
 		 * info that user has
@@ -207,26 +205,27 @@ public class StartMain extends Activity {
 		// Clear out Shared Preferences
 		clearSharedPreferences();
 
-		StaticClass.MY_ID = null;
-		StaticClass.CLASS_INFO = null;
+//		UserInfo.username = null;
+//		UserInfo.CLASS_INFO = null;
+		((UserInfo)getApplicationContext()).logout();
 		header.setVisibility(View.VISIBLE);
 		sub_header.setVisibility(View.GONE);
 	}
 
 	public void QuestCreation() {
 		if (!LoginStatus()) {
-			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		} else if (!characterStatus()) {
-			Toast.makeText(this, StaticClass.DONT_HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, Constants.DONT_HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		} else {
-			if (StaticClass.isNetworkConnected(startMain_activity)) {
+			if (UserInfo.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "CONNECTED");
 				intent = new Intent(StartMain.this, QuestCreation.class);
 				startActivity(intent);
 			} else {
-				StaticClass.GetNetworkDialog(startMain_activity).show();
+				UserInfo.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
 			}
@@ -235,29 +234,29 @@ public class StartMain extends Activity {
 
 	private void MyQuestInfo() {
 		if (!LoginStatus()) {
-			Toast.makeText(this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		} else {
-			if (StaticClass.isNetworkConnected(startMain_activity)) {
+			if (UserInfo.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "My Quests: CONNECTED");
 				intent = new Intent(StartMain.this, QuestInfo.class);
-				intent.putExtra("option", StaticClass.SINGLE_USER_INFO);
+				intent.putExtra("option", Constants.SINGLE_USER_INFO);
 				startActivity(intent);
 			} else {
-				StaticClass.GetNetworkDialog(startMain_activity).show();
+				UserInfo.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
 			}
 		}
 	}
 	private void AllQuestInfo() {
-		if (StaticClass.isNetworkConnected(startMain_activity)) {
+		if (UserInfo.isNetworkConnected(startMain_activity)) {
 			Log.d("STATUS", "My Quests: CONNECTED");
 			intent = new Intent(StartMain.this, QuestInfo.class);
-			intent.putExtra("option", StaticClass.ALL_USER_INFO);
+			intent.putExtra("option", Constants.ALL_USER_INFO);
 			this.startActivity(intent);
 		} else {
-			StaticClass.GetNetworkDialog(startMain_activity).show();
+			UserInfo.GetNetworkDialog(startMain_activity).show();
 			Log.d("STATUS", "NOT CONNECTED");
 			return;
 		}
@@ -265,8 +264,8 @@ public class StartMain extends Activity {
 	
 	public void makeBattleDemoMessages () {
 		builder = new AlertDialog.Builder(this);
-		builder.setTitle(StaticClass.TAG_ERROR);
-		builder.setMessage(StaticClass.BATTLE_CLASS_LOG_ERROR);
+		builder.setTitle(Constants.TAG_ERROR);
+		builder.setMessage(Constants.BATTLE_CLASS_LOG_ERROR);
 		
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			
@@ -284,7 +283,7 @@ public class StartMain extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {			
 				dialog.dismiss();
-				Toast.makeText(StartMain.this, StaticClass.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+				Toast.makeText(StartMain.this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -296,13 +295,13 @@ public class StartMain extends Activity {
 			battleMsg.show();			
 			return;
 		} else {
-			if (StaticClass.isNetworkConnected(startMain_activity)) {
+			if (UserInfo.isNetworkConnected(startMain_activity)) {
 				Log.d("STATUS", "My Profile: CONNECTED");
 				intent = new Intent(StartMain.this, BattleActivity.class);
 				intent.putExtra("default", false);
 				startActivity(intent);
 			} else {
-				StaticClass.GetNetworkDialog(startMain_activity).show();
+				UserInfo.GetNetworkDialog(startMain_activity).show();
 				Log.d("STATUS", "NOT CONNECTED");
 				return;
 			}
@@ -319,9 +318,9 @@ public class StartMain extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == StaticClass.LOGIN_SUCCESS) {
+		if (resultCode == Constants.LOGIN_SUCCESS) {
 			header.setVisibility(View.GONE);
-			user_id.setText(StaticClass.WELCOME_MESSAGE + " " + StaticClass.MY_ID);
+			user_id.setText(Constants.WELCOME_MESSAGE + " " + ((UserInfo)getApplicationContext()).getUserName());
 			sub_header.setVisibility(View.VISIBLE);
 		}
 	}

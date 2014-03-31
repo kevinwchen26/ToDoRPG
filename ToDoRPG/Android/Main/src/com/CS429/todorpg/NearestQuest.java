@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
 
 public class NearestQuest extends AsyncTask<String, String, String>{
@@ -28,7 +29,7 @@ public class NearestQuest extends AsyncTask<String, String, String>{
 			jsonparser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			json = jsonparser.makeHttpRequest(
-					StaticClass.url_get_quests, "GET", params);
+					Constants.url_get_quests, "GET", params);
 			//test printing
 			Log.d("QUEST", json.toString());
 			

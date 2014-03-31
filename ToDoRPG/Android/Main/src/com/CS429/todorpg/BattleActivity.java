@@ -1,8 +1,6 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.CS429.todorpg.Class.Archer;
 import com.CS429.todorpg.Class.Assassin;
 import com.CS429.todorpg.Class.Mage;
@@ -18,7 +16,6 @@ import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -31,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class BattleActivity extends Activity {
 	boolean defaultClass, playerTurn;
@@ -362,13 +358,9 @@ public class BattleActivity extends Activity {
 	
 
 	private void getCharacters() {
-		
+		;
 		//*** Pull user's character info ***//
-		Character leader = CharacterOperations.pullCharacter(StaticClass.CLASS_INFO.getCLASS(),
-				StaticClass.CLASS_INFO.getName(), StaticClass.CLASS_INFO.getHP(), StaticClass.CLASS_INFO.getMP(), 
-				StaticClass.CLASS_INFO.getLEVEL(), StaticClass.CLASS_INFO.getCON(), StaticClass.CLASS_INFO.getSTR(), 
-				StaticClass.CLASS_INFO.getDEX(), StaticClass.CLASS_INFO.getINT(), StaticClass.CLASS_INFO.getWIS(), 
-				StaticClass.CLASS_INFO.getCHA(), StaticClass.CLASS_INFO.getcurrentEXP(), StaticClass.CLASS_INFO.getnextLevelEXP());
+		Character leader = CharacterOperations.pullCharacter(((UserInfo)getApplicationContext()).getCharacter());
 		party.add(leader);
 		
 		//*** Will need to change to pull all members of a party in the next iteration, for loop ^^^^^^^^ ***//

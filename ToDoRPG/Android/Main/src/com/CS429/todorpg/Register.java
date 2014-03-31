@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.EncryptPassword;
 import com.CS429.todorpg.Utils.JSONParser;
 
@@ -82,7 +83,7 @@ public class Register extends Activity {
 						JSONObject object;
 						try {
 							object = GetAllAccountInfo.account.getJSONObject(i);
-							ID_List.add(object.getString(StaticClass.TAG_USER_NAME));
+							ID_List.add(object.getString(Constants.TAG_USER_NAME));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -174,12 +175,12 @@ public class Register extends Activity {
 			params.add(new BasicNameValuePair("password", encrypted_password));
 
 			JSONObject json = jsonParser.makeHttpRequest(
-					StaticClass.url_create_account, "POST", params);
+					Constants.url_create_account, "POST", params);
 
 			Log.d("Create Response", json.toString());
 
 			try {
-				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				int success = json.getInt(Constants.TAG_SUCCESS);
 
 				if (success == 1) {
 					Log.d("Account Status", "Account Created Successfully");
@@ -193,7 +194,7 @@ public class Register extends Activity {
 		}
 
 		protected void onPostExecute(String file_url) {
-			Toast.makeText(Register.this, StaticClass.ACCOUNT_CREATION_MESSAGE, Toast.LENGTH_SHORT).show();
+			Toast.makeText(Register.this, Constants.ACCOUNT_CREATION_MESSAGE, Toast.LENGTH_SHORT).show();
 			pDialog.dismiss();
 			create_account.cancel(true);
 			finish();

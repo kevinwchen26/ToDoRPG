@@ -12,10 +12,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,26 +24,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.CS429.todorpg.Class.Character;
+import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.EncryptPassword;
 import com.CS429.todorpg.Utils.JSONParser;
 
 public class Login extends Activity {
 	private ProgressDialog pDialog;
 	EditText login_id, login_pw;
-	TextView no_id_message, wrong_pw_message, id_empty_message,
-			pw_empty_message;
+	TextView no_id_message, wrong_pw_message, id_empty_message, pw_empty_message;
 	MyCharacter MyCharacter = new MyCharacter();
 	JSONParser jsonParser = new JSONParser();
 	JSONObject detail;
 	Intent intent;
-	
+
 	// Persistent Data
-	SharedPreferences prefs;
+	// SharedPreferences prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		prefs = getSharedPreferences(StaticClass.MY_PREFERENCES, Context.MODE_PRIVATE);
+		// prefs = getSharedPreferences(Constants.MY_PREFERENCES,
+		// Context.MODE_PRIVATE);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
@@ -60,8 +57,7 @@ public class Login extends Activity {
 		WindowManager.LayoutParams params = getWindow().getAttributes();
 		params.width = WindowManager.LayoutParams.FILL_PARENT;
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getWindow().setAttributes(params);
 	}
 
@@ -94,12 +90,7 @@ public class Login extends Activity {
 						JSONObject object;
 						try {
 							object = GetAllAccountInfo.account.getJSONObject(i);
-							ID_List.add(object
-									.getString(StaticClass.TAG_USER_NAME)
-									+ "||"
-									+ object.getString(StaticClass.TAG_PASSWORD)
-									+ "||"
-									+ object.getString("profile_id"));
+							ID_List.add(object.getString(Constants.TAG_USER_NAME) + "||" + object.getString(Constants.TAG_PASSWORD) + "||" + object.getString("profile_id"));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -130,19 +121,24 @@ public class Login extends Activity {
 							Log.d("I'm here", "ID FOUND!");
 							if (encrypted_password.equals(log_info[1])) {
 								Log.d("I'm here too", "PW found");
-								StaticClass.MY_ID = log_info[0];
+								UserInfo user = (UserInfo) getApplicationContext();
+								user.setUserName(log_info[0]);
+								//UserInfo.username = log_info[0];
 								check = 5;
-								
-								// Store the USER ID and LOG IN STATUS into persistent storage
-								Editor editor = prefs.edit();
-								editor.putString(StaticClass.PREF_USERNAME, log_info[0]); // user_name
-								editor.putString("profile_id", log_info[2]);
-								editor.putBoolean(StaticClass.PREF_IS_LOGGED_IN, true);
-								if (!editor.commit()){
-									Log.d("PREF", "USER_NAME NOT STORED"); 
-								}
-								
-								
+
+								// Store the USER ID and LOG IN STATUS into
+								// persistent storage
+								//Editor editor = prefs.edit();
+								// editor.putString(Constants.PREF_USERNAME,
+								// log_info[0]); // user_name
+								//editor.putString("profile_id", log_info[2]);
+								user.setProfileID(log_info[2]);
+								//editor.putBoolean(Constants.PREF_IS_LOGGED_IN, true);
+								user.login();
+//								if (!editor.commit()) {
+//									Log.d("PREF", "USER_NAME NOT STORED");
+//								}
+
 								break;
 							} else {
 								check = 4;
@@ -180,28 +176,30 @@ public class Login extends Activity {
 
 		@Override
 		protected String doInBackground(String... arg) {
-			 int success;
-             try {
-                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                 params.add(new BasicNameValuePair("user_name", StaticClass.MY_ID));
-                 JSONObject json = jsonParser.makeHttpRequest(StaticClass.url_get_character_info, "GET", params);
+			int success;
+			try {
+				UserInfo user = (UserInfo)getApplicationContext();
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params.add(new BasicNameValuePair("user_name", user.getUserName()));
+				JSONObject json = jsonParser.makeHttpRequest(Constants.url_get_character_info, "GET", params);
 
-                 Log.d("Character Info", json.toString());
+				Log.d("Character Info", json.toString());
 
-                 success = json.getInt(StaticClass.TAG_SUCCESS);
-                 if (success == 1) {
-                	 StaticClass.CHARACTER_CREATED = true;
-                     JSONArray info = json.getJSONArray(StaticClass.TAG_INFO); 
-                     
+				success = json.getInt(Constants.TAG_SUCCESS);
+				if (success == 1) {
+					//UserInfo.CHARACTER_CREATED = true;
+					JSONArray info = json.getJSONArray(Constants.TAG_INFO);
+
 					detail = info.getJSONObject(0);
 					Log.d("Detail", detail.toString());
 					// Static class update
-					StaticClass.CLASS_INFO = new Character(detail.getString("character_name"), 
-							Integer.parseInt(detail.getString("str")),Integer.parseInt( detail.getString("con")), 
-							Integer.parseInt(detail.getString("dex")), Integer.parseInt(detail.getString("_int")),
-							Integer.parseInt(detail.getString("wis")), Integer.parseInt(detail.getString("cha")), 
-							Integer.parseInt(detail.getString("level")), detail.getString("class"));
-					
+					user.createCharacter(detail.getString("character_name"), Integer.parseInt(detail.getString("str")), Integer.parseInt(detail.getString("con")),
+							Integer.parseInt(detail.getString("dex")), Integer.parseInt(detail.getString("_int")), Integer.parseInt(detail.getString("wis")),
+							Integer.parseInt(detail.getString("cha")), Integer.parseInt(detail.getString("level")), detail.getString("class"));
+//					UserInfo.CLASS_INFO = new Character,
+//							Integer.parseInt(detail.getString("dex")), Integer.parseInt(detail.getString("_int")), Integer.parseInt(detail.getString("wis")),
+//							Integer.parseInt(detail.getString("cha")), Integer.parseInt(detail.getString("level")), detail.getString("class"));
+
 					int STR = Integer.parseInt(detail.getString("str"));
 					int CON = Integer.parseInt(detail.getString("con"));
 					int DEX = Integer.parseInt(detail.getString("dex"));
@@ -210,37 +208,38 @@ public class Login extends Activity {
 					int CHA = Integer.parseInt(detail.getString("cha"));
 					int LEVEL = Integer.parseInt(detail.getString("level"));
 					String CLASS = detail.getString("class");
-					
-					// Shared Preferences Save 
-					Editor editor = prefs.edit();
-					editor.putString(StaticClass.PREF_CHARACTER_NAME, detail.getString("character_name"));
-					editor.putInt(StaticClass.PREF_CHARACTER_STR, STR);
-					editor.putInt(StaticClass.PREF_CHARACTER_CON, CON);
-					editor.putInt(StaticClass.PREF_CHARACTER_DEX, DEX);
-					editor.putInt(StaticClass.PREF_CHARACTER_INT, INT);
-					editor.putInt(StaticClass.PREF_CHARACTER_WIS, WIS);
-					editor.putInt(StaticClass.PREF_CHARACTER_CHA, CHA);
-					editor.putInt(StaticClass.PREF_CHARACTER_LEVEL, LEVEL);
-					editor.putString(StaticClass.PREF_CHARACTER_CLASS, CLASS);
-					editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, true);
-					
-					if (!editor.commit()){
-						// Shared Preferences Save 
-						Log.d("PREF", "CHARACTER NOT STORED"); 
-					}
-                 }
-                 else{
-					 Editor editor = prefs.edit();
-					 editor.putBoolean(StaticClass.PREF_CHARACTER_EXISTS, false);
-                	 StaticClass.CHARACTER_CREATED = false;
-                	 if (!editor.commit()){
- 						// Shared Preferences Save 
- 						Log.d("PREF", "CHARACTER MISSING MESSAGE NOT STORED"); 
- 					}
-                 }
-             } catch (JSONException e) {
-                 e.printStackTrace();
-             }
+
+					// Shared Preferences Save
+//					Editor editor = prefs.edit();
+//					editor.putString(Constants.PREF_CHARACTER_NAME, detail.getString("character_name"));
+//					editor.putInt(Constants.PREF_CHARACTER_STR, STR);
+//					editor.putInt(Constants.PREF_CHARACTER_CON, CON);
+//					editor.putInt(Constants.PREF_CHARACTER_DEX, DEX);
+//					editor.putInt(Constants.PREF_CHARACTER_INT, INT);
+//					editor.putInt(Constants.PREF_CHARACTER_WIS, WIS);
+//					editor.putInt(Constants.PREF_CHARACTER_CHA, CHA);
+//					editor.putInt(Constants.PREF_CHARACTER_LEVEL, LEVEL);
+//					editor.putString(Constants.PREF_CHARACTER_CLASS, CLASS);
+//					editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, true);
+
+//					if (!editor.commit()) {
+//						// Shared Preferences Save
+//						Log.d("PREF", "CHARACTER NOT STORED");
+//					}
+				} else {
+//					UserInfo user=(UserInfo)getApplicationContext();
+//					Editor editor = prefs.edit();
+//					editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, false);
+//					user.cancelCharacterCreate();
+					//UserInfo.CHARACTER_CREATED = false;
+//					if (!editor.commit()) {
+//						// Shared Preferences Save
+//						Log.d("PREF", "CHARACTER MISSING MESSAGE NOT STORED");
+//					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 
 			return null;
 		}
@@ -248,7 +247,7 @@ public class Login extends Activity {
 		protected void onPostExecute(String result) {
 			pDialog.dismiss();
 			MyCharacter.cancel(true);
-			setResult(StaticClass.LOGIN_SUCCESS, intent);
+			setResult(Constants.LOGIN_SUCCESS, intent);
 			finish();
 		}
 
