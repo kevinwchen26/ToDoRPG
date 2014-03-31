@@ -45,12 +45,30 @@
             android:layout_height="wrap_content"
             android:text="due date" />
 
-		<Button
-			android:id="@+id/due_date"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="30sp"
-			android:text="Due Date" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="6"
+            android:orientation="horizontal" >
+            
+            <EditText
+                android:id="@+id/due_date_edit"
+                android:layout_weight="4.5"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+             	android:background="#FFFFFF"
+                android:hint="mm/dd/yyyy"
+                android:inputType="date"
+                android:textSize="30sp" />
+            
+            <Button
+				android:id="@+id/due_date"
+				android:layout_width="0dp"
+				android:layout_height="fill_parent"
+				android:layout_weight="1.5"
+				android:text="date" />
+
+        </LinearLayout>
         
         
         <Button

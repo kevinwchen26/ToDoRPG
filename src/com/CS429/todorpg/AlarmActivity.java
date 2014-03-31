@@ -12,8 +12,12 @@ public class AlarmActivity extends Activity {
 	private static final String everyday = "everyday";
 	private static final String twoday = "twoday";
 	private static final String once = "once";
+	private static final String noring = "noring";
+	private static final String ringtone = "ringtone";
+	private static final String vibrate = "vibrate";
 	
 	private String chosen = "";
+	private String notitype = "";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +52,21 @@ public class AlarmActivity extends Activity {
 			chosen = once;
 			break;
 		
+		case R.id.alarm_ringtone:
+			notitype = ringtone;
+			break;
+		
+		case R.id.alarm_vibrate:
+			notitype = vibrate;
+			break;
+		
+		case R.id.alarm_noring:
+			notitype = noring;
+			break;
+			
 		default:
 			chosen = "none";
+			notitype = "none";
 			break;
 		}
 	}
@@ -61,6 +78,7 @@ public class AlarmActivity extends Activity {
 		case R.id.alarm_okay:
 			Intent intent = new Intent();
 			intent.putExtra("alarm", chosen);
+			intent.putExtra("noti", notitype);
 			setResult(RESULT_OK, intent);
 			finish();
 			break;

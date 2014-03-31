@@ -298,7 +298,7 @@ public class CalendarView extends Activity implements OnClickListener{
             String theyear = singleDayInfo[3];
  
             gridCellButton.setText(thedate);
-            gridCellButton.setTag(themonth + " / " + thedate + " / " + theyear);
+            gridCellButton.setTag(themonth + "/" + thedate + "/" + theyear);
             
 
             if (textAttr.equals("FromPrevMonthDays")){

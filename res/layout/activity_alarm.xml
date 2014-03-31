@@ -3,7 +3,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	android:weightSum="9" >
+	android:weightSum="11" >
     
     
     <RadioButton android:id="@+id/alarm_everyday"
@@ -26,6 +26,37 @@
         android:text="remind me one day before due date"
         android:layout_weight="2"
         android:onClick="onRadioButtonClicked"/>
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:weightSum="3">
+        
+        <RadioButton android:id="@+id/alarm_ringtone"
+  	      android:layout_width="wrap_content"
+  	      android:layout_height="wrap_content"
+   	   	  android:text="ringtone"
+   	  	  android:layout_weight="1"
+   		  android:onClick="onRadioButtonClicked"/>
+    
+    	<RadioButton android:id="@+id/alarm_vibrate"
+			android:layout_width="wrap_content"
+   	     	android:layout_height="wrap_content"
+   	     	android:text="vibrate"
+   	     	android:layout_weight="1"
+   	     	android:onClick="onRadioButtonClicked"/>
+    
+    	<RadioButton android:id="@+id/alarm_noring"
+   		    android:layout_width="wrap_content"
+   		    android:layout_height="wrap_content"
+  		    android:text="no ringtone"
+			android:layout_weight="1"
+        	android:onClick="onRadioButtonClicked"/>
+        
+    </LinearLayout>
+    
     
     <Button android:id="@+id/alarm_okay"
         android:layout_width="wrap_content"

@@ -33,6 +33,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.JSONParser;
@@ -41,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class QuestCreation extends Activity {
 //	private ProgressDialog pDialog;
 	EditText title, description; //, newMilestone;
+	EditText duedate;
 	private String month, day, location;
 //	ListView milestones;
 	Spinner location_spinner;
@@ -49,7 +51,7 @@ public class QuestCreation extends Activity {
 	CreateQuest createQuest = new CreateQuest();
 	SharedPreferences prefs;
 	String milestones_to_string;
-	String alarmType;
+	String alarmType, notitype;
 	public static boolean milestone_written = false;
 	public static ArrayList<String> milestones;
 	
@@ -115,17 +117,19 @@ public class QuestCreation extends Activity {
 		title = (EditText) findViewById(R.id.creation_quest_title);
 		location_spinner = (Spinner)findViewById(R.id.creation_quest_location);
 		maximum_spinner = (Spinner)findViewById(R.id.creation_quest_maximum_number);
+		duedate = (EditText)findViewById(R.id.due_date_edit);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_quest_submit).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_alarm).setOnClickListener(ButtonListener);
 		findViewById(R.id.due_date).setOnClickListener(ButtonListener);
 	}
 	
+	@SuppressLint("NewApi")
 	public Boolean validate() {
 		String questTitle = title.getText().toString();
-//		String questDuration = duration.getText().toString();
-		String questDueMonth = month;
-		String questDueDay = day;
+//		String questDueMonth = month;
+//		String questDueDay = day;
+		String questDuedate = duedate.getText().toString();
 		String questDescription = description.getText().toString();
 		String questLocation = location_spinner.getSelectedItem().toString();
 		Boolean validateStatus = true;
@@ -135,12 +139,12 @@ public class QuestCreation extends Activity {
 			validateStatus = false;
 
 		}
-		
+/*		
 		if(questDueMonth.length() == 0 || questDueDay.length() == 0){
 			Toast.makeText(QuestCreation.this, "please add due date", Toast.LENGTH_SHORT).show();
 			validateStatus = false;
 		}
-		
+*/		
 		if(questDescription.length() == 0) {
 			description.setError("Please add a description.");
 			Toast.makeText(QuestCreation.this, "Please add a description.", Toast.LENGTH_SHORT).show();
@@ -158,6 +162,30 @@ public class QuestCreation extends Activity {
 			validateStatus = false;
 
 		}
+		
+		if(questDuedate == null || questDuedate.isEmpty()){
+			Toast.makeText(QuestCreation.this, "please add due date", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
+		}
+		else{
+			String[] date = questDuedate.split("/");
+			
+			if(date.length != 3){
+				Toast.makeText(QuestCreation.this, "invalid due date format", Toast.LENGTH_SHORT).show();
+				validateStatus = false;
+			}
+			else if(date[0].length() < 1 || date[0].length() > 2 || date[1].length() > 2 || date[1].length() < 1 
+					|| date[2].length() != 4){
+				Toast.makeText(QuestCreation.this, "invalid due date format", Toast.LENGTH_SHORT).show();
+				validateStatus = false;
+			}
+			else if(month == null || day == null){
+				month = date[0];
+				day = date[1];
+				Log.d("[due date]", "month: " + month + ", day: " + day);
+			}
+		}
+		
 		return 	validateStatus;
 	}
 	
@@ -171,15 +199,18 @@ public class QuestCreation extends Activity {
 			if(requestCode == 0){
 //				Toast.makeText(getApplicationContext(), data.getExtras().getString("alarm"), Toast.LENGTH_SHORT).show();
 				alarmType = data.getStringExtra("alarm");
+				notitype = data.getStringExtra("noti");
 			}
 			//due date calendar view
 			else if(requestCode == 1){
 				String due_date = data.getStringExtra("DATE");
-				((Button)findViewById(R.id.due_date)).setText(due_date);
+//				((Button)findViewById(R.id.due_date)).setText(due_date);
+				duedate.setText(due_date);
 				
-				String[] dates = due_date.split(" / ");
+				String[] dates = due_date.split("/");
 				month = dates[0];
 				day = dates[1];
+				Log.d("[due date]", "month: " + month + ", day: " + day);
 			}
 		}
 	}
@@ -190,6 +221,16 @@ public class QuestCreation extends Activity {
 	 * maybe I can use alarm intent or do alarm programatically...thinking...
 	 */
 	private void setAlarms(){
+		//in case alarm hasn't set at all...
+		if(alarmType == null || alarmType.equals("none")){
+			Log.d("[AlarmTest]", "Alarm setting unavailable");
+			return;
+		}
+		//default notitype is no ringtone
+		if(notitype == null || notitype.equals("none")){
+			notitype = "noring";
+		}
+		
 		Log.d("[AlarmTest]", "Start Alarm setting");
 		
 //	    Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
@@ -198,8 +239,11 @@ public class QuestCreation extends Activity {
 	    
 	    String uri = getRingtoneForAlarm();
 	    Log.d("[AlarmTest]", "double check: " + uri);
+	    Log.d("[AlarmTest]", "alarm type: " + alarmType);
 	    intent.putExtra("Ringtone", uri);
 	    intent.putExtra("type", alarmType);
+	    intent.putExtra("noti", notitype);
+	    intent.putExtra("ringtone", getRingtoneForAlarm());
 	    intent.putExtra("month", month);
 	    intent.putExtra("day", day);
 	    intent.putExtra("title", title.getText().toString());
