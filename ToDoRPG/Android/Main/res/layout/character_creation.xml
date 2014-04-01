@@ -43,20 +43,18 @@
                     android:tag="dark" />
 
                 <ImageButton
-                    android:id="@+id/right_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_toRightOf="@+id/skin_selection"
-                    android:src="@drawable/trans_right_arrow" />
-
-                <ImageButton
                     android:id="@+id/left_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_toLeftOf="@+id/skin_selection"
                     android:src="@drawable/trans_left_arrow" />
+
+                <ImageButton
+                    android:id="@+id/right_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/skin_selection"
+                    android:src="@drawable/trans_right_arrow" />
             </RelativeLayout>
 
             <Spinner
