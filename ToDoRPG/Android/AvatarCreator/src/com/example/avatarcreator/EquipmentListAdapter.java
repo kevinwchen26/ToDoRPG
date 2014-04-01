@@ -21,6 +21,13 @@ public class EquipmentListAdapter extends ArrayAdapter<CharacterItem> {
 		this.equipment = equipment;
 		this.layout = layoutResourceId;
 	}
+	
+	/*
+	@Override
+	public void add(CharacterItem object) {
+		
+	};
+	*/
  
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -34,7 +41,6 @@ public class EquipmentListAdapter extends ArrayAdapter<CharacterItem> {
 		
 		TextView description = (TextView) rowView.findViewById(R.id.equipment_description);
 		
-		// Assume Work Phone always exists.
 		String equipment_descr = "Lvl " + equippedItem.getLevel();
 		description.setText(equipment_descr);
 		
