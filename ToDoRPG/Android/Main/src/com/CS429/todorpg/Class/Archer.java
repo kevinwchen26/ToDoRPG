@@ -17,10 +17,10 @@ public class Archer extends Character {
 	}
 
 	public Archer(String name, int HP, int MP, int Level, int CON, int STR,
-			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp) {
+			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp, String className) {
 		super(name);
-		this.setHP(HP);
-		this.setMP(MP);
+		this.setHP(HP < 1 ? 100 : HP);
+		this.setMP(MP < 1 ? 100 : MP);
 		this.setLEVEL(Level);
 		this.setCON(CON);
 		this.setSTR(STR);
@@ -30,8 +30,9 @@ public class Archer extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-		this.setMaxHP(HP);
-		this.setMaxMP(MP);
+		this.setMaxHP(HP < 1 ? 100 : HP);
+		this.setMaxMP(MP < 1 ? 100 : MP);
+		this.setCLASS(className);
 	}
 
 	public void LevelStats() {
@@ -57,7 +58,11 @@ public class Archer extends Character {
 
 	// Critical Strike
 	// Chance to deal critical dmg, if it fails, it deals normal dmg, mana 50
-	public void Skill_1(Character enemy) {
+	public boolean Skill_1(Character enemy) {
+		if(this.getMP() < 50)
+			return false;
+		
+		
 		// STUB METHOD
 		int base = 2 * this.getSTR();
 		int reduction = this.getCON() - enemy.getCON();
@@ -74,12 +79,15 @@ public class Archer extends Character {
 
 		enemy.setHP(enemy.getHP() - total);
 		this.setMP(this.getMP() - 50);
-
+		return true;
 	}
 
 	// Poison arrow
 	// Deals moderate physical dmg, and applies poison. mana 50
-	public void Skill_2(Character enemy) {
+	public boolean Skill_2(Character enemy) {
+		if(this.getMP() < 50)
+			return false;
+		
 		int base = 25;
 		int total = base;
 		int reduction = this.getDEX() - enemy.getCON();
@@ -89,12 +97,16 @@ public class Archer extends Character {
 		enemy.setHP(enemy.getHP() - total);
 		enemy.applyPoison();
 		this.setMP(this.getMP() - 50);
+		return true;
 
 	}
 
 	// Piercing shot
 	// High physical dmg, regain mana from 20% dmg done, mana 60
-	public void Skill_3(Character enemy) {
+	public boolean Skill_3(Character enemy) {
+		if(this.getMP() < 60)
+			return false;
+		
 		int base = 50;
 		int total = base;
 		int reduction = this.getDEX() - enemy.getCON();
@@ -104,13 +116,16 @@ public class Archer extends Character {
 		enemy.setHP(enemy.getHP() - total);
 		this.setMP(this.getMP() + total / 5);
 		this.setMP(this.getMP() - 60);
-
+		return true;
 	}
 
 	// Seal the Deal
 	// Ult: High damage, critical strike 100%. If the enemy is poison, they will
 	// be stunned as well. mana 100
-	public void Skill_4(Character enemy) {
+	public boolean Skill_4(Character enemy) {
+		if(this.getMP() < 100)
+			return false;
+		
 		int base = 100;
 		int bonus = this.getSTR() + this.getDEX();
 		int total = base + bonus;
@@ -122,6 +137,7 @@ public class Archer extends Character {
 		if (enemy.isPoison())
 			enemy.applyStun();
 		this.setMP(this.getMP() - 100);
+		return true;
 
 	}
 

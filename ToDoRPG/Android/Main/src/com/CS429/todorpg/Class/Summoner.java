@@ -18,10 +18,10 @@ public class Summoner extends Character {
 	}
 
 	public Summoner(String name, int HP, int MP, int Level, int CON, int STR,
-			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp) {
+			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp, String className) {
 		super(name);
-		this.setHP(HP);
-		this.setMP(MP);
+		this.setHP(HP < 1 ? 100 : HP);
+		this.setMP(MP < 1 ? 100 : MP);
 		this.setLEVEL(Level);
 		this.setCON(CON);
 		this.setSTR(STR);
@@ -31,8 +31,9 @@ public class Summoner extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-		this.setMaxHP(HP);
-		this.setMaxMP(MP);
+		this.setMaxHP(HP < 1 ? 100 : HP);
+		this.setMaxMP(MP < 1 ? 100 : MP);
+		this.setCLASS(className);
 	}
 
 	public void LevelStats() {
@@ -58,7 +59,9 @@ public class Summoner extends Character {
 
 	// Knock Knock
 	// High physical damage, calculated mag stats. Raises physical def. 40 mana
-	public void Skill_1(Character enemy) {
+	public boolean Skill_1(Character enemy) {
+		if(this.getMP() < 40)
+			return false;
 		int base = 50;
 		int bonus = this.getINT() / 2;
 		int total = base + bonus;
@@ -69,13 +72,16 @@ public class Summoner extends Character {
 		enemy.setHP(enemy.getHP() - total);
 		this.setCON(this.getCON() + 40);
 		this.setMP(this.getMP() - 40);
+		return true;
 
 	}
 
 	// Stampede
 	// Low damge, applies stun. Raises INT by a base amount plus 20% damage
 	// done. 50 mana
-	public void Skill_2(Character enemy) {
+	public boolean Skill_2(Character enemy) {
+		if(this.getMP() < 50)
+			return false;
 		int base = 50;
 		int bonus = this.getINT() / 4;
 		int total = base + bonus;
@@ -87,13 +93,15 @@ public class Summoner extends Character {
 		enemy.applyStun();
 		this.setINT(this.getINT() + 20 + total / 5);
 		this.setMP(this.getMP() - 50);
-
+		return true;
 	}
 
 	// Double Attack
 	// High dmg, both physical and magical defense used to calculate dmg. Raises
 	// STR and INT. 85 mana
-	public void Skill_3(Character enemy) {
+	public boolean Skill_3(Character enemy) {
+		if(this.getMP() < 85)
+			return false;
 		int base = 25;
 		int bonus = this.getINT() / 3 + this.getSTR() / 2;
 		int total = base + bonus;
@@ -106,13 +114,16 @@ public class Summoner extends Character {
 		this.setINT(this.getINT() + 15);
 		this.setSTR(this.getSTR() + 30);
 		this.setMP(this.getMP() - 85);
+		return true;
 
 	}
 
 	// All together
 	// Instantly applies all status effects. Moderate damage, raises all combat
 	// stats. 100 mana
-	public void Skill_4(Character enemy) {
+	public boolean Skill_4(Character enemy) {
+		if(this.getMP() < 100)
+			return false;
 		int base = 50;
 		int bonus = this.getINT() / 2 + this.getSTR() / 2;
 		int total = base + bonus;
@@ -134,6 +145,7 @@ public class Summoner extends Character {
 		enemy.applySilence();
 		enemy.applyStun();
 		this.setMP(this.getMP() - 100);
+		return true;
 
 	}
 

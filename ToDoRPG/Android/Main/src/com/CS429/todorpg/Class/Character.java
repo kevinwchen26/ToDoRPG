@@ -66,25 +66,30 @@ public class Character {
 	}
 
 	// STUB Methods - these will be implemented in their respective classes
-	public void Skill_1(Character enemy) {
+	public boolean Skill_1(Character enemy) {
 		// STUB METHOD
+		return false;
 	}
 
-	public void Skill_2(Character enemy) {
+	public boolean Skill_2(Character enemy) {
 		// STUB METHOD
+		return false;
 	}
 
-	public void Skill_3(Character enemy) {
+	public boolean Skill_3(Character enemy) {
 		// STUB METHOD
+		return false;
 	}
 
-	public void Skill_4(Character enemy) {
+	public boolean Skill_4(Character enemy) {
 		// STUB METHOD
+		return false;
 	}
 
 	public void LevelStats() {
 		// STUB Method
 	}
+	
 
 	// All characters have a basic attack
 	public void attack(Character enemy) {
@@ -143,9 +148,9 @@ public class Character {
 	 * 
 	 * @param EXP
 	 */
-	public void gainEXP(int EXP) {
+	public boolean gainEXP(int EXP) {
 		this.currentEXP += EXP;
-		this.checkEXP();
+		return this.checkEXP();
 	}
 
 	/**
@@ -162,11 +167,14 @@ public class Character {
 	}
 
 	/**
-	 * Check if the character can level up
+	 * Check if the character can level up, returns true if it does
 	 */
-	public void checkEXP() {
-		if (this.currentEXP >= this.nextLevelEXP)
+	public boolean checkEXP() {
+		if (this.currentEXP >= this.nextLevelEXP) {
 			this.levelUP();
+			return true;
+		}
+		return false;
 	}
 
 	// Getter and Setters
@@ -293,6 +301,9 @@ public class Character {
 	public String getCLASS() {
 		return CLASS;
 	}
+	public void setCLASS(String className) {
+		this.CLASS = className;
+	}
 
 	public int getMaxHP() {
 		return maxHP;
@@ -309,4 +320,5 @@ public class Character {
 	public void setMaxMP(int maxMP) {
 		this.maxMP = maxMP;
 	}
+	
 }

@@ -17,10 +17,10 @@ public class Warrior extends Character {
 	}
 
 	public Warrior(String name, int HP, int MP, int Level, int CON, int STR,
-			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp) {
+			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp, String className) {
 		super(name);
-		this.setHP(HP);
-		this.setMP(MP);
+		this.setHP(HP < 1 ? 100 : HP);
+		this.setMP(MP < 1 ? 100 : MP);
 		this.setLEVEL(Level);
 		this.setCON(CON);
 		this.setSTR(STR);
@@ -30,8 +30,9 @@ public class Warrior extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-		this.setMaxHP(HP);
-		this.setMaxMP(MP);
+		this.setMaxHP(HP < 1 ? 100 : HP);
+		this.setMaxMP(MP < 1 ? 100 : MP);
+		this.setCLASS(className);
 	}
 
 	public void LevelStats() {
@@ -48,7 +49,10 @@ public class Warrior extends Character {
 
 	// Crushing Blow
 	// High physical damage, lowers enemy def permenantly 20 mana
-	public void Skill_1(Character enemy) {
+	public boolean Skill_1(Character enemy) {
+		if(this.getMP() < 20)
+			return false;
+		
 		this.setMP(this.getMP() - 20);
 		int base = 50;
 		int bonus = this.getSTR() / 2;
@@ -62,30 +66,43 @@ public class Warrior extends Character {
 			total = 0;
 		enemy.setHP(enemy.getHP() - total);
 		enemy.setCON(enemy.getCON() - 5);
+		return true;
 
 	}
 
 	// Overpower
 	// Passive skill, gains bonus str for 5 turns, 35 mana
-	public void Skill_2(Character enemy) {
+	public boolean Skill_2(Character enemy) {
+		if(this.getMP() < 35)
+			return false;
+		
 		this.setSTR(this.getSTR() + 25);
 		this.setMP(this.getMP() - 35);
+		return true;
 
 	}
 
 	// Sit Still
 	// Stuns enemy, they skip next turn, 50 mana
-	public void Skill_3(Character enemy) {
+	public boolean Skill_3(Character enemy) {
+		if(this.getMP() < 50)
+			return false;
+		
 		// enemy skips turns
 		enemy.applyStun();
 		this.setMP(this.getMP() - 50);
+		return true;
 
 	}
 
 	// Heaven's Descent
 	// Ult: High physical dmg, ignores some physical def, warrior heals for 25%
 	// of damage done, 75 mana
-	public void Skill_4(Character enemy) {
+	public boolean Skill_4(Character enemy) {
+		if(this.getMP() < 75)
+			return false;
+		
+		
 		int base = 100;
 		int bonus = this.getSTR();
 		int total = base + bonus;
@@ -100,6 +117,7 @@ public class Warrior extends Character {
 		System.out.println(total);
 		this.setHP(this.getHP() + total / 4);
 		this.setMP(this.getMP() - 75);
+		return true;
 
 	}
 

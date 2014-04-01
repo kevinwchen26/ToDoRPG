@@ -1,15 +1,20 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
+
 import com.CS429.todorpg.Class.Archer;
 import com.CS429.todorpg.Class.Assassin;
+import com.CS429.todorpg.Class.Enemy;
 import com.CS429.todorpg.Class.Mage;
 import com.CS429.todorpg.Class.Summoner;
 import com.CS429.todorpg.Class.Warrior;
 import com.CS429.todorpg.Class.Character;
+import com.CS429.todorpg.Utils.Constants;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -28,20 +33,26 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BattleActivity extends Activity {
+	enum GameState{ ready, gameOver }
+	GameState state = GameState.ready;
 	boolean defaultClass, playerTurn;
 	int width, height;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo, enemySide, playerSide;
 	Button attackButton, itemsButton, passButton;
 	Spinner skillsSpinner;
-	TextView enemyName, enemyHP, playerName, playerHP, playerMP;
-	ImageView enemyImage, playerImage, playerEffect;
-	AnimationDrawable playerWalk, playerAttack, playerSkill1, playerSkill2, playerSkill3, playerSkill4;
+	TextView enemyName, enemyHP, playerName, playerHP, playerMP, battleAnnouncement;
+	ImageView enemyImage, playerImage, playerEffect, enemyEffect;
+	AnimationDrawable playerWalk, playerAttack, enemyAttack, playerSkill1, playerSkill2, playerSkill3, playerSkill4;
 	Intent intent;
 	ArrayList<Character> party;
 	Character player;
-	Character boss;
+	Enemy boss;
+	AlertDialog.Builder builder;
+	AlertDialog battleEnd;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,20 +63,28 @@ public class BattleActivity extends Activity {
 		setContentView(R.layout.battle);
 		FindViewById();
 		setUpActivity();
-		playerTurn = true;
+		playerTurn = false;
 
 	}
 
 	private void bossAI() {
 		boss.attack(player);
+		setBattleMessage(boss.getName() + " attacks " + player.getName());
+		Animate(enemyAttack, enemyEffect, R.drawable.player_attack);
 		update();
 	}
 	
 	private void disablePlayerButtons() {
 		attackButton.setEnabled(false);
+		skillsSpinner.setEnabled(false);
+		itemsButton.setEnabled(false);
+		passButton.setEnabled(false);
 	}
 	private void enablePlayerButtons() {
 		attackButton.setEnabled(true);
+		skillsSpinner.setEnabled(true);
+		itemsButton.setEnabled(true);
+		passButton.setEnabled(true);
 	}
 	
 	private void setUpActivity() {
@@ -90,10 +109,23 @@ public class BattleActivity extends Activity {
 			    
 		//Set the player images
 	    enemyImage.setImageResource(R.drawable.test_sprite);
+	    RelativeLayout.LayoutParams enemyEffectParams = new RelativeLayout.LayoutParams(enemyEffect.getLayoutParams());
+	    enemyEffectParams.addRule(RelativeLayout.RIGHT_OF, enemyImage.getId());
+	    enemyEffectParams.addRule(RelativeLayout.ALIGN_BOTTOM, enemyImage.getId());
+	    enemyEffect.setLayoutParams(enemyEffectParams);
+	    
+	    
+	    
+	    
 	    playerImage.setBackgroundResource(R.drawable.warrior_walk);
 	    RelativeLayout.LayoutParams playerEffectParams = new RelativeLayout.LayoutParams(playerEffect.getLayoutParams());
 	    playerEffectParams.addRule(RelativeLayout.LEFT_OF, playerImage.getId());
+	    playerEffectParams.addRule(RelativeLayout.ALIGN_BOTTOM, playerImage.getId());
 	    playerEffect.setLayoutParams(playerEffectParams);
+	    
+	    RelativeLayout.LayoutParams announcementParams =  new RelativeLayout.LayoutParams(battleAnnouncement.getLayoutParams());
+	    announcementParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+	    battleAnnouncement.setLayoutParams(announcementParams);
 	    
 	}
 	
@@ -136,39 +168,52 @@ public class BattleActivity extends Activity {
 	private void setPlayer() {
 		int skillArray = -1;
 	    
-		if(player instanceof Warrior){
+		if(player.getCLASS().equals("Warrior")){
 			skillArray = R.array.warrior_skills;
 			playerImage.setBackgroundResource(R.drawable.warrior_walk);
 			playerWalk = (AnimationDrawable) playerImage.getBackground();
 			playerWalk.start();
 		}
-		else if(player instanceof Assassin){
+		else if(player.getCLASS().equals("Assassin")){
 			skillArray = R.array.assassins_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
-		else if(player instanceof Mage){
+		else if(player.getCLASS().equals("Mage")){
 			skillArray = R.array.mage_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
-		else if(player instanceof Summoner){
+		else if(player.getCLASS().equals("Summoner")){
 			skillArray = R.array.summoner_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
-		else if(player instanceof Archer){
+		else if(player.getCLASS().equals("Archer")){
 			skillArray = R.array.archer_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
 		
-		ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(skillArray));
+		ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(skillArray));
 	    skillsSpinner.setAdapter(spinnerCountShoesArrayAdapter);
 	}
 	
-	private void waitForEffectAnimationDone(AnimationDrawable anim) {
+	private void waitForEffectAnimationDone(AnimationDrawable anim, final ImageView img) {
 		final AnimationDrawable a = anim;
         int timeBetweenChecks = 300;
         Handler h = new Handler();
         h.postDelayed(new Runnable(){
             public void run(){
                 if (a.getCurrent() != a.getFrame(a.getNumberOfFrames() - 1)){
-                	waitForEffectAnimationDone(a);
+                	waitForEffectAnimationDone(a, img);
                 } else{
-                    playerEffect.setBackgroundResource(R.color.transparent);;
+                	img.setBackgroundResource(R.color.transparent);
+
                 }
             }
         }, timeBetweenChecks);
@@ -177,49 +222,64 @@ public class BattleActivity extends Activity {
 	
 	
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
-
 		@SuppressLint("NewApi")
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.battle_attack_btn:
 				player.attack(boss);
+				setBattleMessage(player.getName() + " attacks " + boss.getName());
+				/*
 				playerEffect.setBackgroundResource(R.drawable.player_attack);
 				playerAttack = (AnimationDrawable) playerEffect.getBackground();
 				playerAttack.start();
-				waitForEffectAnimationDone(playerAttack);
+				waitForEffectAnimationDone(playerAttack, playerEffect);
+				*/
+				Animate(playerAttack, playerEffect, R.drawable.player_attack);
 				update();
 				break;
 			case R.id.battle_items_btn:
+				setBattleMessage(player.getName() + " heals 20HP!");
 				player.setHP(player.getHP() + 20);
+				update();
 				break;
 			case R.id.battle_pass_btn:
+				setBattleMessage(player.getName() + " passes!");
+
+				update();
 				break;
 
 			}
 		}
 	};
 	
-	
+	private void Animate(AnimationDrawable anim, final ImageView effect, int animation) {
+		effect.setBackgroundResource(animation);
+		anim = (AnimationDrawable) effect.getBackground();
+		anim.start();
+		waitForEffectAnimationDone(anim, effect);
+	}
 	
 	
 	//Updates the screen
 	private void update() {
-		enemyName.setText(boss.getName());
+		enemyName.setText(boss.getName() + " Lv." + Integer.toString(boss.getLEVEL()));
 	    enemyHP.setText("HP" + boss.getHP() + "/" + boss.getMaxHP());
 	    
 	    
-	    playerName.setText(player.getName());
+	    playerName.setText(player.getName() + " Lv." + Integer.toString(player.getLEVEL()));
 	    playerHP.setText("HP " + player.getHP() + "/" + player.getMaxHP());
 	    playerMP.setText("MP " + player.getMP() + "/" + player.getMaxMP());
 	    
 	    // Need to add check game conditions. 
-	    // if(checkGameConditions())
-	    
-	    // change turns
-	    changeTurn();
-	    
-	    
+	    Handler h = new Handler();
+	    h.postDelayed(new Runnable() {
+	    	@Override
+			public void run() {
+	    		checkGameConditions();
+	    	    if(state != GameState.gameOver)
+	    	    	changeTurn();
+			}}, 1000);
 	}
 	
 	//Change turns
@@ -227,19 +287,46 @@ public class BattleActivity extends Activity {
 		if(playerTurn) {
 			playerTurn = false;
 			disablePlayerButtons();
-			bossAI();
+			Handler h = new Handler();
+		    h.postDelayed(new Runnable() {
+		    	@Override
+				public void run() {
+					bossAI();
+				}}, 1000);
 		}
 		//Boss just finished turn
 		else {
 			playerTurn = true;
-			enablePlayerButtons();
+			Handler h = new Handler();
+		    h.postDelayed(new Runnable() {
+		    	@Override
+				public void run() {
+		    		enablePlayerButtons();
+		    		
+		    	}}, 1000);
 			//Prompt message, 'This character's turn'
 			
 		}
 	}
 	//Return true if game is over
-	private boolean checkGameConditions() {
-		return false;
+	private void checkGameConditions() {
+		if(player.getHP() < 1) {
+			makeGameOverMessages("GAME OVER!");
+			battleEnd = builder.create();
+			battleEnd.show();	
+			state = GameState.gameOver;
+		}
+		if(boss.getHP() < 1) {
+			if(player.gainEXP(boss.getExp()))
+				setBattleMessage("LEVEL UP!" + player.getName() + " is " + Integer.toString(player.getLEVEL()));
+			makeGameOverMessages("VICTORY!");
+			battleEnd = builder.create();
+			battleEnd.show();
+			state = GameState.gameOver;
+
+		}
+
+		
 	}
 	
 	private void setUpBattleMenu() {
@@ -279,8 +366,14 @@ public class BattleActivity extends Activity {
 					int index, long id) {
 				// TODO Auto-generated method stub
 				if(index == 1){
-					player.Skill_1(boss);
+					if(player.Skill_1(boss)) {
+					setBattleMessage(player.getName() + " uses " + skillsSpinner.getSelectedItem().toString());
+					Animate(playerAttack, playerEffect, R.drawable.player_attack);
 					update();
+					}
+					else { 
+						setBattleMessage("Low mana!"); 
+					}
 				}
 				else if(index == 2){
 					player.Skill_2(boss);
@@ -294,6 +387,7 @@ public class BattleActivity extends Activity {
 					player.Skill_4(boss);
 					update();
 				}
+				skillsSpinner.setSelection(0);
 				
 			}
 
@@ -321,6 +415,7 @@ public class BattleActivity extends Activity {
 		enemyImage = (ImageView) findViewById(R.id.battle_enemy_image);
 		playerImage = (ImageView) findViewById(R.id.battle_player_image);
 		playerEffect = (ImageView) findViewById(R.id.battle_player_effect);
+		enemyEffect = (ImageView) findViewById(R.id.battle_enemy_effect);
 		attackButton = (Button) findViewById(R.id.battle_attack_btn);
 		skillsSpinner = (Spinner) findViewById(R.id.battle_skills_spinner);
 		itemsButton = (Button) findViewById(R.id.battle_items_btn);
@@ -330,6 +425,7 @@ public class BattleActivity extends Activity {
 		playerName = (TextView) findViewById(R.id.battle_player_info_name);
 		playerHP = (TextView) findViewById(R.id.battle_player_info_hp);
 		playerMP = (TextView) findViewById(R.id.battle_player_info_mp);
+		battleAnnouncement = (TextView) findViewById(R.id.battle_announcement);
 	}
 	
 	private void interpretIntent() {
@@ -358,7 +454,6 @@ public class BattleActivity extends Activity {
 	
 
 	private void getCharacters() {
-		;
 		//*** Pull user's character info ***//
 		Character leader = CharacterOperations.pullCharacter(((UserInfo)getApplicationContext()).getCharacter());
 		party.add(leader);
@@ -367,9 +462,9 @@ public class BattleActivity extends Activity {
 	}
 	
 	private void makeBoss() {
-		boss = new Warrior("Boss");
-		boss.setHP(1000);
-		boss.setMaxHP(1000);
+		boss = new Enemy("Boss");
+		boss.setHP(100);
+		boss.setMaxHP(100);
 		//*** Add new parameters later ***//
 
 	}
@@ -386,5 +481,51 @@ public class BattleActivity extends Activity {
 		makeBoss();
 		player = party.get(0);
 	}
+	
+	private void setBattleMessage(String msg) {
+		battleAnnouncement.setText(msg);
+		battleAnnouncement.setVisibility(View.VISIBLE);
+		Handler h = new Handler();
+	    h.postDelayed(new Runnable() {
+	    	@Override
+			public void run() {
+	    		battleAnnouncement.setVisibility(View.INVISIBLE);
+	    		
+	    	}}, 1000);
+
+	}
+	
+	public void makeGameOverMessages(String msg) {
+		builder = new AlertDialog.Builder(this);
+
+		builder.setMessage(msg + " Would you like to try again?");
+		
+		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				player.setHP(player.getMaxHP());
+				player.setMP(player.getMaxMP());
+				
+				boss.setHP(boss.getMaxHP());
+				boss.setMP(boss.getMaxMP());
+
+				
+			}
+		});
+		
+		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {			
+				dialog.dismiss();
+				finish();
+				
+			}
+		});
+		
+	}
+	
 	
 }

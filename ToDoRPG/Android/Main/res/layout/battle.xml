@@ -11,6 +11,15 @@
         android:layout_height="100dp"
         android:orientation="horizontal"
         android:background="@drawable/battle_border" >
+        
+    <TextView
+        android:id="@+id/battle_announcement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:background="@drawable/battle_border"
+        android:textSize="50px"
+        android:visibility="invisible" />    
     
     <RelativeLayout 
     	android:id="@+id/battle_enemy_side"
@@ -25,6 +34,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
+            
+        </ImageView>
+        
+         <ImageView
+            android:id="@+id/battle_enemy_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" >
             
         </ImageView>
         
@@ -51,7 +68,7 @@
             android:id="@+id/battle_player_effect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true" >
             
         </ImageView>
         
