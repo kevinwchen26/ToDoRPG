@@ -198,7 +198,6 @@ public class BattleActivity extends Activity {
                 	waitForEffectAnimationDone(a, img);
                 } else{
                 	img.setBackgroundResource(R.color.transparent);
-    				battleAnnouncement.setVisibility(View.INVISIBLE);
 
                 }
             }
@@ -225,9 +224,14 @@ public class BattleActivity extends Activity {
 				update();
 				break;
 			case R.id.battle_items_btn:
+				setBattleMessage(player.getName() + " heals 20HP!");
 				player.setHP(player.getHP() + 20);
+				update();
 				break;
 			case R.id.battle_pass_btn:
+				setBattleMessage(player.getName() + " passes!");
+
+				update();
 				break;
 
 			}
@@ -345,10 +349,14 @@ public class BattleActivity extends Activity {
 					int index, long id) {
 				// TODO Auto-generated method stub
 				if(index == 1){
-					player.Skill_1(boss);
+					if(player.Skill_1(boss)) {
 					setBattleMessage(player.getName() + " uses " + skillsSpinner.getSelectedItem().toString());
 					Animate(playerAttack, playerEffect, R.drawable.player_attack);
 					update();
+					}
+					else { 
+						setBattleMessage("Low mana!"); 
+					}
 				}
 				else if(index == 2){
 					player.Skill_2(boss);
@@ -461,6 +469,14 @@ public class BattleActivity extends Activity {
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
 		battleAnnouncement.setVisibility(View.VISIBLE);
+		Handler h = new Handler();
+	    h.postDelayed(new Runnable() {
+	    	@Override
+			public void run() {
+	    		battleAnnouncement.setVisibility(View.INVISIBLE);
+	    		
+	    	}}, 1000);
+
 	}
 	
 	public void makeGameOverMessages(String msg) {

@@ -44,7 +44,10 @@ public class Assassin extends Character {
 
 	// Be Quiet
 	// Moderate damage, silences enemy. 35 mana.
-	public void Skill_1(Character enemy) {
+	public boolean Skill_1(Character enemy) {
+		if(this.getMP() < 35)
+			return false;
+		this.setMP(this.getMP() - 35);
 		int base = 35;
 		int bonus = this.getINT() / 3 + this.getSTR() / 3;
 		int total = base + bonus;
@@ -55,29 +58,39 @@ public class Assassin extends Character {
 			total = 0;
 		enemy.setHP(enemy.getHP() - total - this.getCHA());
 		enemy.applySilence();
+		return true;
 	}
 
 	// Focus
 	// Raises CON, WIS, CHA for one turn
-	public void Skill_2(Character enemy) {
+	public boolean Skill_2(Character enemy) {
 		this.setWIS(this.getWIS() + 25);
 		this.setCON(this.getCON() + 25);
 		this.setCHA(this.getCHA() + 10);
+		return true;
 	}
 
 	// Fist Up
 	// Low damage, ignores defenses
-	public void Skill_3(Character enemy) {
+	public boolean Skill_3(Character enemy) {
+		if(this.getMP() < 20)
+			return false;
+		this.setMP(this.getMP() - 20);
+		
 		int base = 20;
 		int bonus = this.getINT() / 4 + this.getSTR() / 4;
 		int total = base + bonus;
 
 		enemy.setHP(enemy.getHP() - total - this.getCHA());
+		return true;
 	}
 
 	// Cauterize
 	// Ult: High damage, heals for 50% dmg done and applies burn
-	public void Skill_4(Character enemy) {
+	public boolean Skill_4(Character enemy) {
+		if(this.getMP() < 100)
+			return false;
+		this.setMP(this.getMP() - 100);
 		int base = 80;
 		int bonus = this.getINT() / 2 + this.getSTR() / 2;
 		int total = base + bonus;
@@ -88,5 +101,6 @@ public class Assassin extends Character {
 			total = 0;
 		enemy.setHP(enemy.getHP() - total - this.getCHA());
 		this.setHP(this.getHP() + total / 2);
+		return true;
 	}
 }

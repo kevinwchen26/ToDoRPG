@@ -47,7 +47,9 @@ public class Mage extends Character {
 
 	// Fire Strike
 	// High dmg nuke, chance to apply burn, 50 mana
-	public void Skill_1(Character enemy) {
+	public boolean Skill_1(Character enemy) {
+		if(this.getMP() < 50)
+			return false;
 		int base = 35;
 		int bonus = this.getINT() / 2;
 		int total = base + bonus;
@@ -63,19 +65,24 @@ public class Mage extends Character {
 		 * if(chance == 0) enemy.applyBurn();
 		 */
 		this.setMP(this.getMP() - 50);
+		return true;
 
 	}
 
 	// SHHHHHHH
 	// Apply silence, gain mana, 0 mana
-	public void Skill_2(Character enemy) {
+	public boolean Skill_2(Character enemy) {
 		enemy.applySilence();
 		this.setMP(this.getMP() + 20);
+		return true;
 	}
 
 	// Frostbite
 	// Low dmg, low mana cost, apply freezes, 35 mana
-	public void Skill_3(Character enemy) {
+	public boolean Skill_3(Character enemy) {
+		if(this.getMP() < 35)
+			return false;
+		
 		int base = 25;
 		int bonus = this.getINT() / 4;
 		int total = base + bonus;
@@ -87,12 +94,16 @@ public class Mage extends Character {
 
 		enemy.applyFreeze();
 		this.setMP(this.getMP() - 35);
+		return true;
 
 	}
 
 	// Judgement
 	// Ult: high dmg, permenantly reduces WIS, mana 100
-	public void Skill_4(Character enemy) {
+	public boolean Skill_4(Character enemy) {
+		if(this.getMP() < 100)
+			return false;
+		
 		int base = 150;
 		int bonus = this.getINT();
 		int total = base + bonus;
@@ -104,6 +115,7 @@ public class Mage extends Character {
 
 		enemy.setWIS(enemy.getWIS() - 50);
 		this.setMP(this.getMP() - 100);
+		return true;
 
 	}
 
