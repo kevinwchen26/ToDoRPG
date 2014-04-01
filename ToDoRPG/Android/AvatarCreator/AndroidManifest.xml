@@ -26,6 +26,10 @@
             android:name="com.example.avatarcreator.ShowMergedResult"
             android:label="@string/title_activity_show_merged_result" >
         </activity>
+        <activity
+            android:name="com.example.avatarcreator.Inventory"
+            android:label="@string/title_activity_inventory" >
+        </activity>
     </application>
 
 </manifest>

@@ -8,16 +8,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AvatarCreation" >
 
-    <GridView android:id="@+id/gridview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:numColumns="auto_fit"/>
+    
                 
         <Button android:id="@+id/merge_button"
                 android:text="MERGE"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"/>
+
+        <Button
+            android:id="@+id/inventory_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="78dp"
+            android:text="INVENTORY" />
     
 </RelativeLayout>

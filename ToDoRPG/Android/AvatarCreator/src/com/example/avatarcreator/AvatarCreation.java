@@ -30,8 +30,8 @@ public class AvatarCreation extends Activity implements OnClickListener {
 	Avatar avatar;
 	
 	// Definitions for avatar size
-	public final int AVATAR_WIDTH = 140;
-	public final int AVATAR_HEIGHT = 280;
+	public final static int AVATAR_WIDTH = 140;
+	public final static int AVATAR_HEIGHT = 280;
 	
 	
     /** Called when the activity is first created. */
@@ -47,6 +47,9 @@ public class AvatarCreation extends Activity implements OnClickListener {
         
 		Button mergeButton = (Button) findViewById(R.id.merge_button);
 		mergeButton.setOnClickListener(this);
+		
+		Button inventoryButton = (Button) findViewById(R.id.inventory_button);
+		inventoryButton.setOnClickListener(this);
     }
     
 	/*
@@ -56,21 +59,30 @@ public class AvatarCreation extends Activity implements OnClickListener {
 	
 	@Override
 	public void onClick(View view) {
-		
+		Intent intent;
+		switch (view.getId()) {
+		case R.id.merge_button:
+			Bitmap bitmap = Bitmap.createBitmap(AVATAR_WIDTH, AVATAR_HEIGHT, Bitmap.Config.ARGB_4444);
+			bitmap.eraseColor(Color.parseColor("green"));
+			
+			
+			//create a canvas for drawing all those small images
+			Canvas canvas = new Canvas(bitmap);
+			canvas.drawBitmap(avatar.getFaceImage(), 15,100, null);
+			canvas.drawBitmap(avatar.getHelmImage(), 15,0, null);
+			
+			
+			// The result avatar is shown
+			intent = new Intent(AvatarCreation.this, ShowMergedResult.class);
+			intent.putExtra("merged_image", bitmap);
+			startActivity(intent);
+			break;
+		case R.id.inventory_button:
+			intent = new Intent(AvatarCreation.this, Inventory.class);
+			startActivity(intent);
+			break;
+		}
 		//create a bitmap of a size which can hold the complete image after merging
-		Bitmap bitmap = Bitmap.createBitmap(AVATAR_WIDTH, AVATAR_HEIGHT, Bitmap.Config.ARGB_4444);
-		bitmap.eraseColor(Color.parseColor("green"));
 		
-		
-		//create a canvas for drawing all those small images
-		Canvas canvas = new Canvas(bitmap);
-		canvas.drawBitmap(avatar.getFaceImage(), 15,100, null);
-		canvas.drawBitmap(avatar.getHelmImage(), 15,0, null);
-		
-		
-		// The result avatar is shown
-		Intent intent = new Intent(AvatarCreation.this, ShowMergedResult.class);
-		intent.putExtra("merged_image", bitmap);
-		startActivity(intent);
 	}
 }

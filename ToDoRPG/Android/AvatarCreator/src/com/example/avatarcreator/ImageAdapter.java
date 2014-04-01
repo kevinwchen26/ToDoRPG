@@ -4,59 +4,56 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-public class ImageAdapter extends BaseAdapter{
+public class ImageAdapter extends BaseAdapter {
+    private Context mContext;
 
-	Context mContext;
-	ArrayList<Bitmap> smallImages;
-	int imageHeight, imageWidth;
-	
-	public ImageAdapter(Context c, ArrayList<Bitmap> smallImages) {
-		
-		mContext = c;
-		this.smallImages = smallImages;
-		imageHeight = smallImages.get(0).getHeight();
-		imageWidth = smallImages.get(0).getWidth();
-	}
+    public ImageAdapter(Context c) {
+        mContext = c;
+    }
 
-	@Override
-	public int getCount() {
-		return smallImages.size();
-	}
+    public int getCount() {
+        return mThumbIds.length;
+    }
 
-	@Override
-	public Object getItem(int position) {
-		return smallImages.get(position);
-	}
+    public Object getItem(int position) {
+        return null;
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
+    public long getItemId(int position) {
+        return 0;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageView image;
-		if(convertView == null){
-			image = new ImageView(mContext);
-			
-			/*
-			 * NOTE: I have set imageWidth - 10 and imageHeight 
-			 * as arguments to LayoutParams class. 
-			 * But you can take anything as per your requirement 
-			 */
-			image.setLayoutParams(new GridView.LayoutParams(imageWidth - 4 , imageHeight ));
-			image.setPadding(0, 0, 0, 0);
-		}else{
-			image = (ImageView) convertView;
-		}
-		image.setImageBitmap(smallImages.get(position));
-		return image;
-	}
+    // create a new ImageView for each item referenced by the Adapter
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView imageView;
+        if (convertView == null) {  // if it's not recycled, initialize some attributes
+            imageView = new ImageView(mContext);
+            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(8, 8, 8, 8);
+    		imageView.setBackgroundColor(Color.CYAN);
+    		
+        } else {
+            imageView = (ImageView) convertView;
+        }
 
+        imageView.setImageResource(mThumbIds[position]);
+        return imageView;
+    }
+
+    // references to our images
+    private Integer[] mThumbIds = {
+            R.drawable.light_helmet, R.drawable.wiz_hat
+            , R.drawable.wiz_hat, R.drawable.wiz_hat, R.drawable.wiz_hat
+            , R.drawable.wiz_hat, R.drawable.wiz_hat, R.drawable.wiz_hat
+            , R.drawable.light_helmet, R.drawable.light_helmet
+            , R.drawable.light_helmet, R.drawable.light_helmet
+    };
 }
