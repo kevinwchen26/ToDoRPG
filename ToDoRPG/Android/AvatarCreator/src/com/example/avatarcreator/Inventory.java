@@ -23,6 +23,15 @@ public class Inventory {
 	public void initHelmet(Helmet helmet) {
 		this.helmet = helmet;
 	}
+	
+	public void unequipHelmet() {
+		if (this.helmet != null) {
+			Helmet temp = this.helmet;
+			this.helmet = null;
+			itemList.add(temp);
+		}
+		
+	}
 
 	public Inventory () {
 		itemList = new ArrayList<CharacterItem>();

@@ -55,11 +55,15 @@ public class Avatar {
 		canvas.drawBitmap(bodyImage, 15,100, null);
 		
 		// Get equipped item images
-		Bitmap helmImage = inventory.getHelmet().getBitmap();
+		//Bitmap helmImage = inventory.getHelmet().getBitmap();
+		Helmet helm = inventory.getHelmet();
+		
 		
 		// Merge image layers of equipped items.
-		if (helmImage != null)
+		if (helm != null) {
+			Bitmap helmImage = helm.getBitmap();
 			canvas.drawBitmap(helmImage, 15,0, null);
+		}
 		
 		return bitmap;
 	}
