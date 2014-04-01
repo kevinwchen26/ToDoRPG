@@ -1,6 +1,7 @@
 package com.example.avatarcreator;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public abstract class CharacterItem {
 	private int level;
@@ -16,11 +17,11 @@ public abstract class CharacterItem {
 		this.resourceId = resourceId;
 	}
 
-	public CharacterItem (int level, String name, Bitmap bitmap, int resourceId) {
+	public CharacterItem (int level, String name, int resourceId) {
 		this.level = level;
 		this.name = name;
-		this.bitmap = bitmap;
 		this.resourceId = resourceId;
+		this.bitmap = BitmapFactory.decodeResource(UserInfo.getContext().getResources(), resourceId);
 	}
 
 	public int getLevel() {

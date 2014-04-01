@@ -1,8 +1,8 @@
 package com.example.avatarcreator;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -25,10 +26,11 @@ public class InventoryActivity extends Activity {
 		
 		
 		// Set image
-		Bitmap bitmap = Bitmap.createBitmap(AvatarCreation.AVATAR_WIDTH, AvatarCreation.AVATAR_HEIGHT, Bitmap.Config.ARGB_4444);
-		bitmap.eraseColor(Color.parseColor("green"));
+		//Bitmap bitmap = Bitmap.createBitmap(AvatarCreation.AVATAR_WIDTH, AvatarCreation.AVATAR_HEIGHT, Bitmap.Config.ARGB_4444);
+		//bitmap.eraseColor(Color.parseColor("green"));
+		
 		ImageView charImage = (ImageView) findViewById(R.id.character_image);
-		charImage.setImageBitmap(bitmap);
+		charImage.setImageBitmap(UserInfo.avatar.getBitmap());
 		
 		// Scale image size to match screen (requires minimum API level 13)
 		Display display = getWindowManager().getDefaultDisplay();
@@ -40,15 +42,49 @@ public class InventoryActivity extends Activity {
 		charImage.getLayoutParams().height = screenWidth / 2;
 		//charImage.getLayoutParams().width = screenHeight / 2;
 		
+		
+		
+		// Set up equipment list view
+		ArrayList<CharacterItem> equipList = UserInfo.avatar.getInventory().getEquipment();
+		ListView listView = (ListView) findViewById(R.id.equipment_list);
+        EquipmentListAdapter adapter = new EquipmentListAdapter(InventoryActivity.this, R.layout.equipment_list_row, UserInfo.avatar.getInventory().getEquipment());
+        listView.setAdapter(adapter);
+        
+        listView.setOnItemClickListener(new OnItemClickListener() {
+            ArrayList<CharacterItem> equipment;
+            @Override
+            public void onItemClick(AdapterView<?> parent,
+                    View view, int position, long id) {
+                // Show popup options for what to do with equipment 
+            	
+            	
+            	
+            	
+            	
+            }
+            public OnItemClickListener init(ArrayList<CharacterItem> equipList) {
+                this.equipment = equipList;
+                return this;
+            }
+            
+        }.init(equipList));
+		
+		
 		// Set up inventory grid view
 		GridView gridview = (GridView) findViewById(R.id.inventory_grid_view);
-	    gridview.setAdapter(new ImageAdapter(this));
+	    gridview.setAdapter(new ImageAdapter(this, UserInfo.avatar.getInventory()));
 
 	    gridview.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	        	// Show popup options for what to do with inventory items
 	            //Toast.makeText(Inventory.this, "" + position, Toast.LENGTH_SHORT).show();
 	            showInventoryDialog(v);
 	            //v.setBackgroundColor(Color.RED);
+	            
+	            
+	            
+	            
+	            
 	        }
 	    });
 	}

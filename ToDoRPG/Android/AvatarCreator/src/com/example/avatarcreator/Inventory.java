@@ -5,6 +5,14 @@ import java.util.ArrayList;
 public class Inventory {
 	private ArrayList<CharacterItem> itemList;
 	
+	public ArrayList<CharacterItem> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(ArrayList<CharacterItem> itemList) {
+		this.itemList = itemList;
+	}
+
 	// Item slots
 	private Helmet helmet;
 	
@@ -12,7 +20,7 @@ public class Inventory {
 		return helmet;
 	}
 
-	public void setHelmet(Helmet helmet) {
+	public void initHelmet(Helmet helmet) {
 		this.helmet = helmet;
 	}
 
@@ -53,4 +61,10 @@ public class Inventory {
 			return false;
 	}
 	
+	public ArrayList<CharacterItem> getEquipment() {
+		ArrayList<CharacterItem> retList = new ArrayList<CharacterItem>();
+		if (helmet != null)
+			retList.add(helmet);
+		return retList;
+	}
 }

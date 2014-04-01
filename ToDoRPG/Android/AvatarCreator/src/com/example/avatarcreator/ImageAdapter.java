@@ -1,9 +1,6 @@
 package com.example.avatarcreator;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +10,15 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-
-    public ImageAdapter(Context c) {
+    private Inventory inventory;
+    
+    public ImageAdapter(Context c, Inventory inventory) {
         mContext = c;
+        this.inventory = inventory;
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return inventory.size();
     }
 
     public Object getItem(int position) {
@@ -38,17 +37,17 @@ public class ImageAdapter extends BaseAdapter {
             imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
-    		imageView.setBackgroundColor(Color.CYAN);
+    		imageView.setBackgroundColor(Color.LTGRAY);
     		
         } else {
             imageView = (ImageView) convertView;
         }
-
-        imageView.setImageResource(mThumbIds[position]);
+        imageView.setImageResource(inventory.getItemList().get(position).getResourceId());
         return imageView;
     }
 
     // references to our images
+    /*
     private Integer[] mThumbIds = {
             R.drawable.light_helmet, R.drawable.wiz_hat
             , R.drawable.wiz_hat, R.drawable.wiz_hat, R.drawable.wiz_hat
@@ -56,4 +55,5 @@ public class ImageAdapter extends BaseAdapter {
             , R.drawable.light_helmet, R.drawable.light_helmet
             , R.drawable.light_helmet, R.drawable.light_helmet
     };
+    */
 }
