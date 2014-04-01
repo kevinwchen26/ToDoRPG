@@ -105,7 +105,7 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<Register> {
         solo.clearEditText(2);
         solo.enterText(2, "3");
         
-        solo.clickOnButton("Test");
+        //solo.clickOnButton("Test");
         
         assertTrue(solo.waitForText("Passwords do not match")); // alert dialog appeared
 		solo.waitForDialogToClose(); /*Fifth Test case. Tests for matchingPasswords*/

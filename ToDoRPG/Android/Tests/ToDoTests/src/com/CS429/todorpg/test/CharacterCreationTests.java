@@ -60,17 +60,17 @@ public class CharacterCreationTests extends ActivityInstrumentationTestCase2<Cha
 	public void testSkinButtons() {
 		ImageView image = (ImageView) activity.findViewById(R.id.skin_selection);
 		assertNotNull(image);
-		solo.clickOnImageButton(1);// tests left button
+		solo.clickOnImageButton(0);// tests left button
 		assertEquals("dark", image.getTag());
-		solo.clickOnImageButton(0);// test right button
-		assertEquals("vampire", image.getTag());
-		solo.clickOnImageButton(0);
-		assertEquals("green", image.getTag());
-		solo.clickOnImageButton(0);
-		assertEquals("green", image.getTag());
-		solo.clickOnImageButton(1);
+		solo.clickOnImageButton(1);// test right button
 		assertEquals("vampire", image.getTag());
 		solo.clickOnImageButton(1);
+		assertEquals("green", image.getTag());
+		solo.clickOnImageButton(1);
+		assertEquals("green", image.getTag());
+		solo.clickOnImageButton(0);
+		assertEquals("vampire", image.getTag());
+		solo.clickOnImageButton(0);
 		assertEquals("dark", image.getTag());
 	}
 
