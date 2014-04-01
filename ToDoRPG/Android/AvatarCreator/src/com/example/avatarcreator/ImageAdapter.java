@@ -45,15 +45,4 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setImageResource(inventory.getItemList().get(position).getResourceId());
         return imageView;
     }
-
-    // references to our images
-    /*
-    private Integer[] mThumbIds = {
-            R.drawable.light_helmet, R.drawable.wiz_hat
-            , R.drawable.wiz_hat, R.drawable.wiz_hat, R.drawable.wiz_hat
-            , R.drawable.wiz_hat, R.drawable.wiz_hat, R.drawable.wiz_hat
-            , R.drawable.light_helmet, R.drawable.light_helmet
-            , R.drawable.light_helmet, R.drawable.light_helmet
-    };
-    */
 }

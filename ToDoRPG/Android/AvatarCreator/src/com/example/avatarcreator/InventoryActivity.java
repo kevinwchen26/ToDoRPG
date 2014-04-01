@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
 public class InventoryActivity extends Activity {
 	
@@ -76,7 +77,8 @@ public class InventoryActivity extends Activity {
             	adapt.remove(equipment.get(position));
             	
             	// Remove item from the underlying list. (May not be necessary)
-         
+            	equipment.remove(position);
+            	
             	// Remove item from current equipment and place it in inventory list
             	// in Avatar object.
             	CharacterItem currEquip = equipment.get(position);
@@ -107,13 +109,9 @@ public class InventoryActivity extends Activity {
 
 	    gridview.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	        	// Show popup options for what to do with inventory items
-	            //Toast.makeText(Inventory.this, "" + position, Toast.LENGTH_SHORT).show();
-	            showInventoryDialog(v);
-	            
-	            
-	            
-	            
+	        	// Show pop up options for what to do with inventory items
+	            // Toast.makeText(Inventory.this, "" + position, Toast.LENGTH_SHORT).show();
+	            showInventoryDialog(v, position);
 	        }
 	    });
 	}
@@ -130,19 +128,60 @@ public class InventoryActivity extends Activity {
 	 * Show options on what to do when the user presses an inventory item
 	 * @param v
 	 */
-	public void showInventoryDialog (View v) {
+	public void showInventoryDialog (View v, int position) {
 		PopupMenu popupMenu = new PopupMenu(InventoryActivity.this, v);
 		popupMenu.getMenuInflater().inflate(R.menu.inventory, popupMenu.getMenu());
 		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			   
-			   @Override
-			   public boolean onMenuItemClick(MenuItem item) {
-			    Toast.makeText(InventoryActivity.this,
-			      item.toString(),
-			      Toast.LENGTH_LONG).show();
-			    return true;
+			int position;
+			EquipmentListAdapter adapt;
+		   @Override
+		   public boolean onMenuItemClick(MenuItem item) {
+			   if (item.getItemId() == R.id.inventory_equip) { // Equip Item
+				   Log.d("ASDF", "" + UserInfo.avatar.getInventory().size());
+				   Log.d("ASDF", "" + position);
+				   
+				   
+				   CharacterItem currEquip = UserInfo.avatar.getInventory().get(position);
+	            	if (currEquip instanceof Helmet) {
+	            		
+	            		// Refresh the equipped screen
+	            		Helmet currHelmet = UserInfo.avatar.getInventory().getHelmet();
+	            		if (currHelmet != null) {
+	            			adapt.remove(currHelmet);
+	            		}
+	            		UserInfo.avatar.getInventory().equipHelmet(position);
+	            		gridviewImageAdapter.notifyDataSetChanged(); // Reset Gridview
+	            		charImage.setImageBitmap(UserInfo.avatar.getBitmap());
+            			adapt.add(currEquip);
+            			ArrayList<CharacterItem> al = UserInfo.avatar.getInventory().getEquipment();
+            			al.add(currEquip);
+	            		
+	            		//adapter.add(currEquip);
+	            	}
+				   //Toast.makeText(InventoryActivity.this, "Equip This", Toast.LENGTH_SHORT).show();
+				   return true;
 			   }
-			  });
+			   else if (item.getItemId() == R.id.inventory_discard) { // Discard Item
+				   UserInfo.avatar.getInventory().remove(position);
+           			gridviewImageAdapter.notifyDataSetChanged();
+           			charImage.setImageBitmap(UserInfo.avatar.getBitmap());
+				   //Toast.makeText(InventoryActivity.this, "Discard this", Toast.LENGTH_SHORT).show();
+           			
+				   return true;
+			   }
+			   else {
+				   return false;
+			   }
+		    
+			   
+		   }
+		   public OnMenuItemClickListener init(int position, EquipmentListAdapter adapter) {
+			   this.position = position;
+			   this.adapt = adapter;
+			   return this;
+		   }
+		   
+		}.init(position, adapter));
 		popupMenu.show();
 	}
 }

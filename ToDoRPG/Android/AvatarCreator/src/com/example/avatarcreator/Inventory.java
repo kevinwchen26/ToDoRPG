@@ -46,6 +46,10 @@ public class Inventory {
 		itemList.add(i);
 	}
 	
+	public CharacterItem get(int i) {
+		return itemList.get(i);
+	}
+	
 	public void remove(int index) {
 		itemList.remove(index);
 	}

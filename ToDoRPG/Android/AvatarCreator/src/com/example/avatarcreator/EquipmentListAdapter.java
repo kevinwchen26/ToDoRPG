@@ -21,13 +21,6 @@ public class EquipmentListAdapter extends ArrayAdapter<CharacterItem> {
 		this.equipment = equipment;
 		this.layout = layoutResourceId;
 	}
-	
-	/*
-	@Override
-	public void add(CharacterItem object) {
-		
-	};
-	*/
  
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
