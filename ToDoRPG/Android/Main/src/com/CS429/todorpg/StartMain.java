@@ -35,7 +35,6 @@ public class StartMain extends Activity {
 		//prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
 		startMain_activity = this;
 		ButtonHandler();
-		makeBattleDemoMessages();
 
 	}
 
@@ -264,14 +263,15 @@ public class StartMain extends Activity {
 	
 	public void makeBattleDemoMessages () {
 		builder = new AlertDialog.Builder(this);
+		final String msg; 
 		if(!LoginStatus())
-			builder.setTitle("Not logged in");
+			msg = "Not logged in";
 		else if(!characterStatus())
-			builder.setTitle("No character found");
+			msg = "No character found";
 		else 
-			builder.setTitle(Constants.TAG_ERROR);
+			msg = Constants.TAG_ERROR;
 
-
+		builder.setTitle(msg);
 		builder.setMessage(Constants.BATTLE_CLASS_LOG_ERROR);
 		
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -290,7 +290,7 @@ public class StartMain extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {			
 				dialog.dismiss();
-				Toast.makeText(StartMain.this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+				Toast.makeText(StartMain.this, msg, Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -298,6 +298,7 @@ public class StartMain extends Activity {
 	public void BattleDemo() {
 
 		if (!LoginStatus() || !characterStatus()) {
+			makeBattleDemoMessages();
 			battleMsg = builder.create();
 			battleMsg.show();			
 			return;

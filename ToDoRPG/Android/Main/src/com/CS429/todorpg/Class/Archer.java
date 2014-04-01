@@ -17,10 +17,10 @@ public class Archer extends Character {
 	}
 
 	public Archer(String name, int HP, int MP, int Level, int CON, int STR,
-			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp) {
+			int DEX, int INT, int WIS, int CHA, int currentEXP, int NextLevelExp, String className) {
 		super(name);
-		this.setHP(HP);
-		this.setMP(MP);
+		this.setHP(HP < 1 ? 100 : HP);
+		this.setMP(MP < 1 ? 100 : MP);
 		this.setLEVEL(Level);
 		this.setCON(CON);
 		this.setSTR(STR);
@@ -30,8 +30,9 @@ public class Archer extends Character {
 		this.setCHA(CHA);
 		this.setCurrentEXP(currentEXP);
 		this.setNextLevelEXP(NextLevelExp);
-		this.setMaxHP(HP);
-		this.setMaxMP(MP);
+		this.setMaxHP(HP < 1 ? 100 : HP);
+		this.setMaxMP(MP < 1 ? 100 : MP);
+		this.setCLASS(className);
 	}
 
 	public void LevelStats() {

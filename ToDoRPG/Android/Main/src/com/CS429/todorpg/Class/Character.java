@@ -301,6 +301,9 @@ public class Character {
 	public String getCLASS() {
 		return CLASS;
 	}
+	public void setCLASS(String className) {
+		this.CLASS = className;
+	}
 
 	public int getMaxHP() {
 		return maxHP;
@@ -317,4 +320,5 @@ public class Character {
 	public void setMaxMP(int maxMP) {
 		this.maxMP = maxMP;
 	}
+	
 }

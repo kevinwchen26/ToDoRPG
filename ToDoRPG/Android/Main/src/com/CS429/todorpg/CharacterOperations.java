@@ -45,16 +45,16 @@ public class CharacterOperations {
 		int CHA = character.getCHA();
 		int currentEXP = character.getcurrentEXP();
 		int nextLevelEXP = character.getnextLevelEXP();
-		if(Character.class.equals(Constants.WARRIOR))
-			return new Warrior(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP);
-		else if(Character.class.equals(Constants.ARCHER))
-			return new Archer(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP);
-		else if(Character.class.equals(Constants.MAGE))
-			return new Mage(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP);
-		else if(Character.class.equals(Constants.SUMMONER))
-			return new Summoner(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP);
-		else if(Character.class.equals(Constants.ASSASSIN))
-			return new Assassin(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP);
+		if(character.getCLASS().equals(Constants.WARRIOR))
+			return new Warrior(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP, "Warrior");
+		else if(character.getCLASS().equals(Constants.ARCHER))
+			return new Archer(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP, "Archer");
+		else if(character.getCLASS().equals(Constants.MAGE))
+			return new Mage(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP, "Mage");
+		else if(character.getCLASS().equals(Constants.SUMMONER))
+			return new Summoner(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP, "Summoner");
+		else if(character.getCLASS().equals(Constants.ASSASSIN))
+			return new Assassin(Name, HP, MP, Level, CON, STR, DEX, INT, WIS, CHA, currentEXP, nextLevelEXP, "Assassin");
 		else
 			return null;
 	}

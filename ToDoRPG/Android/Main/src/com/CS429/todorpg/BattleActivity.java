@@ -168,22 +168,22 @@ public class BattleActivity extends Activity {
 	private void setPlayer() {
 		int skillArray = -1;
 	    
-		if(player instanceof Warrior){
+		if(player.getCLASS().equals("Warrior")){
 			skillArray = R.array.warrior_skills;
 			playerImage.setBackgroundResource(R.drawable.warrior_walk);
 			playerWalk = (AnimationDrawable) playerImage.getBackground();
 			playerWalk.start();
 		}
-		else if(player instanceof Assassin){
+		else if(player.getCLASS().equals("Assassin")){
 			skillArray = R.array.assassins_skills;
 		}
-		else if(player instanceof Mage){
+		else if(player.getCLASS().equals("Mage")){
 			skillArray = R.array.mage_skills;
 		}
-		else if(player instanceof Summoner){
+		else if(player.getCLASS().equals("Summoner")){
 			skillArray = R.array.summoner_skills;
 		}
-		else if(player instanceof Archer){
+		else if(player.getCLASS().equals("Archer")){
 			skillArray = R.array.archer_skills;
 		}
 		
@@ -442,7 +442,6 @@ public class BattleActivity extends Activity {
 	
 
 	private void getCharacters() {
-		;
 		//*** Pull user's character info ***//
 		Character leader = CharacterOperations.pullCharacter(((UserInfo)getApplicationContext()).getCharacter());
 		party.add(leader);
