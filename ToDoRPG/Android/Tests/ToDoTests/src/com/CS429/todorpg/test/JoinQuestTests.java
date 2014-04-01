@@ -1,8 +1,11 @@
 package com.CS429.todorpg.test;
 
+import org.junit.Test;
 import com.CS429.todorpg.MapActivity;
 import com.CS429.todorpg.R;
+import com.CS429.todorpg.StartMain;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.*;
 import com.robotium.solo.Solo;
 
@@ -31,6 +34,7 @@ public class JoinQuestTests extends ActivityInstrumentationTestCase2<MapActivity
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
+	@SuppressLint("NewApi")
 	public void testJoinTestPass() throws Exception {
 		solo.assertCurrentActivity("wrong activity", MapActivity.class);
 		final GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -69,3 +73,4 @@ public class JoinQuestTests extends ActivityInstrumentationTestCase2<MapActivity
 
 	}
 }
+*/

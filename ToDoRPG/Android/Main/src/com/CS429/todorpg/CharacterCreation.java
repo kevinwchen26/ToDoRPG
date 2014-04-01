@@ -16,6 +16,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -165,6 +168,10 @@ public class CharacterCreation extends Activity {
 		character_spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+				// Toast.makeText(parent.getContext(),
+				// parent.getItemAtPosition(pos).toString(),
+				// Toast.LENGTH_SHORT).show();
+				// String character_selection_string;
 				character_selection_string = parent.getItemAtPosition(pos).toString().trim();
 				// if (character_selection_string.equals("Choose Character")) {
 				// SetInvisible();
@@ -432,6 +439,7 @@ public class CharacterCreation extends Activity {
 
 			((UserInfo) getApplicationContext()).createdCharacter();
 			finish();
+
 
 		}
 

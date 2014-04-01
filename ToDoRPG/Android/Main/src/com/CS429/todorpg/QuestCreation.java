@@ -12,36 +12,46 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
+import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
 //	private ProgressDialog pDialog;
-	EditText title, month, day, description; //, newMilestone;
+	EditText title, description, duedate; //, newMilestone;
+	private String month, day, location;
 //	ListView milestones;
 	Spinner location_spinner;
 	Spinner maximum_spinner;
 	JSONParser jsonParser = new JSONParser();
 	CreateQuest createQuest = new CreateQuest();
-	//SharedPreferences prefs;
+	SharedPreferences prefs;
 	String milestones_to_string;
-	String alarmType;
+	String alarmType, notitype;
 	public static boolean milestone_written = false;
 	public static ArrayList<String> milestones;
 	
@@ -72,7 +82,7 @@ public class QuestCreation extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				if(location_spinner.getSelectedItem().toString().equals("Yes")){
-					//prevent app crash due to location service anavailability
+					//prevent app crash due to location service unavailability
 					if(!LocationHandler.getLocation())
 						finish();
 					
@@ -104,23 +114,26 @@ public class QuestCreation extends Activity {
 	
 	private void FindViewByID() {
 //		duration = (EditText) findViewById(R.id.creation_quest_duration);
-		month = (EditText)findViewById(R.id.creation_month);
-		day = (EditText)findViewById(R.id.creation_day);
+//		month = (EditText)findViewById(R.id.creation_month);
+//		day = (EditText)findViewById(R.id.creation_day);
 		
 		description = (EditText) findViewById(R.id.creation_quest_description);
 		title = (EditText) findViewById(R.id.creation_quest_title);
 		location_spinner = (Spinner)findViewById(R.id.creation_quest_location);
 		maximum_spinner = (Spinner)findViewById(R.id.creation_quest_maximum_number);
+		duedate = (EditText)findViewById(R.id.due_date_edit);
 		findViewById(R.id.creation_milestone_btn).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_quest_submit).setOnClickListener(ButtonListener);
 		findViewById(R.id.creation_alarm).setOnClickListener(ButtonListener);
+		findViewById(R.id.due_date).setOnClickListener(ButtonListener);
 	}
 	
+	@SuppressLint("NewApi")
 	public Boolean validate() {
 		String questTitle = title.getText().toString();
-//		String questDuration = duration.getText().toString();
-		String questDueMonth = month.getText().toString();
-		String questDueDay = day.getText().toString();
+//		String questDueMonth = month;
+//		String questDueDay = day;
+		String questDuedate = duedate.getText().toString();
 		String questDescription = description.getText().toString();
 		String questLocation = location_spinner.getSelectedItem().toString();
 		Boolean validateStatus = true;
@@ -137,12 +150,12 @@ public class QuestCreation extends Activity {
 			validateStatus = false;
 
 		}
-*/		
+	
 		if(questDueMonth.length() == 0 || questDueDay.length() == 0){
 			Toast.makeText(QuestCreation.this, "please add due date", Toast.LENGTH_SHORT).show();
 			validateStatus = false;
 		}
-		
+*/		
 		if(questDescription.length() == 0) {
 			description.setError("Please add a description.");
 			Toast.makeText(QuestCreation.this, "Please add a description.", Toast.LENGTH_SHORT).show();
@@ -160,6 +173,30 @@ public class QuestCreation extends Activity {
 			validateStatus = false;
 
 		}
+		
+		if(questDuedate == null || questDuedate.isEmpty()){
+			Toast.makeText(QuestCreation.this, "please add due date", Toast.LENGTH_SHORT).show();
+			validateStatus = false;
+		}
+		else{
+			String[] date = questDuedate.split("/");
+			
+			if(date.length != 3){
+				Toast.makeText(QuestCreation.this, "invalid due date format", Toast.LENGTH_SHORT).show();
+				validateStatus = false;
+			}
+			else if(date[0].length() < 1 || date[0].length() > 2 || date[1].length() > 2 || date[1].length() < 1 
+					|| date[2].length() != 4){
+				Toast.makeText(QuestCreation.this, "invalid due date format", Toast.LENGTH_SHORT).show();
+				validateStatus = false;
+			}
+			else if(month == null || day == null){
+				month = date[0];
+				day = date[1];
+				Log.d("[due date]", "month: " + month + ", day: " + day);
+			}
+		}
+		
 		return 	validateStatus;
 	}
 	
@@ -173,6 +210,18 @@ public class QuestCreation extends Activity {
 			if(requestCode == 0){
 //				Toast.makeText(getApplicationContext(), data.getExtras().getString("alarm"), Toast.LENGTH_SHORT).show();
 				alarmType = data.getStringExtra("alarm");
+				notitype = data.getStringExtra("noti");
+			}
+			//due date calendar view
+			else if(requestCode == 1){
+				String due_date = data.getStringExtra("DATE");
+//				((Button)findViewById(R.id.due_date)).setText(due_date);
+				duedate.setText(due_date);
+				
+				String[] dates = due_date.split("/");
+				month = dates[0];
+				day = dates[1];
+				Log.d("[due date]", "month: " + month + ", day: " + day);
 			}
 		}
 	}
@@ -183,6 +232,16 @@ public class QuestCreation extends Activity {
 	 * maybe I can use alarm intent or do alarm programatically...thinking...
 	 */
 	private void setAlarms(){
+		//in case alarm hasn't set at all...
+		if(alarmType == null || alarmType.equals("none")){
+			Log.d("[AlarmTest]", "Alarm setting unavailable");
+			return;
+		}
+		//default notitype is no ringtone
+		if(notitype == null || notitype.equals("none")){
+			notitype = "noring";
+		}
+		
 		Log.d("[AlarmTest]", "Start Alarm setting");
 		
 //	    Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
@@ -191,10 +250,13 @@ public class QuestCreation extends Activity {
 	    
 	    String uri = getRingtoneForAlarm();
 	    Log.d("[AlarmTest]", "double check: " + uri);
+	    Log.d("[AlarmTest]", "alarm type: " + alarmType);
 	    intent.putExtra("Ringtone", uri);
 	    intent.putExtra("type", alarmType);
-	    intent.putExtra("month", month.getText().toString());
-	    intent.putExtra("day", day.getText().toString());
+	    intent.putExtra("noti", notitype);
+	    intent.putExtra("ringtone", getRingtoneForAlarm());
+	    intent.putExtra("month", month);
+	    intent.putExtra("day", day);
 	    intent.putExtra("title", title.getText().toString());
 	    
 	    Calendar calendar = Calendar.getInstance();
@@ -217,6 +279,10 @@ public class QuestCreation extends Activity {
 		Log.d("[AlarmTest]", "Uri: " + uri);
 		return uri.toString();
 	}
+	
+	
+	
+	
 	
 	/****************************************************************************************************************************/
 	
@@ -250,9 +316,67 @@ public class QuestCreation extends Activity {
 				Intent AlarmIntent = new Intent(QuestCreation.this, AlarmActivity.class);
 				startActivityForResult(AlarmIntent, 0);
 				break;
+				
+			case R.id.due_date:
+				Intent DuedateIntent = new Intent(QuestCreation.this, CalendarView.class);
+				startActivityForResult(DuedateIntent, 1);
+				break;
 			}
 		}
 	};
+	
+	
+
+	/**
+	 * This handler is only for location handler.
+	 * once location handler is run, when it found the current location,
+	 * this handler will deal with location data.
+	 */
+	public static final int LATLONG = 0;
+	public static final int ADDRESS = 1;
+
+	public final Handler mHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg){
+			switch(msg.what){
+			
+			case LATLONG:
+				break;
+				
+			case ADDRESS:
+				Log.d("[Location]", "address received here, " + msg.obj.toString());
+				String address = msg.obj.toString();
+				setDialog(address).create().show();
+				break;
+				
+			default:
+				break;
+			}
+		}
+	};
+	
+
+	private AlertDialog.Builder setDialog(final String address){
+		AlertDialog.Builder builder = new AlertDialog.Builder(QuestCreation.this);
+		builder.setMessage("Your current location is found to be: \n" + address + "\n Do you want to use this address?")
+		.setCancelable(false)
+		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				location = address;
+			}
+		})
+		.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				location_spinner.setSelection(2);
+				dialog.cancel();
+			}
+		});
+		return builder;
+	}
+	
+	
 	
 	private void InsertData() {
 		StringBuffer sb = new StringBuffer();
@@ -276,8 +400,9 @@ public class QuestCreation extends Activity {
 	//		String questDuration = duration.getText().toString();
 			
 			/****ADDED ****/
-			String due_date = new String(month + "/" + day);	//due date in form of "month/day"
-			String maximum_capacity = String.valueOf(capacity);	//maximum capacity
+			String quest_due_date = new String(month + "/" + day);	//due date in form of "month/day"
+			String quest_max_member = String.valueOf(capacity);	//maximum capacity
+			String quest_location = null;
 			/*************/
 			
 			String questDescription = description.getText().toString();
@@ -289,6 +414,7 @@ public class QuestCreation extends Activity {
 			Log.d("Location Spinner", questLocation);
 			if(questLocation.equals("Yes")){
 				Log.d("spinner", questLocation);
+				quest_location = location;
 			}
 			//TODO
 			String currentlyLoggedIn = "";
@@ -302,7 +428,14 @@ public class QuestCreation extends Activity {
 			else{
 				userName="NOT_LOGGED_IN_CHECK_CODE";
 			}
+			String num_false = "";
+			System.out.println(milestones.size());
+			for(int i = 0; i < milestones.size(); i++) {
+				num_false += "false" + StaticClass.delimiter;
+				
+			}
 			
+			System.out.println(quest_due_date + " / " + quest_max_member + " /  " + quest_location);
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("quest_title", questTitle));
 			params.add(new BasicNameValuePair("quest_description", questDescription));
@@ -312,8 +445,13 @@ public class QuestCreation extends Activity {
 			params.add(new BasicNameValuePair("quest_location_long", questLocationLong));
 //			params.add(new BasicNameValuePair("quest_duration", questDuration));
 			params.add(new BasicNameValuePair("quest_milestone", milestones_to_string));
-			params.add(new BasicNameValuePair("progress_status", "false"));
-			params.add(new BasicNameValuePair("done_status", "false"));
+			params.add(new BasicNameValuePair("quest_due_date", quest_due_date));
+			params.add(new BasicNameValuePair("quest_location", "Siebel")); // TODO quest_location));
+			
+			
+			params.add(new BasicNameValuePair("quest_max_member", quest_max_member));
+			params.add(new BasicNameValuePair("progress_status", num_false));
+			params.add(new BasicNameValuePair("done_status", num_false));
 
 			
 			JSONObject json = jsonParser.makeHttpRequest(

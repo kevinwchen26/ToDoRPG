@@ -1,5 +1,16 @@
 package com.CS429.todorpg.Utils;
 
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import com.CS429.todorpg.Quest;
+import com.CS429.todorpg.Class.Character;
 public class Constants {
 	/* URL */
 	public final static String url_create_account = "http://todorpg.net46.net/ToDoRPG/create_account.php";
@@ -14,12 +25,13 @@ public class Constants {
 	public final static String url_delete_quest = "http://todorpg.net46.net/ToDoRPG/delete_quest.php";
 	public final static String url_update_quest_member = "http://todorpg.net46.net/ToDoRPG/update_quest_member.php";
 	public final static String url_update_work_status = "http://todorpg.net46.net/ToDoRPG/update_work_status.php";
-
+	
+	
 	/* Shared Preferences Keys */
 	public final static String MY_PREFERENCES = ",yPrefs";
 	public final static String PREF_USERNAME = "prefUserName";
 	public final static String PREF_IS_LOGGED_IN = "pref_is_logged_in";
-
+	
 	public final static String PREF_CHARACTER_NAME = "character_name";
 	public final static String PREF_CHARACTER_STR = "character_str";
 	public final static String PREF_CHARACTER_CON = "character_con";
@@ -74,32 +86,97 @@ public class Constants {
 	public static final String SUMMONER = "Summoner";
 	public static final String BATTLE_CLASS_LOG_ERROR = "Proceed with default class?";
 	public static final int INIT_LEVEL = 1;
-
+	
 	public static final String Warrior_skill_1 = "Warrior Skill 1";
 	public static final String Warrior_skill_2 = "Warrior Skill 2";
 	public static final String Warrior_skill_3 = "Warrior Skill 3";
 	public static final String Warrior_skill_4 = "Warrior Skill 4";
-
+	
 	public static final String Assassin_skill_1 = "Assassin Skill 1";
 	public static final String Assassin_skill_2 = "Assassin Skill 2";
 	public static final String Assassin_skill_3 = "Assassin Skill 3";
 	public static final String Assassin_skill_4 = "Assassin Skill 4";
-
+	
 	public static final String Mage_skill_1 = "Mage Skill 1";
 	public static final String Mage_skill_2 = "Mage Skill 2";
 	public static final String Mage_skill_3 = "Mage Skill 3";
 	public static final String Mage_skill_4 = "Mage Skill 4";
-
+	
 	public static final String Archer_skill_1 = "Archer Skill 1";
 	public static final String Archer_skill_2 = "Archer Skill 2";
 	public static final String Archer_skill_3 = "Archer Skill 3";
 	public static final String Archer_skill_4 = "Archer Skill 4";
-
+	
 	public static final String Summoner_skill_1 = "Summon Skill 1";
-	public static final String Summoner_skill_2 = "Summon Skill 2";
+	public static final String Summoner_skill_2=  "Summon Skill 2";
 	public static final String Summoner_skill_3 = "Summon Skill 3";
 	public static final String Summoner_skill_4 = "Summon Skill 4";
 	
-	public static final int LOGIN_SUCCESS = 100;
 
+	public static final int LOGIN_SUCCESS = 100;
+	public static String MY_ID;
+	public static boolean LOGGED_ID;
+	public static boolean CHARACTER_CREATED;
+	
+	public static Character CLASS_INFO;
+	
+	public static ArrayList<Quest> myQuest = new ArrayList<Quest>();
+	
+	public static boolean isNetworkConnected(Activity activity) {
+		ConnectivityManager cManager; 
+		NetworkInfo mobile; 
+		NetworkInfo wifi; 
+		 
+		// Need workaround 
+		cManager=(ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE); 
+		//mobile = cManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE); 
+		//wifi = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
+		 if (cManager != null) {
+			 NetworkInfo netInfo = cManager.getActiveNetworkInfo();
+			 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+				 return true;
+			 }
+			 else {
+				 return false;
+			 }
+			 
+		 }
+		 else
+			 return false;
+		 
+		 /*
+		if(mobile.isConnected() || wifi.isConnected()) {
+			return true;
+		}
+		else 
+			return false;
+			*/
+	}
+	public static AlertDialog GetNetworkDialog(Activity activity) {
+	    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity) 
+	        //set message, title, and icon
+	        .setTitle("Warning") 
+	        .setMessage(StaticClass.TAG_CHECK_INTERNET) 
+	        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int whichButton) { 
+	                dialog.dismiss();
+	            }   
+	        })
+	        .create();
+	        return myQuittingDialogBox;
+	}
+	
+	public static AlertDialog sendAlertMessage(Activity activity, String title, String msg) {
+	    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity) 
+	        //set message, title, and icon
+	        .setTitle("Warning") 
+	        .setMessage(msg) 
+	        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int whichButton) { 
+	                dialog.dismiss();
+	            }   
+	        })
+	        .create();
+	        return myQuittingDialogBox;
+	}
 }

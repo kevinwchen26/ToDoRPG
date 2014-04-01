@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.CS429.todorpg.Utils.JSONParser;
 
 import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
@@ -32,7 +33,7 @@ public class QuestDetail extends Activity {
 	TextView my_title, my_leader, my_member, my_due_date, my_location,
 			my_milestone, my_description;
 	Button my_status;
-	int check_option;
+	int check_option, max_member;
 	String updatedStatus, todo_list, member, due_date, title, status, location, description, progress_status, done_status;
 	static String leader;
 	int quest_id;
@@ -42,12 +43,16 @@ public class QuestDetail extends Activity {
 	ToDoListAdapter adapter;
 	ListView listView;
 	String[] my_list;
+	ArrayList<String> progress_array;
+	ArrayList<String> done_array;
+	int current_position;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quest_detail);
-		
+		progress_array = new ArrayList<String>();
+		done_array = new ArrayList<String>();
 		intent = getIntent();
 		title = intent.getStringExtra("quest_title");
 		check_option = intent.getIntExtra("option", -1);
@@ -58,11 +63,25 @@ public class QuestDetail extends Activity {
 		description = intent.getStringExtra("quest_description");
 		progress_status = intent.getStringExtra("progress_status");
 		done_status = intent.getStringExtra("done_status");
+		max_member = Integer.parseInt(intent.getStringExtra("quest_max_member"));
 		FindViewById();
 		todo_list_data = new ArrayList<MyToDoList>();
+		SplitStatus();
 
 		setMessage();
 
+	}
+	private void SplitStatus() {
+		String[] progress_list = progress_status.split("[" + StaticClass.delimiter + "]+");
+		for(String list: progress_list) {
+			System.out.println(list);
+			progress_array.add(list);
+		}
+		String[] done_list = done_status.split("[" + StaticClass.delimiter + "]+");
+		for(String list: done_list) {
+			done_array.add(list);
+		}
+		
 	}
 	private void GetMemberList() {
 		member_list = new ArrayList<String>();
@@ -91,6 +110,7 @@ public class QuestDetail extends Activity {
 	private void setMessage() {
 		my_title.setText(intent.getStringExtra("quest_title"));
 		my_leader.setText(intent.getStringExtra("creator_name"));
+		my_due_date.setText(intent.getStringExtra("quest_due_date"));
 		// my_difficulty.setText(intent.getStringExtra("quest_difficulty"));
 		// my_duration.setText(intent.getStringExtra("quest_duration"));
 		my_location.setText(intent.getStringExtra("quest_location_lat"));
@@ -140,22 +160,26 @@ public class QuestDetail extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent,
 					final View view, final int position, long id) {
-				String username = ((UserInfo)getApplicationContext()).getUserName();
-				if(!leader.equals(username)) {
-					Toast.makeText(QuestDetail.this, leader + " " + username, Toast.LENGTH_SHORT).show();
-					Toast.makeText(QuestDetail.this, Constants.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
+				/*if(!leader.equals(StaticClass.MY_ID)) {
+					Toast.makeText(QuestDetail.this, leader + " " + StaticClass.MY_ID, Toast.LENGTH_SHORT).show();
+					Toast.makeText(QuestDetail.this, StaticClass.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
 					return;
-				}
+				}*/
 				intent = new Intent(QuestDetail.this, ToDoListStatusSetup.class);
 				intent.putExtra("quest_id", quest_id);
-				intent.putExtra("progress_status", progress_status);
-				intent.putExtra("done_status", done_status);
+				intent.putExtra("creator_name", leader);
+				intent.putExtra("progress_status", progress_array.get(position));
+				intent.putExtra("done_status", done_array.get(position));
+				Log.d("position", Integer.toString(position));
+				current_position = position;
 				startActivityForResult(intent, 0);
 				
 //				Toast.makeText(QuestDetail.this, "HEllo World " + my_list[position], Toast.LENGTH_SHORT).show();
 				
 			}
 		});
+		
+		
 
 		/*
 		 * listView.setOnItemClickListener(new OnItemClickListener() {
@@ -168,6 +192,76 @@ public class QuestDetail extends Activity {
 		 * 
 		 * } });
 		 */
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == 153) {
+			progress_array.set(current_position, "true");
+			done_array.set(current_position, "true");
+		}
+		if (resultCode == 154) 	{
+			progress_array.set(current_position, "true");
+			done_array.set(current_position, "false");
+		}
+		if (resultCode == 155) {
+			progress_array.set(current_position, "false");
+			done_array.set(current_position, "true");
+		}
+		if (resultCode == 156) {
+			progress_array.set(current_position, "false");
+			done_array.set(current_position, "false");
+		}
+		StatusUpdate();
+		adapter.notifyDataSetChanged();
+		listView.setAdapter(adapter);
+	}
+
+	private void StatusUpdate() {
+		progress_status = "";
+		done_status = "";
+		for(String list : progress_array) {
+			progress_status = progress_status + list + StaticClass.delimiter;
+		}
+		for(String list : done_array) {
+			done_status = done_status + list + StaticClass.delimiter;
+		}
+		UpdateStatus uq = new UpdateStatus();
+		uq.execute();
+	}
+	class UpdateStatus extends AsyncTask<String, String, String> {
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... arg) {
+			
+			JSONParser jsonParser = new JSONParser();
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("progress_status", progress_status));
+			params.add(new BasicNameValuePair("done_status", done_status));
+			params.add(new BasicNameValuePair("quest_id", Integer.toString(quest_id)));
+//			System.out.println(Boolean.toString(ToDoListAdapter.progress_status) + " : " + Boolean.toString(ToDoListAdapter.done_status));
+			JSONObject json = jsonParser.makeHttpRequest(
+					StaticClass.url_update_work_status, "GET", params);
+			Log.d("Work Update info", json.toString());
+			try {
+				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				if (success == 1) {
+					// SUCCESSFULLY UPDATED DATABASE.
+					Log.d("Quest info", "WORK STATUS UPDATED");
+				} else {
+					Log.d("Quest info", "WORK STATUS UPDATE FAIL");
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		protected void onPostExecute(String result) {
+		}
 	}
 	
 
@@ -212,7 +306,7 @@ public class QuestDetail extends Activity {
 					return;
 				}
 				else {
-					Toast.makeText(QuestDetail.this, "Join Starts", Toast.LENGTH_SHORT).show();
+					Toast.makeText(QuestDetail.this, "Join Success", Toast.LENGTH_SHORT).show();
 					MemberUpdate mu = new MemberUpdate();
 					mu.execute();
 				}
@@ -330,15 +424,7 @@ public class QuestDetail extends Activity {
 		startActivity(intent);
 		finish();
 	}
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == Constants.TAG_WORK_STATUS) {
-			adapter.notifyDataSetChanged();
-			listView.setAdapter(adapter);
-//			listView.invalidate();
-			
-		}
-	}
+
 	class UpdateQuest extends AsyncTask<String, String, String> {
 		protected void onPreExecute() {
 			super.onPreExecute();

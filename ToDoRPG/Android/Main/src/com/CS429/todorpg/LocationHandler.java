@@ -2,6 +2,9 @@ package com.CS429.todorpg;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -15,6 +18,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,12 +34,14 @@ public class LocationHandler {
 	
 	private static LocationListener mListener;
 	private static LocationManager mManager;
+	private static Handler mHandler;
 	private static ProgressDialog pDialog;
 	private static AlertDialog aDialog;
 	
 	
 	
-	public static void setHandler(Context AppContext){
+	public static void setHandler(Context AppContext, Handler handler){
+		mHandler = handler;
 		context = AppContext;
 		ready = false;
 		init();
@@ -51,7 +57,40 @@ public class LocationHandler {
 		pDialog.show();
 		mManager.requestLocationUpdates(locationprovider, 0, 0, mListener);	
 		Log.d("[Location]", "getLocation: " + longitude + ", " + latitude);
+		
+		//timer setting - after 10 seconds, still not found location, get last known location.
+		DialogTimeLimit();
 		return true;
+	}
+	
+	private static void DialogTimeLimit(){
+		final Timer t = new Timer();
+		t.schedule(new TimerTask(){
+			@Override
+			public void run() {
+				if(longitude == -1 || latitude == -1){
+					pDialog.dismiss();
+					mManager.removeUpdates(mListener);
+					Location LatLong = mManager.getLastKnownLocation(locationprovider);
+					//temporary set lat long
+					if(LatLong == null){
+						longitude = -88;
+						latitude = 40;
+						convertToAddress(latitude, longitude);
+					}
+					else{
+						longitude = LatLong.getLongitude();
+						latitude = LatLong.getLatitude();
+						convertToAddress(latitude, longitude);
+					}
+				}
+				else{
+					pDialog.dismiss();
+					mManager.removeUpdates(mListener);
+					convertToAddress(latitude, longitude);
+				}
+			}
+		}, 10000);
 	}
 	
 	public static double getLatitude(){
@@ -144,24 +183,7 @@ public class LocationHandler {
 		boolean ProviderEnabled = mManager.isProviderEnabled(provider);
 		if(!ProviderEnabled)
 			aDialog.show();
-/*		
-		boolean NetworkEnabled = mManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		boolean GPSEnabled = mManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		String provider = null;
-		
-		//no service is available..
-		if(!NetworkEnabled && !GPSEnabled){
-			aDialog.show();
-		}
-		else if(NetworkEnabled){
-			Log.d("[Location]", "Network is enabled");
-			provider = LocationManager.NETWORK_PROVIDER;
-		}
-		else if(GPSEnabled){
-			Log.d("[Location]", "GPS is enabled");
-			provider = LocationManager.GPS_PROVIDER;
-		}
-*/		
+
 		//error handling
 		if(provider == null){
 			Log.d("[Location]", "Invalid provider setting error");
@@ -177,11 +199,19 @@ public class LocationHandler {
 	 */
 	private static String convertToAddress(double Lat, double Long){
 		
-		Geocoder geo = new Geocoder(context);
+		Geocoder geo = new Geocoder(context, Locale.getDefault());
 		try {
 			List<Address> addresses = geo.getFromLocation(Lat, Long, 2);
-			for(int i = 0; i < addresses.size(); ++i)
-				Log.d("[Location]", i + ": " + addresses.get(i).getAddressLine(1).toString());
+			
+			String address = "";
+			for(int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); ++i){
+				Log.d("[Location]", addresses.get(0).getAddressLine(i));
+				address += addresses.get(0).getAddressLine(i).toString();
+			}
+			
+			Log.d("[Location]", "final address: " + address);
+			mHandler.obtainMessage(QuestCreation.ADDRESS, address).sendToTarget();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

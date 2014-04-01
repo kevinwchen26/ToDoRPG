@@ -12,7 +12,10 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.CS429.todorpg.Class.Character;
 import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.EncryptPassword;
 import com.CS429.todorpg.Utils.JSONParser;

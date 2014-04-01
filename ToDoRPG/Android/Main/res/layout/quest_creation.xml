@@ -48,42 +48,28 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="6">
+            android:weightSum="6"
+            android:orientation="horizontal" >
             
-        	<TextView
-        	    android:id="@+id/month"
-        	    android:layout_width="wrap_content"
-        	    android:layout_height="wrap_content"
-				android:text="month"
-				android:layout_weight="1" />
-        	
-        	<EditText
-           		android:id="@+id/creation_month"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	android:ems="2"
-            	android:maxLength="2"
-            	android:inputType="number"
-            	android:layout_weight="2" />
-        	
-        	<TextView
-        	    android:id="@+id/day"
-        	    android:layout_width="wrap_content"
-        	    android:layout_height="wrap_content"
-				android:text="day"
-				android:layout_weight="1" />
-        	
-        	<EditText
-           		android:id="@+id/creation_day"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	android:ems="2"
-            	android:maxLength="2"
-            	android:inputType="number"
-            	android:layout_weight="2" />
+            <EditText
+                android:id="@+id/due_date_edit"
+                android:layout_weight="4.5"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+             	android:background="#FFFFFF"
+                android:hint="mm/dd/yyyy"
+                android:inputType="date"
+                android:textSize="30sp" />
             
+            <Button
+				android:id="@+id/due_date"
+				android:layout_width="0dp"
+				android:layout_height="fill_parent"
+				android:layout_weight="1.5"
+				android:text="date" />
+
         </LinearLayout>
+        
         
         <Button
                 android:id="@+id/creation_alarm"

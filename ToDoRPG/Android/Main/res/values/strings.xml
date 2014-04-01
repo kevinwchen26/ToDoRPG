@@ -63,7 +63,8 @@
     <string name="done">Done</string>
 	<string name="okay">Change status</string>
 	<string name="cancel_btn">Cancel</string>
-    <string name="battle_demo_text">Battle Demo</string>
+    <string name="title_activity_calendar_view">CalendarView</string>    
+	<string name="battle_demo_text">Battle Demo</string>
     <string name="battle_attack_text">Attack</string>
     <string name="battle_skills_text">Skills</string>
     <string name="battle_items_text">Items</string>

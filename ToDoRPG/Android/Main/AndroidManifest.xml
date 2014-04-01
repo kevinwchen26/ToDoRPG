@@ -49,7 +49,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDmS6YeZIrYVpsXbFSLnDfWaa-qGH0HjmA" />
+            android:value="AIzaSyD4eYOLnlC7ZsbW2LU6GvMplw4CblzFFgQ" />
 
         <activity
             android:name="com.CS429.todorpg.CharacterCreation"
@@ -90,16 +90,27 @@
         <activity
             android:name="com.CS429.todorpg.BattleActivity" >
         </activity>
-         <activity
+        <activity
+            android:name="com.CS429.todorpg.AlarmNotification"
+            android:label="@string/title_activity_alarm_notification" >
+        </activity>
+        <activity
             android:name="com.CS429.todorpg.ToDoListStatusSetup"
             android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-       	<receiver
+
+        <receiver
             android:name="com.CS429.todorpg.AlarmReceiver"
             android:process=":remote" />
+
         <service
             android:name="com.CS429.todorpg.RingtoneService"
-            android:enabled="true"/> 
+            android:enabled="true" />
+
+        <activity
+            android:name="com.CS429.todorpg.CalendarView"
+            android:label="@string/title_activity_calendar_view" >
+        </activity>
     </application>
 
 </manifest>

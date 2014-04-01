@@ -11,7 +11,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -149,10 +151,11 @@ public class QuestInfo extends Activity {
 					for (int i = 0; i < rows.length(); i++) {
 						questRows[i] = rows.getJSONObject(i);
 						current_quest.add(new Quest(questRows[i].getInt("quest_id"), questRows[i].getString("quest_title"), 
-								questRows[i].getString("creator_name"),questRows[i].getString("quest_due"),
-								questRows[i].getString("quest_member"), questRows[i].getString("quest_status"),
-								questRows[i].getString("quest_location_long"), questRows[i].getString("quest_milestone"),
-								questRows[i].getString("quest_description"),questRows[i].getString("progress_status"),questRows[i].getString("done_status")));
+								questRows[i].getString("creator_name"),questRows[i].getString("creator_name"),
+								questRows[i].getString("quest_milestone"), questRows[i].getString("quest_due_date"),
+								questRows[i].getString("quest_location"), questRows[i].getString("quest_status"),
+								questRows[i].getString("quest_member"),questRows[i].getString("progress_status"),
+								questRows[i].getString("done_status"), questRows[i].getString("quest_max_member")));
 					}
 
 				} else {
@@ -190,13 +193,14 @@ public class QuestInfo extends Activity {
 							intent.putExtra("quest_title", selected.getTitle());
 							intent.putExtra("creator_name", selected.getLeader());
 							intent.putExtra("quest_member", selected.getMember());
-							intent.putExtra("quest_due", selected.getDueDate());
+							intent.putExtra("quest_due_date", selected.getDueDate());
 							intent.putExtra("quest_status", selected.getStatus());
 							intent.putExtra("quest_location", selected.getLocation());
 							intent.putExtra("quest_milestone", selected.getMilestone());
 							intent.putExtra("quest_description", selected.getDescription());
 							intent.putExtra("progress_status", selected.getProgressStstus());
 							intent.putExtra("done_status", selected.getDoneStatus());
+							intent.putExtra("quest_max_member", selected.getMaxMember());
 							Log.d("GRRRR", selected.getStatus());
 							startActivity(intent);
 							finish();

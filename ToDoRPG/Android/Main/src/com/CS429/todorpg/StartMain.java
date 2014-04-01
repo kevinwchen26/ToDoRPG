@@ -3,15 +3,19 @@ package com.CS429.todorpg;
 import com.CS429.todorpg.Utils.Constants;
 
 import android.app.Activity;
+import android.content.Context;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,11 +90,11 @@ public class StartMain extends Activity {
 			case R.id.all_quest_btn: // View All Quest
 				AllQuestInfo();
 				break;
-
+			
 			case R.id.join_quest_btn:
 				JoinHandler();
 				break;
-			case R.id.quit_btn: // Quit
+			case R.id.quit_btn:						// Quit 
 				clearSharedPreferences();
 				finish();
 				break;

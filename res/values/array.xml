@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="CharacterSelection">
+        <item>Choose Your Character</item>
+        <item>Warrior</item>
+        <item>Assassin</item>
+        <item>Mage</item>
+        <item>Archer</item>
+        <item>Summoner</item>
+    </string-array>
+    <string-array name="location_setting">
+        <item>Choose one..</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="maximum_member">
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+        <item >6</item>
+        <item >7</item>
+        <item >8</item>
+        <item >9</item>
+        <item >10</item>
+    </string-array>
+</resources>

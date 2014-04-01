@@ -18,6 +18,7 @@ public class Quest {
 	private String milestone;
 	private String progress_status;
 	private String done_status;
+	private String max_member;
 	private int quest_id;
 
 	public Quest(String title, String location, Character leader, String description, int hours, ArrayList<String> milestones){
@@ -32,19 +33,20 @@ public class Quest {
 	}
 	
 	/*This constructor is for Search Bar*/
-	public Quest(int quest_id, String title, String leader, String due_date, String member, 
-			String status, String location, String milestone, String description, String progress_status, String done_status){
+	public Quest(int quest_id, String title, String description, String leader, String milestone, String due_date, String location, String status, String member, 
+			  String progress_status, String done_status, String max_member){
 		this.quest_id = quest_id;
 		this.title = title;
-		this.leader = leader;
-		this.due_date = due_date;
-		this.member = member;
-		this.status = status;
-		this.location = location;
-		this.milestone = milestone;
 		this.description = description;
+		this.leader = leader;
+		this.milestone = milestone;
+		this.due_date = due_date;
+		this.location = location;
+		this.status = status;
+		this.member = member;
 		this.progress_status = progress_status;
 		this.done_status = done_status;
+		this.max_member = max_member;
 
 	}
 
@@ -65,7 +67,9 @@ public class Quest {
 	public int getQuestId() {
 		return quest_id;
 	}
-
+	public String getMaxMember() {
+		return max_member;
+	}
 	//Getters and Setters
 	public String getProgressStstus() {
 		return progress_status;
