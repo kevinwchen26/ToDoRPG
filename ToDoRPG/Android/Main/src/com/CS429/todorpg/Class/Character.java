@@ -85,6 +85,7 @@ public class Character {
 	public void LevelStats() {
 		// STUB Method
 	}
+	
 
 	// All characters have a basic attack
 	public void attack(Character enemy) {

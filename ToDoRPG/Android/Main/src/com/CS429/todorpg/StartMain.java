@@ -264,7 +264,14 @@ public class StartMain extends Activity {
 	
 	public void makeBattleDemoMessages () {
 		builder = new AlertDialog.Builder(this);
-		builder.setTitle(Constants.TAG_ERROR);
+		if(!LoginStatus())
+			builder.setTitle("Not logged in");
+		else if(!characterStatus())
+			builder.setTitle("No character found");
+		else 
+			builder.setTitle(Constants.TAG_ERROR);
+
+
 		builder.setMessage(Constants.BATTLE_CLASS_LOG_ERROR);
 		
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
