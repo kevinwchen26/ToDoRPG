@@ -452,8 +452,8 @@ public class BattleActivity extends Activity {
 	
 	private void makeBoss() {
 		boss = new Enemy("Boss");
-		boss.setHP(10);
-		boss.setMaxHP(10);
+		boss.setHP(100);
+		boss.setMaxHP(100);
 		//*** Add new parameters later ***//
 
 	}
