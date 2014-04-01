@@ -7,7 +7,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -30,10 +30,20 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/character_name" />
 
+            <ImageView
+                android:id="@+id/skin_selection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/character_name"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/dark" 
+                android:tag="dark"/>
+
             <Spinner
                 android:id="@+id/character_spinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/skin_selection"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/blue_button"
                 android:entries="@array/CharacterSelection"
@@ -280,7 +290,25 @@
                     android:background="@drawable/red_button"
                     android:text="@string/cancel" />
             </LinearLayout>
-        </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/right_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/character_spinner"
+                android:layout_below="@+id/character_name"
+                android:layout_toRightOf="@+id/skin_selection"
+                android:src="@drawable/trans_right_arrow" />
+
+            <ImageButton
+                android:id="@+id/left_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/character_spinner"
+                android:layout_below="@+id/character_name"
+                android:layout_toLeftOf="@+id/skin_selection"
+                android:src="@drawable/trans_left_arrow" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

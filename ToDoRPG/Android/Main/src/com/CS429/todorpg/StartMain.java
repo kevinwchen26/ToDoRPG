@@ -24,15 +24,17 @@ public class StartMain extends Activity {
 	TextView user_id;
 
 	// Persistent Data
-	//SharedPreferences prefs;
+	// SharedPreferences prefs;
 
-	//Battle Demo prompt
+	// Battle Demo prompt
 	AlertDialog battleMsg;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_main);
-		//prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+		// prefs = getSharedPreferences(Constants.MY_PREFERENCES,
+		// Context.MODE_PRIVATE);
 		startMain_activity = this;
 		ButtonHandler();
 		makeBattleDemoMessages();
@@ -50,11 +52,11 @@ public class StartMain extends Activity {
 		findViewById(R.id.character_info_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.quest_creation_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.my_quest_info_btn).setOnClickListener(ButtonOption);
-//		findViewById(R.id.join_quest_btn).setOnClickListener(ButtonOption);
+		findViewById(R.id.join_quest_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.all_quest_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.quit_btn).setOnClickListener(ButtonOption);
 		findViewById(R.id.battle_demo_btn).setOnClickListener(ButtonOption);
-		
+
 	}
 
 	Button.OnClickListener ButtonOption = new Button.OnClickListener() {
@@ -70,30 +72,30 @@ public class StartMain extends Activity {
 			case R.id.logout_btn:
 				LogoutHandler();
 				break;
-			case R.id.create_character_btn:			// Create Character
+			case R.id.create_character_btn: // Create Character
 				CharacterCreation();
 				break;
-			case R.id.character_info_btn:			// My Character Infomation
+			case R.id.character_info_btn: // My Character Infomation
 				CharacterInfo();
 				break;
-			case R.id.quest_creation_btn: 			// Create Quest
+			case R.id.quest_creation_btn: // Create Quest
 				QuestCreation();
 				break;
-			case R.id.my_quest_info_btn:			// View My Quest
+			case R.id.my_quest_info_btn: // View My Quest
 				MyQuestInfo();
 				break;
-			case R.id.all_quest_btn:				// View All Quest
+			case R.id.all_quest_btn: // View All Quest
 				AllQuestInfo();
 				break;
-			
+
 			case R.id.join_quest_btn:
 				JoinHandler();
 				break;
-			case R.id.quit_btn:						// Quit 
+			case R.id.quit_btn: // Quit
 				clearSharedPreferences();
 				finish();
 				break;
-			case R.id.battle_demo_btn:				// Battle Demo
+			case R.id.battle_demo_btn: // Battle Demo
 				BattleDemo();
 				break;
 			}
@@ -108,12 +110,14 @@ public class StartMain extends Activity {
 			return;
 		} else {
 			if (UserInfo.isNetworkConnected(startMain_activity)) {
-				Log.d("STATUS", "CONNECTED");
+				Toast.makeText(this, "SHOULD BE HERE", Toast.LENGTH_SHORT).show();
+
 				intent = new Intent(StartMain.this, MapActivity.class);
 				startActivity(intent);
 			} else {
+				Toast.makeText(this, "SHOULD NOT BE HERE", Toast.LENGTH_SHORT).show();
+
 				UserInfo.GetNetworkDialog(startMain_activity).show();
-				Log.d("STATUS", "NOT CONNECTED");
 				return;
 			}
 
@@ -145,25 +149,25 @@ public class StartMain extends Activity {
 	}
 
 	public boolean LoginStatus() {
-		return ((UserInfo)getApplicationContext()).isLoggedIn();
-//		if (UserInfo.username == null)
-//			return false;
-//		else
-//			return true;
+		return ((UserInfo) getApplicationContext()).isLoggedIn();
+		// if (UserInfo.username == null)
+		// return false;
+		// else
+		// return true;
 	}
 
 	public void clearSharedPreferences() {
-//		Editor editor = prefs.edit();
-//		editor.clear();
-//		editor.commit();
+		// Editor editor = prefs.edit();
+		// editor.clear();
+		// editor.commit();
 	}
 
 	public boolean characterStatus() {
-		return ((UserInfo)getApplicationContext()).hasCharacter();
-//		if (prefs.contains(Constants.PREF_CHARACTER_EXISTS))
-//			return prefs.getBoolean(Constants.PREF_CHARACTER_EXISTS, false);
-//		else
-//			return false;
+		return ((UserInfo) getApplicationContext()).hasCharacter();
+		// if (prefs.contains(Constants.PREF_CHARACTER_EXISTS))
+		// return prefs.getBoolean(Constants.PREF_CHARACTER_EXISTS, false);
+		// else
+		// return false;
 	}
 
 	public void CharacterCreation() {
@@ -172,7 +176,7 @@ public class StartMain extends Activity {
 			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if (((UserInfo)getApplicationContext()).hasCharacter()) {
+		if (((UserInfo) getApplicationContext()).hasCharacter()) {
 			Toast.makeText(this, Constants.HAVE_CHARACTER_MESSAGE, Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -205,9 +209,9 @@ public class StartMain extends Activity {
 		// Clear out Shared Preferences
 		clearSharedPreferences();
 
-//		UserInfo.username = null;
-//		UserInfo.CLASS_INFO = null;
-		((UserInfo)getApplicationContext()).logout();
+		// UserInfo.username = null;
+		// UserInfo.CLASS_INFO = null;
+		((UserInfo) getApplicationContext()).logout();
 		header.setVisibility(View.VISIBLE);
 		sub_header.setVisibility(View.GONE);
 	}
@@ -249,6 +253,7 @@ public class StartMain extends Activity {
 			}
 		}
 	}
+
 	private void AllQuestInfo() {
 		if (UserInfo.isNetworkConnected(startMain_activity)) {
 			Log.d("STATUS", "My Quests: CONNECTED");
@@ -261,14 +266,14 @@ public class StartMain extends Activity {
 			return;
 		}
 	}
-	
-	public void makeBattleDemoMessages () {
+
+	public void makeBattleDemoMessages() {
 		builder = new AlertDialog.Builder(this);
 		builder.setTitle(Constants.TAG_ERROR);
 		builder.setMessage(Constants.BATTLE_CLASS_LOG_ERROR);
-		
+
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -277,22 +282,23 @@ public class StartMain extends Activity {
 				StartMain.this.startActivity(intent);
 			}
 		});
-		
+
 		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-			
+
 			@Override
-			public void onClick(DialogInterface dialog, int which) {			
+			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 				Toast.makeText(StartMain.this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
 			}
 		});
-		
+
 	}
+
 	public void BattleDemo() {
 
 		if (!LoginStatus() || !characterStatus()) {
 			battleMsg = builder.create();
-			battleMsg.show();			
+			battleMsg.show();
 			return;
 		} else {
 			if (UserInfo.isNetworkConnected(startMain_activity)) {
@@ -306,7 +312,7 @@ public class StartMain extends Activity {
 				return;
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -320,7 +326,7 @@ public class StartMain extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Constants.LOGIN_SUCCESS) {
 			header.setVisibility(View.GONE);
-			user_id.setText(Constants.WELCOME_MESSAGE + " " + ((UserInfo)getApplicationContext()).getUserName());
+			user_id.setText(Constants.WELCOME_MESSAGE + " " + ((UserInfo) getApplicationContext()).getUserName());
 			sub_header.setVisibility(View.VISIBLE);
 		}
 	}

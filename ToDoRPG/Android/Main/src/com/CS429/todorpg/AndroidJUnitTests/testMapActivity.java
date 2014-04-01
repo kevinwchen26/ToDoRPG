@@ -12,10 +12,7 @@ import com.CS429.todorpg.MapActivity;
 import com.CS429.todorpg.NearestQuest;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.app.Activity;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.AndroidTestCase;
-import android.widget.Button;
 
 public class testMapActivity extends AndroidTestCase {
 

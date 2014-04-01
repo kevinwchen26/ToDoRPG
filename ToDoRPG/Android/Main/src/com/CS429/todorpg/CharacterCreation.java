@@ -16,9 +16,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -38,14 +36,14 @@ import android.widget.Toast;
 
 public class CharacterCreation extends Activity {
 	// Persistent Data
-	//SharedPreferences prefs;
-	
+	// SharedPreferences prefs;
+
 	private ProgressDialog pDialog;
 	JSONParser jsonParser = new JSONParser();
 	InsertData insert = new InsertData();
 	LinearLayout stat_1_3, stat_4_6, character_skill_1, character_skill_2, character_skill_3, character_skill_4, confirm_layout;
 	ImageView character_image, skill_1_image, skill_2_image, skill_3_image, skill_4_image;
-	TextView str_stat, con_stat, dex_stat, int_stat, wis_stat, cha_stat, skill_1_explanation, skill_2_explanation, skill_3_explanation,	skill_4_explanation;
+	TextView str_stat, con_stat, dex_stat, int_stat, wis_stat, cha_stat, skill_1_explanation, skill_2_explanation, skill_3_explanation, skill_4_explanation;
 	AlertDialog dialog;
 	Spinner character_spinner;
 	Button create, cancel;
@@ -55,13 +53,14 @@ public class CharacterCreation extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-//		prefs = getSharedPreferences(Constants.MY_PREFERENCES,
-//				Context.MODE_PRIVATE); 
+		// prefs = getSharedPreferences(Constants.MY_PREFERENCES,
+		// Context.MODE_PRIVATE);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.character_creation);
 		ActivitySizeHandler();
 		FindViewById();
+
 		SpinnerListener();
 	}
 
@@ -70,8 +69,7 @@ public class CharacterCreation extends Activity {
 		WindowManager.LayoutParams params = getWindow().getAttributes();
 		params.width = WindowManager.LayoutParams.FILL_PARENT;
 		params.height = WindowManager.LayoutParams.FILL_PARENT;
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getWindow().setAttributes(params);
 	}
 
@@ -103,21 +101,60 @@ public class CharacterCreation extends Activity {
 		character_spinner = (Spinner) findViewById(R.id.character_spinner);
 		findViewById(R.id.create_character_btn).setOnClickListener(ButtonHandler);
 		findViewById(R.id.cancel_character_btn).setOnClickListener(ButtonHandler);
+
+		findViewById(R.id.left_button).setOnClickListener(new Button.OnClickListener() {
+			// dark vampire green
+			@Override
+			public void onClick(View arg0) {
+				ImageView image = (ImageView) findViewById(R.id.skin_selection);
+				if (image.getTag().equals("dark")) {
+					return;
+				} else if (image.getTag().equals("vampire")) {
+					image.setImageResource(R.drawable.dark);
+					image.setTag("dark");
+				} else {
+					image.setImageResource(R.drawable.vampire);
+					image.setTag("vampire");
+				}
+			}
+
+		});
+
+		findViewById(R.id.right_button).setOnClickListener(new Button.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				ImageView image = (ImageView) findViewById(R.id.skin_selection);
+				if (image.getTag().equals("dark")) {
+					image.setImageResource(R.drawable.vampire);
+					image.setTag("vampire");
+				} else if (image.getTag().equals("vampire")) {
+					image.setImageResource(R.drawable.green);
+					image.setTag("green");
+
+				} else {
+					return;
+				}
+			}
+
+		});
+
 	}
+
 	Button.OnClickListener ButtonHandler = new Button.OnClickListener() {
 
 		@SuppressLint("NewApi")
 		@Override
 		public void onClick(View view) {
-			switch(view.getId()) {
-				case R.id.create_character_btn:
-					if(!character_name.getText().toString().isEmpty() && !character_selection_string.equals("Choose Character")) {
-						insert.execute();
-					}
-					break;
-				case R.id.cancel_character_btn:
-					finish();
-					break;
+			switch (view.getId()) {
+			case R.id.create_character_btn:
+				if (!character_name.getText().toString().isEmpty() && !character_selection_string.equals("Choose Character")) {
+					insert.execute();
+				}
+				break;
+			case R.id.cancel_character_btn:
+				finish();
+				break;
 			}
 
 		}
@@ -128,30 +165,31 @@ public class CharacterCreation extends Activity {
 		character_spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				// Toast.makeText(parent.getContext(),
-				// parent.getItemAtPosition(pos).toString(),
-				// Toast.LENGTH_SHORT).show();
-				// String character_selection_string;
 				character_selection_string = parent.getItemAtPosition(pos).toString().trim();
-				if (character_selection_string.equals("Choose Character")) {
-					SetInvisible();
-				} else if (character_selection_string.equals(Constants.WARRIOR)) {
-					character_image.setImageResource(R.drawable.warrior);
-					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals(Constants.ASSASSIN)) {
-					character_image.setImageResource(R.drawable.assassin);
-					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals(Constants.MAGE)) {
-					character_image.setImageResource(R.drawable.mage);
-					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals(Constants.ARCHER)) {
-					character_image.setImageResource(R.drawable.archer);
-					character_image.setVisibility(View.VISIBLE);
-				} else if (character_selection_string.equals(Constants.SUMMONER)) {
-					character_image
-							.setImageResource(R.drawable.summoner);
-					character_image.setVisibility(View.VISIBLE);
-				}
+				// if (character_selection_string.equals("Choose Character")) {
+				// SetInvisible();
+				// } else if
+				// (character_selection_string.equals(Constants.WARRIOR)) {
+				// character_image.setImageResource(R.drawable.warrior);
+				// character_image.setVisibility(View.VISIBLE);
+				// } else if
+				// (character_selection_string.equals(Constants.ASSASSIN)) {
+				// character_image.setImageResource(R.drawable.assassin);
+				// character_image.setVisibility(View.VISIBLE);
+				// } else if (character_selection_string.equals(Constants.MAGE))
+				// {
+				// character_image.setImageResource(R.drawable.mage);
+				// character_image.setVisibility(View.VISIBLE);
+				// } else if
+				// (character_selection_string.equals(Constants.ARCHER)) {
+				// character_image.setImageResource(R.drawable.archer);
+				// character_image.setVisibility(View.VISIBLE);
+				// } else if
+				// (character_selection_string.equals(Constants.SUMMONER)) {
+				// character_image
+				// .setImageResource(R.drawable.summoner);
+				// character_image.setVisibility(View.VISIBLE);
+				// }
 				InitializeStat(character_selection_string);
 				Skill_explanation(character_selection_string);
 
@@ -315,20 +353,21 @@ public class CharacterCreation extends Activity {
 			pDialog.setCancelable(true);
 			pDialog.show();
 		}
+
 		@Override
 		protected String doInBackground(String... arg) {
 			String name = character_name.getText().toString();
-			UserInfo user = (UserInfo)getApplicationContext();
+			UserInfo user = (UserInfo) getApplicationContext();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-//			Log.d("user_name", UserInfo.username);
-//			Log.d("character_name", name);
-//			Log.d("str", Integer.toString(MyCharacter.getSTR()));
-//			Log.d("con", Integer.toString(MyCharacter.getCON()));
-//			Log.d("dex", Integer.toString(MyCharacter.getDEX()));
-//			Log.d("_int", Integer.toString(MyCharacter.getINT()));
-//			Log.d("wis", Integer.toString(MyCharacter.getWIS()));
-//			Log.d("cha", Integer.toString(MyCharacter.getCHA()));
-//			Log.d("CLASS", character_spinner.getSelectedItem().toString());
+			// Log.d("user_name", UserInfo.username);
+			// Log.d("character_name", name);
+			// Log.d("str", Integer.toString(MyCharacter.getSTR()));
+			// Log.d("con", Integer.toString(MyCharacter.getCON()));
+			// Log.d("dex", Integer.toString(MyCharacter.getDEX()));
+			// Log.d("_int", Integer.toString(MyCharacter.getINT()));
+			// Log.d("wis", Integer.toString(MyCharacter.getWIS()));
+			// Log.d("cha", Integer.toString(MyCharacter.getCHA()));
+			// Log.d("CLASS", character_spinner.getSelectedItem().toString());
 			params.add(new BasicNameValuePair("user_name", user.getUserName()));
 			params.add(new BasicNameValuePair("character_name", name));
 			params.add(new BasicNameValuePair("str", Integer.toString(MyCharacter.getSTR())));
@@ -340,8 +379,7 @@ public class CharacterCreation extends Activity {
 			params.add(new BasicNameValuePair("level", Integer.toString(Constants.INIT_LEVEL)));
 			params.add(new BasicNameValuePair("class", character_spinner.getSelectedItem().toString()));
 
-			JSONObject json = jsonParser.makeHttpRequest(
-					Constants.url_create_character, "POST", params);
+			JSONObject json = jsonParser.makeHttpRequest(Constants.url_create_character, "POST", params);
 
 			Log.d("Create Response", json.toString());
 
@@ -351,24 +389,32 @@ public class CharacterCreation extends Activity {
 				if (success == 1) {
 					Log.d("Character Creation Status", "Character Created Successfully");
 					String characterClass = character_spinner.getSelectedItem().toString();
-					user.createCharacter(name, MyCharacter.getSTR(), MyCharacter.getCON(), MyCharacter.getDEX(), 
-							MyCharacter.getINT(), MyCharacter.getWIS(), MyCharacter.getCHA(), Constants.INIT_LEVEL, characterClass);
-					
+					user.createCharacter(name, MyCharacter.getSTR(), MyCharacter.getCON(), MyCharacter.getDEX(), MyCharacter.getINT(), MyCharacter.getWIS(), MyCharacter.getCHA(),
+							Constants.INIT_LEVEL, characterClass);
+
 					// Store character creation status here
-//					Editor editor = prefs.edit();
-//					editor.putString(Constants.PREF_CHARACTER_NAME, name);
-//					editor.putInt(Constants.PREF_CHARACTER_STR, MyCharacter.getSTR());
-//					editor.putInt(Constants.PREF_CHARACTER_CON, MyCharacter.getCON());
-//					editor.putInt(Constants.PREF_CHARACTER_DEX, MyCharacter.getDEX());
-//					editor.putInt(Constants.PREF_CHARACTER_INT, MyCharacter.getINT());
-//					editor.putInt(Constants.PREF_CHARACTER_WIS, MyCharacter.getWIS());
-//					editor.putInt(Constants.PREF_CHARACTER_CHA, MyCharacter.getCHA());
-//					editor.putInt(Constants.PREF_CHARACTER_LEVEL, Constants.INIT_LEVEL);
-//					editor.putString(Constants.PREF_CHARACTER_CLASS, characterClass);
-//					editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, true);
-//					if (!editor.commit()){
-//						Log.d("PREF", "USER_NAME NOT STORED"); 
-//					}
+					// Editor editor = prefs.edit();
+					// editor.putString(Constants.PREF_CHARACTER_NAME, name);
+					// editor.putInt(Constants.PREF_CHARACTER_STR,
+					// MyCharacter.getSTR());
+					// editor.putInt(Constants.PREF_CHARACTER_CON,
+					// MyCharacter.getCON());
+					// editor.putInt(Constants.PREF_CHARACTER_DEX,
+					// MyCharacter.getDEX());
+					// editor.putInt(Constants.PREF_CHARACTER_INT,
+					// MyCharacter.getINT());
+					// editor.putInt(Constants.PREF_CHARACTER_WIS,
+					// MyCharacter.getWIS());
+					// editor.putInt(Constants.PREF_CHARACTER_CHA,
+					// MyCharacter.getCHA());
+					// editor.putInt(Constants.PREF_CHARACTER_LEVEL,
+					// Constants.INIT_LEVEL);
+					// editor.putString(Constants.PREF_CHARACTER_CLASS,
+					// characterClass);
+					// editor.putBoolean(Constants.PREF_CHARACTER_EXISTS, true);
+					// if (!editor.commit()){
+					// Log.d("PREF", "USER_NAME NOT STORED");
+					// }
 
 				} else {
 				}
@@ -378,14 +424,14 @@ public class CharacterCreation extends Activity {
 
 			return null;
 		}
+
 		protected void onPostExecute(String result) {
 			Toast.makeText(CharacterCreation.this, Constants.CHARACTER_CREATE_SUCCESS_MESSAGE, Toast.LENGTH_SHORT).show();
 			pDialog.dismiss();
 			insert.cancel(true);
-			
-			((UserInfo)getApplicationContext()).createdCharacter();
-			finish();
 
+			((UserInfo) getApplicationContext()).createdCharacter();
+			finish();
 
 		}
 
