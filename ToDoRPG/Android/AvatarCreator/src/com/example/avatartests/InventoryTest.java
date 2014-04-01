@@ -7,6 +7,8 @@ import org.junit.Test;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.avatarcreator.Avatar;
@@ -20,6 +22,8 @@ public class InventoryTest extends ActivityInstrumentationTestCase2<InventoryAct
 	// Variables
 	private Activity mActivity;
 	private ListView lv;
+	private GridView gridview;
+	private ImageView iv;
 	
 	
 	public InventoryTest() {
@@ -47,7 +51,10 @@ public class InventoryTest extends ActivityInstrumentationTestCase2<InventoryAct
         
         // Get Activity metadata
 		mActivity = this.getActivity();
+		
 		lv = (ListView)mActivity.findViewById(R.id.equipment_list);
+		gridview = (GridView)mActivity.findViewById(R.id.inventory_grid_view);
+		iv = (ImageView)mActivity.findViewById(R.id.character_image);
 		
 		
 		
@@ -59,17 +66,10 @@ public class InventoryTest extends ActivityInstrumentationTestCase2<InventoryAct
 	
 	@SuppressLint("NewApi")
 	public void testPreConditions(){
-		assertTrue(capacitySpinner.getOnItemSelectedListener() != null);
-	    assertTrue(capacityItem != null);
-	    assertEquals(capacityItem.getCount(), CAPACITY_COUNT);
-
-		assertTrue(locationSpinner.getOnItemSelectedListener() != null);
-	    assertTrue(locationItem != null);
-	    assertEquals(locationItem.getCount(), LOCATION_COUNT);	    
-	    
-	    assertTrue(dateBtn.hasOnClickListeners());
-	    assertTrue(SubmitBtn.hasOnClickListeners());
-	    assertTrue(MileBtn.hasOnClickListeners());
+	    assertTrue(lv != null);
+	    assertEquals(lv.getCount(), 1);
+	    assertEquals(gridview.getCount(), 6);
+	    assertTrue(iv.getDrawable() != null);
 	}
 	
 	
