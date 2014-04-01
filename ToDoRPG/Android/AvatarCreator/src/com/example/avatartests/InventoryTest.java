@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.avatarcreator.Avatar;
@@ -73,9 +74,27 @@ public class InventoryTest extends ActivityInstrumentationTestCase2<InventoryAct
 	}
 	
 	
-	@Test
-	public void test() {
-		assertTrue(true);
-	}
+	 @Test
+     public void testPopUpMenu() {
+             ListAdapter adapter = gridview.getAdapter();
+             getInstrumentation().runOnMainSync(new Runnable(){
+                     @Override
+                     public void run(){
+                             gridview.requestFocus();
+                             gridview.setSelection(0);
+                     }
+             });
+//             gridview.setSelection(0);
+             ImageView sv = (ImageView)gridview.getSelectedView();
+             assertTrue(sv.getDrawable() != null);
+             getInstrumentation().runOnMainSync(new Runnable(){
+                 @Override
+                 public void run(){
+                         gridview.requestFocus();
+                         gridview.setSelection(5);
+                 }
+             });
+             assertTrue(sv.getDrawable() != null);
+     }
 
 }
