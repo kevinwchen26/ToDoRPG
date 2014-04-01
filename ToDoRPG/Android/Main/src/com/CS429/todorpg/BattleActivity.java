@@ -176,15 +176,27 @@ public class BattleActivity extends Activity {
 		}
 		else if(player.getCLASS().equals("Assassin")){
 			skillArray = R.array.assassins_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
 		else if(player.getCLASS().equals("Mage")){
 			skillArray = R.array.mage_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
 		else if(player.getCLASS().equals("Summoner")){
 			skillArray = R.array.summoner_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
 		else if(player.getCLASS().equals("Archer")){
 			skillArray = R.array.archer_skills;
+			playerImage.setBackgroundResource(R.drawable.warrior_walk);
+			playerWalk = (AnimationDrawable) playerImage.getBackground();
+			playerWalk.start();
 		}
 		
 		ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(skillArray));
