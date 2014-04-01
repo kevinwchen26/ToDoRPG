@@ -1,4 +1,4 @@
-package com.CS429.todorpg.AndroidJUnitTests;
+package com.CS429.todorpg.test;
 
 import com.CS429.todorpg.Login;
 import com.robotium.solo.Solo;

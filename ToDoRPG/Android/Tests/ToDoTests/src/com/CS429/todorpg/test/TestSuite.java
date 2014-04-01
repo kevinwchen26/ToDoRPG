@@ -1,4 +1,4 @@
-package com.CS429.todorpg.AndroidJUnitTests;
+package com.CS429.todorpg.test;
 
 import junit.framework.Test;
 import android.test.suitebuilder.TestSuiteBuilder;
