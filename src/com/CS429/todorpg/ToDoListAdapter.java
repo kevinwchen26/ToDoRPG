@@ -16,7 +16,8 @@ public class ToDoListAdapter extends BaseAdapter {
 	private ArrayList<MyToDoList> data;
 	private LayoutInflater inflater;
 	static ImageView progress_img, done_img;
-	static boolean progress_status, done_status;
+
+	// static boolean progress_status, done_status;
 
 	// CheckBox check;
 	public ToDoListAdapter(Context context, ArrayList<MyToDoList> data) {
@@ -56,22 +57,19 @@ public class ToDoListAdapter extends BaseAdapter {
 		 */
 		TextView todolist = (TextView) convertView.findViewById(R.id.todo_list);
 		todolist.setText(data.get(position).getList());
-		ImageView progress_img = (ImageView) convertView
-				.findViewById(R.id.progress_img);
-		ImageView done_img = (ImageView) convertView
-				.findViewById(R.id.done_img);
+	/*	progress_img = (ImageView) convertView.findViewById(R.id.progress_img);
+		done_img = (ImageView) convertView.findViewById(R.id.done_img);
 		progress_img.setImageResource(R.drawable.progress_btn);
 		done_img.setImageResource(R.drawable.done_img);
+		progress_img.setVisibility(View.GONE);
+		done_img.setVisibility(View.GONE);*/
+
 		/*
-		 * progress_img.setVisibility(View.GONE);
-		 * done_img.setVisibility(View.GONE);
+		 * if (!progress_status) progress_img.setVisibility(View.GONE); else
+		 * progress_img.setVisibility(View.VISIBLE); if (!done_status)
+		 * done_img.setVisibility(View.GONE); else
+		 * done_img.setVisibility(View.VISIBLE);
 		 */
-
-		if (!progress_status) progress_img.setVisibility(View.GONE);
-		else progress_img.setVisibility(View.VISIBLE);
-		if (!done_status) done_img.setVisibility(View.GONE);
-		else done_img.setVisibility(View.VISIBLE);
-
 		return convertView;
 	}
 

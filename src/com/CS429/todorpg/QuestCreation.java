@@ -33,7 +33,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.JSONParser;
@@ -41,8 +40,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
 //	private ProgressDialog pDialog;
-	EditText title, description; //, newMilestone;
-	EditText duedate;
+	EditText title, description, duedate; //, newMilestone;
 	private String month, day, location;
 //	ListView milestones;
 	Spinner location_spinner;
@@ -189,7 +187,6 @@ public class QuestCreation extends Activity {
 		return 	validateStatus;
 	}
 	
-	
 	/************************need to fill out this form soon for alarm***********************************************************/
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -214,7 +211,6 @@ public class QuestCreation extends Activity {
 			}
 		}
 	}
-	
 	
 	/**
 	 * This method handles real alarm set...
@@ -268,6 +264,10 @@ public class QuestCreation extends Activity {
 		Log.d("[AlarmTest]", "Uri: " + uri);
 		return uri.toString();
 	}
+	
+	
+	
+	
 	
 	/****************************************************************************************************************************/
 	
@@ -385,41 +385,46 @@ public class QuestCreation extends Activity {
 	//		String questDuration = duration.getText().toString();
 			
 			/****ADDED ****/
-			String due_date = new String(month + "/" + day);	//due date in form of "month/day"
-			String maximum_capacity = String.valueOf(capacity);	//maximum capacity
-			String questCurrentLocation = null;
+			String quest_due_date = new String(month + "/" + day);	//due date in form of "month/day"
+			String quest_max_member = String.valueOf(capacity);	//maximum capacity
+			String quest_location = null;
 			/*************/
 			
 			String questDescription = description.getText().toString();
 //			String questMilestones = collapseMilestones();
 			String questLocation = location_spinner.getSelectedItem().toString();
 			Log.d("spinner1", questLocation);
-			String questLocationLat = null;
-			String questLocationLong = null;
 			Log.d("Location Spinner", questLocation);
 			if(questLocation.equals("Yes")){
 				Log.d("spinner", questLocation);
-				questCurrentLocation = location;
+				quest_location = location;
 			}
 			//TODO
-			String currentlyLoggedIn = "";
 			// Get user ID
 			String userName = "";
 			if (prefs.contains(StaticClass.PREF_USERNAME)) {
 				userName = prefs.getString(StaticClass.PREF_USERNAME, "NOT_LOGGED_IN_CHECK_CODE");
 			}
+			String num_false = "";
+			System.out.println(milestones.size());
+			for(int i = 0; i < milestones.size(); i++) {
+				num_false += "false" + StaticClass.delimiter;
+				
+			}
 			
+			System.out.println(quest_due_date + " / " + quest_max_member + " /  " + quest_location);
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("quest_title", questTitle));
 			params.add(new BasicNameValuePair("quest_description", questDescription));
-			params.add(new BasicNameValuePair("quest_difficulty", 5+""));//Integer.toString(listOfMilestones.size())));
 			params.add(new BasicNameValuePair("creator_name", userName));
-			params.add(new BasicNameValuePair("quest_location_lat", questLocationLat));
-			params.add(new BasicNameValuePair("quest_location_long", questLocationLong));
-//			params.add(new BasicNameValuePair("quest_duration", questDuration));
 			params.add(new BasicNameValuePair("quest_milestone", milestones_to_string));
-			params.add(new BasicNameValuePair("progress_status", "false"));
-			params.add(new BasicNameValuePair("done_status", "false"));
+			params.add(new BasicNameValuePair("quest_due_date", quest_due_date));
+			params.add(new BasicNameValuePair("quest_location", "Siebel")); // TODO quest_location));
+			
+			
+			params.add(new BasicNameValuePair("quest_max_member", quest_max_member));
+			params.add(new BasicNameValuePair("progress_status", num_false));
+			params.add(new BasicNameValuePair("done_status", num_false));
 
 			
 			JSONObject json = jsonParser.makeHttpRequest(

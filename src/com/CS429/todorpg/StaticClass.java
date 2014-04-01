@@ -66,13 +66,12 @@ public class StaticClass {
 	public static final String TAG_CHECK_REMOVE = "REMOVE";
 	public static final String TAG_CANCEL = "CANCEL";
 	public static final String TAG_NO_QUEST_WARNING = "You don't have any quest now";
-	public static final String TAG_NO_PERMISSION = "You don't have a permission to change this status";
+	public static final String TAG_NO_PERMISSION = "You can only see the status of this list";
 	public final static String delimiter = "@#$";
 	public static final int SINGLE_USER_INFO = 100;
 	public static final int ALL_USER_INFO = 200;
 	public static final int STATUS_CHANGED = 1000;
-	public static final int TAG_MAX_NUM = 4;
-	public static final int TAG_WORK_STATUS = 1432;
+	public static int TAG_WORK_STATUS = 1432;
 	
 	public static final String WARRIOR = "Warrior";
 	public static final String ASSASSIN = "Assassin";
