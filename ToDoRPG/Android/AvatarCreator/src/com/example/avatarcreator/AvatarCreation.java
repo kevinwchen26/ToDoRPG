@@ -78,7 +78,7 @@ public class AvatarCreation extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.inventory_button:
-			intent = new Intent(AvatarCreation.this, Inventory.class);
+			intent = new Intent(AvatarCreation.this, InventoryActivity.class);
 			startActivity(intent);
 			break;
 		}

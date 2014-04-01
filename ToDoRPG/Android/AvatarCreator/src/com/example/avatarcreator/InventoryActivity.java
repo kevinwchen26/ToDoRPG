@@ -7,14 +7,16 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class Inventory extends Activity {
+public class InventoryActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,9 @@ public class Inventory extends Activity {
 
 	    gridview.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	            Toast.makeText(Inventory.this, "" + position, Toast.LENGTH_SHORT).show();
+	            //Toast.makeText(Inventory.this, "" + position, Toast.LENGTH_SHORT).show();
+	            showInventoryDialog(v);
+	            //v.setBackgroundColor(Color.RED);
 	        }
 	    });
 	}
@@ -54,6 +58,24 @@ public class Inventory extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.inventory, menu);
 		return true;
+	}
+	
+	public void showInventoryDialog (View v) {
+		PopupMenu popupMenu = new PopupMenu(InventoryActivity.this, v);
+		popupMenu.getMenuInflater().inflate(R.menu.inventory, popupMenu.getMenu());
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			   
+			   @Override
+			   public boolean onMenuItemClick(MenuItem item) {
+			    Toast.makeText(InventoryActivity.this,
+			      item.toString(),
+			      Toast.LENGTH_LONG).show();
+			    return true;
+			   }
+			  });
+			    
+		popupMenu.show();
+		
 	}
 
 }
