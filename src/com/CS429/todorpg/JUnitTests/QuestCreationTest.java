@@ -2,15 +2,20 @@ package com.CS429.todorpg.JUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.CS429.todorpg.AlarmActivity;
+import com.CS429.todorpg.AlarmNotification;
 import com.CS429.todorpg.CalendarView;
 import com.CS429.todorpg.QuestCreation;
 import com.CS429.todorpg.QuestMilestone;
 import com.CS429.todorpg.R;
 import com.CS429.todorpg.StartMain;
+import com.google.android.gms.internal.co;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -38,6 +43,7 @@ public class QuestCreationTest extends ActivityInstrumentationTestCase2<QuestCre
 	private Button dateBtn;
 	private Button SubmitBtn;
 	private Button MileBtn;
+	private Button AlarmBtn;
 	
 	private static final int CAPACITY_COUNT = 10;
 	private static final int LOCATION_COUNT = 3;
@@ -73,6 +79,8 @@ public class QuestCreationTest extends ActivityInstrumentationTestCase2<QuestCre
 				com.CS429.todorpg.R.id.creation_quest_submit);
 		MileBtn = (Button)mActivity.findViewById(
 				com.CS429.todorpg.R.id.creation_milestone_btn);
+		AlarmBtn = (Button)mActivity.findViewById(
+				com.CS429.todorpg.R.id.creation_alarm);
 	}
 
 	@After
@@ -98,6 +106,7 @@ public class QuestCreationTest extends ActivityInstrumentationTestCase2<QuestCre
 	
 	@Test
 	public void testSpinnerUI() {
+/*		
 		mActivity.runOnUiThread(new Runnable(){
 			@Override
 			public void run(){
@@ -106,10 +115,25 @@ public class QuestCreationTest extends ActivityInstrumentationTestCase2<QuestCre
 				assertEquals("10", capacitySpinner.getSelectedItem().toString());
 				
 				locationSpinner.requestFocus();			
-				locationSpinner.setSelection(1, true);
-				assertEquals("Yes", locationSpinner.getSelectedItem().toString());			
+				locationSpinner.setSelection(2, true);
+				assertEquals("No", locationSpinner.getSelectedItem().toString());
+				mActivity.finish();
 			}
 		});
+*/
+		getInstrumentation().runOnMainSync(new Runnable(){
+			@Override
+			public void run(){
+				capacitySpinner.requestFocus();				
+				capacitySpinner.setSelection(1, true);
+				assertEquals("2", capacitySpinner.getSelectedItem().toString());
+				
+				locationSpinner.requestFocus();			
+				locationSpinner.setSelection(2, true);
+				assertEquals("No", locationSpinner.getSelectedItem().toString());
+			}
+		});
+		getInstrumentation().waitForIdleSync();
 	}
 	
 	@Test
@@ -183,19 +207,33 @@ public class QuestCreationTest extends ActivityInstrumentationTestCase2<QuestCre
 	@Test
 	public void testSubmitButtonUI(){
 		assertTrue(SubmitBtn.isClickable());
-		ActivityMonitor BacktoMain = 
-				getInstrumentation().addMonitor(StartMain.class.getName(), null, false);
 		TouchUtils.clickView(this, SubmitBtn);
-		StartMain mainActivity = (StartMain)BacktoMain.waitForActivityWithTimeout(2000);
+		assertTrue(!mActivity.isFinishing());
+	}
+	
+	@Test
+	public void testAlarmButtonUI(){
+		assertTrue(AlarmBtn.isClickable());
+		ActivityMonitor receiveAlarmAct =
+				getInstrumentation().addMonitor(AlarmActivity.class.getName(), null, false);
+		TouchUtils.clickView(this, AlarmBtn);
+		AlarmActivity alarmAct = (AlarmActivity)receiveAlarmAct.waitForActivityWithTimeout(2000);
 		
-		assertNull(mainActivity);
-		assertEquals(0, BacktoMain.getHits());
-		getInstrumentation().removeMonitor(BacktoMain);
+		assertNotNull(alarmAct);
+		assertEquals(1, receiveAlarmAct.getHits());
+		assertEquals(AlarmActivity.class, alarmAct.getClass());
+		getInstrumentation().removeMonitor(receiveAlarmAct);
+		
+		View currentView = alarmAct.findViewById(
+				com.CS429.todorpg.R.id.alarm_okay);
+		TouchUtils.clickView(this, currentView);
+		assertTrue(alarmAct.isFinishing());
 	}
 	
 	@Test
 	public void testSuccessfulCreation(){
 		//spinner
+/*		
 		mActivity.runOnUiThread(new Runnable(){
 			@Override
 			public void run(){
@@ -208,13 +246,31 @@ public class QuestCreationTest extends ActivityInstrumentationTestCase2<QuestCre
 				assertEquals("No", locationSpinner.getSelectedItem().toString());
 			}
 		});
+*/
+		getInstrumentation().runOnMainSync(new Runnable(){
+			@Override
+			public void run(){
+				capacitySpinner.requestFocus();				
+				capacitySpinner.setSelection(1, true);
+				assertEquals("2", capacitySpinner.getSelectedItem().toString());
+				
+				locationSpinner.requestFocus();			
+				locationSpinner.setSelection(2, true);
+				assertEquals("No", locationSpinner.getSelectedItem().toString());
+			}
+		});
+		getInstrumentation().waitForIdleSync();
 		
 		TouchUtils.clickView(this, title);
 		getInstrumentation().sendStringSync("Hello");
+		getInstrumentation().waitForIdleSync();
 		TouchUtils.clickView(this, Description);
 		getInstrumentation().sendStringSync("Hello");
+		getInstrumentation().waitForIdleSync();
 		TouchUtils.clickView(this, due_date);
 		getInstrumentation().sendStringSync("4/1/2014");
+		getInstrumentation().waitForIdleSync();
+		
 		
 		//mile button
 		assertTrue(MileBtn.isClickable());
@@ -231,24 +287,79 @@ public class QuestCreationTest extends ActivityInstrumentationTestCase2<QuestCre
 				com.CS429.todorpg.R.id.mEdit);
 		TouchUtils.clickView(this, currentView);
 		getInstrumentation().sendStringSync("Hello");
+		getInstrumentation().waitForIdleSync();
 		
 		currentView = mileActivity.findViewById(
 				com.CS429.todorpg.R.id.milestone_upload);
 		TouchUtils.clickView(this, currentView);
 		
 		getInstrumentation().removeMonitor(receiveMileView);
-//		mileActivity.finish();
+		getInstrumentation().waitForIdleSync();
 		
+		//alarm button
+		assertTrue(AlarmBtn.isClickable());
+
+		ActivityMonitor receiveAlarmAct =
+				getInstrumentation().addMonitor(AlarmActivity.class.getName(), null, false);
+
+		getInstrumentation().runOnMainSync(new Runnable(){
+			@Override
+			public void run(){
+				AlarmBtn.performClick();
+			}
+		});
+		AlarmActivity alarmAct = (AlarmActivity)receiveAlarmAct.waitForActivityWithTimeout(2000);
 		
-		assertTrue(SubmitBtn.isClickable());
-		ActivityMonitor BacktoMain = 
-				getInstrumentation().addMonitor(StartMain.class.getName(), null, false);
-		TouchUtils.clickView(this, SubmitBtn);
-		StartMain mainActivity = (StartMain)BacktoMain.waitForActivityWithTimeout(2000);
+		assertNotNull(alarmAct);
+		assertEquals(1, receiveAlarmAct.getHits());
+		assertEquals(AlarmActivity.class, alarmAct.getClass());
+		getInstrumentation().removeMonitor(receiveAlarmAct);
+
+		getInstrumentation().waitForIdleSync();
+		currentView = alarmAct.findViewById(
+				com.CS429.todorpg.R.id.alarm_once);
+		TouchUtils.clickView(this, currentView);
 		
-		assertNull(mainActivity);
-		assertEquals(0, BacktoMain.getHits());
-		getInstrumentation().removeMonitor(BacktoMain);
+		currentView = alarmAct.findViewById(
+				com.CS429.todorpg.R.id.alarm_ringtone);
+		TouchUtils.clickView(this, currentView);
 		
+		currentView = alarmAct.findViewById(
+				com.CS429.todorpg.R.id.alarm_okay);
+		TouchUtils.clickView(this, currentView);
+		assertTrue(alarmAct.isFinishing());
+		
+		//alarmnoti test
+		ActivityMonitor receiveAlarmNoti = 
+				getInstrumentation().addMonitor(AlarmNotification.class.getName(), null, false);
+		assertTrue(SubmitBtn.isClickable());	
+		getInstrumentation().runOnMainSync(new Runnable(){
+			@Override
+			public void run(){
+				SubmitBtn.performClick();
+			}
+		});
+		assertTrue(mActivity.isFinishing());
+		AlarmNotification alarmNoti = (AlarmNotification)receiveAlarmNoti.waitForActivity();
+		
+		assertNotNull(alarmNoti);
+		assertEquals(AlarmNotification.class, alarmNoti.getClass());
+		getInstrumentation().waitForIdleSync();
+		
+		getInstrumentation().runOnMainSync(new Runnable(){
+			@Override
+			public void run(){
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTimeInMillis(System.currentTimeMillis());
+				calendar.add(Calendar.SECOND, 2);
+				while(System.currentTimeMillis() <= calendar.getTimeInMillis()){}
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		currentView = alarmNoti.findViewById(
+				com.CS429.todorpg.R.id.alarm_okay_button);
+		TouchUtils.clickView(this, currentView);
+		assertTrue(alarmNoti.isFinishing());
 	}
 }

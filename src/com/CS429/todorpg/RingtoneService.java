@@ -115,10 +115,11 @@ public class RingtoneService extends Service{
 			manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 5, pintent);
 		}
 		else if(type.equals("once")){
-			//temporary alarm set - 1 min due
+			//temporary alarm set - 5 sec due
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(System.currentTimeMillis());
-			calendar.add(Calendar.MINUTE, 1);
+//			calendar.add(Calendar.MINUTE, 1);
+			calendar.add(Calendar.SECOND, 5);
 			manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pintent);
 		}
 

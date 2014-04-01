@@ -81,6 +81,7 @@ public class AlarmNotification extends Activity {
 	
 	@Override
 	public void onDestroy(){
+		Log.e("[LifeCycle]", "++ onDestroy() ++");
 		super.onDestroy();
 		String notitype = getIntent().getStringExtra("noti");
 		
