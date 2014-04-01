@@ -1,15 +1,19 @@
 package com.CS429.todorpg;
 
 import java.util.ArrayList;
+
 import com.CS429.todorpg.Class.Archer;
 import com.CS429.todorpg.Class.Assassin;
 import com.CS429.todorpg.Class.Mage;
 import com.CS429.todorpg.Class.Summoner;
 import com.CS429.todorpg.Class.Warrior;
 import com.CS429.todorpg.Class.Character;
+import com.CS429.todorpg.Utils.Constants;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -28,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BattleActivity extends Activity {
 	boolean defaultClass, playerTurn;
@@ -42,6 +47,9 @@ public class BattleActivity extends Activity {
 	ArrayList<Character> party;
 	Character player;
 	Character boss;
+	AlertDialog.Builder builder;
+	AlertDialog battleEnd;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,9 +73,15 @@ public class BattleActivity extends Activity {
 	
 	private void disablePlayerButtons() {
 		attackButton.setEnabled(false);
+		skillsSpinner.setEnabled(false);
+		itemsButton.setEnabled(false);
+		passButton.setEnabled(false);
 	}
 	private void enablePlayerButtons() {
 		attackButton.setEnabled(true);
+		skillsSpinner.setEnabled(true);
+		itemsButton.setEnabled(true);
+		passButton.setEnabled(true);
 	}
 	
 	private void setUpActivity() {
@@ -239,7 +253,12 @@ public class BattleActivity extends Activity {
 	    playerMP.setText("MP " + player.getMP() + "/" + player.getMaxMP());
 	    
 	    // Need to add check game conditions. 
-	    // if(checkGameConditions())
+	    Handler h = new Handler();
+	    h.postDelayed(new Runnable() {
+	    	@Override
+			public void run() {
+	    	    checkGameConditions();
+			}}, 1000);
 	    
 	    // change turns
 	   changeTurn();
@@ -262,14 +281,31 @@ public class BattleActivity extends Activity {
 		//Boss just finished turn
 		else {
 			playerTurn = true;
-			enablePlayerButtons();
+			Handler h = new Handler();
+		    h.postDelayed(new Runnable() {
+		    	@Override
+				public void run() {
+		    		enablePlayerButtons();
+		    		
+		    	}}, 1000);
 			//Prompt message, 'This character's turn'
 			
 		}
 	}
 	//Return true if game is over
-	private boolean checkGameConditions() {
-		return false;
+	private void checkGameConditions() {
+		if(player.getHP() < 1) {
+			makeGameOverMessages("GAME OVER!");
+			battleEnd = builder.create();
+			battleEnd.show();	
+		}
+		if(boss.getHP() < 1) {
+			makeGameOverMessages("VICTORY!");
+			battleEnd = builder.create();
+			battleEnd.show();	
+		}
+
+		
 	}
 	
 	private void setUpBattleMenu() {
@@ -425,6 +461,38 @@ public class BattleActivity extends Activity {
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
 		battleAnnouncement.setVisibility(View.VISIBLE);
+	}
+	
+	public void makeGameOverMessages(String msg) {
+		builder = new AlertDialog.Builder(this);
+
+		builder.setMessage(msg + " Would you like to try again?");
+		
+		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				player.setHP(player.getMaxHP());
+				player.setMP(player.getMaxMP());
+				
+				boss.setHP(boss.getMaxHP());
+				boss.setMP(boss.getMaxMP());
+
+				
+			}
+		});
+		
+		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {			
+				dialog.dismiss();
+				finish();
+				
+			}
+		});
+		
 	}
 	
 	
