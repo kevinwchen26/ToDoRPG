@@ -17,31 +17,18 @@ public class Avatar {
 	public final static int AVATAR_WIDTH = 140;
 	public final static int AVATAR_HEIGHT = 280;
 	
-	private Bitmap helmImage;
 	private Bitmap bodyImage;
+	private Inventory inventory;
 	
 	public Avatar () {
-		this.helmImage = null;
 		this.bodyImage = null;
 	}
 	
-	public Avatar (Bitmap bodyImage) {
-		this.helmImage = null;
-		this.bodyImage = bodyImage;
+	public Avatar (int bodyId, Inventory inventory) {
+		this.bodyImage = BitmapFactory.decodeResource(UserInfo.getContext().getResources(), bodyId);
+		this.inventory = inventory;
 	}
 	
-	public void setAvatar(Inventory inventory) {
-		helmImage = BitmapFactory.decodeResource(UserInfo.getContext().getResources(), inventory.getHelmet().getResourceId());
-        bodyImage = BitmapFactory.decodeResource(UserInfo.getContext().getResources(), R.drawable.dark);
-		
-	}
-	
-	public Bitmap getHelmImage() {
-		return helmImage;
-	}
-	public void setHelmImage(Bitmap headImage) {
-		this.helmImage = headImage;
-	}
 	public Bitmap getBodyImage() {
 		return bodyImage;
 	}
@@ -49,6 +36,14 @@ public class Avatar {
 		this.bodyImage = bodyImage;
 	}
 	
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
+
 	public Bitmap getBitmap() {
 		if (bodyImage == null) // Sanity check
 			return null;
@@ -58,6 +53,9 @@ public class Avatar {
 		// Merge each image.
 		Canvas canvas = new Canvas(bitmap);
 		canvas.drawBitmap(bodyImage, 15,100, null);
+		
+		// Get equipped item images
+		Bitmap helmImage = inventory.getHelmet().getBitmap();
 		
 		// Merge image layers of equipped items.
 		if (helmImage != null)

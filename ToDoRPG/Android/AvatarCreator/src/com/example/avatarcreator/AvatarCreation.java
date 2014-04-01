@@ -5,15 +5,10 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 
 /**
  * 
@@ -37,21 +32,27 @@ public class AvatarCreation extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avatar_creation);
-		
-        // Assign image resources
-        Bitmap helmImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.light_helmet);
         
-        
-        // Create avatar. BodyImage is necessary by default
-        Bitmap bodyImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.dark);
-        UserInfo.avatar = new Avatar(bodyImage);
+        /*
+         * THIS CODE NEEDS TO RUN RIGHT AFTER USER LOGIN 
+         * 
+         */
         
         // Create inventory
+        Helmet helmet = new Helmet(1, "light helmet", R.drawable.light_helmet);
         Inventory inventory = new Inventory();
+        inventory.initHelmet(helmet);
         
-        Helmet helmet = new Helmet(1, "light helmet", helmImage, R.drawable.light_helmet);
-        inventory.setHelmet(helmet);
-        UserInfo.avatar.setAvatar(inventory);
+        // Populate inventory
+        inventory.add(new Helmet(1, "wiz hat", R.drawable.wiz_hat));
+        inventory.add(new Helmet(1, "light helmet", R.drawable.light_helmet));
+        inventory.add(new Helmet(1, "wiz hat", R.drawable.wiz_hat));
+        inventory.add(new Helmet(1, "light helmet", R.drawable.light_helmet));
+        inventory.add(new Helmet(1, "wiz hat", R.drawable.wiz_hat));
+        inventory.add(new Helmet(1, "light helmet", R.drawable.light_helmet));
+        
+        
+        UserInfo.avatar = new Avatar(R.drawable.dark, inventory);
         
 		Button mergeButton = (Button) findViewById(R.id.merge_button);
 		mergeButton.setOnClickListener(this);
@@ -72,16 +73,17 @@ public class AvatarCreation extends Activity implements OnClickListener {
 		
 		case R.id.merge_button:
 			/*
-			Bitmap bitmap = Bitmap.createBitmap(AVATAR_WIDTH, AVATAR_HEIGHT, Bitmap.Config.ARGB_4444);
-			bitmap.eraseColor(Color.parseColor("green"));
-			
-			
-			//create a canvas for drawing all those small images
-			Canvas canvas = new Canvas(bitmap);
-			canvas.drawBitmap(avatar.getBodyImage(), 15,100, null);
-			canvas.drawBitmap(avatar.getHelmImage(), 15,0, null);
+				Bitmap bitmap = Bitmap.createBitmap(AVATAR_WIDTH, AVATAR_HEIGHT, Bitmap.Config.ARGB_4444);
+				bitmap.eraseColor(Color.parseColor("green"));
+				
+				
+				//create a canvas for drawing all those small images
+				Canvas canvas = new Canvas(bitmap);
+				canvas.drawBitmap(avatar.getBodyImage(), 15,100, null);
+				canvas.drawBitmap(avatar.getHelmImage(), 15,0, null);
 			
 			*/
+			
 			// The result avatar is shown
 			intent = new Intent(AvatarCreation.this, ShowMergedResult.class);
 			intent.putExtra("merged_image", UserInfo.avatar.getBitmap());
