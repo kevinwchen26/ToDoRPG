@@ -1,6 +1,7 @@
 package com.example.avatarcreator;
 
 import android.app.Application;
+import android.content.Context;
 
 public class UserInfo extends Application {
 
@@ -9,8 +10,22 @@ public class UserInfo extends Application {
 	private String profileID;
 	private boolean loggedIn;
 	private boolean characterCreated;
-
-
+	
+	private static Context mContext;
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		mContext = this;
+	}
+	
+	public static Context getContext(){
+        return mContext;
+    }
+	
+	// Inventory
+	public static Avatar avatar;
+	public static Inventory inventory;
 
 	public void login() {
 		this.loggedIn=true;

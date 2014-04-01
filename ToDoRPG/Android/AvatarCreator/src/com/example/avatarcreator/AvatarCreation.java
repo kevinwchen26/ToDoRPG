@@ -33,8 +33,6 @@ public class AvatarCreation extends Activity implements OnClickListener {
 	public final static int AVATAR_WIDTH = 140;
 	public final static int AVATAR_HEIGHT = 280;
 	
-	
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +40,18 @@ public class AvatarCreation extends Activity implements OnClickListener {
 		
         // Assign image resources
         Bitmap helmImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.light_helmet);
-        Bitmap faceImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.dark);
-        avatar = new Avatar(helmImage, faceImage);
+        
+        
+        // Create avatar. BodyImage is necessary by default
+        Bitmap bodyImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.dark);
+        UserInfo.avatar = new Avatar(bodyImage);
+        
+        // Create inventory
+        Inventory inventory = new Inventory();
+        
+        Helmet helmet = new Helmet(1, "light helmet", helmImage, R.drawable.light_helmet);
+        inventory.setHelmet(helmet);
+        UserInfo.avatar.setAvatar(inventory);
         
 		Button mergeButton = (Button) findViewById(R.id.merge_button);
 		mergeButton.setOnClickListener(this);
@@ -61,22 +69,25 @@ public class AvatarCreation extends Activity implements OnClickListener {
 	public void onClick(View view) {
 		Intent intent;
 		switch (view.getId()) {
+		
 		case R.id.merge_button:
+			/*
 			Bitmap bitmap = Bitmap.createBitmap(AVATAR_WIDTH, AVATAR_HEIGHT, Bitmap.Config.ARGB_4444);
 			bitmap.eraseColor(Color.parseColor("green"));
 			
 			
 			//create a canvas for drawing all those small images
 			Canvas canvas = new Canvas(bitmap);
-			canvas.drawBitmap(avatar.getFaceImage(), 15,100, null);
+			canvas.drawBitmap(avatar.getBodyImage(), 15,100, null);
 			canvas.drawBitmap(avatar.getHelmImage(), 15,0, null);
 			
-			
+			*/
 			// The result avatar is shown
 			intent = new Intent(AvatarCreation.this, ShowMergedResult.class);
-			intent.putExtra("merged_image", bitmap);
+			intent.putExtra("merged_image", UserInfo.avatar.getBitmap());
 			startActivity(intent);
 			break;
+			
 		case R.id.inventory_button:
 			intent = new Intent(AvatarCreation.this, InventoryActivity.class);
 			startActivity(intent);
