@@ -72,8 +72,21 @@ public class LocationHandler {
 					pDialog.dismiss();
 					mManager.removeUpdates(mListener);
 					Location LatLong = mManager.getLastKnownLocation(locationprovider);
-					longitude = LatLong.getLongitude();
-					latitude = LatLong.getLatitude();
+					//temporary set lat long
+					if(LatLong == null){
+						longitude = -88;
+						latitude = 40;
+						convertToAddress(latitude, longitude);
+					}
+					else{
+						longitude = LatLong.getLongitude();
+						latitude = LatLong.getLatitude();
+						convertToAddress(latitude, longitude);
+					}
+				}
+				else{
+					pDialog.dismiss();
+					mManager.removeUpdates(mListener);
 					convertToAddress(latitude, longitude);
 				}
 			}
