@@ -148,9 +148,9 @@ public class Character {
 	 * 
 	 * @param EXP
 	 */
-	public void gainEXP(int EXP) {
+	public boolean gainEXP(int EXP) {
 		this.currentEXP += EXP;
-		this.checkEXP();
+		return this.checkEXP();
 	}
 
 	/**

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.CS429.todorpg.Class.Archer;
 import com.CS429.todorpg.Class.Assassin;
+import com.CS429.todorpg.Class.Enemy;
 import com.CS429.todorpg.Class.Mage;
 import com.CS429.todorpg.Class.Summoner;
 import com.CS429.todorpg.Class.Warrior;
@@ -35,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BattleActivity extends Activity {
+	enum GameState{ ready, gameOver }
+	GameState state = GameState.ready;
 	boolean defaultClass, playerTurn;
 	int width, height;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo, enemySide, playerSide;
@@ -46,7 +49,7 @@ public class BattleActivity extends Activity {
 	Intent intent;
 	ArrayList<Character> party;
 	Character player;
-	Character boss;
+	Enemy boss;
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
 
@@ -60,7 +63,7 @@ public class BattleActivity extends Activity {
 		setContentView(R.layout.battle);
 		FindViewById();
 		setUpActivity();
-		playerTurn = true;
+		playerTurn = false;
 
 	}
 
@@ -248,11 +251,11 @@ public class BattleActivity extends Activity {
 	
 	//Updates the screen
 	private void update() {
-		enemyName.setText(boss.getName());
+		enemyName.setText(boss.getName() + " Lv." + Integer.toString(boss.getLEVEL()));
 	    enemyHP.setText("HP" + boss.getHP() + "/" + boss.getMaxHP());
 	    
 	    
-	    playerName.setText(player.getName());
+	    playerName.setText(player.getName() + " Lv." + Integer.toString(player.getLEVEL()));
 	    playerHP.setText("HP " + player.getHP() + "/" + player.getMaxHP());
 	    playerMP.setText("MP " + player.getMP() + "/" + player.getMaxMP());
 	    
@@ -261,13 +264,10 @@ public class BattleActivity extends Activity {
 	    h.postDelayed(new Runnable() {
 	    	@Override
 			public void run() {
-	    	    checkGameConditions();
+	    		checkGameConditions();
+	    	    if(state != GameState.gameOver)
+	    	    	changeTurn();
 			}}, 1000);
-	    
-	    // change turns
-	   changeTurn();
-	    
-	    
 	}
 	
 	//Change turns
@@ -302,11 +302,16 @@ public class BattleActivity extends Activity {
 			makeGameOverMessages("GAME OVER!");
 			battleEnd = builder.create();
 			battleEnd.show();	
+			state = GameState.gameOver;
 		}
 		if(boss.getHP() < 1) {
+			if(player.gainEXP(boss.getExp()))
+				setBattleMessage("LEVEL UP!" + player.getName() + " is " + Integer.toString(player.getLEVEL()));
 			makeGameOverMessages("VICTORY!");
 			battleEnd = builder.create();
-			battleEnd.show();	
+			battleEnd.show();
+			state = GameState.gameOver;
+
 		}
 
 		
@@ -446,9 +451,9 @@ public class BattleActivity extends Activity {
 	}
 	
 	private void makeBoss() {
-		boss = new Warrior("Boss");
-		boss.setHP(1000);
-		boss.setMaxHP(1000);
+		boss = new Enemy("Boss");
+		boss.setHP(10);
+		boss.setMaxHP(10);
 		//*** Add new parameters later ***//
 
 	}
