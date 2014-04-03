@@ -2,6 +2,7 @@ package com.cs429.todorpg.revised.utils;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -120,6 +121,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return null;
 		else {
 			ArrayList<ToDoItem> todos = new ArrayList<ToDoItem>();
+			cursor.moveToFirst();
 			do {
 				String name = cursor.getString(1);
 				int reward = cursor.getInt(2);
@@ -128,5 +130,91 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return todos;
 
 		}
+	}
+
+	/*
+	 * returns all the vices a character has 0 = _id 1= name 2= stat 3 =effect
+	 */
+	public ArrayList<Vice> getVices() {
+		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_VICES,
+				null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<Vice> vices = new ArrayList<Vice>();
+			do {
+				String name = cursor.getString(1);
+				String stat = cursor.getString(2);
+				int effect = cursor.getInt(3);
+				vices.add(new Vice(name, stat, effect));
+			} while (cursor.moveToNext());
+			return vices;
+		}
+	}
+
+	/*
+	 * inserts users character into database
+	 * 
+	 * @name - characters name
+	 * 
+	 * @gold - users gold
+	 */
+	public long addCharacter(String name, int gold) {
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("gold", gold);
+		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
+				null, values);
+	}
+
+	/*
+	 * Inserts item into database
+	 * 
+	 * @item - The item given to character
+	 */
+	public long addItem(Item item) {
+		String name = item.getName();
+		String stat = item.getStat();
+		String pic = item.getPic();
+		int effect = item.getEffect();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("stat", stat);
+		values.put("pic", pic);
+		values.put("effect", effect);
+		return this.getReadableDatabase().insert(Constants.TABLE_ITEMS, null,
+				values);
+	}
+
+	/*
+	 * inserts daily into database
+	 * 
+	 * @daily - the Dailies to add to database
+	 */
+	public long addDaily(Dailies daily) {
+		String name = daily.getName();
+		int reward = daily.getReward();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("reward", reward);
+		return this.getReadableDatabase().insert(Constants.TABLE_DAILIES, null,
+				values);
+	}
+
+	/*
+	 * inserts vice into database
+	 * 
+	 * @vice - the Vice to insert
+	 */
+	public long addVices(Vice vice) {
+		String name = vice.getName();
+		String stat = vice.getStat();
+		int effect = vice.getEffect();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("stat", stat);
+		values.put("effect", effect);
+		return this.getReadableDatabase().insert(Constants.TABLE_VICES, null,
+				values);
 	}
 }
