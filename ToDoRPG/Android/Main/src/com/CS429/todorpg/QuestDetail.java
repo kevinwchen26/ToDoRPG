@@ -72,12 +72,12 @@ public class QuestDetail extends Activity {
 
 	}
 	private void SplitStatus() {
-		String[] progress_list = progress_status.split("[" + StaticClass.delimiter + "]+");
+		String[] progress_list = progress_status.split("[" + Constants.delimiter + "]+");
 		for(String list: progress_list) {
 			System.out.println(list);
 			progress_array.add(list);
 		}
-		String[] done_list = done_status.split("[" + StaticClass.delimiter + "]+");
+		String[] done_list = done_status.split("[" + Constants.delimiter + "]+");
 		for(String list: done_list) {
 			done_array.add(list);
 		}
@@ -220,10 +220,10 @@ public class QuestDetail extends Activity {
 		progress_status = "";
 		done_status = "";
 		for(String list : progress_array) {
-			progress_status = progress_status + list + StaticClass.delimiter;
+			progress_status = progress_status + list + Constants.delimiter;
 		}
 		for(String list : done_array) {
-			done_status = done_status + list + StaticClass.delimiter;
+			done_status = done_status + list + Constants.delimiter;
 		}
 		UpdateStatus uq = new UpdateStatus();
 		uq.execute();
@@ -243,10 +243,10 @@ public class QuestDetail extends Activity {
 			params.add(new BasicNameValuePair("quest_id", Integer.toString(quest_id)));
 //			System.out.println(Boolean.toString(ToDoListAdapter.progress_status) + " : " + Boolean.toString(ToDoListAdapter.done_status));
 			JSONObject json = jsonParser.makeHttpRequest(
-					StaticClass.url_update_work_status, "GET", params);
+					Constants.url_update_work_status, "GET", params);
 			Log.d("Work Update info", json.toString());
 			try {
-				int success = json.getInt(StaticClass.TAG_SUCCESS);
+				int success = json.getInt(Constants.TAG_SUCCESS);
 				if (success == 1) {
 					// SUCCESSFULLY UPDATED DATABASE.
 					Log.d("Quest info", "WORK STATUS UPDATED");

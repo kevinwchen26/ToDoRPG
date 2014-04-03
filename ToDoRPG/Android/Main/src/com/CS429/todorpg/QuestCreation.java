@@ -38,7 +38,6 @@ import android.widget.Toast;
 
 import com.CS429.todorpg.Utils.Constants;
 import com.CS429.todorpg.Utils.JSONParser;
-import com.google.android.gms.maps.model.LatLng;
 
 public class QuestCreation extends Activity {
 //	private ProgressDialog pDialog;
@@ -67,7 +66,7 @@ public class QuestCreation extends Activity {
 		milestones = new ArrayList<String>();
 		SpinnerListener();
 		//prefs = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);	
-		LocationHandler.setHandler(QuestCreation.this);
+		LocationHandler.setHandler(QuestCreation.this, mHandler);
 	}
 	private void ActivitySizeHandler() {
 		WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -431,7 +430,7 @@ public class QuestCreation extends Activity {
 			String num_false = "";
 			System.out.println(milestones.size());
 			for(int i = 0; i < milestones.size(); i++) {
-				num_false += "false" + StaticClass.delimiter;
+				num_false += "false" + Constants.delimiter;
 				
 			}
 			

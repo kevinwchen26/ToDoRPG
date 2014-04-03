@@ -98,8 +98,9 @@ public class ToDoListStatusSetup extends Activity {
 	CheckBox.OnClickListener checkBoxOption = new CheckBox.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			if(!leader.equals(StaticClass.MY_ID)) {
-				Toast.makeText(ToDoListStatusSetup.this, StaticClass.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
+			UserInfo user = (UserInfo)getApplicationContext();
+			if(!leader.equals(user.getProfileID())) {
+				Toast.makeText(ToDoListStatusSetup.this, Constants.TAG_NO_PERMISSION, Toast.LENGTH_SHORT).show();
 				return;
 			}
 			switch (view.getId()) {

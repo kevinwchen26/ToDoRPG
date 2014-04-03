@@ -156,7 +156,7 @@ public class Constants {
 	    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(activity) 
 	        //set message, title, and icon
 	        .setTitle("Warning") 
-	        .setMessage(StaticClass.TAG_CHECK_INTERNET) 
+	        .setMessage(Constants.TAG_CHECK_INTERNET) 
 	        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int whichButton) { 
 	                dialog.dismiss();

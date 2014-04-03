@@ -108,23 +108,23 @@ public class StartMain extends Activity {
 	};
 
 	private void JoinHandler() {
-		if (!LoginStatus()) {
-			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
-			return;
-		} else {
-			if (UserInfo.isNetworkConnected(startMain_activity)) {
-				Toast.makeText(this, "SHOULD BE HERE", Toast.LENGTH_SHORT).show();
-
-				intent = new Intent(StartMain.this, MapActivity.class);
-				startActivity(intent);
-			} else {
-				Toast.makeText(this, "SHOULD NOT BE HERE", Toast.LENGTH_SHORT).show();
-
-				UserInfo.GetNetworkDialog(startMain_activity).show();
-				return;
-			}
-
-		}
+//		if (!LoginStatus()) {
+//			Toast.makeText(this, Constants.NEED_LOGIN_MESSAGE, Toast.LENGTH_SHORT).show();
+//			return;
+//		} else {
+//			if (UserInfo.isNetworkConnected(startMain_activity)) {
+//				Toast.makeText(this, "SHOULD BE HERE", Toast.LENGTH_SHORT).show();
+//
+//				intent = new Intent(StartMain.this, MapActivity.class);
+//				startActivity(intent);
+//			} else {
+//				Toast.makeText(this, "SHOULD NOT BE HERE", Toast.LENGTH_SHORT).show();
+//
+//				UserInfo.GetNetworkDialog(startMain_activity).show();
+//				return;
+//			}
+//
+//		}
 	}
 
 	private void RegisterHandler() {
