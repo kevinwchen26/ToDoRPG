@@ -210,7 +210,7 @@ public class LocationHandler {
 			}
 			
 			Log.d("[Location]", "final address: " + address);
-			mHandler.obtainMessage(QuestCreation.ADDRESS, address).sendToTarget();
+			//mHandler.obtainMessage(QuestCreation.ADDRESS, address).sendToTarget();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

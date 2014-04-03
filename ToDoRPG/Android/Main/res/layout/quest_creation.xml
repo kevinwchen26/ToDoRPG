@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-   <LinearLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -48,69 +48,79 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:weightSum="6"
-            android:orientation="horizontal" >
-            
+            android:orientation="horizontal"
+            android:weightSum="6" >
+
             <EditText
                 android:id="@+id/due_date_edit"
-                android:layout_weight="4.5"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-             	android:background="#FFFFFF"
+                android:layout_weight="4.5"
+                android:background="#FFFFFF"
                 android:hint="mm/dd/yyyy"
                 android:inputType="date"
                 android:textSize="30sp" />
-            
+
             <Button
-				android:id="@+id/due_date"
-				android:layout_width="0dp"
-				android:layout_height="fill_parent"
-				android:layout_weight="1.5"
-				android:text="date" />
-
+                android:id="@+id/due_date"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.5"
+                android:text="date" />
         </LinearLayout>
-        
-        
-        <Button
-                android:id="@+id/creation_alarm"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textColor="#6ca4bc"
-                android:textSize="30sp"
-                android:text="alarm setting" />
 
-        
+        <Button
+            android:id="@+id/creation_alarm"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="alarm setting"
+            android:textColor="#6ca4bc"
+            android:textSize="30sp" />
+
         <TextView
             android:id="@+id/creation_maximum_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="maximum members" />
-        
+
         <Spinner
             android:id="@+id/creation_quest_maximum_number"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/maximum_member"
             android:prompt="@string/maximum_spinner_prompt" />
-        
 
         <TextView
-            android:id="@+id/creation_location_text"
+            android:id="@+id/privacy_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quest_location" />
+            android:text="@string/privacy_text" />
 
-        <Spinner
-            android:id="@+id/creation_quest_location"
+        <RadioGroup
+            android:id="@+id/privacy_radios"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/location_setting"
-            android:prompt="@string/location_spinner_prompt" />
+            android:orientation="horizontal" >
 
- 
-                
-        
+            <RadioButton
+                android:id="@+id/yes_private_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:onClick="setPrivacy"
+                android:text="Yes" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/no_private_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setPrivacy"
+                android:text="No" >
+            </RadioButton>
+        </RadioGroup>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -131,28 +141,6 @@
                 android:layout_weight="5"
                 android:text="@string/quest_submit" />
         </LinearLayout>
-
-        <!--
-        <TextView
-            android:id="@+id/creation_quest_milestone_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quest_milestone_text" />
-
-        <ListView
-            android:id="@+id/quest_milestones"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-        </ListView>
-
-        <EditText
-            android:id="@+id/creation_quest_milestone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text" />
-        -->
-
     </LinearLayout>
 
 </ScrollView>

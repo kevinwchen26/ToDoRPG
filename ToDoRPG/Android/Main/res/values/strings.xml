@@ -69,5 +69,6 @@
     <string name="battle_skills_text">Skills</string>
     <string name="battle_items_text">Items</string>
     <string name="battle_pass_text">Pass</string>
+    <string name="privacy_text">Make this quest private? (Will not be visible to others)</string>
         
 </resources>
