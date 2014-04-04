@@ -7,7 +7,7 @@ public class RewardsActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.rewards_activity);
-		setHeader(R.id.header);
+//		setHeader(R.id.header);
 	}
 
 }

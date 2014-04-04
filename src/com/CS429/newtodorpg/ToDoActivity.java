@@ -24,7 +24,7 @@ public class ToDoActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.todo_activity);
-		setHeader(R.id.header);
+//		setHeader(R.id.header);
 		findViewById();
 		todo_list = settodoList();
 		settodoListView();

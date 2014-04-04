@@ -27,7 +27,7 @@ public class ViceActivity  extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.vice_activity);
-		setHeader(R.id.header);
+//		setHeader(R.id.header);
 		vice_list = setViceList();
 		findViewById();
 		setViceListView();
