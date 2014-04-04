@@ -1,10 +1,15 @@
 package com.CS429.newtodorpg;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import com.CS429.newtodorpg.ViceActivity.today_vice;
 import com.CS429.newtodorpg.controller.DailyListAdapter;
+import com.CS429.newtodorpg.database.DataBaseManager;
 import com.CS429.newtodorpg.model.Daily;
+import com.CS429.newtodorpg.model.Vice;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -28,10 +33,11 @@ public class DailyActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.daily_activity);
-//		setHeader(R.id.header);
-		daily_list = setDailyList();
+		setHeader(R.id.header);
+//		daily_list = setDailyList();
+		new today_daily().execute();
 		findViewById();
-		setDailyListView();
+//		setDailyListView();
 	}
 
 	private void findViewById(){
@@ -77,8 +83,12 @@ public class DailyActivity extends BaseActivity {
 		
 		Daily Daily = new Daily(text);
 		Daily.setImage(R.drawable.temp_images);
+		//temporary due date set
+		Daily.setDueDate(Calendar.getInstance().get(Calendar.MONTH),
+			Calendar.getInstance().get(Calendar.DAY_OF_MONTH), 0, 0);
 		daily_list.add(0, Daily);
 		newtitle.setText(null);
+		DataBaseManager.getInstance(getApplicationContext()).insertDAILY(Daily);
 		return true;
 	}
 	
@@ -99,5 +109,30 @@ public class DailyActivity extends BaseActivity {
 		}
 	};
 	
+class today_daily extends AsyncTask<String, String, String> {
+		
+		Calendar calendar;
+		int month;
+		int day;
+		protected void onPreExecute() {
+			super.onPreExecute();
+			DataBaseManager.getInstance(DailyActivity.this);
+			calendar = Calendar.getInstance();
+			month = calendar.get(Calendar.MONTH);
+			day = calendar.get(Calendar.DAY_OF_MONTH);
+		}
+
+		@Override
+		protected String doInBackground(String... args) {
+			daily_list = DataBaseManager.getInstance(DailyActivity.this).getDaily(month, day);
+			if(daily_list == null)
+				daily_list = new ArrayList<Daily>();
+			return null;
+		}
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			setDailyListView();	
+		}
+	}
 	
 }

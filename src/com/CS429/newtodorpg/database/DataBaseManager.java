@@ -2,6 +2,7 @@ package com.CS429.newtodorpg.database;
 
 import java.util.ArrayList;
 
+import com.CS429.newtodorpg.R;
 import com.CS429.newtodorpg.model.Daily;
 import com.CS429.newtodorpg.model.ToDo;
 import com.CS429.newtodorpg.model.Vice;
@@ -19,7 +20,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
 	private volatile static DataBaseManager dbInstance = null;
 
 	final static String DATABASE_NAME = "PrototypingDB";
-	final static int DATABASE_VERSION = 3;
+	final static int DATABASE_VERSION = 4;
 	final static String DB_LOG_ID = "Database";
 
 	/*
@@ -73,7 +74,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
 		db.execSQL("CREATE TABLE "+ TODO_TABLE + " ("+ QUEST_ID + " INTEGER, " 
 				+ TITLE + " TEXT, " + DESCRIP + " TEXT, " +  MONTH + " INTEGER, " + DAY + " INTEGER, " + HOUR + " INTEGER, " + MIN + " INTEGER)");
 		
-		db.execSQL("CREATE TABLE " + MILESTONES + " (" + MILESTONE + " TEXT)");
+		db.execSQL("CREATE TABLE " + MILESTONES + " (" + QUEST_ID + " INTEGER, " + MILESTONE + " TEXT)");
 		Log.i(DB_LOG_ID,"Created Tables!");
 	}
 
@@ -160,7 +161,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
 				ContentValues cv = new ContentValues();
 				cv.put(QUEST_ID, id);
 				cv.put(MILESTONE, tmp.get(0));
-				db.insert(VICE_TABLE, null, cv);
+				db.insert(MILESTONES, null, cv);
 				Log.i(DB_LOG_ID, "insertVICE()");
 				db.close();
 				tmp.remove(0);
@@ -192,6 +193,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
       			Vice vice = new Vice(title);
       			vice.setDueDate(vmonth, vday, hour, min);
       			vice.setId(quest_id);
+      			vice.setImage(R.drawable.temp_images);//temporary image set
       			vices.add(vice);
       		}while(cursor.moveToNext());
       	}		
@@ -222,6 +224,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
       			daily.setDueDate(vmonth, vday, hour, min);
       			daily.setId(quest_id);
       			daily.WriteDescription(descrip);
+      			daily.setImage(R.drawable.temp_images);//temporary image set
       			dailys.add(daily);
       		}while(cursor.moveToNext());
       	}		
@@ -255,6 +258,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
       			todo.setId(quest_id);
       			todo.WriteDescription(descrip);
       			todo.WriteMileStone(miles);
+      			todo.setImage(R.drawable.temp_images);//temporary image set
       			todos.add(todo);
       		}while(cursor.moveToNext());
       	}		

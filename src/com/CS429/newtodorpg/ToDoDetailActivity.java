@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class ToDoDetailActivity extends Activity {
+public class ToDoDetailActivity extends BaseActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_to_do_detail);
+		setHeader(R.id.header);
 	}
 
 	@Override

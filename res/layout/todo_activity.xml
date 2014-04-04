@@ -5,14 +5,11 @@
     android:orientation="vertical" 
     android:weightSum="15">
     
-  <!--    
-    <include layout="@layout/header"
-        android:layout_weight="1" 
+  <include layout="@layout/header"
         android:layout_width="fill_parent"
-        android:layout_height="0sp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
- -->
     
     <include layout="@layout/list_view_header"
         android:layout_width="fill_parent"
@@ -30,7 +27,7 @@
         android:id="@+id/todo_listview"
         android:layout_weight="15"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"/>
     
      
 </LinearLayout>

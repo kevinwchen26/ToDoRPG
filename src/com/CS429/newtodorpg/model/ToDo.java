@@ -46,6 +46,8 @@ public class ToDo extends Quest{
 	}
 	
 	public void WriteMileStone(ArrayList<String> milelist){
+		if(milelist == null)
+			return;
 		if(milestone == null)
 			milestone = new ArrayList<String>(milelist);
 		else

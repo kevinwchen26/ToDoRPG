@@ -1,10 +1,14 @@
 package com.CS429.newtodorpg;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.CS429.newtodorpg.controller.ToDoListAdapter;
+import com.CS429.newtodorpg.database.DataBaseManager;
+import com.CS429.newtodorpg.model.Daily;
 import com.CS429.newtodorpg.model.ToDo;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,10 +29,11 @@ public class ToDoActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.todo_activity);
-//		setHeader(R.id.header);
+		setHeader(R.id.header);
 		findViewById();
-		todo_list = settodoList();
-		settodoListView();
+		new today_todo().execute();
+//		todo_list = settodoList();
+//		settodoListView();
 	}
 
 	private void findViewById(){
@@ -74,8 +79,14 @@ public class ToDoActivity extends BaseActivity {
 		
 		ToDo todo = new ToDo(text);
 		todo.setImage(R.drawable.temp_images);
+		//temporary due date set
+		todo.setDueDate(Calendar.getInstance().get(Calendar.MONTH),
+			Calendar.getInstance().get(Calendar.DAY_OF_MONTH), 0, 0);
+		//temporary milestone writing
+		todo.WriteMileStone("AAAAAAAAAA");
 		todo_list.add(0, todo);
 		newtitle.setText(null);
+		DataBaseManager.getInstance(getApplicationContext()).insertTODO(todo);
 		return true;
 	}
 	
@@ -95,5 +106,31 @@ public class ToDoActivity extends BaseActivity {
 			}
 		}
 	};
+	
+class today_todo extends AsyncTask<String, String, String> {
+		
+		Calendar calendar;
+		int month;
+		int day;
+		protected void onPreExecute() {
+			super.onPreExecute();
+			DataBaseManager.getInstance(ToDoActivity.this);
+			calendar = Calendar.getInstance();
+			month = calendar.get(Calendar.MONTH);
+			day = calendar.get(Calendar.DAY_OF_MONTH);
+		}
+
+		@Override
+		protected String doInBackground(String... args) {
+			todo_list = DataBaseManager.getInstance(ToDoActivity.this).getAllToDo();
+			if(todo_list == null)
+				todo_list = new ArrayList<ToDo>();
+			return null;
+		}
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			settodoListView();	
+		}
+	}
 	
 }

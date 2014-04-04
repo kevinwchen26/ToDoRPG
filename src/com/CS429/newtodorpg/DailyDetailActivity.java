@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class DailyDetailActivity extends Activity {
+public class DailyDetailActivity extends BaseActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daily_detail);
+		setHeader(R.id.header);
 	}
 
 	@Override
