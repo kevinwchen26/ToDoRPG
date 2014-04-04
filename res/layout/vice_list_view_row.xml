@@ -28,6 +28,7 @@
         
       <Button android:id="@+id/delete_vice_button"
         android:layout_height="fill_parent"
-        android:layout_width="30dp" />
+        android:text="x"
+        android:layout_width="40dp" />
      
 </LinearLayout>
