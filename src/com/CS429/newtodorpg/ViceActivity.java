@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ViceActivity  extends BaseActivity {
@@ -72,8 +73,10 @@ public class ViceActivity  extends BaseActivity {
 		adapter = new ViceListAdapter(
 				ViceActivity.this, vice_list);
 		
-//		View header = (View)getLayoutInflater().inflate(R.layout.list_view_header, null);
-//		vice_list_view.addHeaderView(header);
+		View header = (View)getLayoutInflater().inflate(R.layout.quest_header, null);
+		TextView txt = (TextView)header.findViewById(R.id.txtHeader);
+		txt.setText("VICE LIST");
+		vice_list_view.addHeaderView(header);
 		vice_list_view.setAdapter(adapter);
 	}	
 	

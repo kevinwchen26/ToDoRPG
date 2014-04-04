@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ToDoActivity extends BaseActivity {
@@ -67,8 +68,10 @@ public class ToDoActivity extends BaseActivity {
 		adapter = new ToDoListAdapter(
 				ToDoActivity.this, todo_list);
 		
-//		View header = (View)getLayoutInflater().inflate(R.layout.list_view_header, null);
-//		daily_list_view.addHeaderView(header);
+		View header = (View)getLayoutInflater().inflate(R.layout.quest_header, null);
+		TextView txt = (TextView)header.findViewById(R.id.txtHeader);
+		txt.setText("TODO LIST");
+		todo_list_view.addHeaderView(header);
 		todo_list_view.setAdapter(adapter);
 	}	
 	
