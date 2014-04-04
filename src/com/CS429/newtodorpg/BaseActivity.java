@@ -36,6 +36,12 @@ abstract class BaseActivity extends Activity {
 	}
 
 	@Override
+	 protected void onResume() {
+	  this.overridePendingTransition(0, 0);
+	  super.onResume();
+	} 
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.baseaction, menu);
