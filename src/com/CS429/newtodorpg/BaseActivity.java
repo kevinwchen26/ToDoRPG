@@ -15,6 +15,7 @@ abstract class BaseActivity extends Activity {
 	protected void setHeader(int resId) {
 		findViewById(R.id.character_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.vice_activity).setOnClickListener(ImageViewClick);
+		findViewById(R.id.daily_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.todo_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.inventory_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.rewards_activity).setOnClickListener(ImageViewClick);
@@ -39,6 +40,11 @@ abstract class BaseActivity extends Activity {
 					startActivity(intent);
 					finish();
 					break;
+				case R.id.daily_activity :
+					intent = new Intent(BaseActivity.this, DailyActivity.class);
+					startActivity(intent);
+					finish();
+					break;	
 				case R.id.inventory_activity :
 					intent = new Intent(BaseActivity.this, InventoryActivity.class);
 					startActivity(intent);

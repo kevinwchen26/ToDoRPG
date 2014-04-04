@@ -12,10 +12,24 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
     
-    <TextView
-        android:text="@string/todo_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <include layout="@layout/list_view_header"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" 
+        android:layout_weight="2"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
     
-
+    <View 
+        android:id="@+id/boundary_line"
+        android:layout_width="fill_parent"
+        android:background="#aaa"
+        android:layout_height="1dp" />
+    
+     <ListView
+        android:id="@+id/todo_listview"
+        android:layout_weight="12"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+     
 </LinearLayout>
