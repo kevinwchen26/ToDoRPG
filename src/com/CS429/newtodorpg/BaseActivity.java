@@ -112,6 +112,8 @@ abstract class BaseActivity extends Activity {
 	private void setActionbar(){
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeButtonEnabled(true);
+		actionbar.setIcon(R.drawable.ic_character);
+		actionbar.setDisplayShowTitleEnabled(false);
 		
 		/*
 		 * 	getActionBar().setIcon(R.drawable.ic_home);

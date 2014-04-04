@@ -10,24 +10,24 @@
         android:id="@+id/character_status"
         android:icon="@drawable/temp_images"
         android:title="character_status"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
     
     <item
         android:id="@+id/inventory"
         android:icon="@drawable/ic_inventory"
         android:title="inventory"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
     
     <item
         android:id="@+id/quests"
         android:icon="@drawable/ic_quests"
         android:title="quests"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
     
     <item
         android:id="@+id/rewards"
         android:icon="@drawable/ic_rewards"
         android:title="reward list"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
     
 </menu>
