@@ -1,10 +1,13 @@
-package com.CS429.newtodorpg;
+package com.CS429.newtodorpg.controller;
 
 import java.util.ArrayList;
 
-import com.CS429.newtodorpg.model.Daily;
+import com.CS429.newtodorpg.R;
+import com.CS429.newtodorpg.ViceDetailActivity;
+import com.CS429.newtodorpg.R.id;
+import com.CS429.newtodorpg.R.layout;
 import com.CS429.newtodorpg.model.Quest;
-import com.CS429.newtodorpg.model.ToDo;
+import com.CS429.newtodorpg.model.Vice;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,15 +21,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ToDoListAdapter extends BaseAdapter{
+public class ViceListAdapter extends BaseAdapter{
 
 	private Context context;
-	private ArrayList<ToDo> list;
-	private ToDoListAdapter adapter = this;
+	private ArrayList<Vice> list;
+	private ViceListAdapter adapter = this;
 	
-	public ToDoListAdapter(Context context, ArrayList<ToDo> todos){
+	
+	public ViceListAdapter(Context context, ArrayList<Vice> vices){
 		this.context = context;
-		this.list = todos;
+		this.list = vices;
 	}
 	
 	@Override
@@ -46,26 +50,17 @@ public class ToDoListAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-
 		View row = convertView;
+		
 		if(row == null){
 			LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-			row = inflater.inflate(R.layout.todo_list_view_row, parent, false);
+			row = inflater.inflate(R.layout.vice_list_view_row, parent, false);
 		}
 		
 		ImageView image = (ImageView)row.findViewById(R.id.imgIcon);
 		TextView title = (TextView)row.findViewById(R.id.txtTitle);
 		
-		Button detail_button = (Button)row.findViewById(R.id.add_todo_detail_button);
-		detail_button.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, ToDoDetailActivity.class);
-				((Activity) context).startActivityForResult(intent, Quest.VICE);
-			}	
-		});
-		
-		Button delete_button = (Button)row.findViewById(R.id.delete_todo_button);
+		Button delete_button = (Button)row.findViewById(R.id.delete_vice_button);
 		delete_button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -74,9 +69,18 @@ public class ToDoListAdapter extends BaseAdapter{
 			}	
 		});
 		
-		ToDo todo = list.get(position);
-		image.setImageResource(todo.getImageResource());
-		title.setText(todo.getTitle());
+		Button detail_button = (Button)row.findViewById(R.id.add_vice_detail_button);
+		detail_button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ViceDetailActivity.class);
+				((Activity) context).startActivityForResult(intent, Quest.VICE);
+			}	
+		});
+		
+		Vice vice = list.get(position);
+		image.setImageResource(vice.getImageResource());
+		title.setText(vice.getTitle());
 		
 		return row;
 	}

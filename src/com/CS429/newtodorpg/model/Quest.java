@@ -51,4 +51,11 @@ public abstract class Quest {
 		int[] arr = {due_month, due_date, due_hour, due_min};
 		return arr;
 	}
+	
+	public void setId(int id){
+		quest_id = id;
+	}
+	public int getId(){
+		return quest_id;
+	}
 }

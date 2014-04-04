@@ -2,6 +2,7 @@ package com.CS429.newtodorpg;
 
 import java.util.ArrayList;
 
+import com.CS429.newtodorpg.controller.ToDoListAdapter;
 import com.CS429.newtodorpg.model.ToDo;
 
 import android.os.Bundle;

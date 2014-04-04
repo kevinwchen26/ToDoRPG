@@ -2,6 +2,7 @@ package com.CS429.newtodorpg;
 
 import java.util.ArrayList;
 
+import com.CS429.newtodorpg.controller.DailyListAdapter;
 import com.CS429.newtodorpg.model.Daily;
 
 import android.os.Bundle;

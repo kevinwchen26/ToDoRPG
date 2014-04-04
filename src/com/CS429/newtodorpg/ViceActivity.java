@@ -3,6 +3,7 @@ package com.CS429.newtodorpg;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.CS429.newtodorpg.controller.ViceListAdapter;
 import com.CS429.newtodorpg.model.Vice;
 
 import android.os.Bundle;
