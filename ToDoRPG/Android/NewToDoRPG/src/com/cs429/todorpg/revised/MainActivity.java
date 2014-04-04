@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.rewards_button:
-				intent = new Intent(MainActivity.this, Rewards.class);
+				intent = new Intent(MainActivity.this, RewardActivity.class);
 				startActivity(intent);
 				break;
 			
