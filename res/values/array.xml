@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="quest_list">
+        <item>Vice List</item>
+        <item>Daily List</item>
+        <item>ToDo List</item>
+    </string-array>
+</resources>

@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+
+    <item
+        android:id="@+id/character_status"
+        android:icon="@drawable/temp_images"
+        android:title="character_status"
+        android:showAsAction="ifRoom" />
+    
+    <item
+        android:id="@+id/inventory"
+        android:icon="@drawable/temp_images"
+        android:title="inventory"
+        android:showAsAction="ifRoom" />
+    
+    <item
+        android:id="@+id/quests"
+        android:icon="@drawable/temp_images"
+        android:title="quests"
+        android:showAsAction="ifRoom" />
+    
+    <item
+        android:id="@+id/rewards"
+        android:icon="@drawable/temp_images"
+        android:title="reward list"
+        android:showAsAction="ifRoom" />
+    
+</menu>

@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/quest_vice"
+        android:title="Vice List"/>
+    
+    <item
+        android:id="@+id/quest_daily"
+        android:title="Daily List"/>
+    
+    <item
+        android:id="@+id/quest_todo"
+        android:title="ToDo List"/>
+
+</menu>
