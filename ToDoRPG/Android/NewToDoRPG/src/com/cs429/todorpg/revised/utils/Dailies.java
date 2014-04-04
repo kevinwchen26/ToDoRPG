@@ -6,4 +6,9 @@ public class Dailies extends ToDoItem {
 		super(name, reward);
 	}
 
+	public boolean equals(Object o) {
+		Dailies other = (Dailies) o;
+		return this.getName().equals(other.getName())
+				&& this.getReward() == other.getReward();
+	}
 }

@@ -26,4 +26,8 @@ public class ToDoItem {
 		this.reward = reward;
 	}
 
+	public boolean equals(Object o) {
+		ToDoItem other = (ToDoItem) o;
+		return this.name.equals(other.getName()) && this.reward == other.reward;
+	}
 }

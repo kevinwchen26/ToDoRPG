@@ -28,7 +28,120 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		onCreate(db);
+	}
 
+	/*
+	 * Gets character info 0 = _id 1 = name 2 = gold
+	 */
+	public Character getCharacter() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_CHARACTER, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			cursor.moveToFirst();
+			String name = cursor.getString(1);
+			int gold = cursor.getInt(2);
+			return new Character(name, gold);
+		}
+	}
+
+	/*
+	 * inserts users character into database
+	 * 
+	 * @name - characters name
+	 * 
+	 * @gold - users gold
+	 */
+	public long addCharacter(Character character) {
+		String name = character.getName();
+		int gold = character.getGold();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("gold", gold);
+		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
+				null, values);
+	}
+
+	/*
+	 * returns all the rewards a character has set 0 = _id; 1 =name; 2=cost;
+	 */
+	public ArrayList<Reward> getRewards() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_REWARDS, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<Reward> rewards = new ArrayList<Reward>();
+			cursor.moveToFirst();
+			do {
+				String name = cursor.getString(1);
+				int cost = cursor.getInt(2);
+				rewards.add(new Reward(name, cost));
+			} while (cursor.moveToNext());
+			return rewards;
+		}
+	}
+
+	public long addReward(Reward reward) {
+		String name = reward.getName();
+		int cost = reward.getCost();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("cost", cost);
+		return this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
+				values);
+	}
+
+	/*
+	 * returns all todo items a character has set 0 = _id 1 = name 2 = reward
+	 */
+	public ArrayList<ToDoItem> getToDoList() {
+		Cursor cursor = this.getReadableDatabase().query(Constants.Table_TODO,
+				null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<ToDoItem> todos = new ArrayList<ToDoItem>();
+			cursor.moveToFirst();
+			do {
+				String name = cursor.getString(1);
+				int reward = cursor.getInt(2);
+				todos.add(new ToDoItem(name, reward));
+			} while (cursor.moveToNext());
+			return todos;
+
+		}
+	}
+
+	public long addToDoItem(ToDoItem item) {
+		String name = item.getName();
+		int reward = item.getReward();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("reward", reward);
+		return this.getReadableDatabase().insert(Constants.Table_TODO, null,
+				values);
+	}
+
+	/*
+	 * Inserts item into database
+	 * 
+	 * @item - The item given to character
+	 */
+	public long addItem(Item item) {
+		String name = item.getName();
+		String stat = item.getStat();
+		String pic = item.getPic();
+		int effect = item.getEffect();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("stat", stat);
+		values.put("pic", pic);
+		values.put("effect", effect);
+		return this.getReadableDatabase().insert(Constants.TABLE_ITEMS, null,
+				values);
 	}
 
 	/*
@@ -55,40 +168,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/*
-	 * Gets character info 0 = _id 1 = name 2 = gold
+	 * inserts daily into database
+	 * 
+	 * @daily - the Dailies to add to database
 	 */
-	public Character getCharacter() {
-		Cursor cursor = this.getReadableDatabase().query(
-				Constants.TABLE_CHARACTER, null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			cursor.moveToFirst();
-			String name = cursor.getString(1);
-			int gold = cursor.getInt(2);
-			return new Character(name, gold);
-		}
-	}
-
-	/*
-	 * returns all the rewards a character has set 0 = _id; 1 =name; 2=cost;
-	 */
-	public ArrayList<Reward> getRewards() {
-		Cursor cursor = this.getReadableDatabase().query(
-				Constants.TABLE_REWARDS, null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			ArrayList<Reward> rewards = new ArrayList<Reward>();
-			cursor.moveToFirst();
-			do {
-				String name = cursor.getString(1);
-				int cost = cursor.getInt(2);
-				rewards.add(new Reward(name, cost));
-				cursor.moveToNext();
-			} while (cursor.moveToNext());
-			return rewards;
-		}
+	public long addDaily(Dailies daily) {
+		String name = daily.getName();
+		int reward = daily.getReward();
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("reward", reward);
+		return this.getReadableDatabase().insert(Constants.TABLE_DAILIES, null,
+				values);
 	}
 
 	/*
@@ -112,27 +203,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/*
-	 * returns all todo items a character has set 0 = _id 1 = name 2 = reward
-	 */
-	public ArrayList<ToDoItem> getToDoList() {
-		Cursor cursor = this.getReadableDatabase().query(Constants.Table_TODO,
-				null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			ArrayList<ToDoItem> todos = new ArrayList<ToDoItem>();
-			cursor.moveToFirst();
-			do {
-				String name = cursor.getString(1);
-				int reward = cursor.getInt(2);
-				todos.add(new ToDoItem(name, reward));
-			} while (cursor.moveToNext());
-			return todos;
-
-		}
-	}
-
-	/*
 	 * returns all the vices a character has 0 = _id 1= name 2= stat 3 =effect
 	 */
 	public ArrayList<Vice> getVices() {
@@ -142,6 +212,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return null;
 		else {
 			ArrayList<Vice> vices = new ArrayList<Vice>();
+			cursor.moveToFirst();
 			do {
 				String name = cursor.getString(1);
 				String stat = cursor.getString(2);
@@ -150,55 +221,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 			return vices;
 		}
-	}
-
-	/*
-	 * inserts users character into database
-	 * 
-	 * @name - characters name
-	 * 
-	 * @gold - users gold
-	 */
-	public long addCharacter(String name, int gold) {
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("gold", gold);
-		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
-				null, values);
-	}
-
-	/*
-	 * Inserts item into database
-	 * 
-	 * @item - The item given to character
-	 */
-	public long addItem(Item item) {
-		String name = item.getName();
-		String stat = item.getStat();
-		String pic = item.getPic();
-		int effect = item.getEffect();
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("stat", stat);
-		values.put("pic", pic);
-		values.put("effect", effect);
-		return this.getReadableDatabase().insert(Constants.TABLE_ITEMS, null,
-				values);
-	}
-
-	/*
-	 * inserts daily into database
-	 * 
-	 * @daily - the Dailies to add to database
-	 */
-	public long addDaily(Dailies daily) {
-		String name = daily.getName();
-		int reward = daily.getReward();
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("reward", reward);
-		return this.getReadableDatabase().insert(Constants.TABLE_DAILIES, null,
-				values);
 	}
 
 	/*

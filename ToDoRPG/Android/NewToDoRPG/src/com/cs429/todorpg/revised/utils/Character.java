@@ -61,4 +61,8 @@ public class Character {
 		DEX = dEX;
 	}
 
+	public boolean equals(Object o) {
+		Character other = (Character) o;
+		return this.name.equals(other.name) && this.gold == other.gold;
+	}
 }

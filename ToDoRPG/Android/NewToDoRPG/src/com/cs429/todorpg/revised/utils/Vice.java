@@ -36,4 +36,11 @@ public class Vice {
 		this.effect = effect;
 	}
 
+	public boolean equals(Object o) {
+		Vice other = (Vice) o;
+		return this.name.equals(other.getName())
+				&& this.stat.equals(other.getStat())
+				&& this.effect == other.getEffect();
+	}
+
 }
