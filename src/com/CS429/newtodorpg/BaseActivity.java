@@ -20,11 +20,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-abstract class BaseActivity extends FragmentActivity {
+abstract class BaseActivity extends Activity {
 	Intent intent;
 	ActionBar actionbar;
+	TextView hp, exp;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -133,16 +135,20 @@ abstract class BaseActivity extends FragmentActivity {
 //		actionbar.setListNavigationCallbacks(mSpinnerAdapter, navigationListener);
 		
 	}
-/*	
+	
 	protected void setHeader(int resId) {
+/*		
 		findViewById(R.id.character_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.vice_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.daily_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.todo_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.inventory_activity).setOnClickListener(ImageViewClick);
 		findViewById(R.id.rewards_activity).setOnClickListener(ImageViewClick);
+*/
+		hp = (TextView)findViewById(R.id.character_hp);
+		exp = (TextView)findViewById(R.id.character_exp);
 	}
-*/	
+	
 	/** Header Handler */
 /*	ImageView.OnClickListener ImageViewClick = new ImageView.OnClickListener() {
 		@Override

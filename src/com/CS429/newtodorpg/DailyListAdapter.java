@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 import com.CS429.newtodorpg.model.Daily;
+import com.CS429.newtodorpg.model.Quest;
 import com.CS429.newtodorpg.model.Vice;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +70,15 @@ public class DailyListAdapter extends BaseAdapter{
 		});
 */		
 	
+		Button detail_button = (Button)row.findViewById(R.id.add_daily_detail_button);
+		detail_button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, DailyDetailActivity.class);
+				((Activity) context).startActivityForResult(intent, Quest.VICE);
+			}	
+		});
+		
 		Button delete_button = (Button)row.findViewById(R.id.delete_daily_button);
 		delete_button.setOnClickListener(new OnClickListener(){
 			@Override

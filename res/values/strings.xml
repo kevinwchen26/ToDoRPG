@@ -13,5 +13,7 @@
     <string name="daily_description">Daily Activity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_vice_detail">ViceDetailActivity</string>
+    <string name="title_activity_daily_detail">DailyDetailActivity</string>
+    <string name="title_activity_to_do_detail">ToDoDetailActivity</string>
 
 </resources>

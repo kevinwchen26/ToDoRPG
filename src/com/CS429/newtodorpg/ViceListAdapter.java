@@ -2,10 +2,12 @@ package com.CS429.newtodorpg;
 
 import java.util.ArrayList;
 
+import com.CS429.newtodorpg.model.Quest;
 import com.CS429.newtodorpg.model.Vice;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +62,15 @@ public class ViceListAdapter extends BaseAdapter{
 			public void onClick(View v) {
 				list.remove(position);
 				adapter.notifyDataSetChanged();
+			}	
+		});
+		
+		Button detail_button = (Button)row.findViewById(R.id.add_vice_detail_button);
+		detail_button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ViceDetailActivity.class);
+				((Activity) context).startActivityForResult(intent, Quest.VICE);
 			}	
 		});
 		

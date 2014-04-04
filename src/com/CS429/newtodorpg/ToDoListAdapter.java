@@ -3,10 +3,12 @@ package com.CS429.newtodorpg;
 import java.util.ArrayList;
 
 import com.CS429.newtodorpg.model.Daily;
+import com.CS429.newtodorpg.model.Quest;
 import com.CS429.newtodorpg.model.ToDo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,15 @@ public class ToDoListAdapter extends BaseAdapter{
 		
 		ImageView image = (ImageView)row.findViewById(R.id.imgIcon);
 		TextView title = (TextView)row.findViewById(R.id.txtTitle);
+		
+		Button detail_button = (Button)row.findViewById(R.id.add_todo_detail_button);
+		detail_button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ToDoDetailActivity.class);
+				((Activity) context).startActivityForResult(intent, Quest.VICE);
+			}	
+		});
 		
 		Button delete_button = (Button)row.findViewById(R.id.delete_todo_button);
 		delete_button.setOnClickListener(new OnClickListener(){

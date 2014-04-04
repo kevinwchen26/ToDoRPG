@@ -39,6 +39,14 @@
             android:name="com.CS429.newtodorpg.ViceDetailActivity"
             android:label="@string/title_activity_vice_detail" >
         </activity>
+        <activity
+            android:name="com.CS429.newtodorpg.DailyDetailActivity"
+            android:label="@string/title_activity_daily_detail" >
+        </activity>
+        <activity
+            android:name="com.CS429.newtodorpg.ToDoDetailActivity"
+            android:label="@string/title_activity_to_do_detail" >
+        </activity>
     </application>
 
 </manifest>

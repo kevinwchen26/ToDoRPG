@@ -9,56 +9,47 @@
 
     <ImageView
         android:id="@+id/character_activity"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:clickable="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/character_description"
         android:src="@drawable/temp_images" />
 
-    <ImageView
-        android:id="@+id/vice_activity"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:clickable="true"
-        android:contentDescription="@string/vice_description"
-        android:src="@drawable/temp_images" />
-
-    <ImageView
-        android:id="@+id/todo_activity"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:clickable="true"
-        android:contentDescription="@string/daily_description"
-        android:src="@drawable/temp_images" />
+    <View 
+        	android:id="@+id/boundary_line"
+        	android:layout_width="1dp"
+        	android:background="#aaa"
+        	android:layout_height="fill_parent" />
     
-    <ImageView
-        android:id="@+id/daily_activity"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:clickable="true"
-        android:contentDescription="@string/todo_description"
-        android:src="@drawable/temp_images" />
-
-    <ImageView
-        android:id="@+id/inventory_activity"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:clickable="true"
-        android:contentDescription="@string/inventory_description"
-        android:src="@drawable/temp_images" />
-
-    <ImageView
-        android:id="@+id/rewards_activity"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:clickable="true"
-        android:contentDescription="@string/rewards_description"
-        android:src="@drawable/temp_images" />
-
+	<LinearLayout
+	    android:layout_height="fill_parent"
+	    android:layout_width="0dp"
+	    android:weightSum="2"
+	    android:layout_weight="12"
+	    android:orientation="vertical">
+	    
+	    <TextView
+	        android:id="@+id/character_hp"
+	        android:layout_width="fill_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:text="HP"
+	        android:textColor="#fff"
+	        android:textSize="12sp" />
+	    
+	   	<View 
+        	android:id="@+id/boundary_line"
+        	android:layout_width="fill_parent"
+        	android:background="#aaa"
+        	android:layout_height="1dp" />
+	    
+	    <TextView
+	        android:id="@+id/character_exp"
+	        android:layout_width="fill_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:text="EXP"
+	        android:textColor="#fff"
+	        android:textSize="12sp" />
+	    
+	</LinearLayout>	
 </LinearLayout>

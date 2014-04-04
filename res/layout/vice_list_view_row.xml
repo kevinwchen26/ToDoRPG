@@ -16,8 +16,8 @@
         android:layout_marginBottom="5dp" />
         
      <TextView android:id="@+id/txtTitle"
+        android:layout_weight="8"
         android:layout_width="0dp"
-        android:layout_weight="10"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
         android:textStyle="bold"
@@ -26,9 +26,16 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp" />
         
+      <Button android:id="@+id/add_vice_detail_button"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:text="a" />
+     
       <Button android:id="@+id/delete_vice_button"
         android:layout_height="fill_parent"
-        android:text="x"
-        android:layout_width="40dp" />
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:text="x" />
      
 </LinearLayout>
