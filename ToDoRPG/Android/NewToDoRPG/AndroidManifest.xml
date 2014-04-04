@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name="com.cs429.todorpg.revised.Rewards"
+            android:label="@string/rewards"
+            android:parentActivityName="com.cs429.todorpg.revised.MainActivity" />        
     </application>
 
 </manifest>
