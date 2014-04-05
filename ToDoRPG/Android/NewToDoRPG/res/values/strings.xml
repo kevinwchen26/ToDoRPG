@@ -7,4 +7,7 @@
     <string name="rewards">Rewards</string>
 	<string name="add_reward">Add New Reward</string>
 	<string name="purchase_reward">Purchase</string>
+	<string name="description">Description</string>
+	<string name="cost">Cost(G)</string>
+	<string name="submit">Submit</string>
 </resources>

@@ -20,31 +20,19 @@
         android:layout_below="@+id/rewards_heading"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/add_rewards_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gold"
-        android:layout_centerHorizontal="true"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
-
     <Button
         android:id="@+id/add_rewards_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/add_rewards_edit"
         android:layout_below="@+id/rewards_heading"
-        android:layout_toRightOf="@+id/add_rewards_edit"
+        android:layout_centerHorizontal="true"
         android:text="@string/add_reward" />
     
     <ListView 
         android:id="@+id/rewards_list"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/add_rewards_edit"
+        android:layout_below="@+id/add_rewards_btn"
         />
 
 </RelativeLayout>

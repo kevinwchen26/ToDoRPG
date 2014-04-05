@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,9 +24,9 @@ public class RewardActivity extends Activity {
 	TextView gold;
 	Character test_character = new Character();
 	Button add_reward;
-	EditText add_reward_edit;
 	ArrayList<Reward> reward_data = new ArrayList<Reward>();
 	ListView reward_list;
+	Intent intent;
 	
 	private class RewardsAdapter extends ArrayAdapter<Reward>{
 
@@ -102,7 +103,6 @@ public class RewardActivity extends Activity {
 		rewards_heading = (TextView) findViewById(R.id.rewards_heading);
 		gold = (TextView) findViewById(R.id.gold);
 		add_reward = (Button) findViewById(R.id.add_rewards_btn);
-		add_reward_edit = (EditText) findViewById(R.id.add_rewards_edit);
 		reward_list = (ListView) findViewById(R.id.rewards_list);
 	}
 	
@@ -121,16 +121,28 @@ public class RewardActivity extends Activity {
 
 	}
 	
-	private void addReward() {
-		Reward new_reward = new Reward(add_reward_edit.getText().toString(), 10);
-		reward_data.add(new_reward);
-		add_reward_edit.setText("");
-		
+	private void addReward(String description, int cost) {
+		Reward new_reward = new Reward(description, cost);
+		reward_data.add(new_reward);		
 		RewardsAdapter adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
 		reward_list.setAdapter(adapter);
 
 
 		
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		super.onActivityResult(requestCode, resultCode, data); 
+		switch(requestCode){
+			case(1) : {
+				if(resultCode == Activity.RESULT_OK) {
+					String desc = data.getStringExtra("description");
+					int cost = data.getIntExtra("cost", 0);
+					addReward(desc, cost);
+				}
+			}
+		
+		}
 	}
 	
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
@@ -139,7 +151,8 @@ public class RewardActivity extends Activity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.add_rewards_btn:
-				addReward();
+				intent = new Intent(RewardActivity.this, CreateRewardActivity.class);
+				startActivityForResult(intent, 1);
 				break;
 			
 
