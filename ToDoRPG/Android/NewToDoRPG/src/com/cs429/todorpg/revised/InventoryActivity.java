@@ -1,15 +1,12 @@
 package com.cs429.todorpg.revised;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
 
-public class MainActivity extends BaseActivity {
-
+public class InventoryActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.inventory_activity);
 		setHeader(R.id.header);
 	}
 

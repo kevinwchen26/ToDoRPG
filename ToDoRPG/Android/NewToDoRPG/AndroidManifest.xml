@@ -5,14 +5,26 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_character"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.cs429.todorpg.revised.CharacterActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="com.cs429.todorpg.revised.HabitActivity" />
+        <activity android:name="com.cs429.todorpg.revised.ToDoActivity" />
+        <activity android:name="com.cs429.todorpg.revised.InventoryActivity" />
+        <activity android:name="com.cs429.todorpg.revised.RewardsActivity" />
+        <activity
+            android:name="com.cs429.todorpg.revised.DailyActivity"
+            android:label="@string/title_activity_daily" >
+        </activity>
         <activity
             android:name="com.cs429.todorpg.revised.MainActivity"
             android:label="@string/app_name" >

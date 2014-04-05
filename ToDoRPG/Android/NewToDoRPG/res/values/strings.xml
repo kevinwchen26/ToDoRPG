@@ -2,7 +2,52 @@
 <resources>
 
     <string name="app_name">NewToDoRPG</string>
+    <string name="character_description">Character Activity</string>
+    <string name="vice_description">Vice Activity</string>
+    <string name="todo_description">ToDo Activity</string>
+    <string name="rewards_description">Rewards Activity</string>
+    <string name="inventory_description">Inventory Activity</string>
+    <string name="title_activity_daily">DailyActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="daily_description">Daily Activity</string>
+    <string name="title_activity_main">MainActivity</string>
+ 
+    <string name="habits">Habits</string>
+    <string name="habit_hint">New Habit</string>
+    <string name="add_habit">Add Habit</string>
+    
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    
+	<string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="text">Text :</string>
+    <string name="extra_notes">Extra Notes :</string>
+    <string name="direction_action">Direction/Actions :</string>
+    <string name="difficulty">Difficulty :</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="save_close">Save &amp; Close</string>
+    
+    <string name="to_dos">To-Dos</string>
+    <string name="todo_hint">New To-Dos</string>
+    <string name="square">[]</string>
+    <string name="due_date">Due Date :</string>
+    <string name="check_list">Checklist :</string>
+    
+    <string name="daily">Dailies</string>
+    <string name="daily_hint">New Daily</string>
+    <string name="repeat">Repeat:</string>
+    
+    <string name="mo">Mo</string>
+    <string name="tu">Tu</string>
+    <string name="we">We</string>
+    <string name="th">Th</string>
+    <string name="fr">Fr</string>
+    <string name="sa">Sa</string>
+    <string name="su">Su</string>
 </resources>
