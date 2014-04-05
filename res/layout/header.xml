@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/holo_green_light"
     android:orientation="horizontal"
-    android:id="@+id/header"
     android:weightSum="12" >
 
     <ImageView
@@ -14,42 +14,40 @@
         android:contentDescription="@string/character_description"
         android:src="@drawable/ic_character2" />
 
-    <View 
-        	android:id="@+id/boundary_line"
-        	android:layout_width="1dp"
-        	android:background="#aaa"
-        	android:layout_height="fill_parent" />
-    
-	<LinearLayout
-	    android:layout_height="fill_parent"
-	    android:layout_width="0dp"
-	    android:weightSum="2"
-	    android:layout_weight="12"
-	    android:orientation="vertical">
-	    
-	    <TextView
-	        android:id="@+id/character_hp"
-	        android:layout_width="fill_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:text="HP"
-	        android:textColor="#fff"
-	        android:textSize="12sp" />
-	    
-	   	<View 
-        	android:id="@+id/boundary_line"
-        	android:layout_width="fill_parent"
-        	android:background="#aaa"
-        	android:layout_height="1dp" />
-	    
-	    <TextView
-	        android:id="@+id/character_exp"
-	        android:layout_width="fill_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:text="EXP"
-	        android:textColor="#fff"
-	        android:textSize="12sp" />
-	    
-	</LinearLayout>	
+    <View
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:background="#aaa" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="12"
+        android:orientation="vertical"
+        android:weightSum="2" >
+
+        <TextView
+            android:id="@+id/character_hp"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="HP"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#aaa" />
+
+        <TextView
+            android:id="@+id/character_exp"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="EXP"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 </LinearLayout>

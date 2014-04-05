@@ -2,32 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:weightSum="15">
-    
-    <include layout="@layout/header"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    android:weightSum="18" >
+
+    <include
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"/>
-    
-    <include layout="@layout/list_view_header"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        layout="@layout/header" />
+
+    <TextView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"/>
-    
-    <View 
-        android:id="@+id/boundary_line"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:text="@string/daily"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp" />
+
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:background="#aaa"
-        android:layout_height="1dp" />
-    
-     <ListView
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:weightSum="6" >
+
+        <EditText
+            android:id="@+id/add_daily_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/daily_hint" />
+
+        <Button
+            android:id="@+id/add_daily_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#82b8d0"
+            android:text="@string/plus" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:background="#aaa" />
+
+    <ListView
         android:id="@+id/daily_listview"
-        android:layout_weight="15"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"/>
-    
-     
+        android:layout_height="0dp"
+        android:layout_weight="10" />
+
 </LinearLayout>

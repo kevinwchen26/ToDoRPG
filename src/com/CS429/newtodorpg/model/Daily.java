@@ -1,8 +1,18 @@
 package com.CS429.newtodorpg.model;
 
 public class Daily extends Quest{
-
-	private String description;
+	private String my_daily;
+	public Daily(String my_daily) {
+		this.my_daily = my_daily;
+	}
+	
+	public String getDaily() {
+		return my_daily;
+	}
+	public void setDaily(String my_daily) {
+		this.my_daily = my_daily;
+	}
+	/*private String description;
 	private int icon;
 	
 	public Daily(){
@@ -34,5 +44,5 @@ public class Daily extends Quest{
 	public int getImageResource(){
 		return icon;
 	}
-	
+	*/
 }

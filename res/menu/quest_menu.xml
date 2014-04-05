@@ -2,14 +2,14 @@
 
     <item
         android:id="@+id/quest_vice"
-        android:title="Vice List"/>
+        android:title="Habits"/>
     
     <item
         android:id="@+id/quest_daily"
-        android:title="Daily List"/>
+        android:title="Dailies"/>
     
     <item
         android:id="@+id/quest_todo"
-        android:title="ToDo List"/>
+        android:title="To-Dos"/>
 
 </menu>

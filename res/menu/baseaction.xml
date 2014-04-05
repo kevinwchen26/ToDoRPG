@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/character_status"
-        android:icon="@drawable/temp_images"
+        android:icon="@drawable/ic_character"
         android:title="character_status"
         android:showAsAction="always" />
     

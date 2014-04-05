@@ -1,28 +1,26 @@
 package com.CS429.newtodorpg.model;
 
-import android.widget.ImageView;
-
-public class Vice extends Quest{
+public class Vice extends Quest {
 
 	private int icon;
-	
-	public Vice(){
+
+	public Vice() {
 		super();
 		this.setType(VICE);
 		icon = -1;
 	}
-	
-	public Vice(String title){
+
+	public Vice(String title) {
 		super(title);
 		this.setType(VICE);
 		icon = -1;
 	}
-	
-	public void setImage(int ResourceId){
+
+	public void setImage(int ResourceId) {
 		icon = ResourceId;
 	}
-	
-	public int getImageResource(){
+
+	public int getImageResource() {
 		return icon;
 	}
 }

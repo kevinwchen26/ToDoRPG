@@ -1,41 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp"
-    android:weightSum="10">
+    android:orientation="vertical"
+    android:paddingTop="5dp" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <Button
+            android:id="@+id/todo_done_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#ffff33"
+            android:text="@string/square" />
+
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="fill_parent"
+            android:background="#90909090" />
+
+        <TextView
+            android:id="@+id/todo_text"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:background="#ffff99"
+            android:gravity="center_vertical" />
+
+        <ImageButton
+            android:id="@+id/todo_cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#ffff99"
+            android:contentDescription="@string/cancel"
+            android:src="@drawable/cancel_img"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/todo_save_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#ffff99"
+            android:contentDescription="@string/save"
+            android:src="@drawable/save_img"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/todo_edit_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:background="#ffff99"
+            android:contentDescription="@string/edit"
+            android:src="@drawable/edit_img" />
+
+        <ImageButton
+            android:id="@+id/todo_delete_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#ffff99"
+            android:contentDescription="@string/delete"
+            android:src="@drawable/delete_img" />
+    </LinearLayout>
     
-     <ImageView android:id="@+id/imgIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:gravity="center_vertical"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
-        
-     <TextView android:id="@+id/txtTitle"
-        android:layout_weight="8"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:textColor="#000000"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
-        
-      <Button android:id="@+id/add_todo_detail_button"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:text="a" />
-     
-      <Button android:id="@+id/delete_todo_button"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:text="x" />
-     
+    <include
+        android:id="@+id/show_edit_field"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/todo_edit_box"
+        android:visibility="gone" />
+
 </LinearLayout>

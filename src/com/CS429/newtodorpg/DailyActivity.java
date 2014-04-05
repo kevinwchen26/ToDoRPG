@@ -3,10 +3,11 @@ package com.CS429.newtodorpg;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.CS429.newtodorpg.ViceActivity.today_vice;
-import com.CS429.newtodorpg.controller.DailyListAdapter;
+import com.CS429.newtodorpg.controller.DailyAdapter;
+import com.CS429.newtodorpg.controller.HabitAdapter;
 import com.CS429.newtodorpg.database.DataBaseManager;
 import com.CS429.newtodorpg.model.Daily;
+import com.CS429.newtodorpg.model.Habit;
 import com.CS429.newtodorpg.model.Vice;
 
 import android.os.AsyncTask;
@@ -23,25 +24,69 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class DailyActivity extends BaseActivity {
-
-	private ArrayList<Daily> daily_list;
-	private ListView daily_list_view;
-	private DailyListAdapter adapter;
-	private Button add_button;
-	private EditText edit;
+	private EditText add_daily_field;
+	private ListView daily_list;
+	private ArrayList<Daily> daily;
+	private DailyAdapter adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.daily_activity);
 		setHeader(R.id.header);
-//		daily_list = setDailyList();
-		new today_daily().execute();
+		daily = new ArrayList<Daily>();
+		// new today_vice().execute();
 		findViewById();
-//		setDailyListView();
 	}
 
-	private void findViewById(){
+	private void findViewById() {
+		add_daily_field = (EditText) findViewById(R.id.add_daily_field);
+		daily_list = (ListView) findViewById(R.id.daily_listview);
+		findViewById(R.id.add_daily_button).setOnClickListener(ButtonHandler);
+		
+	}
+	
+	Button.OnClickListener ButtonHandler = new Button.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			switch(view.getId()) {
+				case R.id.add_daily_button:
+					String my_daily = add_daily_field.getText().toString();
+					if(my_daily.isEmpty()) {
+						Toast.makeText(DailyActivity.this, "Fill in the blank", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					AddMyDaily(daily, my_daily);
+					add_daily_field.setText("");
+					SetAdapter();
+					break;
+			}
+		}
+		
+	};
+	private void AddMyDaily(ArrayList<Daily> daily, String my_daily) {
+		for(int i = 0; i < daily.size(); i++) {
+			if(daily.get(i).getDaily().equals(my_daily)) {
+				Toast.makeText(DailyActivity.this, "\"" + my_daily +"\" is alreay in your daily list", Toast.LENGTH_SHORT).show();
+				return;
+			}
+		}
+		daily.add(new Daily(my_daily));
+		Toast.makeText(DailyActivity.this, my_daily, Toast.LENGTH_SHORT).show();
+//		SetAdapter();
+		adapter = new DailyAdapter(DailyActivity.this, daily);
+		adapter.notifyDataSetChanged();
+	}
+	private void SetAdapter() {
+		adapter = new DailyAdapter(DailyActivity.this, daily);
+		daily_list.setAdapter(adapter);
+		
+
+	}
+
+}
+
+/*	private void findViewById(){
 		daily_list_view = (ListView)findViewById(R.id.daily_listview);
 		add_button = (Button)findViewById(R.id.add_button);
 		add_button.setOnClickListener(ButtonListener);
@@ -138,4 +183,4 @@ class today_daily extends AsyncTask<String, String, String> {
 		}
 	}
 	
-}
+} */

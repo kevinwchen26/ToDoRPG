@@ -1,10 +1,21 @@
 package com.CS429.newtodorpg.model;
 
-import java.util.ArrayList;
 
 public class ToDo extends Quest{
+	private String my_todo;
+	public ToDo(String my_todo) {
+		this.my_todo = my_todo;
+	}
+	
+	public String getToDo() {
+		return my_todo;
+	}
+	public void setToDo(String my_todo) {
+		this.my_todo = my_todo;
+	}
+	
 
-	private int icon;
+/*	private int icon;
 	private String description;
 	private ArrayList<String> milestone;
 	
@@ -56,5 +67,5 @@ public class ToDo extends Quest{
  
 	public ArrayList<String> getMileStone(){
 		return milestone;
-	}
+	}*/
 }

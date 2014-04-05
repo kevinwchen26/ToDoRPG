@@ -1,43 +1,81 @@
 package com.CS429.newtodorpg;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import com.CS429.newtodorpg.controller.ToDoListAdapter;
-import com.CS429.newtodorpg.database.DataBaseManager;
-import com.CS429.newtodorpg.model.Daily;
-import com.CS429.newtodorpg.model.ToDo;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.CS429.newtodorpg.controller.ToDoAdapter;
+import com.CS429.newtodorpg.model.ToDo;
+
 public class ToDoActivity extends BaseActivity {
-	
-	private ArrayList<ToDo> todo_list;
-	private ListView todo_list_view;
-	private ToDoListAdapter adapter;
-	private Button add_button;
-	private EditText edit;
+	private EditText add_todo_field;
+	private ListView todo_list;
+	private ArrayList<ToDo> todos;
+	private ToDoAdapter adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.todo_activity);
 		setHeader(R.id.header);
+		todos = new ArrayList<ToDo>();
+		// new today_vice().execute();
 		findViewById();
-		new today_todo().execute();
-//		todo_list = settodoList();
-//		settodoListView();
 	}
 
-	private void findViewById(){
+	private void findViewById() {
+		add_todo_field = (EditText) findViewById(R.id.add_todo_field);
+		todo_list = (ListView) findViewById(R.id.todo_listview);
+		findViewById(R.id.add_todo_button).setOnClickListener(ButtonHandler);
+		
+	}
+	
+	Button.OnClickListener ButtonHandler = new Button.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			switch(view.getId()) {
+				case R.id.add_todo_button:
+					String my_todo = add_todo_field.getText().toString();
+					if(my_todo.isEmpty()) {
+						Toast.makeText(ToDoActivity.this, "Fill in the blank", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					AddMyToDos(todos, my_todo);
+					add_todo_field.setText("");
+					SetAdapter();
+					break;
+			}
+		}
+		
+	};
+	private void AddMyToDos(ArrayList<ToDo> todos, String my_todo) {
+		for(int i = 0; i < todos.size(); i++) {
+			if(todos.get(i).getToDo().equals(my_todo)) {
+				Toast.makeText(ToDoActivity.this, "\"" + my_todo +"\" is alreay in your ToDo list", Toast.LENGTH_SHORT).show();
+				return;
+			}
+		}
+		todos.add(new ToDo(my_todo));
+		Toast.makeText(ToDoActivity.this, my_todo, Toast.LENGTH_SHORT).show();
+//		SetAdapter();
+		adapter = new ToDoAdapter(ToDoActivity.this, todos);
+		adapter.notifyDataSetChanged();
+	}
+	private void SetAdapter() {
+		adapter = new ToDoAdapter(ToDoActivity.this, todos);
+		todo_list.setAdapter(adapter);
+		
+
+	}
+
+}
+
+	/*private void findViewById(){
 		todo_list_view = (ListView)findViewById(R.id.todo_listview);
 		add_button = (Button)findViewById(R.id.add_button);
 		add_button.setOnClickListener(ButtonListener);
@@ -135,5 +173,4 @@ class today_todo extends AsyncTask<String, String, String> {
 			settodoListView();	
 		}
 	}
-	
-}
+	*/

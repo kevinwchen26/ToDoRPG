@@ -116,7 +116,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
 		
 		cv.put(QUEST_ID, daily.getId());
 		cv.put(TITLE, daily.getTitle());
-		cv.put(DESCRIP, daily.getDescription());
+//		cv.put(DESCRIP, daily.getDescription());
 		if(dates.length == 4){
 			cv.put(MONTH, dates[0]);
 			cv.put(DAY, dates[1]);
@@ -136,7 +136,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
 		
 		cv.put(QUEST_ID, todo.getId());
 		cv.put(TITLE, todo.getTitle());
-		cv.put(DESCRIP, todo.getDescription());
+//		cv.put(DESCRIP, todo.getDescription());
 		if(dates.length == 4){
 			cv.put(MONTH, dates[0]);
 			cv.put(DAY, dates[1]);
@@ -147,8 +147,8 @@ public class DataBaseManager extends SQLiteOpenHelper{
 		Log.i(DB_LOG_ID, "insertTODO()");
 		db.close();
 		
-		ArrayList<String> milestones = todo.getMileStone();
-		insertMileStone(todo.getId(), milestones);
+//		ArrayList<String> milestones = todo.getMileStone();
+//		insertMileStone(todo.getId(), milestones);
 	}
 	
 	private void insertMileStone(int id, ArrayList<String> milestones){
@@ -193,7 +193,7 @@ public class DataBaseManager extends SQLiteOpenHelper{
       			Vice vice = new Vice(title);
       			vice.setDueDate(vmonth, vday, hour, min);
       			vice.setId(quest_id);
-      			vice.setImage(R.drawable.temp_images);//temporary image set
+      			vice.setImage(R.drawable.add_button);//temporary image set
       			vices.add(vice);
       		}while(cursor.moveToNext());
       	}		
@@ -223,8 +223,8 @@ public class DataBaseManager extends SQLiteOpenHelper{
       			Daily daily = new Daily(title);
       			daily.setDueDate(vmonth, vday, hour, min);
       			daily.setId(quest_id);
-      			daily.WriteDescription(descrip);
-      			daily.setImage(R.drawable.temp_images);//temporary image set
+//      			daily.WriteDescription(descrip);
+//      			daily.setImage(R.drawable.add_button);//temporary image set
       			dailys.add(daily);
       		}while(cursor.moveToNext());
       	}		
@@ -256,9 +256,9 @@ public class DataBaseManager extends SQLiteOpenHelper{
       			ToDo todo = new ToDo(title);
       			todo.setDueDate(vmonth, vday, hour, min);
       			todo.setId(quest_id);
-      			todo.WriteDescription(descrip);
-      			todo.WriteMileStone(miles);
-      			todo.setImage(R.drawable.temp_images);//temporary image set
+//      			todo.WriteDescription(descrip);
+//      			todo.WriteMileStone(miles);
+//      			todo.setImage(R.drawable.add_button);//temporary image set
       			todos.add(todo);
       		}while(cursor.moveToNext());
       	}		

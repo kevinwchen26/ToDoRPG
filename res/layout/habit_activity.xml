@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:orientation="vertical"
     android:weightSum="18" >
@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="0.9"
-        android:text="@string/to_dos"
+        android:text="@string/habits"
         android:textColor="@android:color/darker_gray"
         android:textSize="20sp" />
 
@@ -29,14 +29,14 @@
         android:weightSum="6" >
 
         <EditText
-            android:id="@+id/add_todo_field"
+            android:id="@+id/add_habit_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:hint="@string/todo_hint" />
+            android:hint="@string/habit_hint" />
 
         <Button
-            android:id="@+id/add_todo_button"
+            android:id="@+id/add_habit_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -51,7 +51,7 @@
         android:background="#aaa" />
 
     <ListView
-        android:id="@+id/todo_listview"
+        android:id="@+id/habit_listview"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="10" />
