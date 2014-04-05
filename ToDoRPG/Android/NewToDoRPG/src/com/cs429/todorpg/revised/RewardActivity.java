@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RewardActivity extends Activity {
 
@@ -121,7 +122,16 @@ public class RewardActivity extends Activity {
 
 	}
 	
+	public boolean canPurchase(int cost) {
+		if(cost > test_character.getGold())
+			return false;
+		return true;
+	}
 	private void addReward(String description, int cost) {
+		if(!canPurchase(cost)){
+			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Reward new_reward = new Reward(description, cost);
 		reward_data.add(new_reward);		
 		RewardsAdapter adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
