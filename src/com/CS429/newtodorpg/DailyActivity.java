@@ -1,27 +1,16 @@
 package com.CS429.newtodorpg;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import com.CS429.newtodorpg.controller.DailyAdapter;
-import com.CS429.newtodorpg.controller.HabitAdapter;
-import com.CS429.newtodorpg.database.DataBaseManager;
-import com.CS429.newtodorpg.model.Daily;
-import com.CS429.newtodorpg.model.Habit;
-import com.CS429.newtodorpg.model.Vice;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.CS429.newtodorpg.controller.DailyAdapter;
+import com.CS429.newtodorpg.model.Daily;
 
 public class DailyActivity extends BaseActivity {
 	private EditText add_daily_field;

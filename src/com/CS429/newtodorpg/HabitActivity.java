@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.CS429.newtodorpg.controller.HabitAdapter;
-import com.CS429.newtodorpg.database.DataBaseManager;
 import com.CS429.newtodorpg.model.Habit;
 import com.CS429.newtodorpg.model.Vice;
 
