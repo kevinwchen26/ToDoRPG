@@ -7,12 +7,15 @@ import com.cs429.todorpg.revised.model.Reward;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -40,8 +43,9 @@ public class RewardActivity extends BaseActivity {
 	    Context context; 
 	    int layoutResourceId;    
 		private LayoutInflater inflater;
-
-	    ArrayList<Reward> rewards = null;
+		RewardsAdapter adapter = this;
+		ArrayList<Reward> rewards = null;
+	    
 	    
 	    public RewardsAdapter(Context context, int layoutResourceId, ArrayList<Reward> rewards) {
 	        super(context, layoutResourceId, rewards);
@@ -68,16 +72,127 @@ public class RewardActivity extends BaseActivity {
 		}
 
 	    @Override
-	    public View getView(int position, View convertView, ViewGroup parent) {
+	    public View getView(final int position, View convertView, ViewGroup parent) {
 	    	if (convertView == null) {
 				convertView = inflater.inflate(R.layout.reward_list_item_row, parent, false);
 			}
-	    	Reward rew = rewards.get(position);
-	    	final TextView reward_cost = (TextView)findViewById(R.id.reward_cost);
-	    	Log.v("Reward list position", Integer.toString(position));
-	    	Log.v("Reward list size", Integer.toString(rewards.get(0).getCost()));
+	    	final Reward reward = rewards.get(position);
+	    	final TextView reward_cost = (TextView)convertView.findViewById(R.id.reward_cost);
+	    	final TextView reward_title = (TextView)convertView.findViewById(R.id.reward_title);
+	    	final Button purchase = (Button)convertView.findViewById(R.id.purchase_reward);
 	    	
-	    	//reward_cost.setText(rew.getCost());
+	    	
+	    	
+	    	final EditText change_reward_title = (EditText)convertView.findViewById(R.id.change_reward_title);
+	    	final EditText extra_reward_notes = (EditText)convertView.findViewById(R.id.extra_reward_notes);
+	    	final EditText change_reward_price = (EditText)convertView.findViewById(R.id.change_reward_price);
+	    	final ImageButton edit_button = (ImageButton) convertView.findViewById(R.id.reward_edit_button);
+			final ImageButton cancel_button = (ImageButton) convertView.findViewById(R.id.reward_cancel_button);
+			final ImageButton save_button = (ImageButton) convertView.findViewById(R.id.reward_save_button);
+			final ImageButton delete_button = (ImageButton) convertView.findViewById(R.id.reward_delete_button);
+			final Button save_close_button = (Button)convertView.findViewById(R.id.reward_save_close);
+			final View show_edit_field = (View) convertView.findViewById(R.id.show_edit_reward_field);
+			
+			
+			
+			edit_button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					change_reward_title.setText(reward.getInfo());
+					change_reward_price.setText(Integer.toString(reward.getCost()));
+					edit_button.setVisibility(View.GONE);
+					cancel_button.setVisibility(View.VISIBLE);
+					save_button.setVisibility(View.VISIBLE);
+					show_edit_field.setVisibility(View.VISIBLE);
+				}
+				
+			});
+			
+			save_close_button.setOnClickListener(new Button.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					String new_title = change_reward_title.getText().toString();
+					if(new_title.length() == 0) {
+						Toast.makeText(context, "Title can't be blank", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					String new_extra = extra_reward_notes.getText().toString();
+					int new_cost = Integer.parseInt(change_reward_price.getText().toString());
+					reward.setCost(new_cost);
+					reward.setInfo(new_title);
+					reward.setExtra(new_extra);
+					adapter.notifyDataSetChanged();
+					edit_button.setVisibility(View.VISIBLE);
+					cancel_button.setVisibility(View.GONE);
+					save_button.setVisibility(View.GONE);
+					show_edit_field.setVisibility(View.GONE);
+					
+				}
+				
+			});
+			
+			
+			save_button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					String new_title = change_reward_title.getText().toString();
+					if(new_title.length() == 0) {
+						Toast.makeText(context, "Title can't be blank", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					String new_extra = extra_reward_notes.getText().toString();
+					int new_cost = Integer.parseInt(change_reward_price.getText().toString());
+					reward.setCost(new_cost);
+					reward.setInfo(new_title);
+					reward.setExtra(new_extra);
+					adapter.notifyDataSetChanged();
+					
+				}
+				
+			});
+			
+			cancel_button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					//change_title.setText(habit.get(position).getHabit());
+					edit_button.setVisibility(View.VISIBLE);
+					cancel_button.setVisibility(View.GONE);
+					save_button.setVisibility(View.GONE);
+					show_edit_field.setVisibility(View.GONE);
+				}
+				
+			});
+			
+			delete_button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					rewards.remove(position);
+					adapter.notifyDataSetChanged();
+				}
+				
+			});
+			
+			purchase.setOnClickListener(new Button.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					updateGold(reward.getCost());
+				}
+			});
+			
+			
+			
+	    	reward_cost.setText(Integer.toString(reward.getCost()));
+	    	reward_title.setText(reward.getInfo());
 	    	
 	    	return convertView;
 	    

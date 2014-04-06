@@ -35,12 +35,6 @@
         android:inputType="textMultiLine"
         android:lines="2" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:background="#aaa" />
-
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -48,13 +42,27 @@
         android:text="@string/price"
         android:textStyle="italic" />
 
-    <EditText
-        android:id="@+id/reward_price"
-        android:layout_width="10dp"
-        android:layout_height="0dp"
-        android:gravity="top|left"
-        android:lines="2" />
-    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/change_reward_price"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="top|left"
+            android:inputType="number" />
+
+        <ImageView
+            android:id="@+id/reward_cost_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingTop="5dp"
+            android:src="@drawable/gold" />
+    </LinearLayout>
 
     <View
         android:layout_width="fill_parent"
@@ -64,7 +72,7 @@
 
     <Button
     	android:layout_marginTop="5dp"
-        android:id="@+id/save_close"
+        android:id="@+id/reward_save_close"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginLeft="2dp"
