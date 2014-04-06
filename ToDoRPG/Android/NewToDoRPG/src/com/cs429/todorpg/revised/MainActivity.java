@@ -7,14 +7,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
 	Button rewardsButton;
 	Intent intent;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		setHeader(R.id.header);
 		rewardsButton = (Button) findViewById(R.id.rewards_button);
 		rewardsButton.setOnClickListener(ButtonListener);
 		
@@ -29,12 +30,7 @@ public class MainActivity extends Activity {
 				intent = new Intent(MainActivity.this, RewardActivity.class);
 				startActivity(intent);
 				break;
-			
-
 			}
 		}
 	};
-	
-	
-
 }

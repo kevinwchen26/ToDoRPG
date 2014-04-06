@@ -45,4 +45,12 @@ public class Item {
 		this.pic = pic;
 	}
 
+	public boolean equals(Object o) {
+		Item other = (Item) o;
+		return this.name.equals(other.getName())
+				&& this.stat.equals(other.getStat())
+				&& this.getPic().equals(other.getPic())
+				&& this.effect == other.getEffect();
+	}
+
 }

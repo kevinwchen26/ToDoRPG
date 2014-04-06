@@ -25,4 +25,10 @@ public class Reward {
 		this.cost = cost;
 	}
 
+	public boolean equals(Object o) {
+		Reward other = (Reward) o;
+		return this.name.equals(other.getName())
+				&& this.cost == other.getCost();
+	}
+
 }
