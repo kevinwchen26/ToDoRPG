@@ -1,4 +1,4 @@
-package com.cs429.todorpg.revised;
+package com.cs429.todorpg.revised.model;
 
 public class Reward {
 	private String info;

@@ -97,7 +97,7 @@ abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.rewards:
-			intent = new Intent(BaseActivity.this, RewardsActivity.class);
+			intent = new Intent(BaseActivity.this, RewardActivity.class);
 			startActivity(intent);
 			finish();
 			return true;

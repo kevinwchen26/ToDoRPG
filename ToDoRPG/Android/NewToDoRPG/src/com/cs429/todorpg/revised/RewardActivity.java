@@ -2,6 +2,9 @@ package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
 
+import com.cs429.todorpg.revised.controller.HabitAdapter;
+import com.cs429.todorpg.revised.model.Reward;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -15,87 +18,80 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RewardActivity extends Activity {
+public class RewardActivity extends BaseActivity {
 
 	TextView rewards_heading;
 	TextView gold;
+	EditText new_reward;
 	Character test_character = new Character();
 	Button add_reward;
 	ArrayList<Reward> reward_data = new ArrayList<Reward>();
 	ListView reward_list;
 	Intent intent;
+	RewardsAdapter adapter;
 	
 	private class RewardsAdapter extends ArrayAdapter<Reward>{
 
 	    Context context; 
 	    int layoutResourceId;    
-	    ArrayList<Reward> data = null;
+		private LayoutInflater inflater;
+
+	    ArrayList<Reward> rewards = null;
 	    
-	    public RewardsAdapter(Context context, int layoutResourceId, ArrayList<Reward> data) {
-	        super(context, layoutResourceId, data);
+	    public RewardsAdapter(Context context, int layoutResourceId, ArrayList<Reward> rewards) {
+	        super(context, layoutResourceId, rewards);
+	        inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	        this.layoutResourceId = layoutResourceId;
 	        this.context = context;
-	        this.data = data;
+	        this.rewards = rewards;
 	    }
+	    
+	    @Override
+		public int getCount() {
+			return rewards.size();
+		}
+
+		@Override
+		public Reward getItem(int position) {
+			return rewards.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
 
 	    @Override
 	    public View getView(int position, View convertView, ViewGroup parent) {
-	        View row = convertView;
-	        RewardHolder holder = null;
-	        
-	        if(row == null)
-	        {
-	            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-	            row = inflater.inflate(layoutResourceId, parent, false);
-	            
-	            holder = new RewardHolder();
-	            holder.cost = (TextView)row.findViewById(R.id.reward_cost);
-	            holder.info = (TextView)row.findViewById(R.id.reward_title);
-	            holder.button = (Button)row.findViewById(R.id.purchase_reward);
-	            
-	            row.setTag(holder);
-	        }
-	        else
-	        {
-	            holder = (RewardHolder)row.getTag();
-	        }
-	        
-	        Reward reward = data.get(position);
-	        holder.info.setText(reward.getInfo());
-	        holder.cost.setText(Integer.toString(reward.getCost()));
-	        final int cost = reward.getCost();
-	        
-	        holder.button.setOnClickListener(new Button.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					update(cost);
-				}
-	        });
-	        
-	        row.findViewById(R.id.purchase_reward).setTag(position);
-	        
-	        return row;
-	    }
+	    	if (convertView == null) {
+				convertView = inflater.inflate(R.layout.reward_list_item_row, parent, false);
+			}
+	    	Reward rew = rewards.get(position);
+	    	final TextView reward_cost = (TextView)findViewById(R.id.reward_cost);
+	    	Log.v("Reward list position", Integer.toString(position));
+	    	Log.v("Reward list size", Integer.toString(rewards.get(0).getCost()));
+	    	
+	    	//reward_cost.setText(rew.getCost());
+	    	
+	    	return convertView;
 	    
-	    public class RewardHolder
-	    {
-	        TextView cost;
-	        TextView info;
-	        Button button;
+
 	    }
 	}
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.rewards);
+		setContentView(R.layout.rewards_activity);
+		setHeader(R.id.header);
+
 		FindViewById();
 		setUpLayout();
 	}
@@ -103,7 +99,8 @@ public class RewardActivity extends Activity {
 	private void FindViewById(){
 		rewards_heading = (TextView) findViewById(R.id.rewards_heading);
 		gold = (TextView) findViewById(R.id.gold);
-		add_reward = (Button) findViewById(R.id.add_rewards_btn);
+		new_reward = (EditText) findViewById(R.id.add_reward_field);
+		add_reward = (Button) findViewById(R.id.add_reward_button);
 		reward_list = (ListView) findViewById(R.id.rewards_list);
 	}
 	
@@ -115,8 +112,12 @@ public class RewardActivity extends Activity {
 
 	}
 	
-	public void update(int i) {
-		int value = test_character.getGold() - i;
+	public void updateGold(int cost) {
+		if(!canPurchase(cost)){
+			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		int value = test_character.getGold() - cost;
 		test_character.setGold(value);
 	    gold.setText("Gold: " + value );
 
@@ -128,31 +129,26 @@ public class RewardActivity extends Activity {
 		return true;
 	}
 	private void addReward(String description, int cost) {
-		if(!canPurchase(cost)){
-			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT).show();
-			return;
+		
+		for(Reward x : reward_data) {
+			if(x.getInfo().equals(description)) {
+				Toast.makeText(RewardActivity.this, "\"" + description +"\" is alreay in your reward list", Toast.LENGTH_SHORT).show();
+				return;
+			}
 		}
+		
 		Reward new_reward = new Reward(description, cost);
 		reward_data.add(new_reward);		
-		RewardsAdapter adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
-		reward_list.setAdapter(adapter);
+		adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
+		adapter.notifyDataSetChanged();
 
-
-		
 	}
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		super.onActivityResult(requestCode, resultCode, data); 
-		switch(requestCode){
-			case(1) : {
-				if(resultCode == Activity.RESULT_OK) {
-					String desc = data.getStringExtra("description");
-					int cost = data.getIntExtra("cost", 0);
-					addReward(desc, cost);
-				}
-			}
+	
+	private void SetAdapter() {
+		adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
+		reward_list.setAdapter(adapter);
 		
-		}
+
 	}
 	
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
@@ -160,9 +156,15 @@ public class RewardActivity extends Activity {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-			case R.id.add_rewards_btn:
-				intent = new Intent(RewardActivity.this, CreateRewardActivity.class);
-				startActivityForResult(intent, 1);
+			case R.id.add_reward_button:
+				String reward = new_reward.getText().toString();
+				if(reward.isEmpty()){
+					Toast.makeText(RewardActivity.this, "Fill in the blank", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				addReward(reward, 10);
+				new_reward.setText("");
+				SetAdapter();
 				break;
 			
 
