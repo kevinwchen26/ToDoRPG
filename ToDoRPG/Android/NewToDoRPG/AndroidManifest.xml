@@ -9,6 +9,7 @@
         android:targetSdkVersion="19" />
 
     <application
+        android:name="com.cs429.todorpg.revised.GameApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_character"
         android:label="@string/app_name"
@@ -34,14 +35,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
+        <activity
             android:name="com.cs429.todorpg.revised.RewardActivity"
             android:label="@string/rewards"
-            android:parentActivityName="com.cs429.todorpg.revised.MainActivity" />      
-        <activity 
+            android:parentActivityName="com.cs429.todorpg.revised.MainActivity" />
+        <activity
             android:name="com.cs429.todorpg.revised.CreateRewardActivity"
-            android:parentActivityName="com.cs429.todorpg.revised.RewardActivity"
-            android:label="@string/add_reward" />"
+            android:label="@string/add_reward"
+            android:parentActivityName="com.cs429.todorpg.revised.RewardActivity" />
     </application>
 
 </manifest>
