@@ -61,10 +61,31 @@ abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.character_status:
+			/*
 			intent = new Intent(BaseActivity.this, CharacterActivity.class);
 			startActivity(intent);
 			finish();
 			return true;
+			*/
+			PopupMenu charcater_popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.character_status));
+			charcater_popup.getMenuInflater().inflate(R.menu.character_menu, charcater_popup.getMenu());
+			charcater_popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+				public boolean onMenuItemClick(MenuItem item) {
+					if (item.getTitle().equals("Stats")) {
+						Intent intent = new Intent(BaseActivity.this, StatsActivity.class);
+						startActivity(intent);
+						finish();
+					} else if (item.getTitle().equals("Inventory")) {
+						Intent intent = new Intent(BaseActivity.this, InventoryActivity.class);
+						startActivity(intent);
+						finish();
+					}
+					return true;
+				}
+			});
+			charcater_popup.show();
+			return true;
+			
 
 		case R.id.inventory:
 			intent = new Intent(BaseActivity.this, InventoryActivity.class);
@@ -97,7 +118,7 @@ abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.rewards:
-			intent = new Intent(BaseActivity.this, RewardsActivity.class);
+			intent = new Intent(BaseActivity.this, RewardActivity.class);
 			startActivity(intent);
 			finish();
 			return true;

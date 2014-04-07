@@ -4,17 +4,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:weightSum="15">
-    
+  
+     
     <include layout="@layout/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
     
+    <!--  Page Title -->
     <TextView
-        android:text="@string/inventory_description"
+        android:id="@+id/inventory_heading"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/inventory"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"/>
     
-
+    <!--  Character Image -->
+    <ImageView
+        android:id="@+id/inventory_character_display"
+        android:contentDescription="@string/character_description"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"/>
+    
+    <!--  Equipment List 
+    <ListView
+        android:id="@+id/inventory_equipment_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+        -->
+    
+    <!-- Inventory List -->
+    <ExpandableListView 
+        android:id="@+id/inventory_item_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:groupIndicator="@null"
+    />
+    
+    
 </LinearLayout>

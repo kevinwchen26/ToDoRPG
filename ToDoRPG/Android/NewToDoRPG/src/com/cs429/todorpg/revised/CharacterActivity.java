@@ -1,6 +1,7 @@
 package com.cs429.todorpg.revised;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class CharacterActivity extends BaseActivity {
 	@Override
@@ -9,5 +10,4 @@ public class CharacterActivity extends BaseActivity {
 		setContentView(R.layout.character_activity);
 		setHeader(R.id.header);
 	}
-
 }
