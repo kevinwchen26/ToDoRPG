@@ -2,6 +2,14 @@ package com.cs429.todorpg.revised.itemsystem;
 
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+
+import com.cs429.todorpg.revised.Avatar;
+import com.cs429.todorpg.revised.GameApplication;
+import com.cs429.todorpg.revised.R;
+
 public class Inventory {
 	private Armor armor;
 	private Helmet helmet;
@@ -81,5 +89,40 @@ public class Inventory {
 
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
-	}	
+	}
+	
+	/**
+	 * 
+	 * @return Bitmap image of character avatar EXCEPT skin.
+	 */
+	public Bitmap getBitmap() {
+		Bitmap bitmap = Bitmap.createBitmap(Avatar.AVATAR_WIDTH, Avatar.AVATAR_HEIGHT, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		
+		// Get Images
+		if (armor != null) {
+			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), armor.getResId());
+			canvas.drawBitmap(armorImage, 0,0, null);
+		}
+		else { // Default white shirt
+			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), R.drawable.slim_shirt_white);
+			canvas.drawBitmap(armorImage, 0,0, null);
+		}
+		
+		if (helmet != null) {
+			Bitmap helmetImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), helmet.getResId());
+			canvas.drawBitmap(helmetImage, 0,0, null);
+		}
+		
+		if (weapon != null) {
+			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), weapon.getResId());
+			canvas.drawBitmap(weaponImage, 0,0, null);
+		}
+		
+		if (shield != null) {
+			Bitmap shieldImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), shield.getResId());
+			canvas.drawBitmap(shieldImage, 0,0, null);
+		}
+		return bitmap;
+	}
 }
