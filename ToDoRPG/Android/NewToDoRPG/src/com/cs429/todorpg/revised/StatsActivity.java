@@ -3,13 +3,12 @@ package com.cs429.todorpg.revised;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.widget.ImageView;
 
-public class InventoryActivity extends BaseActivity {
+public class StatsActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.inventory_activity);
+		setContentView(R.layout.stats_activity);
 		setHeader(R.id.header);
 		
 		/*

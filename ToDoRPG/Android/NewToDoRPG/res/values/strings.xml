@@ -52,5 +52,7 @@
     <string name="sa">Sa</string>
     <string name="su">Su</string>
     <string name="title_activity_avatar">AvatarActivity</string>
+    <string name="title_activity_inventory">InventoryActivity</string>
+    <string name="title_activity_stats">StatsActivity</string>
 
 </resources>

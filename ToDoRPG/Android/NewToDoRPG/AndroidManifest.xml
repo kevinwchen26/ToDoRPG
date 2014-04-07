@@ -43,6 +43,10 @@
             android:name="com.cs429.todorpg.revised.CreateRewardActivity"
             android:label="@string/add_reward"
             android:parentActivityName="com.cs429.todorpg.revised.RewardActivity" />
+        <activity
+            android:name="com.cs429.todorpg.revised.StatsActivity"
+            android:label="@string/title_activity_stats" >
+        </activity>
     </application>
 
 </manifest>
