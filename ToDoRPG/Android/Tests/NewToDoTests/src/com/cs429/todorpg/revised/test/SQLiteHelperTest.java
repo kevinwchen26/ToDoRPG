@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import com.cs429.todorpg.revised.utils.Dailies;
 import com.cs429.todorpg.revised.utils.Item;
 import com.cs429.todorpg.revised.utils.Character;
-import com.cs429.todorpg.revised.utils.Reward;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.utils.ToDoItem;
 import com.cs429.todorpg.revised.utils.Vice;
+
+import com.cs429.todorpg.revised.model.Reward;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -104,20 +105,28 @@ public class SQLiteHelperTest extends AndroidTestCase {
 	}
 
 	public void testRewards() {
-		Reward cake = new Reward("Cake", 10);
-		Reward anime = new Reward("Anime", 40);
+		Reward cake = new Reward(-1, "Cake", "Tasty Sweet", 10);
+		Reward anime = new Reward(-1, "Anime", "Japanese Comics", 40);
 
 		assertNotNull(db);
-		long id = db.addReward(cake);
-		assertNotSame(-1, id);
-		id = db.addReward(cake);
-		assertEquals(-1, id);
-		id = db.addReward(anime);
-		assertNotSame(-1, id);
+		int idcake = db.addReward(cake);
+		assertNotSame(-1, idcake);
+		int idcake2 = db.addReward(cake);
+		assertEquals(-1, idcake2);
+		int idanime = db.addReward(anime);
+		assertNotSame(-1, idanime);
 
 		ArrayList<Reward> rewards = db.getRewards();
 		assertEquals(2, rewards.size());
 		assertTrue(rewards.contains(cake));
+		assertTrue(rewards.contains(anime));
+		
+		cake = new Reward(idcake, "Cake", "Tasty 20lb Sweet", 5000);
+		assertTrue(db.updateReward(cake));
+		assertTrue(db.deleteReward(anime));
+		
+		rewards = db.getRewards();
+		assertEquals(1, rewards.size());
 		assertTrue(rewards.contains(anime));
 	}
 

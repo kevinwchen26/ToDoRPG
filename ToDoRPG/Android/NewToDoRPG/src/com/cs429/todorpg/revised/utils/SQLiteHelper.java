@@ -95,7 +95,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * 
 	 * Return: unique id of reward
 	 */
-	public long addReward(Reward reward) {
+	public int addReward(Reward reward) {
 		int primary_key = reward.getPrimary_key();
 		String info = reward.getInfo();
 		String extra = reward.getExtra();
@@ -105,7 +105,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("info", info);
 		values.put("extra", extra);
 		values.put("cost", cost);
-		return this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
+		return (int) this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
 				values);
 	}
 	
