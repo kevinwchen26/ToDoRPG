@@ -78,10 +78,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			ArrayList<Reward> rewards = new ArrayList<Reward>();
 			cursor.moveToFirst();
 			do {
-				String info = cursor.getString(1);
-				String extra = cursor.getString(2);
-				int cost = cursor.getInt(3);
-				rewards.add(new Reward(info, extra, cost));
+				int primary_key = cursor.getInt(1);
+				String info = cursor.getString(2);
+				String extra = cursor.getString(3);
+				int cost = cursor.getInt(4);
+				rewards.add(new Reward(primary_key, info, extra, cost));
 			} while (cursor.moveToNext());
 			return rewards;
 		}
@@ -95,10 +96,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * Return: unique id of reward
 	 */
 	public long addReward(Reward reward) {
+		int primary_key = reward.getPrimary_key();
 		String info = reward.getInfo();
 		String extra = reward.getExtra();
 		int cost = reward.getCost();
 		ContentValues values = new ContentValues();
+		values.put("_id", primary_key);
 		values.put("info", info);
 		values.put("extra", extra);
 		values.put("cost", cost);
@@ -111,21 +114,27 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * 
 	 * @Reward
 	 * 
-	 * Return: unique id of reward
+	 * Return: true if deleted
 	 */
 	public boolean deleteReward(Reward reward) {
 		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, 
-				"info='" + reward.getInfo() + "' AND " + 
-						"extra='" + reward.getExtra() + "' AND " + "cost='" + reward.getCost() + "'",
-				        null) > 0;
+				"_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
 	
-	public boolean updateReward(Reward oldreward) {
+	/*
+	 * updateReward
+	 * 
+	 * @Reward
+	 * 
+	 * Return: true if updated
+	 */
+	public boolean updateReward(Reward reward) {
 		ContentValues values = new ContentValues();
-		//values.put("info", reward.getInfo());
-		//values.put("extra", reward.getExtra());
-		//values.put("cost", reward.getCost());
-		return true; //this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "rewards=" + reward, null) > 0;
+		values.put("_id", reward.getPrimary_key());
+		values.put("info", reward.getInfo());
+		values.put("extra", reward.getExtra());
+		values.put("cost", reward.getCost());
+		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
 
 	/*
