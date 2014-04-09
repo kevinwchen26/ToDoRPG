@@ -87,6 +87,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
+	
 	/*
 	 * inserts users reward into database
 	 * 
