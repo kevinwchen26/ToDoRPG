@@ -209,6 +209,20 @@ public class RewardActivity extends BaseActivity {
 
 		FindViewById();
 		setUpLayout();
+		
+		
+		/** UNCOMMENT THIS WHEN YOU ARE DONE **/
+		//pullRewards();
+		
+	}
+	
+	private void pullRewards() {
+		/** UNCOMMENT AND FILL IN THE WITH YOUR FUNCTION **/
+		//reward_data = get reward arrayList from DB
+		
+		adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
+		adapter.notifyDataSetChanged();
+		SetAdapter();
 	}
 	
 	private void FindViewById(){
