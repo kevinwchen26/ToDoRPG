@@ -78,10 +78,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			ArrayList<Reward> rewards = new ArrayList<Reward>();
 			cursor.moveToFirst();
 			do {
-				int primary_key = cursor.getInt(1);
-				String info = cursor.getString(2);
-				String extra = cursor.getString(3);
-				int cost = cursor.getInt(4);
+				int primary_key = cursor.getInt(0);
+				String info = cursor.getString(1);
+				String extra = cursor.getString(2);
+				int cost = cursor.getInt(3);
 				rewards.add(new Reward(primary_key, info, extra, cost));
 			} while (cursor.moveToNext());
 			return rewards;
@@ -96,17 +96,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * Return: unique id of reward
 	 */
 	public int addReward(Reward reward) {
-		int primary_key = reward.getPrimary_key();
+		//int primary_key = reward.getPrimary_key();
 		String info = reward.getInfo();
 		String extra = reward.getExtra();
 		int cost = reward.getCost();
 		ContentValues values = new ContentValues();
-		values.put("_id", primary_key);
 		values.put("info", info);
 		values.put("extra", extra);
 		values.put("cost", cost);
-		return (int) this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
-				values);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
+				values));
 	}
 	
 	/*

@@ -1,5 +1,7 @@
 package com.cs429.todorpg.revised.model;
 
+import com.cs429.todorpg.revised.utils.Vice;
+
 public class Reward {
 	private String info;
 	private String extra;
@@ -50,5 +52,11 @@ public class Reward {
 
 	public void setPrimary_key(int primary_key) {
 		this.primary_key = primary_key;
+	}
+	
+	public boolean equals(Object o) {
+		Reward reward2 = (Reward) o;
+		return (this.primary_key == reward2.getPrimary_key() && this.info.equals(reward2.getInfo())
+				&& this.extra.equals(reward2.getExtra()) && this.cost == reward2.getCost());
 	}
 }

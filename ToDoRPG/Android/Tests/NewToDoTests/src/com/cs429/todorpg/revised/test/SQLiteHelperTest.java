@@ -8,13 +8,13 @@ import com.cs429.todorpg.revised.utils.Character;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.utils.ToDoItem;
 import com.cs429.todorpg.revised.utils.Vice;
-
 import com.cs429.todorpg.revised.model.Reward;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
+import android.util.Log;
 
 public class SQLiteHelperTest extends AndroidTestCase {
 	private SQLiteHelper db;
@@ -115,9 +115,14 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertEquals(-1, idcake2);
 		int idanime = db.addReward(anime);
 		assertNotSame(-1, idanime);
+		
+		cake.setPrimary_key(idcake);
+		anime.setPrimary_key(idanime);
 
 		ArrayList<Reward> rewards = db.getRewards();
 		assertEquals(2, rewards.size());
+		Log.d("Int of Data", "" + rewards.get(0).getPrimary_key());
+		Log.d("idcake", "" + idcake);
 		assertTrue(rewards.contains(cake));
 		assertTrue(rewards.contains(anime));
 		
@@ -127,7 +132,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		
 		rewards = db.getRewards();
 		assertEquals(1, rewards.size());
-		assertTrue(rewards.contains(anime));
+		assertTrue(rewards.contains(cake));
 	}
 
 	public void testToDoItemsGetAdd() {
