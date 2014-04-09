@@ -96,7 +96,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * Return: unique id of reward
 	 */
 	public int addReward(Reward reward) {
-		//int primary_key = reward.getPrimary_key();
 		String info = reward.getInfo();
 		String extra = reward.getExtra();
 		int cost = reward.getCost();
@@ -129,7 +128,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean updateReward(Reward reward) {
 		ContentValues values = new ContentValues();
-		values.put("_id", reward.getPrimary_key());
 		values.put("info", reward.getInfo());
 		values.put("extra", reward.getExtra());
 		values.put("cost", reward.getCost());

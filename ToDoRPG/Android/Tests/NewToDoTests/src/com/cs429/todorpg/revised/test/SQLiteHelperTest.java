@@ -121,15 +121,17 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 		ArrayList<Reward> rewards = db.getRewards();
 		assertEquals(2, rewards.size());
-		Log.d("Int of Data", "" + rewards.get(0).getPrimary_key());
-		Log.d("idcake", "" + idcake);
 		assertTrue(rewards.contains(cake));
 		assertTrue(rewards.contains(anime));
 		
 		cake = new Reward(idcake, "Cake", "Tasty 20lb Sweet", 5000);
 		assertTrue(db.updateReward(cake));
-		assertTrue(db.deleteReward(anime));
+		rewards = db.getRewards();
+		assertEquals(2, rewards.size());
+		assertTrue(rewards.contains(cake));
+		assertTrue(rewards.contains(anime));
 		
+		assertTrue(db.deleteReward(anime));
 		rewards = db.getRewards();
 		assertEquals(1, rewards.size());
 		assertTrue(rewards.contains(cake));
