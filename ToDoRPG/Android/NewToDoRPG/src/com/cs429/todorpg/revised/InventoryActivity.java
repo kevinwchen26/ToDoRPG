@@ -58,8 +58,11 @@ public class InventoryActivity extends BaseActivity {
 		ImageView display_image = (ImageView) findViewById(R.id.inventory_character_display);
 		display_image.setImageBitmap(avatar.getBitmap(inventory.getBitmap()));
 		
+		// Set up Equipment List View
 		
-		// Set up Possession Items List
+		
+		
+		// Set up Possession Items List (Experimental)
 		ExpandList = (ExpandableListView) findViewById(R.id.inventory_item_list);
         ExpListItems = SetStandardGroups();
         ExpAdapter = new ExpandListAdapter(InventoryActivity.this, ExpListItems);
