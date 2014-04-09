@@ -87,7 +87,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
-	
 	/*
 	 * inserts users reward into database
 	 * 
@@ -115,23 +114,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * Return: unique id of reward
 	 */
 	public boolean deleteReward(Reward reward) {
-		Cursor cursor = this.getReadableDatabase().query(
-				Constants.TABLE_REWARDS, null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return false;
-		else {
-			cursor.moveToFirst();
-			do {
-				String info = cursor.getString(1);
-				String extra = cursor.getString(2);
-				int cost = cursor.getInt(3);
-				if (reward.equals(new Reward(info, extra, cost)))
-				{
-					return true;
-				}
-			} while (cursor.moveToNext());
-			return false;
-		}
+		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, "rewards = " + reward, null) > 0;
 	}
 
 	/*
