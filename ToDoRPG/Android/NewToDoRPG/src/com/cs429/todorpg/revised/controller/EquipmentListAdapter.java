@@ -30,7 +30,7 @@ public class EquipmentListAdapter extends ArrayAdapter<Equipment> {
 	public void add(CharacterItem object) {
 		
 	};
-	*/
+	*//*
  
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -51,4 +51,5 @@ public class EquipmentListAdapter extends ArrayAdapter<Equipment> {
 		icon.setImageBitmap(equippedItem.getBitmap());
 		return rowView;
 	}
+	*/
 }
