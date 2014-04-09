@@ -114,15 +114,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * Return: unique id of reward
 	 */
 	public boolean deleteReward(Reward reward) {
-		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, "rewards=" + reward, null) > 0;
+		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, 
+				"info='" + reward.getInfo() + "' AND " + 
+						"extra='" + reward.getExtra() + "' AND " + "cost='" + reward.getCost() + "'",
+				        null) > 0;
 	}
 	
-	public boolean updateReward(Reward reward) {
+	public boolean updateReward(Reward oldreward) {
 		ContentValues values = new ContentValues();
-		values.put("info", reward.getInfo());
-		values.put("extra", reward.getExtra());
-		values.put("cost", reward.getCost());
-		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "rewards=" + reward, null) > 0;
+		//values.put("info", reward.getInfo());
+		//values.put("extra", reward.getExtra());
+		//values.put("cost", reward.getCost());
+		return true; //this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "rewards=" + reward, null) > 0;
 	}
 
 	/*

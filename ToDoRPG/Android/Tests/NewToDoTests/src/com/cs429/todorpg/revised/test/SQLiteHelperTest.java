@@ -103,7 +103,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 	}
 
-	public void testRewardsGetAdd() {
+	public void testRewards() {
 		Reward cake = new Reward("Cake", 10);
 		Reward anime = new Reward("Anime", 40);
 
