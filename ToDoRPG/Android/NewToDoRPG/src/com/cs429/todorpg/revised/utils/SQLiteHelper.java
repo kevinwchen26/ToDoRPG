@@ -2,6 +2,8 @@ package com.cs429.todorpg.revised.utils;
 
 import java.util.ArrayList;
 
+import com.cs429.todorpg.revised.model.Reward;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -76,22 +78,59 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			ArrayList<Reward> rewards = new ArrayList<Reward>();
 			cursor.moveToFirst();
 			do {
-				String name = cursor.getString(1);
-				int cost = cursor.getInt(2);
-				rewards.add(new Reward(name, cost));
+				String info = cursor.getString(1);
+				String extra = cursor.getString(2);
+				int cost = cursor.getInt(3);
+				rewards.add(new Reward(info, extra, cost));
 			} while (cursor.moveToNext());
 			return rewards;
 		}
 	}
 
+	/*
+	 * inserts users reward into database
+	 * 
+	 * @Reward
+	 * 
+	 * Return: unique id of reward
+	 */
 	public long addReward(Reward reward) {
-		String name = reward.getName();
+		String info = reward.getInfo();
+		String extra = reward.getExtra();
 		int cost = reward.getCost();
 		ContentValues values = new ContentValues();
-		values.put("name", name);
+		values.put("info", info);
+		values.put("extra", extra);
 		values.put("cost", cost);
 		return this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
 				values);
+	}
+	
+	/*
+	 * deleteReward
+	 * 
+	 * @Reward
+	 * 
+	 * Return: unique id of reward
+	 */
+	public boolean deleteReward(Reward reward) {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_REWARDS, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return false;
+		else {
+			cursor.moveToFirst();
+			do {
+				String info = cursor.getString(1);
+				String extra = cursor.getString(2);
+				int cost = cursor.getInt(3);
+				if (reward.equals(new Reward(info, extra, cost)))
+				{
+					return true;
+				}
+			} while (cursor.moveToNext());
+			return false;
+		}
 	}
 
 	/*
