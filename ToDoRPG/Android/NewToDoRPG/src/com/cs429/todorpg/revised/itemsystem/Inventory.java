@@ -15,45 +15,52 @@ public class Inventory {
 	private Helmet helmet;
 	private Shield shield;
 	private Weapon weapon;
-	private ArrayList<Equipment> equipmentItems;
-	
+	private ArrayList<RpgItem> inventoryItems;
+
 	public Inventory() {
 		this.armor = null;
 		this.helmet = null;
 		this.shield = null;
 		this.weapon = null;
-		this.equipmentItems = new ArrayList<Equipment>();
+		this.inventoryItems = new ArrayList<RpgItem>();
 	}
 	
-	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, ArrayList<Equipment> equipmentItems) {
+	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, ArrayList<RpgItem> equipmentItems) {
 		this.armor = armor;
 		this.helmet = helmet;
 		this.shield = shield;
 		this.weapon = weapon;
 		if (equipmentItems != null) {
-			this.equipmentItems = equipmentItems;
+			this.inventoryItems = equipmentItems;
 		}
 		else {
-			this.equipmentItems = new ArrayList<Equipment>();
+			this.inventoryItems = new ArrayList<RpgItem>();
 		}
 	}
 	
 	/*
-	 * Equipment List
+	 * Inventory List
 	 */
 	
-	public void addEquipment (Equipment e) {
-		equipmentItems.add(e);
+	public void addInventory (RpgItem e) {
+		inventoryItems.add(e);
 	}
 	
-	public void removeEquipment (int index) {
-		equipmentItems.remove(index);
+	public void removeInventory (int index) {
+		inventoryItems.remove(index);
 	}
 	
-	public int numEquipment () {
-		return equipmentItems.size();
+	public int numInventory () {
+		return inventoryItems.size();
 	}
 	
+	public ArrayList<RpgItem> getInventoryItems() {
+		return inventoryItems;
+	}
+
+	public void setInventoryItems(ArrayList<RpgItem> equipmentItems) {
+		this.inventoryItems = equipmentItems;
+	}
 	
 	/*
 	 * Adders Getters to equipped items
