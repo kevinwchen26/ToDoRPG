@@ -1,6 +1,5 @@
 package com.cs429.todorpg.revised.model;
 
-import com.cs429.todorpg.revised.utils.Vice;
 
 public class Reward {
 	private String info;
