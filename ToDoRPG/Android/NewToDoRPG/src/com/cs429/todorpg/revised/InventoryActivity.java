@@ -11,14 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.cs429.todorpg.revised.controller.ExpandListAdapter;
-import com.cs429.todorpg.revised.controller.ExpandListGroup;
 import com.cs429.todorpg.revised.controller.ItemListAdapter;
 import com.cs429.todorpg.revised.itemsystem.Armor;
 import com.cs429.todorpg.revised.itemsystem.Helmet;
@@ -28,14 +25,6 @@ import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
 
 public class InventoryActivity extends BaseActivity {
-	
-	// Character Image
-	private ImageView charImage;
-	
-	// Gridview
-	//private GridView gridview;
-	//private ImageAdapter gridviewImageAdapter;
-	
 	// Equipment
 	ItemListAdapter adapter;
 	Avatar avatar;
@@ -47,17 +36,11 @@ public class InventoryActivity extends BaseActivity {
 	ImageView shield_image;
 	ImageView armor_image;
 	
-	// Items
-	private ExpandListAdapter ExpAdapter;
-	private ArrayList<ExpandListGroup> ExpListItems;
-	private ExpandableListView ExpandList;
-	
-	// Equipment Types
+	// Equipment Types Identifiers (for switch)
 	private final int HELMET = 0;
 	private final int WEAPON = 1;
 	private final int SHIELD = 2;
 	private final int ARMOR = 3;
-
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -136,41 +119,13 @@ public class InventoryActivity extends BaseActivity {
         listView.setAdapter(adapter);
         
         listView.setOnItemClickListener(new OnItemClickListener() {
-            ArrayList<RpgItem> equipment;
-            ItemListAdapter adapt;
             
             @Override
             public void onItemClick(AdapterView<?> parent,
                     View view, int position, long id) {
             	showInventoryDialog(view, position);
-                //equipment.remove(position);
-            	// First remove this item from the list.
-            	// adapt.remove(equipment.get(position));
-            	
-            	// Remove item from the underlying list. (May not be necessary)
-         
-            	// Remove item from current equipment and place it in inventory list
-            	// in Avatar object.
-            	// RpgItem currEquip = equipment.get(position);
-            	
-            	
-            	// Refresh the Inventory gridview so it shows up there.
-            	
-                //adapt.notifyDataSetChanged();
-            	
-            	// Reset the avatar image file.
-            	//charImage.setImageBitmap(UserInfo.avatar.getBitmap());
-            	
-            	
-            	
             }
-            public OnItemClickListener init(ArrayList<RpgItem> equipList, ItemListAdapter adapter) {
-                this.equipment = equipList;
-                this.adapt = adapter;
-                return this;
-            }
-            
-        }.init(inventoryList, adapter));
+        });
 	}
 	
 	
@@ -215,6 +170,7 @@ public class InventoryActivity extends BaseActivity {
 		});
 		popupMenu.show();
 	}
+	
 	public void showEquipmentDialog (View v, final int equipmentType) {
 		PopupMenu popupMenu = new PopupMenu(InventoryActivity.this, v);
 		popupMenu.getMenuInflater().inflate(R.menu.equipment, popupMenu.getMenu());
@@ -250,7 +206,6 @@ public class InventoryActivity extends BaseActivity {
 				   		// Refresh list and avatar 
 				   		adapter.notifyDataSetChanged();
 				   		setImageViews();
-
 				   		break;
 					   
 				   	   case R.id.inventory_menu_discard:
