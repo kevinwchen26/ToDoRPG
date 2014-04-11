@@ -99,6 +99,64 @@ public class Inventory {
 	}
 	
 	/**
+	 * Function handles item equipping
+	 * @param item
+	 */
+	public void equipItem(int position) {
+		RpgItem item = inventoryItems.get(position);
+		if (item instanceof Helmet) {
+			if (this.helmet == null) { // just equip item, you don't have anything on
+				this.helmet = (Helmet) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Helmet temp = this.helmet;
+				this.helmet = (Helmet)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		else if (item instanceof Weapon) {
+			if (this.weapon == null) { // just equip item, you don't have anything on
+				this.weapon = (Weapon) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Weapon temp = this.weapon;
+				this.weapon = (Weapon)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		else if (item instanceof Shield) {
+			if (this.shield == null) { // just equip item, you don't have anything on
+				this.shield = (Shield) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Shield temp = this.shield;
+				this.shield = (Shield)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		else if (item instanceof Armor) {
+			if (this.armor == null) { // just equip item, you don't have anything on
+				this.armor = (Armor) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Armor temp = this.armor;
+				this.armor = (Armor)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		
+		
+	}
+	
+	/**
 	 * 
 	 * @return Bitmap image of character avatar EXCEPT skin.
 	 */
