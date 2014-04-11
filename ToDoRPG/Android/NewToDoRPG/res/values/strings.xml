@@ -54,8 +54,10 @@
     <string name="title_activity_avatar">AvatarActivity</string>
     <string name="title_activity_inventory">InventoryActivity</string>
     <string name="title_activity_stats">StatsActivity</string>
+    <string name="equipment">Equipment</string>
     
-    <!-- Activity Headings -->
+    <!-- Inventory Strings -->
     <string name="inventory">Inventory</string>
+    <string name="item_image_row">Item image</string>
 
 </resources>

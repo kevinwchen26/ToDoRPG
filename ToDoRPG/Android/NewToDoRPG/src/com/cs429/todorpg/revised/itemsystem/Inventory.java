@@ -15,45 +15,52 @@ public class Inventory {
 	private Helmet helmet;
 	private Shield shield;
 	private Weapon weapon;
-	private ArrayList<Equipment> equipmentItems;
-	
+	private ArrayList<RpgItem> inventoryItems;
+
 	public Inventory() {
 		this.armor = null;
 		this.helmet = null;
 		this.shield = null;
 		this.weapon = null;
-		this.equipmentItems = new ArrayList<Equipment>();
+		this.inventoryItems = new ArrayList<RpgItem>();
 	}
 	
-	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, ArrayList<Equipment> equipmentItems) {
+	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, ArrayList<RpgItem> equipmentItems) {
 		this.armor = armor;
 		this.helmet = helmet;
 		this.shield = shield;
 		this.weapon = weapon;
 		if (equipmentItems != null) {
-			this.equipmentItems = equipmentItems;
+			this.inventoryItems = equipmentItems;
 		}
 		else {
-			this.equipmentItems = new ArrayList<Equipment>();
+			this.inventoryItems = new ArrayList<RpgItem>();
 		}
 	}
 	
 	/*
-	 * Equipment List
+	 * Inventory List
 	 */
 	
-	public void addEquipment (Equipment e) {
-		equipmentItems.add(e);
+	public void addInventory (RpgItem e) {
+		inventoryItems.add(e);
 	}
 	
-	public void removeEquipment (int index) {
-		equipmentItems.remove(index);
+	public void removeInventory (int index) {
+		inventoryItems.remove(index);
 	}
 	
-	public int numEquipment () {
-		return equipmentItems.size();
+	public int numInventory () {
+		return inventoryItems.size();
 	}
 	
+	public ArrayList<RpgItem> getInventoryItems() {
+		return inventoryItems;
+	}
+
+	public void setInventoryItems(ArrayList<RpgItem> equipmentItems) {
+		this.inventoryItems = equipmentItems;
+	}
 	
 	/*
 	 * Adders Getters to equipped items
@@ -89,6 +96,64 @@ public class Inventory {
 
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
+	}
+	
+	/**
+	 * Function handles item equipping
+	 * @param item
+	 */
+	public void equipItem(int position) {
+		RpgItem item = inventoryItems.get(position);
+		if (item instanceof Helmet) {
+			if (this.helmet == null) { // just equip item, you don't have anything on
+				this.helmet = (Helmet) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Helmet temp = this.helmet;
+				this.helmet = (Helmet)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		else if (item instanceof Weapon) {
+			if (this.weapon == null) { // just equip item, you don't have anything on
+				this.weapon = (Weapon) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Weapon temp = this.weapon;
+				this.weapon = (Weapon)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		else if (item instanceof Shield) {
+			if (this.shield == null) { // just equip item, you don't have anything on
+				this.shield = (Shield) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Shield temp = this.shield;
+				this.shield = (Shield)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		else if (item instanceof Armor) {
+			if (this.armor == null) { // just equip item, you don't have anything on
+				this.armor = (Armor) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Armor temp = this.armor;
+				this.armor = (Armor)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		
+		
 	}
 	
 	/**

@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <group android:id="@+id/group_popupmenu">
-      <item android:id="@+id/inventory_menu_equip"
-          android:title="Equip"/>
-      <item android:id="@+id/inventory_menu_discard"
+      <item android:id="@+id/equipment_menu_unequip"
+          android:title="Unequip"/>
+      <item android:id="@+id/equipment_menu_discard"
           android:title="Discard"/>
   </group>
 </menu>
