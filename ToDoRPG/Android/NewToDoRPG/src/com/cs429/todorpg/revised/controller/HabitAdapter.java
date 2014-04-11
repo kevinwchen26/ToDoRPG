@@ -3,6 +3,8 @@ package com.cs429.todorpg.revised.controller;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs429.todorpg.revised.R;
+import com.cs429.todorpg.revised.R.color;
 import com.cs429.todorpg.revised.model.Habit;
 
 public class HabitAdapter extends BaseAdapter {
@@ -48,32 +51,82 @@ public class HabitAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		String blank = "    ";
+		final Habit onehabit = this.habit.get(position);
 		
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.habit_list_view_row, parent, false);
 		}
-		TextView my_habit = (TextView) convertView.findViewById(R.id.habit_text);
+		
+		final View returnView = convertView;
+		
+//		returnView.setBackgroundColor(onehabit.getStatus());
+		final TextView my_habit = (TextView) returnView.findViewById(R.id.habit_text);
 		my_habit.setText(blank + habit.get(position).getHabit());
 
-		final EditText change_title = (EditText) convertView.findViewById(R.id.change_title);
-		EditText extra_notes = (EditText) convertView.findViewById(R.id.extra_notes);
-		Button change_plus_button = (Button) convertView.findViewById(R.id.change_plus_btn);
-		Button change_minus_button = (Button) convertView.findViewById(R.id.change_minus_btn);
-		final Button blank_button = (Button) convertView.findViewById(R.id.blank_button);
-		final Button easy_button = (Button) convertView.findViewById(R.id.easy);
-		final Button medium_button = (Button) convertView.findViewById(R.id.medium);
-		final Button hard_button = (Button) convertView.findViewById(R.id.hard);
-		final Button save_close_button = (Button) convertView.findViewById(R.id.save_close);
+//		final View habitview = (View)returnView.findViewById(R.id.habit_view);
+		final EditText change_title = (EditText) returnView.findViewById(R.id.change_title);
+		EditText extra_notes = (EditText) returnView.findViewById(R.id.extra_notes);
+		Button change_plus_button = (Button) returnView.findViewById(R.id.change_plus_btn);
+		Button change_minus_button = (Button) returnView.findViewById(R.id.change_minus_btn);
+		final Button blank_button = (Button) returnView.findViewById(R.id.blank_button);
+		final Button easy_button = (Button) returnView.findViewById(R.id.easy);
+		final Button medium_button = (Button) returnView.findViewById(R.id.medium);
+		final Button hard_button = (Button) returnView.findViewById(R.id.hard);
+		final Button save_close_button = (Button) returnView.findViewById(R.id.save_close);
 		
 		change_title.setText(habit.get(position).getHabit());
 		
-		final Button good_button = (Button) convertView.findViewById(R.id.good_habit_button);
-		final Button bad_button = (Button) convertView.findViewById(R.id.bad_habit_button);
-		final ImageButton edit_button = (ImageButton) convertView.findViewById(R.id.habit_edit_button);
-		final ImageButton cancel_button = (ImageButton) convertView.findViewById(R.id.habit_cancel_button);
-		final ImageButton save_button = (ImageButton) convertView.findViewById(R.id.habit_save_button);
-		final ImageButton delete_button = (ImageButton) convertView.findViewById(R.id.habit_delete_button);
-		final View show_edit_field = (View) convertView.findViewById(R.id.show_edit_field);
+		final Button good_button = (Button) returnView.findViewById(R.id.good_habit_button);
+		final Button bad_button = (Button) returnView.findViewById(R.id.bad_habit_button);
+		final ImageButton edit_button = (ImageButton) returnView.findViewById(R.id.habit_edit_button);
+		final ImageButton cancel_button = (ImageButton) returnView.findViewById(R.id.habit_cancel_button);
+		final ImageButton save_button = (ImageButton) returnView.findViewById(R.id.habit_save_button);
+		final ImageButton delete_button = (ImageButton) returnView.findViewById(R.id.habit_delete_button);
+		final View show_edit_field = (View) returnView.findViewById(R.id.show_edit_field);
+		
+//		habitview.setBackgroundColor(onehabit.getStatus());
+		//set color beforehand
+		good_button.setBackgroundResource(onehabit.getStatus());
+		bad_button.setBackgroundResource(onehabit.getStatus());
+		my_habit.setBackgroundResource(onehabit.getStatus());
+		edit_button.setBackgroundResource(onehabit.getStatus());
+		cancel_button.setBackgroundResource(onehabit.getStatus());
+		save_button.setBackgroundResource(onehabit.getStatus());
+		delete_button.setBackgroundResource(onehabit.getStatus());
+		
+		OnClickListener mListener = new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				if(v.getId() == R.id.good_habit_button){
+//					Toast.makeText(context, "Good", Toast.LENGTH_SHORT).show();
+					onehabit.plus_change();
+					Log.d("[HABIT]", "progress: " + onehabit.getProgress());
+					good_button.setBackgroundResource(onehabit.getStatus());
+					bad_button.setBackgroundResource(onehabit.getStatus());
+					my_habit.setBackgroundResource(onehabit.getStatus());
+					edit_button.setBackgroundResource(onehabit.getStatus());
+					cancel_button.setBackgroundResource(onehabit.getStatus());
+					save_button.setBackgroundResource(onehabit.getStatus());
+					delete_button.setBackgroundResource(onehabit.getStatus());
+//					my_habit.setBackgroundResource(color.blue);
+				}
+				else if(v.getId() == R.id.bad_habit_button){
+//					Toast.makeText(context, "Bad", Toast.LENGTH_SHORT).show();
+					onehabit.minus_change();
+					Log.d("[HABIT]", "progress: " + onehabit.getProgress());
+					good_button.setBackgroundResource(onehabit.getStatus());
+					bad_button.setBackgroundResource(onehabit.getStatus());
+					my_habit.setBackgroundResource(onehabit.getStatus());
+					edit_button.setBackgroundResource(onehabit.getStatus());
+					cancel_button.setBackgroundResource(onehabit.getStatus());
+					save_button.setBackgroundResource(onehabit.getStatus());
+					delete_button.setBackgroundResource(onehabit.getStatus());
+//					my_habit.setBackgroundResource(Color.YELLOW);
+				}
+			}
+		};
+		good_button.setOnClickListener(mListener);
+		bad_button.setOnClickListener(mListener);
 		
 		save_close_button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -138,7 +191,7 @@ public class HabitAdapter extends BaseAdapter {
 				}
 			}
 		});
-		
+/*		
 		good_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -152,7 +205,7 @@ public class HabitAdapter extends BaseAdapter {
 				Toast.makeText(context, "Bad!", Toast.LENGTH_SHORT).show();
 			}
 		});
-		
+*/		
 		
 		edit_button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -200,7 +253,7 @@ public class HabitAdapter extends BaseAdapter {
 			}
 		});
 
-		return convertView;
+		return returnView;
 	}
 
 }

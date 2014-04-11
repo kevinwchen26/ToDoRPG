@@ -59,12 +59,23 @@ public class ToDoAdapter extends BaseAdapter{
 		
 		change_title.setText(todos.get(position).getToDo());
 		
+		final Button done_button = (Button) convertView.findViewById(R.id.todo_done_button);
 		final ImageButton edit_button = (ImageButton) convertView.findViewById(R.id.todo_edit_button);
 		final ImageButton save_button = (ImageButton) convertView.findViewById(R.id.todo_save_button);
 		final ImageButton cancel_button = (ImageButton) convertView.findViewById(R.id.todo_cancel_button);
 		final ImageButton delete_button = (ImageButton) convertView.findViewById(R.id.todo_delete_button);
 		final View show_edit_field = (View) convertView.findViewById(R.id.show_edit_field);
 		final Button save_close_button = (Button) convertView.findViewById(R.id.save_close);
+		
+		done_button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				Toast.makeText(context, "successfully done this job", Toast.LENGTH_SHORT).show();
+				todos.get(position).setFinish();
+				todos.remove(position);
+				adapter.notifyDataSetChanged();
+			}
+		});
 		
 		save_close_button.setOnClickListener(new OnClickListener() {
 			@Override

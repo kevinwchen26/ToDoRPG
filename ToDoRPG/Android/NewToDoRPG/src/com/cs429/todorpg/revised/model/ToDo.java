@@ -1,6 +1,7 @@
 package com.cs429.todorpg.revised.model;
 
 public class ToDo extends Quest {
+	private boolean finished;
 	private String my_todo;
 	private String extra;
 	private int primary_key;
@@ -13,6 +14,7 @@ public class ToDo extends Quest {
 		this.setToDo(my_todo);
 		this.setExtra(extra);
 		this.setKey(primary_key);
+		finished = false;
 	}
 
 	public String getToDo() {
@@ -37,6 +39,13 @@ public class ToDo extends Quest {
 
 	public void setKey(int primary_key) {
 		this.primary_key = primary_key;
+	}
+	
+	public void setFinish(){
+		finished = true;
+	}
+	public boolean getStatus(){
+		return finished;
 	}
 
 	public boolean equals(Object o) {
