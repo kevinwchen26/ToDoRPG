@@ -18,7 +18,7 @@ import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Daily;
 
 public class DailyAdapter extends BaseAdapter{
-
+	
 	private Context context;
 	private ArrayList<Daily> daily;
 	private DailyAdapter adapter = this;
@@ -47,18 +47,20 @@ public class DailyAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		final Daily day = daily.get(position);
 		String blank = "    ";
 		
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.daily_list_view_row, parent, false);
 		}
 		
-		TextView my_daily = (TextView) convertView.findViewById(R.id.daily_text);
+		final TextView my_daily = (TextView) convertView.findViewById(R.id.daily_text);
 		my_daily.setText(blank + daily.get(position).getDaily());
 
 		final EditText change_title = (EditText) convertView.findViewById(R.id.change_title);
 		EditText extra_notes = (EditText) convertView.findViewById(R.id.extra_notes);
 		
+		final Button check_button = (Button) convertView.findViewById(R.id.check_daily_button);
 		final Button easy_button = (Button) convertView.findViewById(R.id.easy);
 		final Button medium_button = (Button) convertView.findViewById(R.id.medium);
 		final Button hard_button = (Button) convertView.findViewById(R.id.hard);
@@ -71,6 +73,48 @@ public class DailyAdapter extends BaseAdapter{
 		final ImageButton save_button = (ImageButton) convertView.findViewById(R.id.daily_save_button);
 		final ImageButton delete_button = (ImageButton) convertView.findViewById(R.id.daily_delete_button);
 		final View show_edit_field = (View) convertView.findViewById(R.id.show_edit_field);
+		
+		//set color beforehand
+		if(day.getBooleanStatus()){
+			check_button.setText(R.string.check);
+			edit_button.setClickable(false);
+			edit_button.setFocusable(false);
+		}	
+		else{
+			check_button.setText(R.string.plus);
+			edit_button.setClickable(true);
+			edit_button.setFocusable(true);
+		}
+		
+		my_daily.setBackgroundResource(day.getStatus());
+		edit_button.setBackgroundResource(day.getStatus());
+		cancel_button.setBackgroundResource(day.getStatus());
+		save_button.setBackgroundResource(day.getStatus());
+		delete_button.setBackgroundResource(day.getStatus());
+		
+		check_button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				day.toggleFinish();
+				
+				if(day.getBooleanStatus()){
+					check_button.setText(R.string.check);
+					edit_button.setClickable(false);
+					edit_button.setFocusable(false);
+				}	
+				else{
+					check_button.setText(R.string.plus);
+					edit_button.setClickable(true);
+					edit_button.setFocusable(true);
+				}
+				
+				my_daily.setBackgroundResource(day.getStatus());
+				edit_button.setBackgroundResource(day.getStatus());
+				cancel_button.setBackgroundResource(day.getStatus());
+				save_button.setBackgroundResource(day.getStatus());
+				delete_button.setBackgroundResource(day.getStatus());
+			}
+		});
 		
 		save_close_button.setOnClickListener(new OnClickListener() {
 			@Override

@@ -1,6 +1,13 @@
 package com.cs429.todorpg.revised.model;
 
+import com.cs429.todorpg.revised.R;
+
 public class Daily extends Quest {
+	/*status*/
+	private int FINISHED = R.color.finished;
+	private int UNFINISHED = R.color.unfinished;
+	private boolean finished;
+	
 	private String my_daily;
 	private String extra;
 	private int primary_key;
@@ -14,6 +21,7 @@ public class Daily extends Quest {
 		this.setDaily(my_daily);
 		this.setExtra(extra);
 		this.setKey(primary_key);
+		finished = false;
 	}
 
 	public String getDaily() {
@@ -45,6 +53,21 @@ public class Daily extends Quest {
 		return (this.primary_key == daily.getKey()
 				&& this.my_daily.equals(daily.getDaily()) && this.extra
 					.equals(daily.getExtra()));
+	}
+	
+	public void toggleFinish(){
+		finished = !finished;
+	}
+	
+	public boolean getBooleanStatus(){
+		return finished;
+	}
+	
+	public int getStatus(){
+		if(finished)
+			return FINISHED;
+		else
+			return UNFINISHED;
 	}
 }
 /*
