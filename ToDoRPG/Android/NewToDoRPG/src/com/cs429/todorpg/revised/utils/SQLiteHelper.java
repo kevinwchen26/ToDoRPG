@@ -2,6 +2,8 @@ package com.cs429.todorpg.revised.utils;
 
 import java.util.ArrayList;
 
+import com.cs429.todorpg.revised.model.Reward;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -76,22 +78,60 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			ArrayList<Reward> rewards = new ArrayList<Reward>();
 			cursor.moveToFirst();
 			do {
-				String name = cursor.getString(1);
-				int cost = cursor.getInt(2);
-				rewards.add(new Reward(name, cost));
+				int primary_key = cursor.getInt(0);
+				String info = cursor.getString(1);
+				String extra = cursor.getString(2);
+				int cost = cursor.getInt(3);
+				rewards.add(new Reward(primary_key, info, extra, cost));
 			} while (cursor.moveToNext());
 			return rewards;
 		}
 	}
 
-	public long addReward(Reward reward) {
-		String name = reward.getName();
+	/*
+	 * inserts users reward into database
+	 * 
+	 * @Reward
+	 * 
+	 * Return: unique id of reward
+	 */
+	public int addReward(Reward reward) {
+		String info = reward.getInfo();
+		String extra = reward.getExtra();
 		int cost = reward.getCost();
 		ContentValues values = new ContentValues();
-		values.put("name", name);
+		values.put("info", info);
+		values.put("extra", extra);
 		values.put("cost", cost);
-		return this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
-				values);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
+				values));
+	}
+	
+	/*
+	 * deleteReward
+	 * 
+	 * @Reward
+	 * 
+	 * Return: true if deleted
+	 */
+	public boolean deleteReward(Reward reward) {
+		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, 
+				"_id='" + reward.getPrimary_key() + "'", null) > 0;
+	}
+	
+	/*
+	 * updateReward
+	 * 
+	 * @Reward
+	 * 
+	 * Return: true if updated
+	 */
+	public boolean updateReward(Reward reward) {
+		ContentValues values = new ContentValues();
+		values.put("info", reward.getInfo());
+		values.put("extra", reward.getExtra());
+		values.put("cost", reward.getCost());
+		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
 
 	/*

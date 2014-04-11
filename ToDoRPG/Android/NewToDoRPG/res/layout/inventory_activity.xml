@@ -2,19 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:weightSum="15">
-    
+    android:orientation="vertical">
+  
+     
     <include layout="@layout/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
     
-    <TextView
-        android:text="@string/inventory_description"
+    <!--  Character Image -->
+    <ImageView
+        android:id="@+id/inventory_helmet"
+        android:contentDescription="@string/character_description"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"/>
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_gravity="center"
+        >
+        <ImageView
+	        android:id="@+id/inventory_weapon"
+	        android:contentDescription="@string/character_description"
+	        android:layout_width="30dp"
+	        android:layout_height="30dp"
+	        android:layout_marginTop="60dp"
+	        android:layout_marginRight="30dp"/>
+	    <ImageView
+	        android:id="@+id/inventory_character_display"
+	        android:contentDescription="@string/character_description"
+	        android:layout_width="100dp"
+	        android:layout_height="100dp"
+	        android:layout_marginTop="10dp"/>
+	    <ImageView
+            android:id="@+id/inventory_shield"
+            android:contentDescription="@string/character_description"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="30dp"/>
+    </LinearLayout>
     
-
+    <ImageView
+        android:id="@+id/inventory_armor"
+        android:contentDescription="@string/character_description"
+        android:layout_gravity="center"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"/>
+    
+    <!--  Equipment List --> 
+    <TextView
+        android:id="@+id/inventory_item_list"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/inventory"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="15sp"/>
+    
+    <RelativeLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	    <ListView
+	        android:id="@+id/inventory_equipment_list"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_marginTop="20dp"
+	        android:layout_marginBottom="5dp"
+	        />
+    </RelativeLayout>
+    
 </LinearLayout>

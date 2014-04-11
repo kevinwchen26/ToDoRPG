@@ -1,16 +1,36 @@
 package com.cs429.todorpg.revised;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Intent;
 
 public class MainActivity extends BaseActivity {
 
+	Button rewardsButton;
+	Intent intent;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		setHeader(R.id.header);
+		rewardsButton = (Button) findViewById(R.id.rewards_button);
+		rewardsButton.setOnClickListener(ButtonListener);
+		
 	}
-
+	
+	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
+		@SuppressLint("NewApi")
+		@Override
+		public void onClick(View view) {
+			switch (view.getId()) {
+			case R.id.rewards_button:
+				intent = new Intent(MainActivity.this, RewardActivity.class);
+				startActivity(intent);
+				break;
+			}
+		}
+	};
 }
