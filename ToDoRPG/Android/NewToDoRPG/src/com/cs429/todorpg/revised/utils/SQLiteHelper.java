@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
+import com.cs429.todorpg.revised.model.Daily;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -71,6 +72,84 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
 				null, values);
 	}
+	
+	/**
+	 * getDailies() - returns a list of dailies for the character
+	 * @return Arraylist of all dailies
+	 */
+	public ArrayList<Daily> getDailies() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_DAILIES, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<Daily> dailies = new ArrayList<Daily>();
+			cursor.moveToFirst();
+			do {
+				int primary_key = cursor.getInt(0);
+				String my_daily = cursor.getString(1);
+				String extra = cursor.getString(2);
+				int finished = cursor.getInt(3);
+				Daily temp = new Daily(my_daily, extra, primary_key);
+				if (finished == 1)
+					temp.toggleFinish();
+				dailies.add(temp);
+			} while (cursor.moveToNext());
+			return dailies;
+		}
+	}
+
+	/**
+	 * addDailies() - adds a daily for the character
+	 * @param daily
+	 * @return the int for DB position of the daily
+	 */
+	public int addDaily(Daily daily) {
+		String my_daily = daily.getDaily();
+		String extra = daily.getExtra();
+		boolean bfinished = daily.getBooleanStatus();
+		int finished;
+		if(bfinished)
+			finished = 1;
+		else
+			finished = 0;
+		ContentValues values = new ContentValues();
+		values.put("my_daily", my_daily);
+		values.put("extra", extra);
+		values.put("finished", finished);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_DAILIES, null,
+				values));
+	}
+	
+	/**
+	 * deleteDaily() - deletes the Daily from the database
+	 * @param daily
+	 * @return true if daily has been successfully deleted, else false
+	 */
+	public boolean deleteDaily(Daily daily) {
+		return this.getReadableDatabase().delete(Constants.TABLE_DAILIES, 
+				"_id='" + daily.getKey() + "'", null) > 0;
+	}
+	
+	/**
+	 * updateHabit() - updates the Daily in the database
+	 * @param daily
+	 * @return true if successfully updated, false otherwise
+	 */
+	public boolean updateDaily(Daily daily) {
+		ContentValues values = new ContentValues();
+		values.put("my_daily", daily.getDaily());
+		values.put("extra", daily.getExtra());
+		boolean bfinished = daily.getBooleanStatus();
+		int finished;
+		if (bfinished)
+			finished = 1;
+		else 
+			finished = 0;
+		values.put("finished", finished);
+		return this.getReadableDatabase().update(Constants.TABLE_DAILIES, values, "_id='" + daily.getKey() + "'", null) > 0;
+	}
+	
 
 	/**
 	 * getHabits() - returns a list of habits for the character
@@ -273,41 +352,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
-	/*
-	 * inserts daily into database
-	 * 
-	 * @daily - the Dailies to add to database
-	 */
-	public long addDaily(Dailies daily) {
-		String name = daily.getName();
-		int reward = daily.getReward();
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("reward", reward);
-		return this.getReadableDatabase().insert(Constants.TABLE_DAILIES, null,
-				values);
-	}
-
-	/*
-	 * returns all the dailies the user has set 0 = _id 1 = name 2 =reward
-	 */
-	public ArrayList<Dailies> getDailies() {
-		Cursor cursor = this.getReadableDatabase().query(
-				Constants.TABLE_DAILIES, null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			ArrayList<Dailies> dailies = new ArrayList<Dailies>();
-			cursor.moveToFirst();
-			do {
-				String name = cursor.getString(1);
-				int reward = cursor.getInt(2);
-				dailies.add(new Dailies(name, reward));
-			} while (cursor.moveToNext());
-			return dailies;
-		}
-	}
-
+	
 	/*
 	 * returns all the vices a character has 0 = _id 1= name 2= stat 3 =effect
 	 */

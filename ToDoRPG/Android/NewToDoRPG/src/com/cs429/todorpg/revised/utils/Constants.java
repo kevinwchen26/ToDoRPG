@@ -12,7 +12,7 @@ public class Constants {
 	 */
 
 	static String TABLE_DAILIES = "dailies"; // Table for Daily Quests :
-												// (_id,name,reward)
+												// (_id,my_daily, extra, finished)
 	static String TABLE_CHARACTER = "character"; // Table for Characters
 													// : (_id,name,gold)
 	static String TABLE_REWARDS = "rewards";// Table for Rewards
@@ -40,7 +40,7 @@ public class Constants {
 
 	static final String CHARACTER_TABLE_CREATE = "create table character(_id integer primary key autoincrement, name text not null unique, gold int not null);";
 	static final String REWARDS_TABLE_CREATE = "create table rewards(_id integer primary key autoincrement, info text not null unique, extra text not null, cost int not null)";
-	static final String DAILIES_TABLE_CREATE = "create table dailies(_id integer primary key autoincrement, name text not null unique, reward int not null)";
+	static final String DAILIES_TABLE_CREATE = "create table dailies(_id integer primary key autoincrement, my_daily text not null unique, extra text not null, finished int not null)";
 	static final String VICES_TABLE_CREATE = "create table vices(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null)";
 	static final String ITEMS_TABLE_CREATE = "create table items(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null, pic text not null)";
 	static final String TODO_TABLE_CREATE = "create table todo(_id integer primary key autoincrement, name text not null unique, reward int not null)";

@@ -52,7 +52,7 @@ public class Daily extends Quest {
 		Daily daily = (Daily) o;
 		return (this.primary_key == daily.getKey()
 				&& this.my_daily.equals(daily.getDaily()) && this.extra
-					.equals(daily.getExtra()));
+					.equals(daily.getExtra()) && this.getBooleanStatus() == daily.getBooleanStatus());
 	}
 	
 	public void toggleFinish(){

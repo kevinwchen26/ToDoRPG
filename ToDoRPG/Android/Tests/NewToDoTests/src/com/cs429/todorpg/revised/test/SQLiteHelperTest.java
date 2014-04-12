@@ -2,7 +2,6 @@ package com.cs429.todorpg.revised.test;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.utils.Dailies;
 import com.cs429.todorpg.revised.utils.Item;
 import com.cs429.todorpg.revised.utils.Character;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
@@ -10,6 +9,7 @@ import com.cs429.todorpg.revised.utils.ToDoItem;
 import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
+import com.cs429.todorpg.revised.model.Daily;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -87,22 +87,37 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 	}
 
-	public void testDailiesGetAdd() {
-		Dailies hw = new Dailies("hw", 10);
-		Dailies dinner = new Dailies("dinner", 10);
+	public void testDailies() {
+		Daily cake = new Daily("Cake", "Tasty Sweet", -1);
+		Daily anime = new Daily("Anime", "Japanese Comics", -1);
 
 		assertNotNull(db);
-		long id = db.addDaily(hw);
-		assertNotSame(-1, id);
-		id = db.addDaily(hw);
-		assertEquals(-1, id);
-		id = db.addDaily(dinner);
-		assertNotSame(-1, id);
+		int idcake = db.addDaily(cake);
+		assertNotSame(-1, idcake);
+		int idcake2 = db.addDaily(cake);
+		assertEquals(-1, idcake2);
+		int idanime = db.addDaily(anime);
+		assertNotSame(-1, idanime);
+		
+		cake.setKey(idcake);
+		anime.setKey(idanime);
 
-		ArrayList<Dailies> dailies = db.getDailies();
+		ArrayList<Daily> dailies = db.getDailies();
 		assertEquals(2, dailies.size());
-		assertTrue(dailies.contains(hw));
-		assertTrue(dailies.contains(dinner));
+		assertTrue(dailies.contains(cake));
+		assertTrue(dailies.contains(anime));
+		
+		cake.toggleFinish();
+		assertTrue(db.updateDaily(cake));
+		dailies = db.getDailies();
+		assertEquals(2, dailies.size());
+		assertTrue(dailies.contains(cake));
+		assertTrue(dailies.contains(anime));
+		
+		assertTrue(db.deleteDaily(anime));
+		dailies = db.getDailies();
+		assertEquals(1, dailies.size());
+		assertTrue(dailies.contains(cake));
 
 	}
 	
