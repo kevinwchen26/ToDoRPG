@@ -10,6 +10,7 @@ import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.ToDo;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -84,6 +85,40 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		Character test = db.getCharacter();
 		assertEquals(kevin, test);
 		assertNotSame(loser, test);
+
+	}
+	
+	public void testToDos() {
+		ToDo cake = new ToDo("Cake", "Tasty Sweet", -1);
+		ToDo anime = new ToDo("Anime", "Japanese Comics", -1);
+
+		assertNotNull(db);
+		int idcake = db.addToDo(cake);
+		assertNotSame(-1, idcake);
+		int idcake2 = db.addToDo(cake);
+		assertEquals(-1, idcake2);
+		int idanime = db.addToDo(anime);
+		assertNotSame(-1, idanime);
+		
+		cake.setKey(idcake);
+		anime.setKey(idanime);
+
+		ArrayList<ToDo> todos = db.getToDos();
+		assertEquals(2, todos.size());
+		assertTrue(todos.contains(cake));
+		assertTrue(todos.contains(anime));
+		
+		cake.setFinish();
+		assertTrue(db.updateToDo(cake));
+		todos = db.getToDos();
+		assertEquals(2, todos.size());
+		assertTrue(todos.contains(cake));
+		assertTrue(todos.contains(anime));
+		
+		assertTrue(db.deleteToDo(anime));
+		todos = db.getToDos();
+		assertEquals(1, todos.size());
+		assertTrue(todos.contains(cake));
 
 	}
 
@@ -186,25 +221,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertEquals(1, rewards.size());
 		assertTrue(rewards.contains(cake));
 	}
-
-	public void testToDoItemsGetAdd() {
-		ToDoItem hw = new ToDoItem("HW", 10);
-		ToDoItem mp = new ToDoItem("MP", 100);
-
-		assertNotNull(db);
-		long id = db.addToDoItem(hw);
-		assertNotSame(-1, id);
-		id = db.addToDoItem(hw);
-		assertEquals(-1, id);
-		id = db.addToDoItem(mp);
-		assertNotSame(-1, id);
-
-		ArrayList<ToDoItem> todos = db.getToDoList();
-		assertEquals(2, todos.size());
-		assertTrue(todos.contains(hw));
-		assertTrue(todos.contains(mp));
-	}
-
+	
 	public void testVicesGetAdd() {
 		Vice drugs = new Vice("crack", "INT", -100);
 		Vice lazy = new Vice("lazy", "HP", -10);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.ToDo;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -72,6 +73,84 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
 				null, values);
 	}
+	
+	/**
+	 * getToDos() - returns a list of ToDos for the character
+	 * @return Arraylist of all ToDos
+	 */
+	public ArrayList<ToDo> getToDos() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_TODO, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<ToDo> todos = new ArrayList<ToDo>();
+			cursor.moveToFirst();
+			do {
+				int primary_key = cursor.getInt(0);
+				String my_daily = cursor.getString(1);
+				String extra = cursor.getString(2);
+				int finished = cursor.getInt(3);
+				ToDo temp = new ToDo(my_daily, extra, primary_key);
+				if (finished == 1)
+					temp.setFinish();
+				todos.add(temp);
+			} while (cursor.moveToNext());
+			return todos;
+		}
+	}
+
+	/**
+	 * addToDos() - adds a todo for the character
+	 * @param todo
+	 * @return the int for DB position of the todo
+	 */
+	public int addToDo(ToDo todo) {
+		String my_todo = todo.getToDo();
+		String extra = todo.getExtra();
+		boolean bfinished = todo.getStatus();
+		int finished;
+		if(bfinished)
+			finished = 1;
+		else
+			finished = 0;
+		ContentValues values = new ContentValues();
+		values.put("my_todo", my_todo);
+		values.put("extra", extra);
+		values.put("finished", finished);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_TODO, null,
+				values));
+	}
+	
+	/**
+	 * deleteToDo() - deletes the ToDo from the database
+	 * @param todo
+	 * @return true if todo has been successfully deleted, else false
+	 */
+	public boolean deleteToDo(ToDo todo) {
+		return this.getReadableDatabase().delete(Constants.TABLE_TODO, 
+				"_id='" + todo.getKey() + "'", null) > 0;
+	}
+	
+	/**
+	 * updateToDo() - updates the ToDo in the database
+	 * @param todo
+	 * @return true if successfully updated, false otherwise
+	 */
+	public boolean updateToDo(ToDo todo) {
+		ContentValues values = new ContentValues();
+		values.put("my_todo", todo.getToDo());
+		values.put("extra", todo.getExtra());
+		boolean bfinished = todo.getStatus();
+		int finished;
+		if (bfinished)
+			finished = 1;
+		else 
+			finished = 0;
+		values.put("finished", finished);
+		return this.getReadableDatabase().update(Constants.TABLE_TODO, values, "_id='" + todo.getKey() + "'", null) > 0;
+	}
+	
 	
 	/**
 	 * getDailies() - returns a list of dailies for the character
@@ -277,37 +356,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("extra", reward.getExtra());
 		values.put("cost", reward.getCost());
 		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
-	}
-
-	/*
-	 * returns all todo items a character has set 0 = _id 1 = name 2 = reward
-	 */
-	public ArrayList<ToDoItem> getToDoList() {
-		Cursor cursor = this.getReadableDatabase().query(Constants.Table_TODO,
-				null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			ArrayList<ToDoItem> todos = new ArrayList<ToDoItem>();
-			cursor.moveToFirst();
-			do {
-				String name = cursor.getString(1);
-				int reward = cursor.getInt(2);
-				todos.add(new ToDoItem(name, reward));
-			} while (cursor.moveToNext());
-			return todos;
-
-		}
-	}
-
-	public long addToDoItem(ToDoItem item) {
-		String name = item.getName();
-		int reward = item.getReward();
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("reward", reward);
-		return this.getReadableDatabase().insert(Constants.Table_TODO, null,
-				values);
 	}
 
 	/*
