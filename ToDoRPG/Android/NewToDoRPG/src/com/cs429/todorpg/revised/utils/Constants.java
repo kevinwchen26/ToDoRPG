@@ -24,6 +24,8 @@ public class Constants {
 										// (_id,name,reward)
 	static String TABLE_ITEMS = "items"; // Table for
 											// items;(_id,name,stat,effect,pic)
+	static String TABLE_HABITS = "habits"; // Table for
+									// habits;(_id,my_habit,extra,progress);
 
 	/*
 	 * Column Names
@@ -42,5 +44,5 @@ public class Constants {
 	static final String VICES_TABLE_CREATE = "create table vices(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null)";
 	static final String ITEMS_TABLE_CREATE = "create table items(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null, pic text not null)";
 	static final String TODO_TABLE_CREATE = "create table todo(_id integer primary key autoincrement, name text not null unique, reward int not null)";
-
+	static final String HABITS_TABLE_CREATE = "create table habits(_id integer primary key autoincrement, my_habit text not null unique, extra text not null, progress int not null)";
 }

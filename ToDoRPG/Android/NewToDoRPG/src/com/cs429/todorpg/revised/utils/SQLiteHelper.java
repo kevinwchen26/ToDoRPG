@@ -3,6 +3,7 @@ package com.cs429.todorpg.revised.utils;
 import java.util.ArrayList;
 
 import com.cs429.todorpg.revised.model.Reward;
+import com.cs429.todorpg.revised.model.Habit;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,6 +11,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author Leon Chen
+ *
+ */
 public class SQLiteHelper extends SQLiteOpenHelper {
 
 	public SQLiteHelper(Context context) {
@@ -26,6 +31,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.VICES_TABLE_CREATE);
 		db.execSQL(Constants.ITEMS_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
+		db.execSQL(Constants.HABITS_TABLE_CREATE);
 	}
 
 	@Override
@@ -66,8 +72,74 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				null, values);
 	}
 
-	/*
-	 * returns all the rewards a character has set 0 = _id; 1 =name; 2=cost;
+	/**
+	 * getHabits() - returns a list of habits for the character
+	 * @return Arraylist of all habits
+	 */
+	public ArrayList<Habit> getHabits() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_HABITS, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<Habit> habits = new ArrayList<Habit>();
+			cursor.moveToFirst();
+			do {
+				int primary_key = cursor.getInt(0);
+				String my_habit = cursor.getString(1);
+				String extra = cursor.getString(2);
+				int progress = cursor.getInt(3);
+				Habit temp = new Habit(my_habit, extra, primary_key);
+				temp.setProgress(progress);
+				habits.add(temp);
+			} while (cursor.moveToNext());
+			return habits;
+		}
+	}
+
+	/**
+	 * addHabit() - adds a habit for the character
+	 * @param habit
+	 * @return the int for DB position of the habit
+	 */
+	public int addHabit(Habit habit) {
+		String my_habit = habit.getHabit();
+		String extra = habit.getExtra();
+		int progress = habit.getProgress();
+		ContentValues values = new ContentValues();
+		values.put("my_habit", my_habit);
+		values.put("extra", extra);
+		values.put("progress", progress);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
+				values));
+	}
+	
+	/**
+	 * deleteHabit() - deletes the Habit from the database
+	 * @param habit
+	 * @return true if habit has been successfully deleted, else false
+	 */
+	public boolean deleteHabit(Habit habit) {
+		return this.getReadableDatabase().delete(Constants.TABLE_HABITS, 
+				"_id='" + habit.getKey() + "'", null) > 0;
+	}
+	
+	/**
+	 * updateHabit() - updates the Habit in the database
+	 * @param habit
+	 * @return true if successfully updated, false otherwise
+	 */
+	public boolean updateHabit(Habit habit) {
+		ContentValues values = new ContentValues();
+		values.put("my_habit", habit.getHabit());
+		values.put("extra", habit.getExtra());
+		values.put("progress", habit.getProgress());
+		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
+	}
+	
+	/**
+	 * getRewards() - returns a list of all rewards for the character
+	 * @return Arraylist of all rewards for character
 	 */
 	public ArrayList<Reward> getRewards() {
 		Cursor cursor = this.getReadableDatabase().query(
@@ -88,12 +160,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
-	/*
-	 * inserts users reward into database
-	 * 
-	 * @Reward
-	 * 
-	 * Return: unique id of reward
+	/**
+	 * addReward() - adds a reward to the database
+	 * @param reward
+	 * @return int position of reward in the DB
 	 */
 	public int addReward(Reward reward) {
 		String info = reward.getInfo();
@@ -107,24 +177,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				values));
 	}
 	
-	/*
-	 * deleteReward
-	 * 
-	 * @Reward
-	 * 
-	 * Return: true if deleted
+	/**
+	 * deleteReward() - deletes the specific reward from the DB
+	 * @param reward
+	 * @return true if successful, else otherwise
 	 */
 	public boolean deleteReward(Reward reward) {
 		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, 
 				"_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
 	
-	/*
-	 * updateReward
-	 * 
-	 * @Reward
-	 * 
-	 * Return: true if updated
+	/**
+	 * updateReward() - updates the reward in the DB
+	 * @param reward
+	 * @return true if successful, else otherwise
 	 */
 	public boolean updateReward(Reward reward) {
 		ContentValues values = new ContentValues();

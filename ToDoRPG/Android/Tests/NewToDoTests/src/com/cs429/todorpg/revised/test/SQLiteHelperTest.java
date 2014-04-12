@@ -9,6 +9,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.utils.ToDoItem;
 import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
+import com.cs429.todorpg.revised.model.Habit;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -44,6 +45,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(names.contains("todo"));
 		assertTrue(names.contains("rewards"));
 		assertTrue(names.contains("dailies"));
+		assertTrue(names.contains("habits"));
 	}
 
 	public void testItemGetAdd() {
@@ -102,6 +104,39 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(dailies.contains(hw));
 		assertTrue(dailies.contains(dinner));
 
+	}
+	
+	public void testHabits() {
+		Habit cake = new Habit("Cake", "Tasty Sweet", -1);
+		Habit anime = new Habit("Anime", "Japanese Comics", -1);
+
+		assertNotNull(db);
+		int idcake = db.addHabit(cake);
+		assertNotSame(-1, idcake);
+		int idcake2 = db.addHabit(cake);
+		assertEquals(-1, idcake2);
+		int idanime = db.addHabit(anime);
+		assertNotSame(-1, idanime);
+		
+		cake.setKey(idcake);
+		anime.setKey(idanime);
+
+		ArrayList<Habit> habits = db.getHabits();
+		assertEquals(2, habits.size());
+		assertTrue(habits.contains(cake));
+		assertTrue(habits.contains(anime));
+		
+		cake.setProgress(10);
+		assertTrue(db.updateHabit(cake));
+		habits = db.getHabits();
+		assertEquals(2, habits.size());
+		assertTrue(habits.contains(cake));
+		assertTrue(habits.contains(anime));
+		
+		assertTrue(db.deleteHabit(anime));
+		habits = db.getHabits();
+		assertEquals(1, habits.size());
+		assertTrue(habits.contains(cake));
 	}
 
 	public void testRewards() {
