@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cs429.todorpg.revised.controller.HabitAdapter;
 import com.cs429.todorpg.revised.model.Reward;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,25 +35,23 @@ public class RewardActivity extends BaseActivity {
 	EditText new_reward;
 	Character test_character = new Character();
 	Button add_reward;
-	ArrayList<Reward> reward_data = new ArrayList<Reward>();
+	ArrayList<Reward> reward_data;
 	ListView reward_list;
 	Intent intent;
 	RewardsAdapter adapter;
+	SQLiteHelper sql;
 	
-	private class RewardsAdapter extends ArrayAdapter<Reward>{
+	private class RewardsAdapter extends BaseAdapter{
 
 	    Context context; 
-	    int layoutResourceId;    
 		private LayoutInflater inflater;
 		RewardsAdapter adapter = this;
 		ArrayList<Reward> rewards = null;
 	    
 	    
-	    public RewardsAdapter(Context context, int layoutResourceId, ArrayList<Reward> rewards) {
-	        super(context, layoutResourceId, rewards);
+	    public RewardsAdapter(Context context, ArrayList<Reward> rewards) {
 	        inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	        this.layoutResourceId = layoutResourceId;
 	        this.context = context;
 	        this.rewards = rewards;
 	    }
@@ -131,6 +131,11 @@ public class RewardActivity extends BaseActivity {
 					save_button.setVisibility(View.GONE);
 					show_edit_field.setVisibility(View.GONE);
 					
+					if(!sql.updateReward(reward)){
+						Toast.makeText(context, "Reward couldn't be saved", Toast.LENGTH_SHORT).show();
+					}
+						
+					
 				}
 				
 			});
@@ -152,6 +157,10 @@ public class RewardActivity extends BaseActivity {
 					reward.setInfo(new_title);
 					reward.setExtra(new_extra);
 					adapter.notifyDataSetChanged();
+					
+					if(!sql.updateReward(reward)){
+						Toast.makeText(context, "Reward couldn't be saved", Toast.LENGTH_SHORT).show();
+					}
 					
 				}
 				
@@ -176,6 +185,11 @@ public class RewardActivity extends BaseActivity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					if(!sql.deleteReward(reward)){
+						Toast.makeText(context, "Reward couldn't be deleted", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					
 					rewards.remove(position);
 					adapter.notifyDataSetChanged();
 				}
@@ -206,21 +220,20 @@ public class RewardActivity extends BaseActivity {
 	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.rewards_activity);
 		setHeader(R.id.header);
-
 		FindViewById();
 		setUpLayout();
-		
-		
-		/** UNCOMMENT THIS WHEN YOU ARE DONE **/
-		//pullRewards();
+		pullRewards();
 		
 	}
 	
 	private void pullRewards() {
-		/** UNCOMMENT AND FILL IN THE WITH YOUR FUNCTION **/
-		//reward_data = get reward arrayList from DB
-		
-		adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
+		sql = new SQLiteHelper(this);
+		reward_data = sql.getRewards();
+		if(reward_data == null) {
+			reward_data = new ArrayList<Reward>();
+			return;
+		}
+		adapter = new RewardsAdapter(this,reward_data);
 		adapter.notifyDataSetChanged();
 		SetAdapter();
 	}
@@ -267,14 +280,17 @@ public class RewardActivity extends BaseActivity {
 		}
 		
 		Reward new_reward = new Reward(description, cost);
+		int key = sql.addReward(new_reward);
+		new_reward.setPrimary_key(key);
+		
 		reward_data.add(new_reward);		
-		adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
+		adapter = new RewardsAdapter(this, reward_data);
 		adapter.notifyDataSetChanged();
 
 	}
 	
 	private void SetAdapter() {
-		adapter = new RewardsAdapter(this, R.layout.reward_list_item_row, reward_data);
+		adapter = new RewardsAdapter(this, reward_data);
 		reward_list.setAdapter(adapter);
 		
 
