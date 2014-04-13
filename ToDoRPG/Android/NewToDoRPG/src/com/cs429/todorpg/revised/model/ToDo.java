@@ -1,13 +1,18 @@
 package com.cs429.todorpg.revised.model;
 
+import android.util.Log;
+
 public class ToDo extends Quest {
 	private boolean finished;
 	private String my_todo;
 	private String extra;
+	private int difficulty;	//0 - easy / 1 - medium / 2 - hard
 	private int primary_key;
 
 	public ToDo(String my_todo) {
 		this.setToDo(my_todo);
+		finished = false;
+		difficulty = 0;
 	}
 
 	public ToDo(String my_todo, String extra, int primary_key) {
@@ -15,6 +20,7 @@ public class ToDo extends Quest {
 		this.setExtra(extra);
 		this.setKey(primary_key);
 		finished = false;
+		difficulty = 0;	//default set - easy
 	}
 
 	public String getToDo() {
@@ -26,6 +32,8 @@ public class ToDo extends Quest {
 	}
 
 	public String getExtra() {
+		if(extra == null)
+			return new String();
 		return extra;
 	}
 
@@ -46,6 +54,18 @@ public class ToDo extends Quest {
 	}
 	public boolean getStatus(){
 		return finished;
+	}
+	
+	public void setDifficulty(int rate){
+		if(rate < 0 || rate > 2){//error...
+			Log.e("[ToDo]", "difficuty out of range...");
+			return;
+		}
+		this.difficulty = rate;
+	}
+	
+	public int getDifficulty(){
+		return difficulty;
 	}
 
 	public boolean equals(Object o) {

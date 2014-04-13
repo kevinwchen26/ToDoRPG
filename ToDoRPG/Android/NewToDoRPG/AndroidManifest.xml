@@ -22,6 +22,7 @@
         <activity android:name="com.cs429.todorpg.revised.ToDoActivity" />
         <activity android:name="com.cs429.todorpg.revised.InventoryActivity" />
         <activity android:name="com.cs429.todorpg.revised.RewardsActivity" />
+        <activity android:name="com.cs429.todorpg.revised.CalendarView" />
         <activity
             android:name="com.cs429.todorpg.revised.DailyActivity"
             android:label="@string/title_activity_daily" >

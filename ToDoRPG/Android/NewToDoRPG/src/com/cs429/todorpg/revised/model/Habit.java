@@ -19,9 +19,15 @@ public class Habit {
 	private String extra;
 	private int primary_key;
 	private int progress;
+	
+	private String characteristic;	//+: good, -: bad, +-: both, NA: none or not available
+	private int difficulty;	//0 - easy / 1 - medium / 2 - hard
 
 	public Habit(String my_habit) {
 		this.setHabit(my_habit);
+		progress = 0;
+		difficulty = 0;	//default easy set
+		characteristic = "+-";	//default set both
 	}
 
 	public Habit(String my_habit, String extra, int primary_key) {
@@ -29,6 +35,8 @@ public class Habit {
 		this.setExtra(extra);
 		this.setKey(primary_key);
 		progress = 0;
+		difficulty = 0;	//default easy set
+		characteristic = "+-";	//default set both
 	}
 
 	public String getHabit() {
@@ -114,4 +122,24 @@ public class Habit {
 		}
 	}
 	
+	public void setCharacteristic(String character){
+		this.characteristic = character;
+	}
+	public String getCharacteristic(){
+		if(this.characteristic == null)
+			this.characteristic = "+-";
+		
+		return this.characteristic;
+	}
+	
+	public void setDifficulty(int difficult){
+		if(difficult < 0 || difficult > 2){
+			Log.e("[Habit]", "invalid difficulty");
+			return;
+		}
+		difficulty = difficult;
+	}
+	public int getDifficulty(){
+		return difficulty;
+	}
 }

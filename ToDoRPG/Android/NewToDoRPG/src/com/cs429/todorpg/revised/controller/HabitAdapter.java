@@ -65,13 +65,13 @@ public class HabitAdapter extends BaseAdapter {
 
 //		final View habitview = (View)returnView.findViewById(R.id.habit_view);
 		final EditText change_title = (EditText) returnView.findViewById(R.id.change_title);
-		EditText extra_notes = (EditText) returnView.findViewById(R.id.extra_notes);
+		final EditText extra_notes = (EditText) returnView.findViewById(R.id.extra_notes);
 		Button change_plus_button = (Button) returnView.findViewById(R.id.change_plus_btn);
 		Button change_minus_button = (Button) returnView.findViewById(R.id.change_minus_btn);
 		final Button blank_button = (Button) returnView.findViewById(R.id.blank_button);
-		final Button easy_button = (Button) returnView.findViewById(R.id.easy);
-		final Button medium_button = (Button) returnView.findViewById(R.id.medium);
-		final Button hard_button = (Button) returnView.findViewById(R.id.hard);
+		final Button hard = (Button)convertView.findViewById(R.id.hard);
+		final Button medium = (Button)convertView.findViewById(R.id.medium);
+		final Button easy = (Button)convertView.findViewById(R.id.easy);
 		final Button save_close_button = (Button) returnView.findViewById(R.id.save_close);
 		
 		change_title.setText(habit.get(position).getHabit());
@@ -135,6 +135,9 @@ public class HabitAdapter extends BaseAdapter {
 					Toast.makeText(context, "Fill in the blank", Toast.LENGTH_SHORT).show();
 					return;
 				}
+				if(extra_notes.getText().toString() != null){
+					onehabit.setExtra(extra_notes.getText().toString());
+				}
 				habit.get(position).setHabit(change_title.getText().toString());
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
@@ -144,26 +147,6 @@ public class HabitAdapter extends BaseAdapter {
 			}
 		});
 		
-		easy_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Easy!", Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		medium_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Medium!", Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		hard_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Hard!", Toast.LENGTH_SHORT).show();
-			}
-		});
 		
 		change_plus_button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -171,9 +154,29 @@ public class HabitAdapter extends BaseAdapter {
 				if(good_button.getVisibility() == View.VISIBLE) {
 					good_button.setVisibility(View.GONE);
 					blank_button.setVisibility(View.VISIBLE);
+					//in case bad button is visible -- action - only
+					if(bad_button.getVisibility() == View.VISIBLE){
+						onehabit.setCharacteristic("-");
+						Log.d("[HABIT]", "action - only");
+					}
+					//in case bad button is invisible --action none
+					else{
+						onehabit.setCharacteristic("NA");
+						Log.d("[HABIT]", "action none");
+					}
 				} else {
 					good_button.setVisibility(View.VISIBLE);
 					blank_button.setVisibility(View.GONE);
+					//in case bad button is visible -- action both
+					if(bad_button.getVisibility() == View.VISIBLE){
+						onehabit.setCharacteristic("+-");
+						Log.d("[HABIT]", "action both");
+					}
+					//in case bad button is invisible --action + only
+					else{
+						onehabit.setCharacteristic("+");
+						Log.d("[HABIT]", "action + only");
+					}
 				}
 				
 			}
@@ -185,27 +188,32 @@ public class HabitAdapter extends BaseAdapter {
 				if(bad_button.getVisibility() == View.VISIBLE) {
 					bad_button.setVisibility(View.GONE);
 					blank_button.setVisibility(View.VISIBLE);
+					//in case good button is visible - action + only
+					if(good_button.getVisibility() == View.VISIBLE){
+						onehabit.setCharacteristic("+");
+						Log.d("[HABIT]", "action + only");
+					}
+					//in case good button is invisible - action none
+					else{
+						onehabit.setCharacteristic("NA");
+						Log.d("[HABIT]", "action none");
+					}
 				} else {
 					bad_button.setVisibility(View.VISIBLE);
 					blank_button.setVisibility(View.GONE);
+					//in case good button is visible - action both
+					if(good_button.getVisibility() == View.VISIBLE){
+						onehabit.setCharacteristic("+-");
+						Log.d("[HABIT]", "action both");
+					}
+					//in case good button is invisible - action - only
+					else{
+						onehabit.setCharacteristic("-");
+						Log.d("[HABIT]", "action - only");
+					}
 				}
 			}
 		});
-/*		
-		good_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Good", Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		bad_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Bad!", Toast.LENGTH_SHORT).show();
-			}
-		});
-*/		
 		
 		edit_button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -216,6 +224,24 @@ public class HabitAdapter extends BaseAdapter {
 				save_button.setVisibility(View.VISIBLE);
 				show_edit_field.setVisibility(View.VISIBLE);
 
+				extra_notes.setText(onehabit.getExtra());
+				switch(onehabit.getDifficulty()){
+				case 0:	//easy
+					easy.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					hard.setBackgroundResource(R.color.original);
+					break;
+				case 1:	//medium
+					medium.setBackgroundResource(R.color.selected);
+					easy.setBackgroundResource(R.color.original);
+					hard.setBackgroundResource(R.color.original);
+					break;
+				case 2:	//hard
+					hard.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					easy.setBackgroundResource(R.color.original);
+					break;
+				}
 			}
 		});
 
@@ -225,6 +251,9 @@ public class HabitAdapter extends BaseAdapter {
 				if(change_title.getText().toString().length() == 0) {
 					Toast.makeText(context, "Fill in the blank", Toast.LENGTH_SHORT).show();
 					return;
+				}
+				if(extra_notes.getText().toString() != null){
+					onehabit.setExtra(extra_notes.getText().toString());
 				}
 				habit.get(position).setHabit(change_title.getText().toString());
 				adapter.notifyDataSetChanged();
@@ -252,6 +281,40 @@ public class HabitAdapter extends BaseAdapter {
 				adapter.notifyDataSetChanged();
 			}
 		});
+		
+		OnClickListener difficultyListener = new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				switch(v.getId()){
+				case R.id.hard:
+					Log.d("[HABIT]", "difficult hard");
+					onehabit.setDifficulty(2);
+					hard.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					easy.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.medium:
+					Log.d("[HABIT]", "difficult medium");
+					onehabit.setDifficulty(1);
+					medium.setBackgroundResource(R.color.selected);
+					hard.setBackgroundResource(R.color.original);
+					easy.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.easy:
+					Log.d("[HABIT]", "difficult easy");
+					onehabit.setDifficulty(0);
+					easy.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					hard.setBackgroundResource(R.color.original);
+					break;
+				}
+			}
+		};
+		hard.setOnClickListener(difficultyListener);
+		medium.setOnClickListener(difficultyListener);
+		easy.setOnClickListener(difficultyListener);
 
 		return returnView;
 	}

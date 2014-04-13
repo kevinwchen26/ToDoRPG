@@ -2,7 +2,9 @@ package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,6 +73,24 @@ public class ToDoActivity extends BaseActivity {
 		todo_list.setAdapter(adapter);
 		
 
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == RESULT_OK){
+			if(requestCode == 0){//due date from calendar view
+				String[] dates = data.getStringExtra("DATE").split("/"); //month/day/year
+				int pos = data.getIntExtra("pos", -1);
+				if(dates.length < 3 || pos == -1)
+					Log.e("[TODO]", "invalid data");
+				else{
+					ToDo todo = todos.get(pos);
+					todo.setDueDate(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), 0, 0);
+					adapter.notifyDataSetChanged();
+				}
+			}
+		}
 	}
 
 }

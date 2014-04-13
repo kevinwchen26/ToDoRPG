@@ -11,10 +11,17 @@ public class Daily extends Quest {
 	private String my_daily;
 	private String extra;
 	private int primary_key;
+	
+	private int difficulty;	//0 - easy , 1 - medium, 2 - hard
+	private boolean[] repeat = new boolean[7]; //length 7, each index corresponds to days in a week. starts from monday.
 
 	public Daily(String my_daily) {
 		this.setDaily(my_daily);
 		// this.setExtra(extra); // TODO Need to be implemented later
+		finished = false;
+		difficulty = 0;	//default set easy
+		for(int i = 0; i < 7; ++i)
+			repeat[i] = false;	//default set no regular
 	}
 
 	public Daily(String my_daily, String extra, int primary_key) {
@@ -22,6 +29,9 @@ public class Daily extends Quest {
 		this.setExtra(extra);
 		this.setKey(primary_key);
 		finished = false;
+		difficulty = 0;
+		for(int i = 0; i < 7; ++i)
+			repeat[i] = false;
 	}
 
 	public String getDaily() {
@@ -70,19 +80,20 @@ public class Daily extends Quest {
 			return UNFINISHED;
 	}
 	
-	public void toggleFinish(){
-		finished = !finished;
+	public void setDifficulty(int difficult){
+		this.difficulty = difficult;
 	}
 	
-	public boolean getBooleanStatus(){
-		return finished;
+	public int getDifficulty(){
+		return difficulty;
 	}
 	
-	public int getStatus(){
-		if(finished)
-			return FINISHED;
-		else
-			return UNFINISHED;
+	public void toggleRegularDate(int day){
+		repeat[day] = !repeat[day];
+	}
+	
+	public boolean getRegularDate(int day){
+		return repeat[day];
 	}
 }
 /*

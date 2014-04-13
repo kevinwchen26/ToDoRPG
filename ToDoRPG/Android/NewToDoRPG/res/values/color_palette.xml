@@ -14,4 +14,6 @@
 <color name="very_bad">#ff9999</color>
 <color name="finished">#c0c0c0</color>
 <color name="unfinished">#ffff99</color>
+<color name="original">#ffff33</color>
+<color name="selected">#99ff00</color>
 </resources>

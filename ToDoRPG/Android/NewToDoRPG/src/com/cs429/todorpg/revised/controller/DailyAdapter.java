@@ -3,6 +3,7 @@ package com.cs429.todorpg.revised.controller;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,12 +59,12 @@ public class DailyAdapter extends BaseAdapter{
 		my_daily.setText(blank + daily.get(position).getDaily());
 
 		final EditText change_title = (EditText) convertView.findViewById(R.id.change_title);
-		EditText extra_notes = (EditText) convertView.findViewById(R.id.extra_notes);
+		final EditText extra_notes = (EditText) convertView.findViewById(R.id.extra_notes);
 		
 		final Button check_button = (Button) convertView.findViewById(R.id.check_daily_button);
-		final Button easy_button = (Button) convertView.findViewById(R.id.easy);
-		final Button medium_button = (Button) convertView.findViewById(R.id.medium);
-		final Button hard_button = (Button) convertView.findViewById(R.id.hard);
+		final Button hard = (Button)convertView.findViewById(R.id.hard);
+		final Button medium = (Button)convertView.findViewById(R.id.medium);
+		final Button easy = (Button)convertView.findViewById(R.id.easy);
 		final Button save_close_button = (Button) convertView.findViewById(R.id.save_close);
 		
 		change_title.setText(daily.get(position).getDaily());
@@ -73,6 +74,14 @@ public class DailyAdapter extends BaseAdapter{
 		final ImageButton save_button = (ImageButton) convertView.findViewById(R.id.daily_save_button);
 		final ImageButton delete_button = (ImageButton) convertView.findViewById(R.id.daily_delete_button);
 		final View show_edit_field = (View) convertView.findViewById(R.id.show_edit_field);
+		
+		final Button mon = (Button)convertView.findViewById(R.id.mo_btn);
+		final Button tue = (Button)convertView.findViewById(R.id.tu_btn);
+		final Button wed = (Button)convertView.findViewById(R.id.we_btn);
+		final Button thu = (Button)convertView.findViewById(R.id.th_btn);
+		final Button fri = (Button)convertView.findViewById(R.id.fr_btn);
+		final Button sat = (Button)convertView.findViewById(R.id.sa_btn);
+		final Button sun = (Button)convertView.findViewById(R.id.su_btn);
 		
 		//set color beforehand
 		if(day.getBooleanStatus()){
@@ -123,6 +132,7 @@ public class DailyAdapter extends BaseAdapter{
 					Toast.makeText(context, "Fill in the blank", Toast.LENGTH_SHORT).show();
 					return;
 				}
+				day.setExtra(extra_notes.getText().toString());
 				daily.get(position).setDaily(change_title.getText().toString());
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
@@ -132,26 +142,39 @@ public class DailyAdapter extends BaseAdapter{
 			}
 		});
 		
-		easy_button.setOnClickListener(new OnClickListener() {
+		OnClickListener difficultyListener = new OnClickListener(){
 			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Easy!", Toast.LENGTH_SHORT).show();
+			public void onClick(View v){
+				switch(v.getId()){
+				case R.id.hard:
+					Log.d("[HABIT]", "difficult hard");
+					day.setDifficulty(2);
+					hard.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					easy.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.medium:
+					Log.d("[HABIT]", "difficult medium");
+					day.setDifficulty(1);
+					medium.setBackgroundResource(R.color.selected);
+					hard.setBackgroundResource(R.color.original);
+					easy.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.easy:
+					Log.d("[HABIT]", "difficult easy");
+					day.setDifficulty(0);
+					easy.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					hard.setBackgroundResource(R.color.original);
+					break;
+				}
 			}
-		});
-		
-		medium_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Medium!", Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		hard_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Hard!", Toast.LENGTH_SHORT).show();
-			}
-		});
+		};
+		hard.setOnClickListener(difficultyListener);
+		medium.setOnClickListener(difficultyListener);
+		easy.setOnClickListener(difficultyListener);
 		
 		edit_button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -161,7 +184,90 @@ public class DailyAdapter extends BaseAdapter{
 				cancel_button.setVisibility(View.VISIBLE);
 				save_button.setVisibility(View.VISIBLE);
 				show_edit_field.setVisibility(View.VISIBLE);
+				
+				if(day.getExtra() != null)
+					extra_notes.setText(day.getExtra());
 
+				switch(day.getDifficulty()){
+				case 0:	//easy
+					easy.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					hard.setBackgroundResource(R.color.original);
+					break;
+				case 1:	//medium
+					medium.setBackgroundResource(R.color.selected);
+					easy.setBackgroundResource(R.color.original);
+					hard.setBackgroundResource(R.color.original);
+					break;
+				case 2:	//hard
+					hard.setBackgroundResource(R.color.selected);
+					medium.setBackgroundResource(R.color.original);
+					easy.setBackgroundResource(R.color.original);
+					break;
+				}
+				
+				for(int i = 0; i < 7; ++i)
+					if(day.getRegularDate(i)){
+						Log.d("[Day]", "regular set");
+						switch(i){
+						
+						case 0:
+							Log.d("[Day]", "regular mon");
+							if(day.getRegularDate(0))
+								mon.setBackgroundResource(R.color.selected);
+							else
+								mon.setBackgroundResource(R.color.original);
+							break;
+							
+						case 1:
+							Log.d("[Day]", "regular tue");
+							if(day.getRegularDate(1))
+								tue.setBackgroundResource(R.color.selected);
+							else
+								tue.setBackgroundResource(R.color.original);
+							break;
+							
+						case 2:
+							Log.d("[Day]", "regular wed");
+							if(day.getRegularDate(02))
+								wed.setBackgroundResource(R.color.selected);
+							else
+								wed.setBackgroundResource(R.color.original);
+							break;
+							
+						case 3:
+							Log.d("[Day]", "regular thu");
+							if(day.getRegularDate(3))
+								thu.setBackgroundResource(R.color.selected);
+							else
+								thu.setBackgroundResource(R.color.original);
+							break;
+							
+						case 4:
+							Log.d("[Day]", "regular fri");
+							if(day.getRegularDate(4))
+								fri.setBackgroundResource(R.color.selected);
+							else
+								fri.setBackgroundResource(R.color.original);
+							break;
+							
+						case 5:
+							Log.d("[Day]", "regular sat");
+							if(day.getRegularDate(5))
+								sat.setBackgroundResource(R.color.selected);
+							else
+								sat.setBackgroundResource(R.color.original);
+							break;
+							
+						case 6:
+							Log.d("[Day]", "regular sun");
+							if(day.getRegularDate(6))
+								sun.setBackgroundResource(R.color.selected);
+							else
+								sun.setBackgroundResource(R.color.original);
+							break;
+						}
+					}
 			}
 		});
 
@@ -172,6 +278,8 @@ public class DailyAdapter extends BaseAdapter{
 					Toast.makeText(context, "Fill in the blank", Toast.LENGTH_SHORT).show();
 					return;
 				}
+				day.setExtra(extra_notes.getText().toString());
+
 				daily.get(position).setDaily(change_title.getText().toString());
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
@@ -199,7 +307,78 @@ public class DailyAdapter extends BaseAdapter{
 			}
 		});
 
+		OnClickListener RegularListener = new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				switch(v.getId()){
+				
+				case R.id.mo_btn:
+					day.toggleRegularDate(0);
+					if(day.getRegularDate(0))
+						mon.setBackgroundResource(R.color.selected);
+					else
+						mon.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.tu_btn:
+					day.toggleRegularDate(1);
+					if(day.getRegularDate(1))
+						tue.setBackgroundResource(R.color.selected);
+					else
+						tue.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.we_btn:
+					day.toggleRegularDate(2);
+					if(day.getRegularDate(2))
+						wed.setBackgroundResource(R.color.selected);
+					else
+						wed.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.th_btn:
+					day.toggleRegularDate(3);
+					if(day.getRegularDate(3))
+						thu.setBackgroundResource(R.color.selected);
+					else
+						thu.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.fr_btn:
+					day.toggleRegularDate(4);
+					if(day.getRegularDate(4))
+						fri.setBackgroundResource(R.color.selected);
+					else
+						fri.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.sa_btn:
+					day.toggleRegularDate(5);
+					if(day.getRegularDate(5))
+						sat.setBackgroundResource(R.color.selected);
+					else
+						sat.setBackgroundResource(R.color.original);
+					break;
+					
+				case R.id.su_btn:
+					day.toggleRegularDate(6);
+					if(day.getRegularDate(6))
+						sun.setBackgroundResource(R.color.selected);
+					else
+						sun.setBackgroundResource(R.color.original);
+					break;
+				}
+			}
+		};
+		mon.setOnClickListener(RegularListener);
+		tue.setOnClickListener(RegularListener);
+		wed.setOnClickListener(RegularListener);
+		thu.setOnClickListener(RegularListener);
+		fri.setOnClickListener(RegularListener);
+		sat.setOnClickListener(RegularListener);
+		sun.setOnClickListener(RegularListener);
+		
 		return convertView;
 	}
-
+	
 }
