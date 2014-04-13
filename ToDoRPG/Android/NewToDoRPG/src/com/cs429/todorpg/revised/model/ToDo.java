@@ -52,7 +52,7 @@ public class ToDo extends Quest {
 		ToDo todo = (ToDo) o;
 		return (this.primary_key == todo.getKey()
 				&& this.my_todo.equals(todo.getToDo()) && this.extra
-					.equals(todo.getExtra()));
+					.equals(todo.getExtra()) && this.finished == todo.getStatus());
 	}
 }
 

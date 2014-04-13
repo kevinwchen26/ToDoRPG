@@ -38,11 +38,8 @@
         <activity
             android:name="com.cs429.todorpg.revised.RewardActivity"
             android:label="@string/rewards"
-            android:parentActivityName="com.cs429.todorpg.revised.MainActivity" />
-        <activity
-            android:name="com.cs429.todorpg.revised.CreateRewardActivity"
-            android:label="@string/add_reward"
-            android:parentActivityName="com.cs429.todorpg.revised.RewardActivity" />
+            android:parentActivityName="com.cs429.todorpg.revised.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.cs429.todorpg.revised.StatsActivity"
             android:label="@string/title_activity_stats" >

@@ -2,13 +2,15 @@ package com.cs429.todorpg.revised.test;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.utils.Dailies;
 import com.cs429.todorpg.revised.utils.Item;
 import com.cs429.todorpg.revised.utils.Character;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.utils.ToDoItem;
 import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
+import com.cs429.todorpg.revised.model.Habit;
+import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.ToDo;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -44,6 +46,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(names.contains("todo"));
 		assertTrue(names.contains("rewards"));
 		assertTrue(names.contains("dailies"));
+		assertTrue(names.contains("habits"));
 	}
 
 	public void testItemGetAdd() {
@@ -84,24 +87,106 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertNotSame(loser, test);
 
 	}
-
-	public void testDailiesGetAdd() {
-		Dailies hw = new Dailies("hw", 10);
-		Dailies dinner = new Dailies("dinner", 10);
+	
+	public void testToDos() {
+		ToDo cake = new ToDo("Cake", "Tasty Sweet", -1);
+		ToDo anime = new ToDo("Anime", "Japanese Comics", -1);
 
 		assertNotNull(db);
-		long id = db.addDaily(hw);
-		assertNotSame(-1, id);
-		id = db.addDaily(hw);
-		assertEquals(-1, id);
-		id = db.addDaily(dinner);
-		assertNotSame(-1, id);
+		int idcake = db.addToDo(cake);
+		assertNotSame(-1, idcake);
+		int idcake2 = db.addToDo(cake);
+		assertEquals(-1, idcake2);
+		int idanime = db.addToDo(anime);
+		assertNotSame(-1, idanime);
+		
+		cake.setKey(idcake);
+		anime.setKey(idanime);
 
-		ArrayList<Dailies> dailies = db.getDailies();
+		ArrayList<ToDo> todos = db.getToDos();
+		assertEquals(2, todos.size());
+		assertTrue(todos.contains(cake));
+		assertTrue(todos.contains(anime));
+		
+		cake.setFinish();
+		assertTrue(db.updateToDo(cake));
+		todos = db.getToDos();
+		assertEquals(2, todos.size());
+		assertTrue(todos.contains(cake));
+		assertTrue(todos.contains(anime));
+		
+		assertTrue(db.deleteToDo(anime));
+		todos = db.getToDos();
+		assertEquals(1, todos.size());
+		assertTrue(todos.contains(cake));
+
+	}
+
+	public void testDailies() {
+		Daily cake = new Daily("Cake", "Tasty Sweet", -1);
+		Daily anime = new Daily("Anime", "Japanese Comics", -1);
+
+		assertNotNull(db);
+		int idcake = db.addDaily(cake);
+		assertNotSame(-1, idcake);
+		int idcake2 = db.addDaily(cake);
+		assertEquals(-1, idcake2);
+		int idanime = db.addDaily(anime);
+		assertNotSame(-1, idanime);
+		
+		cake.setKey(idcake);
+		anime.setKey(idanime);
+
+		ArrayList<Daily> dailies = db.getDailies();
 		assertEquals(2, dailies.size());
-		assertTrue(dailies.contains(hw));
-		assertTrue(dailies.contains(dinner));
+		assertTrue(dailies.contains(cake));
+		assertTrue(dailies.contains(anime));
+		
+		cake.toggleFinish();
+		assertTrue(db.updateDaily(cake));
+		dailies = db.getDailies();
+		assertEquals(2, dailies.size());
+		assertTrue(dailies.contains(cake));
+		assertTrue(dailies.contains(anime));
+		
+		assertTrue(db.deleteDaily(anime));
+		dailies = db.getDailies();
+		assertEquals(1, dailies.size());
+		assertTrue(dailies.contains(cake));
 
+	}
+	
+	public void testHabits() {
+		Habit cake = new Habit("Cake", "Tasty Sweet", -1);
+		Habit anime = new Habit("Anime", "Japanese Comics", -1);
+
+		assertNotNull(db);
+		int idcake = db.addHabit(cake);
+		assertNotSame(-1, idcake);
+		int idcake2 = db.addHabit(cake);
+		assertEquals(-1, idcake2);
+		int idanime = db.addHabit(anime);
+		assertNotSame(-1, idanime);
+		
+		cake.setKey(idcake);
+		anime.setKey(idanime);
+
+		ArrayList<Habit> habits = db.getHabits();
+		assertEquals(2, habits.size());
+		assertTrue(habits.contains(cake));
+		assertTrue(habits.contains(anime));
+		
+		cake.setProgress(10);
+		assertTrue(db.updateHabit(cake));
+		habits = db.getHabits();
+		assertEquals(2, habits.size());
+		assertTrue(habits.contains(cake));
+		assertTrue(habits.contains(anime));
+		
+		assertTrue(db.deleteHabit(anime));
+		habits = db.getHabits();
+		assertEquals(1, habits.size());
+		assertTrue(habits.contains(cake));
 	}
 
 	public void testRewards() {
@@ -136,25 +221,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertEquals(1, rewards.size());
 		assertTrue(rewards.contains(cake));
 	}
-
-	public void testToDoItemsGetAdd() {
-		ToDoItem hw = new ToDoItem("HW", 10);
-		ToDoItem mp = new ToDoItem("MP", 100);
-
-		assertNotNull(db);
-		long id = db.addToDoItem(hw);
-		assertNotSame(-1, id);
-		id = db.addToDoItem(hw);
-		assertEquals(-1, id);
-		id = db.addToDoItem(mp);
-		assertNotSame(-1, id);
-
-		ArrayList<ToDoItem> todos = db.getToDoList();
-		assertEquals(2, todos.size());
-		assertTrue(todos.contains(hw));
-		assertTrue(todos.contains(mp));
-	}
-
+	
 	public void testVicesGetAdd() {
 		Vice drugs = new Vice("crack", "INT", -100);
 		Vice lazy = new Vice("lazy", "HP", -10);
