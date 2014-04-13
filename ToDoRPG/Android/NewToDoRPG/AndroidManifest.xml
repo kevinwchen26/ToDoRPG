@@ -39,7 +39,7 @@
             android:name="com.cs429.todorpg.revised.RewardActivity"
             android:label="@string/rewards"
             android:parentActivityName="com.cs429.todorpg.revised.MainActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustResize" />
         <activity
             android:name="com.cs429.todorpg.revised.StatsActivity"
             android:label="@string/title_activity_stats" >
