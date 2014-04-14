@@ -113,6 +113,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertNotSame(-1, idanime);
 		
 		cake.setKey(idcake);
+		//Log.d("Weekkey", "" + cake.getWeekKey());
 		anime.setKey(idanime);
 
 		ArrayList<Daily> dailies = db.getDailies();
@@ -120,12 +121,15 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(dailies.contains(cake));
 		assertTrue(dailies.contains(anime));
 		
+		anime.toggleRegularDate(5);
 		cake.toggleFinish();
-		assertTrue(db.updateDaily(cake));
+		assertTrue(db.updateDaily(anime));
 		dailies = db.getDailies();
 		assertEquals(2, dailies.size());
-		assertTrue(dailies.contains(cake));
 		assertTrue(dailies.contains(anime));
+		assertFalse(dailies.contains(cake));
+		
+		assertTrue(db.updateDaily(cake));
 		
 		assertTrue(db.deleteDaily(anime));
 		dailies = db.getDailies();

@@ -31,6 +31,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.CHARACTER_TABLE_CREATE);
 		db.execSQL(Constants.REWARDS_TABLE_CREATE);
 		db.execSQL(Constants.DAILIES_TABLE_CREATE);
+		db.execSQL(Constants.DAILIESWEEK_TABLE_CREATE);
 		db.execSQL(Constants.VICES_TABLE_CREATE);
 		db.execSQL(Constants.ITEMS_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
@@ -195,10 +196,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int primary_key = cursor.getInt(0);
 				String my_daily = cursor.getString(1);
 				String extra = cursor.getString(2);
-				int finished = cursor.getInt(3);
+				int difficulty = cursor.getInt(3);
+				int finished = cursor.getInt(4);
+				int weekid = cursor.getInt(5);
 				Daily temp = new Daily(my_daily, extra, primary_key);
 				if (finished == 1)
 					temp.toggleFinish();
+				temp.setDifficulty(difficulty);
+				temp.setWeekKey(weekid);
+				ArrayList<Boolean> allDailiesWeek = this.getDailiesWeek(weekid);
+				for(int index = 0; index < allDailiesWeek.size(); index++)
+				{
+					if(allDailiesWeek.get(index))
+						temp.toggleRegularDate(index);
+				}
 				dailies.add(temp);
 			} while (cursor.moveToNext());
 			return dailies;
@@ -213,18 +224,32 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public int addDaily(Daily daily) {
 		String my_daily = daily.getDaily();
 		String extra = daily.getExtra();
+		int difficulty = daily.getDifficulty();
 		boolean bfinished = daily.getBooleanStatus();
 		int finished;
 		if(bfinished)
 			finished = 1;
 		else
 			finished = 0;
+		int weekid = this.addDailyWeek(daily.getRegularDate(0), daily.getRegularDate(1), daily.getRegularDate(2), 
+				daily.getRegularDate(3), daily.getRegularDate(4), daily.getRegularDate(5), daily.getRegularDate(6));
+		if (weekid == -1)
+			return weekid;
 		ContentValues values = new ContentValues();
 		values.put("my_daily", my_daily);
 		values.put("extra", extra);
+		values.put("difficulty", difficulty);
 		values.put("finished", finished);
-		return (int) (this.getReadableDatabase().insert(Constants.TABLE_DAILIES, null,
-				values));
+		values.put("weekid", weekid);
+		int result = (int)(this.getReadableDatabase().insert(Constants.TABLE_DAILIES, null, values));
+		if (result != -1)
+			daily.setWeekKey(weekid);
+		else
+		{
+			this.deleteDailyWeek(weekid);
+		}
+		Log.d("Weekid", "" + weekid);
+		return result;
 	}
 	
 	/**
@@ -233,6 +258,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if daily has been successfully deleted, else false
 	 */
 	public boolean deleteDaily(Daily daily) {
+		boolean weekidfound = this.deleteDailyWeek(daily.getWeekKey());
+		if (!weekidfound)
+			return false;
 		return this.getReadableDatabase().delete(Constants.TABLE_DAILIES, 
 				"_id='" + daily.getKey() + "'", null) > 0;
 	}
@@ -246,6 +274,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put("my_daily", daily.getDaily());
 		values.put("extra", daily.getExtra());
+		values.put("difficulty", daily.getDifficulty());
 		boolean bfinished = daily.getBooleanStatus();
 		int finished;
 		if (bfinished)
@@ -253,9 +282,112 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		else 
 			finished = 0;
 		values.put("finished", finished);
+		values.put("weekid", daily.getWeekKey());
+		boolean weekidfound = this.updateDailyWeek(daily.getWeekKey(), daily.getRegularDate(0), daily.getRegularDate(1), daily.getRegularDate(2), 
+				daily.getRegularDate(3), daily.getRegularDate(4), daily.getRegularDate(5), daily.getRegularDate(6));
+		if(!weekidfound)
+			return false;
 		return this.getReadableDatabase().update(Constants.TABLE_DAILIES, values, "_id='" + daily.getKey() + "'", null) > 0;
 	}
 	
+	/**
+	 * getDailiesWeek() - returns a list of dailies for the character
+	 * @return Arraylist of all dailiesweek
+	 */
+	private ArrayList<Boolean> getDailiesWeek(int weekid) {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_DAILIESWEEK, null, "_id='" + weekid + "'", null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<Boolean> dailiesweek = new ArrayList<Boolean>();
+			cursor.moveToFirst();
+			do {
+				int primary_key = cursor.getInt(0);
+				int mon = cursor.getInt(1);
+				int tues = cursor.getInt(2);
+				int wed = cursor.getInt(3);
+				int thurs = cursor.getInt(4);
+				int fri = cursor.getInt(5);
+				int sat = cursor.getInt(6);
+				int sun = cursor.getInt(7);
+				boolean monb = getBool(mon);
+				boolean tuesb = getBool(tues);
+				boolean wedb = getBool(wed);
+				boolean thursb = getBool(thurs);
+				boolean frib = getBool(fri);
+				boolean satb = getBool(sat);
+				boolean sunb = getBool(sun);
+				dailiesweek.add(monb);
+				dailiesweek.add(tuesb);
+				dailiesweek.add(wedb);
+				dailiesweek.add(thursb);
+				dailiesweek.add(frib);
+				dailiesweek.add(satb);
+				dailiesweek.add(sunb);
+			} while (cursor.moveToNext());
+			return dailiesweek;
+		}
+	}
+
+	/**
+	 * addDailiesWeek() - adds a dailyweek for the character
+	 * @param seven bools
+	 * @return the int for DB position of the dailyweek
+	 */
+	private int addDailyWeek(boolean monb, boolean tuesb, boolean wedb, boolean thursb, boolean frib, boolean satb, boolean sunb) {
+		int mon = this.getInt(monb);
+		int tues = this.getInt(tuesb);
+		int wed = this.getInt(wedb);
+		int thurs = this.getInt(thursb);
+		int fri = this.getInt(frib);
+		int sat = this.getInt(satb);
+		int sun = this.getInt(sunb);
+		ContentValues values = new ContentValues();
+		values.put("mon", mon);
+		values.put("tues", tues);
+		values.put("wed", wed);
+		values.put("thurs", thurs);
+		values.put("fri", fri);
+		values.put("sat", sat);
+		values.put("sun", sun);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_DAILIESWEEK, null,
+				values));
+	}
+	
+	/**
+	 * deleteDaily() - deletes the Daily from the database
+	 * @param daily
+	 * @return true if daily has been successfully deleted, else false
+	 */
+	private boolean deleteDailyWeek(int weekid) {
+		return this.getReadableDatabase().delete(Constants.TABLE_DAILIESWEEK, 
+				"_id='" + weekid + "'", null) > 0;
+	}
+	
+	/**
+	 * updateHabit() - updates the Daily in the database
+	 * @param daily
+	 * @return true if successfully updated, false otherwise
+	 */
+	private boolean updateDailyWeek(int weekid, boolean monb, boolean tuesb, boolean wedb, boolean thursb, boolean frib, boolean satb, boolean sunb) {
+		int mon = this.getInt(monb);
+		int tues = this.getInt(tuesb);
+		int wed = this.getInt(wedb);
+		int thurs = this.getInt(thursb);
+		int fri = this.getInt(frib);
+		int sat = this.getInt(satb);
+		int sun = this.getInt(sunb);
+		ContentValues values = new ContentValues();
+		values.put("mon", mon);
+		values.put("tues", tues);
+		values.put("wed", wed);
+		values.put("thurs", thurs);
+		values.put("fri", fri);
+		values.put("sat", sat);
+		values.put("sun", sun);
+		return this.getReadableDatabase().update(Constants.TABLE_DAILIESWEEK, values, "_id='" + weekid + "'", null) > 0;
+	}
 
 	/**
 	 * getHabits() - returns a list of habits for the character
@@ -433,5 +565,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("effect", effect);
 		return this.getReadableDatabase().insert(Constants.TABLE_VICES, null,
 				values);
+	}
+	
+	private boolean getBool(int tempint){
+		if(tempint == 1)
+			return true;
+		return false;
+	}
+	private int getInt(boolean tempbool){
+		if(tempbool)
+			return 1;
+		return 0;
 	}
 }
