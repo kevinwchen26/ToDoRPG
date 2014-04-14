@@ -572,6 +572,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return the int for DB position of the daily
 	 */
 	public int addInventory(Inventory inventory) {
+		
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIP, null, null, null, null, null, null);
+		if (cursor.getCount() != 0)
+			this.deleteInventory();
+		
+		
 		String armorname; Integer armorresid;
 		if(inventory.getArmor() == null)
 		{

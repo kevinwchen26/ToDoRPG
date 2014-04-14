@@ -190,4 +190,10 @@ public class Inventory {
 		}
 		return bitmap;
 	}
+	public boolean equals(Object o) {
+		Inventory inventory = (Inventory) o;
+		return (this.getArmor().equals(inventory.getArmor()) && this.getHelmet().equals(inventory.getHelmet()) 
+				&& this.getShield().equals(inventory.getShield()) 
+				&& this.getWeapon().equals(inventory.getWeapon()) && this.getInventoryItems().equals(inventory.getInventoryItems()));
+	}
 }

@@ -1,5 +1,7 @@
 package com.cs429.todorpg.revised.itemsystem;
 
+import com.cs429.todorpg.revised.model.Daily;
+
 /**
  * 
  * @author paulkim6, jcheng26
@@ -32,5 +34,10 @@ public abstract class RpgItem {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public boolean equals(Object o) {
+		RpgItem rpgitem= (RpgItem) o;
+		return (this.getName().equals(rpgitem.getName()) && this.getResId() == rpgitem.getResId());
 	}
 }
