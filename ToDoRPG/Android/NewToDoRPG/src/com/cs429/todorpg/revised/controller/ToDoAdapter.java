@@ -130,6 +130,7 @@ public class ToDoAdapter extends BaseAdapter{
 			public void onClick(View v){
 				Toast.makeText(context, "successfully done this job", Toast.LENGTH_SHORT).show();
 				todos.get(position).setFinish();
+				db.updateToDo(todos.get(position));
 				todos.remove(position);
 				adapter.notifyDataSetChanged();
 			}

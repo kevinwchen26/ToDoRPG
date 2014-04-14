@@ -84,6 +84,15 @@ public class ToDoActivity extends BaseActivity {
 		todos = db.getToDos();
 		if(todos == null)
 			todos = new ArrayList<ToDo>();
+		else{
+			ArrayList<ToDo> list = new ArrayList<ToDo>();
+			//filter finished todo list
+			for(int i = 0; i < todos.size(); ++i){
+				if(!todos.get(i).getStatus())
+					list.add(todos.get(i));
+			}
+			todos = list;
+		}
 	}
 	
 	@Override
