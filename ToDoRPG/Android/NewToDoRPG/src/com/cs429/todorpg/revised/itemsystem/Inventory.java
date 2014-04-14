@@ -98,6 +98,26 @@ public class Inventory {
 		this.weapon = weapon;
 	}
 	
+	/*
+	 * Boolean methods 
+	 */
+	
+	public boolean isArmorSet() {
+		return this.armor != null;
+	}
+	
+	public boolean isHelmetSet() {
+		return this.helmet != null;
+	}
+	
+	public boolean isShieldSet() {
+		return this.shield != null;
+	}
+	
+	public boolean isWeaponSet() {
+		return this.weapon != null;
+	}
+	
 	/**
 	 * Function handles item equipping
 	 * @param item
