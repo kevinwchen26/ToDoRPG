@@ -67,7 +67,37 @@ public class DailyActivityTest extends ActivityInstrumentationTestCase2<DailyAct
 		assertEquals(listview.getCount(), original - 1);
 	}
 	
+	public void testAddHabitEditBox(){
+		add_daily_field = (EditText) solo.getView(R.id.add_daily_field);
+		add_daily_button = (Button) solo.getView(R.id.add_daily_button);
+		listview = (ListView) solo.getView(R.id.daily_listview);
+		
+		solo.clearEditText(add_daily_field);
+		solo.enterText(add_daily_field, "testdaily");
+		solo.clickOnView(add_daily_button);
+		solo.sleep(1000);
+		
+		edit_button = (ImageButton) solo.getView(R.id.daily_edit_button);
+		solo.clickOnView(edit_button);
+		solo.sleep(2000);
+		
+		EditText extra_note = (EditText) solo.getView(R.id.extra_notes);
+		solo.clearEditText(extra_note);
+		solo.enterText(extra_note, "testExtra");
+		solo.sleep(1000);
+		
+		Button medium = (Button) solo.getView(R.id.medium);
+		solo.clickOnView(medium);
+		solo.sleep(1000);
+		
+		Button save_close = (Button) solo.getView(R.id.save_close);
+		solo.clickOnView(save_close);
+		solo.sleep(1000);
 	
+		delete_button = (ImageButton) solo.getView(R.id.daily_delete_button);
+		solo.clickOnView(delete_button);
+		solo.sleep(1000);
+	}
 
 	
 }

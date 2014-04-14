@@ -50,7 +50,7 @@ public class ToDoActivityTest extends ActivityInstrumentationTestCase2<ToDoActiv
 		int original = listview.getCount();
 		
 		solo.clearEditText(add_todo_field);
-		solo.enterText(add_todo_field, "testToDo");
+		solo.enterText(add_todo_field, "testToDo2");
 		solo.clickOnView(add_todo_button);
 		solo.sleep(1000);
 		assertEquals(listview.getCount(), original + 1);
@@ -66,7 +66,37 @@ public class ToDoActivityTest extends ActivityInstrumentationTestCase2<ToDoActiv
 		assertEquals(listview.getCount(), original - 1);
 	}
 	
+	public void testAddHabitEditBox(){
+		add_todo_field = (EditText) solo.getView(R.id.add_todo_field);
+		add_todo_button = (Button) solo.getView(R.id.add_todo_button);
+		listview = (ListView) solo.getView(R.id.todo_listview);
+		
+		solo.clearEditText(add_todo_field);
+		solo.enterText(add_todo_field, "testToDo");
+		solo.clickOnView(add_todo_button);
+		solo.sleep(1000);
+		
+		edit_button = (ImageButton) solo.getView(R.id.todo_edit_button);
+		solo.clickOnView(edit_button);
+		solo.sleep(2000);
+		
+		EditText extra_note = (EditText) solo.getView(R.id.extra_notes);
+		solo.clearEditText(extra_note);
+		solo.enterText(extra_note, "testExtra");
+		solo.sleep(1000);
+		
+		Button medium = (Button) solo.getView(R.id.medium);
+		solo.clickOnView(medium);
+		solo.sleep(1000);
+		
+		Button save_close = (Button) solo.getView(R.id.save_close);
+		solo.clickOnView(save_close);
+		solo.sleep(1000);
 	
+		delete_button = (ImageButton) solo.getView(R.id.todo_delete_button);
+		solo.clickOnView(delete_button);
+		solo.sleep(1000);
+	}
 	
 	
 }
