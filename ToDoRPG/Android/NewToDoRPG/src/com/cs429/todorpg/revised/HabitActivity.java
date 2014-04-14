@@ -66,7 +66,8 @@ public class HabitActivity extends BaseActivity {
 		}
 		Habit habit = new Habit(my_habit);
 		habits.add(habit);
-		db.addHabit(habit);
+		int id = db.addHabit(habit);
+		habit.setKey(id);
 		
 		Toast.makeText(HabitActivity.this, my_habit, Toast.LENGTH_SHORT).show();
 //		SetAdapter();

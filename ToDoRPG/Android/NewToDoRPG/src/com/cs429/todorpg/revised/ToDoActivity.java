@@ -68,8 +68,9 @@ public class ToDoActivity extends BaseActivity {
 		}
 		ToDo todo = new ToDo(my_todo); 
 		todos.add(todo);
-		int pos = db.addToDo(todo);
-		Log.d("[TODO]", "db position: " + pos);
+		int id = db.addToDo(todo);
+		todo.setKey(id);
+		Log.d("[TODO]", "db position: " + id);
 		Toast.makeText(ToDoActivity.this, my_todo, Toast.LENGTH_SHORT).show();
 //		SetAdapter();
 		adapter = new ToDoAdapter(ToDoActivity.this, todos);

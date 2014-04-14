@@ -141,7 +141,7 @@ public class HabitAdapter extends BaseAdapter {
 					return;
 				}
 				if(extra_notes.getText().toString() != null){
-					onehabit.setExtra(extra_notes.getText().toString());
+					habit.get(position).setExtra(extra_notes.getText().toString());
 				}
 				habit.get(position).setHabit(change_title.getText().toString());
 				db.updateHabit(habit.get(position));
@@ -260,7 +260,7 @@ public class HabitAdapter extends BaseAdapter {
 					return;
 				}
 				if(extra_notes.getText().toString() != null){
-					onehabit.setExtra(extra_notes.getText().toString());
+					habit.get(position).setExtra(extra_notes.getText().toString());
 				}
 				habit.get(position).setHabit(change_title.getText().toString());
 				db.updateHabit(habit.get(position));
