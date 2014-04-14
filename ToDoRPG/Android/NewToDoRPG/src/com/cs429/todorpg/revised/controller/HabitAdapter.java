@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.R.color;
 import com.cs429.todorpg.revised.model.Habit;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class HabitAdapter extends BaseAdapter {
 
@@ -26,11 +27,14 @@ public class HabitAdapter extends BaseAdapter {
 	private ArrayList<Habit> habit;
 	private HabitAdapter adapter = this;
 	private LayoutInflater inflater;
+	private SQLiteHelper db;
+	
 	public HabitAdapter(Context context, ArrayList<Habit> habit) {
 		this.context = context;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.habit = habit;
+		db = new SQLiteHelper(context);
 	}
 
 	@Override
@@ -123,6 +127,7 @@ public class HabitAdapter extends BaseAdapter {
 					delete_button.setBackgroundResource(onehabit.getStatus());
 //					my_habit.setBackgroundResource(Color.YELLOW);
 				}
+				db.updateHabit(onehabit);
 			}
 		};
 		good_button.setOnClickListener(mListener);
@@ -139,6 +144,8 @@ public class HabitAdapter extends BaseAdapter {
 					onehabit.setExtra(extra_notes.getText().toString());
 				}
 				habit.get(position).setHabit(change_title.getText().toString());
+				db.updateHabit(habit.get(position));
+				
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
 				cancel_button.setVisibility(View.GONE);
@@ -256,6 +263,8 @@ public class HabitAdapter extends BaseAdapter {
 					onehabit.setExtra(extra_notes.getText().toString());
 				}
 				habit.get(position).setHabit(change_title.getText().toString());
+				db.updateHabit(habit.get(position));
+				
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
 				cancel_button.setVisibility(View.GONE);
@@ -277,7 +286,8 @@ public class HabitAdapter extends BaseAdapter {
 		delete_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				habit.remove(position);
+				db.deleteHabit(habit.get(position));
+				habit.remove(position);	
 				adapter.notifyDataSetChanged();
 			}
 		});

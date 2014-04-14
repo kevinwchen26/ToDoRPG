@@ -43,6 +43,6 @@ public class Constants {
 	static final String DAILIES_TABLE_CREATE = "create table dailies(_id integer primary key autoincrement, my_daily text not null unique, extra text not null, finished int not null)";
 	static final String VICES_TABLE_CREATE = "create table vices(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null)";
 	static final String ITEMS_TABLE_CREATE = "create table items(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null, pic text not null)";
-	static final String TODO_TABLE_CREATE = "create table todo(_id integer primary key autoincrement, name text not null unique, extra text not null, finished int not null)";
+	static final String TODO_TABLE_CREATE = "create table todo(_id integer primary key autoincrement, my_todo text not null unique, extra text not null, finished int not null)";
 	static final String HABITS_TABLE_CREATE = "create table habits(_id integer primary key autoincrement, my_habit text not null unique, extra text not null, progress int not null)";
 }

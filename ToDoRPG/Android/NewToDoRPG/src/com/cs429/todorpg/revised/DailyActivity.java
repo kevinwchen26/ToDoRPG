@@ -18,6 +18,8 @@ import com.cs429.todoprg.service.AlarmReceiver;
 import com.cs429.todoprg.service.AlarmService;
 import com.cs429.todorpg.revised.controller.DailyAdapter;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 
 public class DailyActivity extends BaseActivity {
@@ -30,15 +32,18 @@ public class DailyActivity extends BaseActivity {
 	private SharedPreferences pref;
 	private boolean IsAlarmSet;
 	private final int ALARMCODE = 77;
+	private SQLiteHelper db;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.daily_activity);
 		setHeader(R.id.header);
-		daily = new ArrayList<Daily>();
 		// new today_vice().execute();
 		findViewById();
+		db = new SQLiteHelper(getBaseContext());
+		setDailyList();
+		SetAdapter();
 	}
 	
 	@Override
@@ -123,7 +128,10 @@ public class DailyActivity extends BaseActivity {
 				return;
 			}
 		}
-		daily.add(new Daily(my_daily));
+		Daily day = new Daily(my_daily); 
+		daily.add(day);
+		db.addDaily(day);
+		
 		Toast.makeText(DailyActivity.this, my_daily, Toast.LENGTH_SHORT).show();
 //		SetAdapter();
 		adapter = new DailyAdapter(DailyActivity.this, daily);
@@ -132,8 +140,11 @@ public class DailyActivity extends BaseActivity {
 	private void SetAdapter() {
 		adapter = new DailyAdapter(DailyActivity.this, daily);
 		daily_list.setAdapter(adapter);
-		
-
+	}
+	private void setDailyList(){
+		daily= db.getDailies();
+		if(daily == null)
+			daily = new ArrayList<Daily>();
 	}
 }
 

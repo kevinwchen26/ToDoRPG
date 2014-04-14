@@ -13,21 +13,25 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.ToDoAdapter;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class ToDoActivity extends BaseActivity {
 	private EditText add_todo_field;
 	private ListView todo_list;
 	private ArrayList<ToDo> todos;
 	private ToDoAdapter adapter;
+	private SQLiteHelper db;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.todo_activity);
 		setHeader(R.id.header);
-		todos = new ArrayList<ToDo>();
 		// new today_vice().execute();
 		findViewById();
+		db = new SQLiteHelper(getBaseContext());
+		setToDoList();
+		SetAdapter();
 	}
 
 	private void findViewById() {
@@ -62,7 +66,10 @@ public class ToDoActivity extends BaseActivity {
 				return;
 			}
 		}
-		todos.add(new ToDo(my_todo));
+		ToDo todo = new ToDo(my_todo); 
+		todos.add(todo);
+		int pos = db.addToDo(todo);
+		Log.d("[TODO]", "db position: " + pos);
 		Toast.makeText(ToDoActivity.this, my_todo, Toast.LENGTH_SHORT).show();
 //		SetAdapter();
 		adapter = new ToDoAdapter(ToDoActivity.this, todos);
@@ -71,8 +78,11 @@ public class ToDoActivity extends BaseActivity {
 	private void SetAdapter() {
 		adapter = new ToDoAdapter(ToDoActivity.this, todos);
 		todo_list.setAdapter(adapter);
-		
-
+	}
+	private void setToDoList(){
+		todos = db.getToDos();
+		if(todos == null)
+			todos = new ArrayList<ToDo>();
 	}
 	
 	@Override

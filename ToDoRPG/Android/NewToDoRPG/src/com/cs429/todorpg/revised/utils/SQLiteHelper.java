@@ -88,10 +88,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
-				String my_daily = cursor.getString(1);
+				String my_todo = cursor.getString(1);
 				String extra = cursor.getString(2);
 				int finished = cursor.getInt(3);
-				ToDo temp = new ToDo(my_daily, extra, primary_key);
+				ToDo temp = new ToDo(my_todo, extra, primary_key);
 				if (finished == 1)
 					temp.setFinish();
 				todos.add(temp);

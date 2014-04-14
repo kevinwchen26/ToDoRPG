@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class DailyAdapter extends BaseAdapter{
 	
@@ -24,11 +25,13 @@ public class DailyAdapter extends BaseAdapter{
 	private ArrayList<Daily> daily;
 	private DailyAdapter adapter = this;
 	private LayoutInflater inflater;
+	private SQLiteHelper db;
 
 	public DailyAdapter(Context context, ArrayList<Daily> daily) {
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.daily = daily;
+		db = new SQLiteHelper(context);
 	}
 
 	@Override
@@ -83,18 +86,7 @@ public class DailyAdapter extends BaseAdapter{
 		final Button sat = (Button)convertView.findViewById(R.id.sa_btn);
 		final Button sun = (Button)convertView.findViewById(R.id.su_btn);
 		
-		//set color beforehand
-		if(day.getBooleanStatus()){
-			check_button.setText(R.string.check);
-			edit_button.setClickable(false);
-			edit_button.setFocusable(false);
-		}	
-		else{
-			check_button.setText(R.string.plus);
-			edit_button.setClickable(true);
-			edit_button.setFocusable(true);
-		}
-		
+		//set color beforehand		
 		my_daily.setBackgroundResource(day.getStatus());
 		edit_button.setBackgroundResource(day.getStatus());
 		cancel_button.setBackgroundResource(day.getStatus());
@@ -116,6 +108,7 @@ public class DailyAdapter extends BaseAdapter{
 					edit_button.setClickable(true);
 					edit_button.setFocusable(true);
 				}
+				db.updateDaily(day);
 				
 				my_daily.setBackgroundResource(day.getStatus());
 				edit_button.setBackgroundResource(day.getStatus());
@@ -134,6 +127,8 @@ public class DailyAdapter extends BaseAdapter{
 				}
 				day.setExtra(extra_notes.getText().toString());
 				daily.get(position).setDaily(change_title.getText().toString());
+				db.updateDaily(day);
+				
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
 				cancel_button.setVisibility(View.GONE);
@@ -281,6 +276,8 @@ public class DailyAdapter extends BaseAdapter{
 				day.setExtra(extra_notes.getText().toString());
 
 				daily.get(position).setDaily(change_title.getText().toString());
+				db.updateDaily(daily.get(position));
+				
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
 				cancel_button.setVisibility(View.GONE);
@@ -302,6 +299,7 @@ public class DailyAdapter extends BaseAdapter{
 		delete_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				db.deleteDaily(daily.get(position));
 				daily.remove(position);
 				adapter.notifyDataSetChanged();
 			}
@@ -377,6 +375,21 @@ public class DailyAdapter extends BaseAdapter{
 		fri.setOnClickListener(RegularListener);
 		sat.setOnClickListener(RegularListener);
 		sun.setOnClickListener(RegularListener);
+		
+		//set button either enabled or disabled based on its status
+		if(day.getBooleanStatus()){
+			Log.d("[Day]", "pos: " + position + " finished...");
+			check_button.setText(R.string.check);
+			edit_button.setClickable(false);
+			edit_button.setFocusable(false);
+			
+		}	
+		else{
+			Log.d("[Day]", "pos: " + position + " not yet finished...");
+			check_button.setText(R.string.plus);
+			edit_button.setClickable(true);
+			edit_button.setFocusable(true);
+		}
 		
 		return convertView;
 	}

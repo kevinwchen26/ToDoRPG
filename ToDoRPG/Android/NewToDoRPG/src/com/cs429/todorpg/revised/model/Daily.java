@@ -43,6 +43,8 @@ public class Daily extends Quest {
 	}
 
 	public String getExtra() {
+		if(extra == null)
+			return new String();
 		return extra;
 	}
 

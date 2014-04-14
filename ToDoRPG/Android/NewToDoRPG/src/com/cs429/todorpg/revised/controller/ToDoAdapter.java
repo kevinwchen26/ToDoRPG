@@ -20,6 +20,7 @@ import com.cs429.todorpg.revised.CalendarView;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.ToDoActivity;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class ToDoAdapter extends BaseAdapter{
 
@@ -27,11 +28,13 @@ public class ToDoAdapter extends BaseAdapter{
 	private ArrayList<ToDo> todos;
 	private ToDoAdapter adapter = this;
 	private LayoutInflater inflater;
+	private SQLiteHelper db;
 	
 	public ToDoAdapter(Context context, ArrayList<ToDo> todos){
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.todos = todos;
+		db = new SQLiteHelper(context);
 	}
 	
 	@Override
@@ -146,6 +149,8 @@ public class ToDoAdapter extends BaseAdapter{
 					todos.get(position).setExtra(tmp);
 					Log.d("[TODO]", "extra note: " + tmp);
 				}
+				db.updateToDo(todos.get(position));
+				
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
 				cancel_button.setVisibility(View.GONE);
@@ -203,6 +208,8 @@ public class ToDoAdapter extends BaseAdapter{
 					Log.d("[TODO]", "extra note: " + tmp);
 				}
 				///
+				db.updateToDo(todos.get(position));
+				
 				adapter.notifyDataSetChanged();
 				edit_button.setVisibility(View.VISIBLE);
 				cancel_button.setVisibility(View.GONE);
@@ -224,6 +231,7 @@ public class ToDoAdapter extends BaseAdapter{
 		delete_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				db.deleteToDo(todos.get(position));
 				todos.remove(position);
 				adapter.notifyDataSetChanged();
 			}

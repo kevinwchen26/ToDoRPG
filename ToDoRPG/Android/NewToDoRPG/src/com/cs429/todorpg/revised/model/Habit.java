@@ -48,6 +48,8 @@ public class Habit {
 	}
 
 	public String getExtra() {
+		if(extra == null)
+			return new String();
 		return extra;
 	}
 
