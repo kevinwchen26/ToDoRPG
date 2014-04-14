@@ -130,7 +130,9 @@ public class DailyActivity extends BaseActivity {
 		}
 		Daily day = new Daily(my_daily); 
 		daily.add(day);
-		db.addDaily(day);
+		int id = db.addDaily(day);
+		day.setKey(id);
+		
 		
 		Toast.makeText(DailyActivity.this, my_daily, Toast.LENGTH_SHORT).show();
 //		SetAdapter();

@@ -99,6 +99,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int difficulty = cursor.getInt(7);
 				int finished = cursor.getInt(8);
 				ToDo temp = new ToDo(my_todo, extra, primary_key);
+				
+				temp.setDueDate(due_month, due_date, due_hour, due_min);
+				temp.setDifficulty(difficulty);
+				
 				if (finished == 1)
 					temp.setFinish();
 				todos.add(temp);
@@ -136,6 +140,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("due_min", due_min);
 		values.put("difficulty", difficulty);
 		values.put("finished", finished);
+		
+		Log.d("[DB]", "addToDo()");
+		
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_TODO, null,
 				values));
 	}
@@ -146,6 +153,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if todo has been successfully deleted, else false
 	 */
 	public boolean deleteToDo(ToDo todo) {
+		Log.d("[DB]", "deleteToDo()");
+		
 		return this.getReadableDatabase().delete(Constants.TABLE_TODO, 
 				"_id='" + todo.getKey() + "'", null) > 0;
 	}
@@ -176,6 +185,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		else 
 			finished = 0;
 		values.put("finished", finished);
+		
+		Log.d("[DB]", "updateToDo()");
+		
 		return this.getReadableDatabase().update(Constants.TABLE_TODO, values, "_id='" + todo.getKey() + "'", null) > 0;
 	}
 	
@@ -436,6 +448,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("characteristic", characteristic);
 		values.put("difficulty", difficulty);
 		values.put("progress", progress);
+		
+		Log.d("[DB]", "addHabit()");
+		
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
 				values));
 	}
@@ -446,6 +461,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if habit has been successfully deleted, else false
 	 */
 	public boolean deleteHabit(Habit habit) {
+		Log.d("[DB]", "deleteHabit()");
+		
 		return this.getReadableDatabase().delete(Constants.TABLE_HABITS, 
 				"_id='" + habit.getKey() + "'", null) > 0;
 	}
@@ -462,6 +479,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("characteristic", habit.getCharacteristic());
 		values.put("difficulty", habit.getDifficulty());
 		values.put("progress", habit.getProgress());
+		
+		Log.d("[DB]", "updatesHabit()");
+		
 		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
 	}
 	
