@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:weightSum="100" >
 
     <include
         android:id="@+id/include1"
@@ -30,20 +31,20 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
-        android:weightSum="6" >
+        android:weightSum="100" >
 
         <EditText
             android:id="@+id/add_reward_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="75"
             android:hint="@string/add_reward" />
 
         <Button
             android:id="@+id/add_reward_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="25"
             android:background="#82b8d0"
             android:text="@string/plus" />
     </LinearLayout>
@@ -52,6 +53,7 @@
      <ListView
         android:id="@+id/rewards_list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_weight="50" />
 
 </LinearLayout>

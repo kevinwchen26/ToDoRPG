@@ -11,21 +11,25 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.HabitAdapter;
 import com.cs429.todorpg.revised.model.Habit;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class HabitActivity extends BaseActivity {
 	private EditText add_habit_field;
 	private ListView habit_list;
 	private ArrayList<Habit> habits;
 	private HabitAdapter adapter;
+	private SQLiteHelper db;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.habit_activity);
 		setHeader(R.id.header);
-		habits = new ArrayList<Habit>();
 		// new today_vice().execute();
 		findViewById();
+		db = new SQLiteHelper(getBaseContext());
+		setHabitList();
+		SetAdapter();
 	}
 
 	private void findViewById() {
@@ -60,7 +64,10 @@ public class HabitActivity extends BaseActivity {
 				return;
 			}
 		}
-		habits.add(new Habit(my_habit));
+		Habit habit = new Habit(my_habit);
+		habits.add(habit);
+		db.addHabit(habit);
+		
 		Toast.makeText(HabitActivity.this, my_habit, Toast.LENGTH_SHORT).show();
 //		SetAdapter();
 		adapter = new HabitAdapter(HabitActivity.this, habits);
@@ -73,6 +80,11 @@ public class HabitActivity extends BaseActivity {
 
 	}
 
+	private void setHabitList(){
+		habits = db.getHabits();
+		if(habits == null)
+			habits = new ArrayList<Habit>();
+	}
 }
 
 /*

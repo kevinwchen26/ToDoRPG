@@ -18,6 +18,22 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="20sp" />
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.2dp"
+        android:background="#aaa" />
+    
+    <CheckBox
+        android:id="@+id/alarm_checkbox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="alarm invocation today" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.2dp"
+        android:background="#aaa" />
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
