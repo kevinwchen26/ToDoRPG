@@ -2,25 +2,16 @@ package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.controller.HabitAdapter;
-import com.cs429.todorpg.revised.model.Reward;
-import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,12 +20,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs429.todorpg.revised.model.Reward;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
+import com.cs429.todorpg.revised.utils.ToDoCharacter;
+
 public class RewardActivity extends BaseActivity {
 
 	TextView rewards_heading;
 	TextView gold;
 	EditText new_reward;
-	Character test_character = new Character();
+	ToDoCharacter test_character;
 	Button add_reward;
 	ArrayList<Reward> reward_data;
 	ListView reward_list;
@@ -223,6 +218,8 @@ public class RewardActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		sql = new SQLiteHelper(this);
+		test_character = sql.getCharacter();
 	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.rewards_activity);
 		setHeader(R.id.header);
@@ -230,10 +227,10 @@ public class RewardActivity extends BaseActivity {
 		setUpLayout();
 		pullRewards();
 		
+		
 	}
 	
 	private void pullRewards() {
-		sql = new SQLiteHelper(this);
 		reward_data = sql.getRewards();
 		if(reward_data == null) {
 			reward_data = new ArrayList<Reward>();
@@ -267,6 +264,7 @@ public class RewardActivity extends BaseActivity {
 		}
 		int value = test_character.getGold() - cost;
 		test_character.setGold(value);
+		sql.addCharacter(test_character);
 	    gold.setText("Gold: " + value );
 
 	}

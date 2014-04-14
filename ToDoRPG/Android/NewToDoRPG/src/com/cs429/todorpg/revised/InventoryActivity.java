@@ -24,6 +24,7 @@ import com.cs429.todorpg.revised.itemsystem.Inventory;
 import com.cs429.todorpg.revised.itemsystem.RpgItem;
 import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class InventoryActivity extends BaseActivity {
 	// Equipment Temporaryily public
@@ -43,6 +44,8 @@ public class InventoryActivity extends BaseActivity {
 	private final int SHIELD = 2;
 	private final int ARMOR = 3;
 	
+	SQLiteHelper sql;
+	
 	/**
 	 * Requirements: Inventory must not be null.
 	 */
@@ -59,16 +62,9 @@ public class InventoryActivity extends BaseActivity {
 		   TODO: Migrate this code to application initialization
 		   section 
 		*/
+		sql = new SQLiteHelper(this);
 		avatar = new Avatar();
-		inventory = new Inventory();
-		inventory.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1));
-		inventory.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1));
-		inventory.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1));
-		inventory.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1));
-		
-		inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0));
-		inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1));
-		inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2));
+		inventory = sql.getInventory();
 		
 		// This image goes in action bar.
 		ImageView image = (ImageView) findViewById(R.id.character_activity);
@@ -160,6 +156,7 @@ public class InventoryActivity extends BaseActivity {
 				   		
 				   		InventoryActivity.this.runOnUiThread(new Runnable() {
 				   			public void run() {
+				   				sql.addInventory(inventory);
 				   				adapter.notifyDataSetChanged();
 				   			}
 				   		});
@@ -175,6 +172,7 @@ public class InventoryActivity extends BaseActivity {
 				   		inventory.removeInventory(position);
 				   		
 				   		// Refresh list
+				   		sql.addInventory(inventory);
 				   		adapter.notifyDataSetChanged();
 				   		setImageViews();
 				   		break;   
@@ -218,6 +216,7 @@ public class InventoryActivity extends BaseActivity {
 				   		}
 				   		
 				   		// Refresh list and avatar 
+				   		sql.addInventory(inventory);
 				   		adapter.notifyDataSetChanged();
 				   		setImageViews();
 				   		break;
@@ -243,6 +242,7 @@ public class InventoryActivity extends BaseActivity {
 				   		}
 				   		
 				   		// Refresh list
+				   		sql.addInventory(inventory);
 				   		adapter.notifyDataSetChanged();
 				   		setImageViews();
 				   		break;   
@@ -273,5 +273,26 @@ public class InventoryActivity extends BaseActivity {
 			canvas.drawBitmap(equipmentImage, xOffset, yOffset, null);
 		}
 		return bitmap;
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		sql.addInventory(inventory);
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		sql.addInventory(inventory);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		sql.addInventory(inventory);
 	}
 }

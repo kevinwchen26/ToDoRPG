@@ -70,6 +70,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @gold - users gold
 	 */
 	public long addCharacter(ToDoCharacter character) {
+		this.getReadableDatabase().delete(Constants.TABLE_CHARACTER, null, null);
 		String name = character.getName();
 		int gold = character.getGold();
 		ContentValues values = new ContentValues();
@@ -592,10 +593,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return the int for DB position of the daily
 	 */
 	public int addInventory(Inventory inventory) {
-		
+		/*
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_EQUIP, null, null, null, null, null, null);
 		if (cursor.getCount() != 0)
+		*/
 			this.deleteInventory();
 		
 		
