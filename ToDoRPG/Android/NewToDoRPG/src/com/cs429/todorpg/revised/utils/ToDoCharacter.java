@@ -1,6 +1,6 @@
 package com.cs429.todorpg.revised.utils;
 
-public class Character {
+public class ToDoCharacter {
 	private String name;
 	private int gold;
 	private int HP;
@@ -8,7 +8,7 @@ public class Character {
 	private int DEX;
 	private int CON;
 
-	public Character(String name, int gold) {
+	public ToDoCharacter(String name, int gold) {
 		this.setName(name);
 		this.setGold(gold);
 	}
@@ -62,7 +62,7 @@ public class Character {
 	}
 
 	public boolean equals(Object o) {
-		Character other = (Character) o;
+		ToDoCharacter other = (ToDoCharacter) o;
 		return this.name.equals(other.name) && this.gold == other.gold;
 	}
 }

@@ -46,7 +46,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	/*
 	 * Gets character info 0 = _id 1 = name 2 = gold
 	 */
-	public Character getCharacter() {
+	public ToDoCharacter getCharacter() {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_CHARACTER, null, null, null, null, null, null);
 		if (cursor.getCount() == 0)
@@ -55,7 +55,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 			String name = cursor.getString(1);
 			int gold = cursor.getInt(2);
-			return new Character(name, gold);
+			return new ToDoCharacter(name, gold);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * 
 	 * @gold - users gold
 	 */
-	public long addCharacter(Character character) {
+	public long addCharacter(ToDoCharacter character) {
 		String name = character.getName();
 		int gold = character.getGold();
 		ContentValues values = new ContentValues();

@@ -2,7 +2,7 @@ package com.cs429.todorpg.revised.test;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.utils.Character;
+import com.cs429.todorpg.revised.utils.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
@@ -48,8 +48,8 @@ public class SQLiteHelperTest extends AndroidTestCase {
 	}
 
 	public void testCharacterGetAdd() {
-		Character kevin = new Character("kevin", Integer.MAX_VALUE);
-		Character loser = new Character("loser", 0);
+		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE);
+		ToDoCharacter loser = new ToDoCharacter("loser", 0);
 
 		assertNotNull(db);
 		long id = db.addCharacter(kevin);
@@ -57,7 +57,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		id = db.addCharacter(loser);
 		assertNotSame(-1, id);
 
-		Character test = db.getCharacter();
+		ToDoCharacter test = db.getCharacter();
 		assertEquals(kevin, test);
 		assertNotSame(loser, test);
 
