@@ -396,48 +396,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
 
-	/*
-	 * Inserts item into database
-	 * 
-	 * @item - The item given to character
-	 */
-	public long addItem(Item item) {
-		String name = item.getName();
-		String stat = item.getStat();
-		String pic = item.getPic();
-		int effect = item.getEffect();
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("stat", stat);
-		values.put("pic", pic);
-		values.put("effect", effect);
-		return this.getReadableDatabase().insert(Constants.TABLE_ITEMS, null,
-				values);
-	}
-
-	/*
-	 * Gets all the items a character owns 0 =_id 1=name 2=stat 3=effect 4=pic
-	 */
-	public ArrayList<Item> getItems() {
-		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_ITEMS,
-				null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			cursor.moveToFirst();
-			ArrayList<Item> items = new ArrayList<Item>();
-
-			do {
-				String name = cursor.getString(1);
-				String stat = cursor.getString(2);
-				int effect = cursor.getInt(3);
-				String pic = cursor.getString(4);
-				items.add(new Item(name, stat, effect, pic));
-			} while (cursor.moveToNext());
-			return items;
-		}
-	}
-
 	
 	/*
 	 * returns all the vices a character has 0 = _id 1= name 2= stat 3 =effect

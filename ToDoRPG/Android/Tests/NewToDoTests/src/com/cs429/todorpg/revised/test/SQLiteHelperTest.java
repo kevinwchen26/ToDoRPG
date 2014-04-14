@@ -2,10 +2,8 @@ package com.cs429.todorpg.revised.test;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.utils.Item;
 import com.cs429.todorpg.revised.utils.Character;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-import com.cs429.todorpg.revised.utils.ToDoItem;
 import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
@@ -47,29 +45,6 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(names.contains("rewards"));
 		assertTrue(names.contains("dailies"));
 		assertTrue(names.contains("habits"));
-	}
-
-	public void testItemGetAdd() {
-		Item sword = new Item("sword", "STR", +1, "sword.png");
-		Item dagger = new Item("dagger", "DEX", +1, "dagger.png");
-		Item staff = new Item("staff", "INT", +1, "staff.png");
-
-		assertNotNull(db);
-		long id = db.addItem(sword);
-		assertNotSame(-1, id);
-		id = db.addItem(sword);
-		assertEquals(-1, id);
-		id = db.addItem(dagger);
-		assertNotSame(-1, id);
-		id = db.addItem(staff);
-		assertNotSame(-1, id);
-
-		ArrayList<Item> items = db.getItems();
-		assertEquals(3, items.size());
-		assertTrue(items.contains(sword));
-		assertTrue(items.contains(dagger));
-		assertTrue(items.contains(staff));
-
 	}
 
 	public void testCharacterGetAdd() {
