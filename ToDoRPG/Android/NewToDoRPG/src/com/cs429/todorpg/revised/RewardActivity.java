@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -192,6 +193,11 @@ public class RewardActivity extends BaseActivity {
 					
 					rewards.remove(position);
 					adapter.notifyDataSetChanged();
+					edit_button.setVisibility(View.VISIBLE);
+					cancel_button.setVisibility(View.GONE);
+					save_button.setVisibility(View.GONE);
+					show_edit_field.setVisibility(View.GONE);
+
 				}
 				
 			});
@@ -296,6 +302,7 @@ public class RewardActivity extends BaseActivity {
 
 	}
 	
+	
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 		@SuppressLint("NewApi")
 		@Override
@@ -310,6 +317,9 @@ public class RewardActivity extends BaseActivity {
 				addReward(reward, 10);
 				new_reward.setText("");
 				SetAdapter();
+				InputMethodManager imm = (InputMethodManager)getSystemService(
+					      Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(new_reward.getWindowToken(), 0);
 				break;
 			
 
