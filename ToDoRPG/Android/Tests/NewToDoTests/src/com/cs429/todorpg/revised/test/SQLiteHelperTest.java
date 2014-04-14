@@ -9,6 +9,7 @@ import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.itemsystem.*;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -40,7 +41,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		} while (cursor.moveToNext());
 		assertTrue(names.contains("character"));
 		assertTrue(names.contains("vices"));
-		assertTrue(names.contains("items"));
+		assertTrue(names.contains("equip"));
 		assertTrue(names.contains("todo"));
 		assertTrue(names.contains("rewards"));
 		assertTrue(names.contains("dailies"));
@@ -205,6 +206,28 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		rewards = db.getRewards();
 		assertEquals(1, rewards.size());
 		assertTrue(rewards.contains(cake));
+	}
+	
+	public void testInventory() {
+		Inventory char_warrior = new Inventory(new Armor("A1", 1), new Helmet("H1",2 ), new Shield("S1", 3), new Weapon("W1", 4), new ArrayList<RpgItem>());
+
+		assertNotNull(db);
+		int char_warrior_id = db.addInventory(char_warrior);
+		assertNotSame(-1, char_warrior_id);
+
+		Inventory temp_char_warrior = db.getInventory();
+		assertTrue(temp_char_warrior.equals(char_warrior));
+		
+		ArrayList <RpgItem> itemlist = new ArrayList<RpgItem>();
+		itemlist.add(new Armor("A2", 5));
+		char_warrior.setInventoryItems(itemlist);
+		db.updateInventory(char_warrior);
+		temp_char_warrior = db.getInventory();
+		assertTrue(temp_char_warrior.equals(char_warrior));
+		
+		db.deleteInventory();
+		assertNull(db.getInventory());
+
 	}
 	
 	public void testVicesGetAdd() {

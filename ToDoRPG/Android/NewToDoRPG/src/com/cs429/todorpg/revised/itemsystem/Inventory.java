@@ -98,6 +98,26 @@ public class Inventory {
 		this.weapon = weapon;
 	}
 	
+	/*
+	 * Boolean methods 
+	 */
+	
+	public boolean isArmorSet() {
+		return this.armor != null;
+	}
+	
+	public boolean isHelmetSet() {
+		return this.helmet != null;
+	}
+	
+	public boolean isShieldSet() {
+		return this.shield != null;
+	}
+	
+	public boolean isWeaponSet() {
+		return this.weapon != null;
+	}
+	
 	/**
 	 * Function handles item equipping
 	 * @param item
@@ -189,5 +209,11 @@ public class Inventory {
 			canvas.drawBitmap(shieldImage, 0,0, null);
 		}
 		return bitmap;
+	}
+	public boolean equals(Object o) {
+		Inventory inventory = (Inventory) o;
+		return (this.getArmor().equals(inventory.getArmor()) && this.getHelmet().equals(inventory.getHelmet()) 
+				&& this.getShield().equals(inventory.getShield()) 
+				&& this.getWeapon().equals(inventory.getWeapon()) && this.getInventoryItems().equals(inventory.getInventoryItems()));
 	}
 }
