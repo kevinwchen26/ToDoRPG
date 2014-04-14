@@ -68,8 +68,9 @@ public class ToDoActivity extends BaseActivity {
 		}
 		ToDo todo = new ToDo(my_todo); 
 		todos.add(todo);
-		int pos = db.addToDo(todo);
-		Log.d("[TODO]", "db position: " + pos);
+		int id = db.addToDo(todo);
+		todo.setKey(id);
+		Log.d("[TODO]", "db position: " + id);
 		Toast.makeText(ToDoActivity.this, my_todo, Toast.LENGTH_SHORT).show();
 //		SetAdapter();
 		adapter = new ToDoAdapter(ToDoActivity.this, todos);
@@ -83,6 +84,15 @@ public class ToDoActivity extends BaseActivity {
 		todos = db.getToDos();
 		if(todos == null)
 			todos = new ArrayList<ToDo>();
+		else{
+			ArrayList<ToDo> list = new ArrayList<ToDo>();
+			//filter finished todo list
+			for(int i = 0; i < todos.size(); ++i){
+				if(!todos.get(i).getStatus())
+					list.add(todos.get(i));
+			}
+			todos = list;
+		}
 	}
 	
 	@Override

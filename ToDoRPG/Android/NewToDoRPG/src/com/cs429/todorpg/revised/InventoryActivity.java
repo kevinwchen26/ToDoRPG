@@ -25,10 +25,10 @@ import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
 
 public class InventoryActivity extends BaseActivity {
-	// Equipment
+	// Equipment Temporaryily public
 	ItemListAdapter adapter;
 	Avatar avatar;
-	Inventory inventory;
+	public Inventory inventory;
 	
 	ImageView display_image;
 	ImageView helmet_image;
@@ -42,49 +42,14 @@ public class InventoryActivity extends BaseActivity {
 	private final int SHIELD = 2;
 	private final int ARMOR = 3;
 	
+	/**
+	 * Requirements: Inventory must not be null.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.inventory_activity);
 		setHeader(R.id.header);
-		
-		helmet_image = (ImageView) findViewById(R.id.inventory_helmet);
-		weapon_image = (ImageView) findViewById(R.id.inventory_weapon);
-		display_image = (ImageView) findViewById(R.id.inventory_character_display);
-		shield_image = (ImageView) findViewById(R.id.inventory_shield);
-		armor_image = (ImageView) findViewById(R.id.inventory_armor);
-		
-		helmet_image.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showEquipmentDialog(v, HELMET);
-			}
-		});
-		
-		weapon_image.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showEquipmentDialog(v, WEAPON);
-			}
-		});
-		
-		shield_image.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showEquipmentDialog(v, SHIELD);
-			}
-		});
-		
-		armor_image.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showEquipmentDialog(v, ARMOR);
-			}
-		});
 		
 		/* 
 		   INITIALIZE CODE, TEMPORARY. THIS SHOULD BE DONE
@@ -108,6 +73,48 @@ public class InventoryActivity extends BaseActivity {
 		image.setImageBitmap(avatar.getBitmap(inventory.getBitmap()));
 		
 		/* END INITIALIZATION CODE */
+
+		helmet_image = (ImageView) findViewById(R.id.inventory_helmet);
+		weapon_image = (ImageView) findViewById(R.id.inventory_weapon);
+		display_image = (ImageView) findViewById(R.id.inventory_character_display);
+		shield_image = (ImageView) findViewById(R.id.inventory_shield);
+		armor_image = (ImageView) findViewById(R.id.inventory_armor);
+		
+		helmet_image.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (inventory.isHelmetSet())
+					showEquipmentDialog(v, HELMET);
+			}
+		});
+		
+		weapon_image.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (inventory.isWeaponSet())
+					showEquipmentDialog(v, WEAPON);
+			}
+		});
+		
+		shield_image.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (inventory.isShieldSet())
+					showEquipmentDialog(v, SHIELD);
+			}
+		});
+		
+		armor_image.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (inventory.isArmorSet())
+					showEquipmentDialog(v, ARMOR);
+			}
+		});
 		
 		setImageViews();
 		
@@ -148,9 +155,14 @@ public class InventoryActivity extends BaseActivity {
 				   		// Equip item
 				   		inventory.equipItem(position);
 				   		// Refresh list 
-				   		adapter.notifyDataSetChanged();
+				   		
+				   		InventoryActivity.this.runOnUiThread(new Runnable() {
+				   			public void run() {
+				   				adapter.notifyDataSetChanged();
+				   			}
+				   		});
+				   		
 				   		setImageViews();
-
 				   		break;
 					   
 				   	   case R.id.inventory_menu_discard:
@@ -208,7 +220,7 @@ public class InventoryActivity extends BaseActivity {
 				   		setImageViews();
 				   		break;
 					   
-				   	   case R.id.inventory_menu_discard:
+				   	   case R.id.equipment_menu_discard:
 				   		Toast.makeText(InventoryActivity.this,
 					    		"Item discarded",
 					      Toast.LENGTH_LONG).show();
