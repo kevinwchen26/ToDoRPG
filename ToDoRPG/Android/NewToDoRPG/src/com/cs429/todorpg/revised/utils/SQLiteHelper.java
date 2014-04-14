@@ -6,9 +6,11 @@ import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.itemsystem.*;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ClipData.Item;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -33,7 +35,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.DAILIES_TABLE_CREATE);
 		db.execSQL(Constants.DAILIESWEEK_TABLE_CREATE);
 		db.execSQL(Constants.VICES_TABLE_CREATE);
-		db.execSQL(Constants.ITEMS_TABLE_CREATE);
+		db.execSQL(Constants.EQUIP_TABLE_CREATE);
+		db.execSQL(Constants.INVENTORY_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
 		db.execSQL(Constants.HABITS_TABLE_CREATE);
 	}
@@ -546,6 +549,210 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("extra", reward.getExtra());
 		values.put("cost", reward.getCost());
 		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
+	}
+	
+	/**
+	 * getDailies() - returns a list of dailies for the character
+	 * @return Arraylist of all dailies
+	 */
+	public Inventory getInventory() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIP, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			cursor.moveToFirst();
+			int primary_key = cursor.getInt(0);
+			String armorname = cursor.getString(1);
+			int armorresid = cursor.getInt(2);
+			String helmetname = cursor.getString(3);
+			int helmetresid = cursor.getInt(4);
+			String shieldname = cursor.getString(5);
+			int shieldresid = cursor.getInt(6);
+			String weaponname = cursor.getString(7);
+			int weaponresid = cursor.getInt(8);
+			ArrayList <RpgItem> unused = this.getUnused();
+			Armor temparmor = null; Helmet temphelmet = null; Shield tempshield = null; Weapon tempweapon = null;
+			if(armorname != null)
+				temparmor = new Armor(armorname, armorresid);
+			if(helmetname != null)
+				temphelmet= new Helmet(helmetname, helmetresid);
+			if(shieldname != null)
+				tempshield = new Shield (shieldname, shieldresid);
+			if(weaponname != null)
+				tempweapon = new Weapon(weaponname, weaponresid);
+			Inventory tempinventory = new Inventory(temparmor, temphelmet, tempshield, tempweapon, unused);
+			return tempinventory;
+		}
+	}
+
+	/**
+	 * addDailies() - adds a daily for the character
+	 * @param daily
+	 * @return the int for DB position of the daily
+	 */
+	public int addInventory(Inventory inventory) {
+		
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIP, null, null, null, null, null, null);
+		if (cursor.getCount() != 0)
+			this.deleteInventory();
+		
+		
+		String armorname; Integer armorresid;
+		if(inventory.getArmor() == null)
+		{
+			armorname = null;
+			armorresid = null;
+		}
+		else
+		{
+			armorname = inventory.getArmor().getName();
+			armorresid = inventory.getArmor().getResId();
+		}
+		String helmetname; Integer helmetresid;
+		if(inventory.getHelmet() == null)
+		{
+			helmetname = null;
+			helmetresid = null;
+		}
+		else
+		{
+			helmetname = inventory.getHelmet().getName();
+			helmetresid = inventory.getHelmet().getResId();
+		}
+		String shieldname; Integer shieldresid;
+		if(inventory.getShield() == null)
+		{
+			shieldname = null;
+			shieldresid = null;
+		}
+		else
+		{
+			shieldname = inventory.getShield().getName();
+			shieldresid = inventory.getShield().getResId();
+		}
+		String weaponname; Integer weaponresid;
+		if(inventory.getWeapon() == null)
+		{
+			weaponname = null;
+			weaponresid = null;
+		}
+		else
+		{
+			weaponname = inventory.getWeapon().getName();
+			weaponresid = inventory.getWeapon().getResId();
+		}
+		this.addUnused(inventory.getInventoryItems());
+		ContentValues values = new ContentValues();
+		values.put("armorname", armorname);
+		values.put("armorresid", armorresid);
+		values.put("helmetname", helmetname);
+		values.put("helmetresid", helmetresid);
+		values.put("shieldname", shieldname);
+		values.put("shieldresid", shieldresid);
+		values.put("weaponname", weaponname);
+		values.put("weaponresid", weaponresid);
+		return (int)(this.getReadableDatabase().insert(Constants.TABLE_EQUIP, null, values));
+	}
+	
+	/**
+	 * deleteDaily() - deletes the Daily from the database
+	 * @param daily
+	 * @return true if daily has been successfully deleted, else false
+	 */
+	public void deleteInventory() {
+		this.deleteUnused();
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIP, null, null);
+	}
+	
+	/**
+	 * updateHabit() - updates the Daily in the database
+	 * @param daily
+	 * @return true if successfully updated, false otherwise
+	 */
+	public void updateInventory(Inventory inventory) {
+		this.deleteUnused();
+		this.deleteInventory();
+		this.addInventory(inventory);
+	}
+	
+	/**
+	 * getDailiesWeek() - returns a list of dailies for the character
+	 * @return Arraylist of all dailiesweek
+	 */
+	private ArrayList<RpgItem> getUnused() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_INVENTORY, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<RpgItem> inventory = new ArrayList<RpgItem>();
+			cursor.moveToFirst();
+			do {
+				int primary_key = cursor.getInt(0);
+				String name = cursor.getString(1);
+				int resid = cursor.getInt(2);
+				int type = cursor.getInt(3);
+				RpgItem tempitem = null;
+				if(type == 1)
+					tempitem = new Armor(name, resid);
+				if(type == 2)
+					tempitem = new Helmet(name, resid);
+				if(type == 3)
+					tempitem = new Shield(name, resid);
+				if(type == 4)
+					tempitem = new Weapon(name, resid);
+				inventory.add(tempitem);
+			} while (cursor.moveToNext());
+			return inventory;
+		}
+	}
+
+	/**
+	 * addDailiesWeek() - adds a dailyweek for the character
+	 * @param seven bools
+	 * @return the int for DB position of the dailyweek
+	 */
+	private void addUnused(ArrayList<RpgItem> inventoryItems) {
+		for(int counter = 0; counter < inventoryItems.size(); counter ++)
+		{
+			RpgItem item = inventoryItems.get(counter);
+			int type = 0;
+			if(item instanceof Armor)
+				type = 1;
+			if(item instanceof Helmet)
+				type = 2;
+			if(item instanceof Shield)
+				type = 3;
+			if(item instanceof Weapon)
+				type = 4;
+			ContentValues values = new ContentValues();
+			values.put("name", item.getName());
+			values.put("resid", item.getResId());
+			values.put("type", type);
+			this.getReadableDatabase().insert(Constants.TABLE_INVENTORY, null, values);
+				
+		}
+	}
+	
+	/**
+	 * deleteDaily() - deletes the Daily from the database
+	 * @param daily
+	 * @return true if daily has been successfully deleted, else false
+	 */
+	private void deleteUnused() {
+		this.getReadableDatabase().delete(Constants.TABLE_INVENTORY, null, null);
+	}
+	
+	/**
+	 * updateHabit() - updates the Daily in the database
+	 * @param daily
+	 * @return true if successfully updated, false otherwise
+	 */
+	private void updateUnused(ArrayList <RpgItem> inventory) {
+		this.deleteUnused();
+		this.addUnused(inventory);
 	}
 
 	
