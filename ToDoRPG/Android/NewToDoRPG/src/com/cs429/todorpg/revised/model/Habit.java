@@ -69,7 +69,8 @@ public class Habit {
 		Habit habit = (Habit) o;
 		return (this.primary_key == habit.getKey()
 				&& this.my_habit.equals(habit.getHabit()) && this.extra
-					.equals(habit.getExtra()) && this.progress == habit.getProgress());
+					.equals(habit.getExtra()) && this.progress == habit.getProgress()
+					&& this.getCharacteristic().equals(habit.getCharacteristic()) && this.getDifficulty() == habit.getDifficulty());
 	}
 
 	public void setProgress(int progress){

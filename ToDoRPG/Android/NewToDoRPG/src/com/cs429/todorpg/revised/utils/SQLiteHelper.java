@@ -12,6 +12,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * @author Leon Chen
@@ -90,7 +91,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int primary_key = cursor.getInt(0);
 				String my_todo = cursor.getString(1);
 				String extra = cursor.getString(2);
-				int finished = cursor.getInt(3);
+				int due_month = cursor.getInt(3);
+				int due_date = cursor.getInt(4);
+				int due_hour = cursor.getInt(5);
+				int due_min = cursor.getInt(6);
+				int difficulty = cursor.getInt(7);
+				int finished = cursor.getInt(8);
 				ToDo temp = new ToDo(my_todo, extra, primary_key);
 				if (finished == 1)
 					temp.setFinish();
@@ -108,6 +114,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public int addToDo(ToDo todo) {
 		String my_todo = todo.getToDo();
 		String extra = todo.getExtra();
+		int [] temp_due_date = todo.getDueDate();
+		int due_month = temp_due_date[0];
+		int due_date = temp_due_date[1];
+		int due_hour = temp_due_date[2];
+		int due_min = temp_due_date[3];
+		int difficulty = todo.getDifficulty();
 		boolean bfinished = todo.getStatus();
 		int finished;
 		if(bfinished)
@@ -117,6 +129,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put("my_todo", my_todo);
 		values.put("extra", extra);
+		values.put("due_month", due_month);
+		values.put("due_date", due_date);
+		values.put("due_hour", due_hour);
+		values.put("due_min", due_min);
+		values.put("difficulty", difficulty);
 		values.put("finished", finished);
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_TODO, null,
 				values));
@@ -139,8 +156,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean updateToDo(ToDo todo) {
 		ContentValues values = new ContentValues();
+		int [] temp_due_date = todo.getDueDate();
+		int due_month = temp_due_date[0];
+		int due_date = temp_due_date[1];
+		int due_hour = temp_due_date[2];
+		int due_min = temp_due_date[3];
 		values.put("my_todo", todo.getToDo());
 		values.put("extra", todo.getExtra());
+		values.put("due_month", due_month);
+		values.put("due_date", due_date);
+		values.put("due_hour", due_hour);
+		values.put("due_min", due_min);
+		values.put("difficulty", todo.getDifficulty());
 		boolean bfinished = todo.getStatus();
 		int finished;
 		if (bfinished)
@@ -244,11 +271,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
-				String my_habit = cursor.getString(1);
+				String title = cursor.getString(1);
 				String extra = cursor.getString(2);
-				int progress = cursor.getInt(3);
-				Habit temp = new Habit(my_habit, extra, primary_key);
+				String characteristic = cursor.getString(3);
+				int difficulty = cursor.getInt(4);
+				int progress = cursor.getInt(5);
+				Habit temp = new Habit(title, extra, primary_key);
 				temp.setProgress(progress);
+				temp.setCharacteristic(characteristic);
+				temp.setDifficulty(difficulty);
 				habits.add(temp);
 			} while (cursor.moveToNext());
 			return habits;
@@ -261,12 +292,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return the int for DB position of the habit
 	 */
 	public int addHabit(Habit habit) {
-		String my_habit = habit.getHabit();
+		String title = habit.getHabit();
 		String extra = habit.getExtra();
+		String characteristic = habit.getCharacteristic();
+		int difficulty = habit.getDifficulty();
 		int progress = habit.getProgress();
+		
 		ContentValues values = new ContentValues();
-		values.put("my_habit", my_habit);
+		values.put("title", title);
 		values.put("extra", extra);
+		values.put("characteristic", characteristic);
+		values.put("difficulty", difficulty);
 		values.put("progress", progress);
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
 				values));
@@ -289,8 +325,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean updateHabit(Habit habit) {
 		ContentValues values = new ContentValues();
-		values.put("my_habit", habit.getHabit());
+		values.put("title", habit.getHabit());
 		values.put("extra", habit.getExtra());
+		values.put("characteristic", habit.getCharacteristic());
+		values.put("difficulty", habit.getDifficulty());
 		values.put("progress", habit.getProgress());
 		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
 	}

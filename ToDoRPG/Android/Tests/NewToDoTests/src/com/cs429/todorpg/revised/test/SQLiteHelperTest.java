@@ -110,10 +110,13 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		
 		cake.setFinish();
 		assertTrue(db.updateToDo(cake));
+		anime.setDueDate(5, 5, 5, 5);
 		todos = db.getToDos();
 		assertEquals(2, todos.size());
 		assertTrue(todos.contains(cake));
-		assertTrue(todos.contains(anime));
+		assertFalse(todos.contains(anime));
+		
+		assertTrue(db.updateToDo(anime));
 		
 		assertTrue(db.deleteToDo(anime));
 		todos = db.getToDos();
@@ -177,11 +180,14 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(habits.contains(anime));
 		
 		cake.setProgress(10);
+		anime.setDifficulty(2);
 		assertTrue(db.updateHabit(cake));
 		habits = db.getHabits();
 		assertEquals(2, habits.size());
 		assertTrue(habits.contains(cake));
-		assertTrue(habits.contains(anime));
+		assertFalse(habits.contains(anime));
+		
+		assertTrue(db.updateHabit(anime));
 		
 		assertTrue(db.deleteHabit(anime));
 		habits = db.getHabits();

@@ -21,12 +21,11 @@ public class Constants {
 	static String TABLE_VICES = "vices"; // Table for vices:
 											// (_id,name,stat,effect)
 	static String TABLE_TODO = "todo"; // Table for ToDo list items:
-										// (_id,name,extra,finished)
+										// (_id,name,extra,due_month,due_date,due_hour,due_min,difficulty,finished)
 	static String TABLE_ITEMS = "items"; // Table for
 											// items;(_id,name,stat,effect,pic)
 	static String TABLE_HABITS = "habits"; // Table for
-									// habits;(_id,my_habit,extra,progress);
-
+									// habits;(_id,title,extra,characteristic,difficulty,progress);
 	/*
 	 * Column Names
 	 */
@@ -43,6 +42,6 @@ public class Constants {
 	static final String DAILIES_TABLE_CREATE = "create table dailies(_id integer primary key autoincrement, my_daily text not null unique, extra text not null, finished int not null)";
 	static final String VICES_TABLE_CREATE = "create table vices(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null)";
 	static final String ITEMS_TABLE_CREATE = "create table items(_id integer primary key autoincrement,name text not null unique, stat text not null, effect int not null, pic text not null)";
-	static final String TODO_TABLE_CREATE = "create table todo(_id integer primary key autoincrement, my_todo text not null unique, extra text not null, finished int not null)";
-	static final String HABITS_TABLE_CREATE = "create table habits(_id integer primary key autoincrement, my_habit text not null unique, extra text not null, progress int not null)";
+	static final String TODO_TABLE_CREATE = "create table todo(_id integer primary key autoincrement, my_todo text not null unique, extra text not null, due_month int not null, due_date int not null, due_hour int not null, due_min int not null, difficulty int not null, finished int not null)";
+	static final String HABITS_TABLE_CREATE = "create table habits(_id integer primary key autoincrement, title text not null unique, extra text not null, characteristic text not null, difficulty int not null, progress int not null)";
 }

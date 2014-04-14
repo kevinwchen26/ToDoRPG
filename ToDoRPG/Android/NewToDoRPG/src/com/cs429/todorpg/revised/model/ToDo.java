@@ -72,7 +72,9 @@ public class ToDo extends Quest {
 		ToDo todo = (ToDo) o;
 		return (this.primary_key == todo.getKey()
 				&& this.my_todo.equals(todo.getToDo()) && this.extra
-					.equals(todo.getExtra()) && this.finished == todo.getStatus());
+					.equals(todo.getExtra()) && this.getStatus() == todo.getStatus() && this.getDifficulty() == todo.getDifficulty()
+					&& this.getDueDate()[0] == todo.getDueDate()[0] && this.getDueDate()[1] == todo.getDueDate()[1] 
+							&& this.getDueDate()[2] == todo.getDueDate()[2] && this.getDueDate()[3] == todo.getDueDate()[3] );
 	}
 }
 
