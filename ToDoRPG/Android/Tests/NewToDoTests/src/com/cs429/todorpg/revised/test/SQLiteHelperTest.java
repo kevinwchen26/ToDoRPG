@@ -2,13 +2,15 @@ package com.cs429.todorpg.revised.test;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.utils.ToDoCharacter;
+
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
+
 import com.cs429.todorpg.revised.itemsystem.*;
 
 import android.database.Cursor;
@@ -48,19 +50,23 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(names.contains("habits"));
 	}
 
-	public void testCharacterGetAdd() {
+	public void testCharacter() {
 		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE);
 		ToDoCharacter loser = new ToDoCharacter("loser", 0);
 
 		assertNotNull(db);
-		long id = db.addCharacter(kevin);
-		assertNotSame(-1, id);
-		id = db.addCharacter(loser);
-		assertNotSame(-1, id);
-
+		db.addCharacter(kevin);
 		ToDoCharacter test = db.getCharacter();
 		assertEquals(kevin, test);
-		assertNotSame(loser, test);
+		
+		db.addCharacter(loser);
+		test = db.getCharacter();
+		assertEquals(loser, test);
+
+		db.updateCharacter(kevin);
+		test = db.getCharacter();
+		assertEquals(kevin, test);
+		
 
 	}
 	

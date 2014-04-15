@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-import com.cs429.todorpg.revised.utils.ToDoCharacter;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 
 public class MainActivity extends BaseActivity {
 

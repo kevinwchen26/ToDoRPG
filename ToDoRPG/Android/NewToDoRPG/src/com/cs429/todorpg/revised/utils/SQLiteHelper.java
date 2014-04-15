@@ -6,6 +6,7 @@ import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.itemsystem.*;
 
 import android.content.ContentValues;
@@ -70,6 +71,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @gold - users gold
 	 */
 	public long addCharacter(ToDoCharacter character) {
+		this.deleteCharacter();
 		String name = character.getName();
 		int gold = character.getGold();
 		ContentValues values = new ContentValues();
@@ -78,6 +80,29 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
 				null, values);
 	}
+	
+	/*
+	 * inserts users character into database
+	 * 
+	 * @name - characters name
+	 * 
+	 * @gold - users gold
+	 */
+	private void deleteCharacter() {
+		this.getReadableDatabase().delete(Constants.TABLE_CHARACTER, null, null);
+	}
+	
+	/*
+	 * inserts users character into database
+	 * 
+	 * @name - characters name
+	 * 
+	 * @gold - users gold
+	 */
+	public void updateCharacter(ToDoCharacter ch) {
+		this.addCharacter(ch);
+	}
+	
 	
 	/**
 	 * getToDos() - returns a list of ToDos for the character
@@ -592,11 +617,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return the int for DB position of the daily
 	 */
 	public int addInventory(Inventory inventory) {
-		
-		Cursor cursor = this.getReadableDatabase().query(
-				Constants.TABLE_EQUIP, null, null, null, null, null, null);
-		if (cursor.getCount() != 0)
-			this.deleteInventory();
+		this.deleteInventory();
 		
 		
 		String armorname; Integer armorresid;
@@ -672,8 +693,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if successfully updated, false otherwise
 	 */
 	public void updateInventory(Inventory inventory) {
-		this.deleteUnused();
-		this.deleteInventory();
 		this.addInventory(inventory);
 	}
 	
