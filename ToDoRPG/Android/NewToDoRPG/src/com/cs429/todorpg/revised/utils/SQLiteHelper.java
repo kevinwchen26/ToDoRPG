@@ -2,9 +2,11 @@ package com.cs429.todorpg.revised.utils;
 
 import java.util.ArrayList;
 
+import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.itemsystem.*;
@@ -40,6 +42,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.INVENTORY_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
 		db.execSQL(Constants.HABITS_TABLE_CREATE);
+		db.execSQL(Constants.STAT_TABLE_CREATE);
+		db.execSQL(Constants.LOG_TABLE_CREATE);
 	}
 
 	@Override
@@ -552,6 +556,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return rewards;
 		}
 	}
+	
 
 	/**
 	 * addReward() - adds a reward to the database
@@ -828,6 +833,72 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("effect", effect);
 		return this.getReadableDatabase().insert(Constants.TABLE_VICES, null,
 				values);
+	}
+	
+	
+	public int addStat(Stat stat){
+		String name = stat.getName();
+		int count = stat.getCount();
+		ContentValues values = new ContentValues();
+		values.put("name",name);
+		values.put("count", count);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_STAT, null,
+				values));
+	}
+	
+	public boolean updateStat(Stat stat){
+		String name = stat.getName();
+		int count = stat.getCount();
+		ContentValues values = new ContentValues();
+		values.put("name",name);
+		values.put("count", count);
+		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + stat.getId() + "'", null) > 0;
+	}
+	
+	public ArrayList<Stat> getStats(){
+		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_STAT,
+				null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<Stat> stats = new ArrayList<Stat>;
+			cursor.moveToFirst();
+			do {
+				int id = cursor.getString(0);
+				String name = cursor.getString(1);
+				int count = cursor.getInt(2);
+				stats.add(new Stat(id, name, count));
+			} while (cursor.moveToNext());
+			return stats;
+		}
+	}
+	
+	public int addLogItem(LogItem item){
+		String text = item.getText();
+		String date = item.getDate_time();
+		ContentValues values = new ContentValues();
+		values.put("content", text);
+		values.put("date", date);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_LOG, null,
+				values));
+	}
+	
+	public ArrayList<LogItem> getLog(){
+		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_LOG,
+				null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<LogItem> log = new ArrayList<LogItem>;
+			cursor.moveToFirst();
+			do {
+				int id = cursor.getString(0);
+				String content = cursor.getString(1);
+				String date = cursor.getString(2);
+				log.add(new LogItem(id, content, date));
+			} while (cursor.moveToNext());
+			return log;
+		}
 	}
 	
 	private boolean getBool(int tempint){
