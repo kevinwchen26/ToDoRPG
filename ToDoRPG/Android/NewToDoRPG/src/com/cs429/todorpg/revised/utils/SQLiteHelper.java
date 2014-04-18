@@ -59,7 +59,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 			String name = cursor.getString(1);
 			int gold = cursor.getInt(2);
-			return new ToDoCharacter(name, gold);
+			int HP = cursor.getInt(3);
+			int level = cursor.getInt(4);
+			int currexp = cursor.getInt(5);
+			int nextexp = cursor.getInt(6);
+			ToDoCharacter tempchar = new ToDoCharacter(name, gold);
+			tempchar.setHP(HP);
+			tempchar.setLevel(level);
+			tempchar.setCurrExp(currexp);
+			tempchar.setNextExp(nextexp);
+			return tempchar;
 		}
 	}
 
@@ -74,9 +83,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		this.deleteCharacter();
 		String name = character.getName();
 		int gold = character.getGold();
+		int HP = character.getHP();
+		int level = character.getLevel();
+		int currExp = character.getCurrExp();
+		int nextExp = character.getNextExp();
 		ContentValues values = new ContentValues();
 		values.put("name", name);
 		values.put("gold", gold);
+		values.put("HP", HP);
+		values.put("level", level);
+		values.put("currExp", currExp);
+		values.put("nextExp", nextExp);
 		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
 				null, values);
 	}

@@ -62,6 +62,11 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		db.addCharacter(loser);
 		test = db.getCharacter();
 		assertEquals(loser, test);
+		
+		kevin.setHP(50);
+		kevin.setLevel(2);
+		kevin.setCurrExp(30);
+		kevin.setNextExp(100);
 
 		db.updateCharacter(kevin);
 		test = db.getCharacter();
