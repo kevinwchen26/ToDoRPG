@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.cs429.todorpg.revised.controller.ToDoAdapter;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class StatusActivity extends BaseActivity {
@@ -16,6 +17,7 @@ public class StatusActivity extends BaseActivity {
 	private ListView completed_quest_list;
 	private SQLiteHelper db;
 	private ArrayList<ToDo> todos;
+	private ToDoCharacter character;
 	private ToDoAdapter adapter;
 	int completed_quest_count;
 
@@ -28,7 +30,8 @@ public class StatusActivity extends BaseActivity {
 		setHeader(R.id.header);
 		db = new SQLiteHelper(getBaseContext());
 		FindViewById();
-		GetStatus();
+		GetCharacterInfo();
+		GetToDos();
 		SetAdapter();
 
 	}
@@ -42,8 +45,20 @@ public class StatusActivity extends BaseActivity {
 		total_battles = (TextView) findViewById(R.id.total_battles);
 		completed_quest_list = (ListView) findViewById(R.id.completed_quest_list);
 	}
+	
+	private void GetCharacterInfo() {
+		character = db.getCharacter();
+		if(character == null) {
+			return;
+		}
+		current_level.setText(Integer.toString(character.getLevel()));
+		current_hp.setText(Integer.toString(character.getHP()));
+		current_exp.setText(Integer.toString(character.getCurrExp()));
+		current_money.setText(Integer.toString(character.getGold()));
+		
+	}
 
-	private void GetStatus() {
+	private void GetToDos() {
 		todos = db.getToDos();
 		if (todos == null)
 			todos = new ArrayList<ToDo>();

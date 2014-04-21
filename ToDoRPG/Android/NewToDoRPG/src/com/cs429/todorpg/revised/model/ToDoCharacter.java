@@ -13,16 +13,16 @@ public class ToDoCharacter{
 	private int gold;
 	private int HP;
 	private int level;
-	private int currentExp;
-	private int nextExp;
+	private int currentEXP;
+	private int nextEXP;
 	
-	public ToDoCharacter(String name, int gold) {
+	public ToDoCharacter(String name, int gold, int HP, int level, int currentEXP, int nextEXP) {
 		this.name = name;
 		this.gold = gold;
-		this.HP = 20;
-		this.level = 1;
-		this.currentExp = 0;
-		this.nextExp = 50;
+		this.HP = HP;
+		this.level = level;
+		this.currentEXP = currentEXP;
+		this.nextEXP = nextEXP;
 	}
 
 	public int getGold() {
@@ -58,19 +58,19 @@ public class ToDoCharacter{
 	}
 	
 	public int getCurrExp(){
-		return currentExp;
+		return currentEXP;
 	}
 	
 	public void setCurrExp(int currExp){
-		this.currentExp = currExp;
+		this.currentEXP = currExp;
 	}
 	
 	public int getNextExp(){
-		return nextExp;
+		return nextEXP;
 	}
 	
 	public void setNextExp(int nextExp){
-		this.nextExp = nextExp;
+		this.nextEXP = nextExp;
 	}
 	
 	public boolean equals(Object o) {

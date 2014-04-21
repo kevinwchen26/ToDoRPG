@@ -67,7 +67,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			int level = cursor.getInt(4);
 			int currexp = cursor.getInt(5);
 			int nextexp = cursor.getInt(6);
-			ToDoCharacter tempchar = new ToDoCharacter(name, gold);
+			ToDoCharacter tempchar = new ToDoCharacter(name, gold, HP, level, currexp, nextexp);
 			tempchar.setHP(HP);
 			tempchar.setLevel(level);
 			tempchar.setCurrExp(currexp);
