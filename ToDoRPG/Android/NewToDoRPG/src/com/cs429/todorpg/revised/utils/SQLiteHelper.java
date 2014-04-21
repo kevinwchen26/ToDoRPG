@@ -861,10 +861,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		if (cursor.getCount() == 0)
 			return null;
 		else {
-			ArrayList<Stat> stats = new ArrayList<Stat>;
+			ArrayList<Stat> stats = new ArrayList<Stat>();
 			cursor.moveToFirst();
 			do {
-				int id = cursor.getString(0);
+				int id = cursor.getInt(0);
 				String name = cursor.getString(1);
 				int count = cursor.getInt(2);
 				stats.add(new Stat(id, name, count));
@@ -874,7 +874,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	public int addLogItem(LogItem item){
-		String text = item.getText();
+		String text = item.getContent();
 		String date = item.getDate_time();
 		ContentValues values = new ContentValues();
 		values.put("content", text);
@@ -889,10 +889,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		if (cursor.getCount() == 0)
 			return null;
 		else {
-			ArrayList<LogItem> log = new ArrayList<LogItem>;
+			ArrayList<LogItem> log = new ArrayList<LogItem>();
 			cursor.moveToFirst();
 			do {
-				int id = cursor.getString(0);
+				int id = cursor.getInt(0);
 				String content = cursor.getString(1);
 				String date = cursor.getString(2);
 				log.add(new LogItem(id, content, date));
