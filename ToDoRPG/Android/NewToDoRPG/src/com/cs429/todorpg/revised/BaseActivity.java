@@ -27,7 +27,7 @@ abstract class BaseActivity extends Activity {
 	Intent intent;
 	ActionBar actionbar;
 	TextView hp, exp;
-
+	PopupMenu popup;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,12 +67,12 @@ abstract class BaseActivity extends Activity {
 			finish();
 			return true;
 			*/
-			PopupMenu charcater_popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.character_status));
-			charcater_popup.getMenuInflater().inflate(R.menu.character_menu, charcater_popup.getMenu());
-			charcater_popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.character_status));
+			popup.getMenuInflater().inflate(R.menu.character_menu, popup.getMenu());
+			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
-					if (item.getTitle().equals("Stats")) {
-						Intent intent = new Intent(BaseActivity.this, StatsActivity.class);
+					if (item.getTitle().equals("Status")) {
+						Intent intent = new Intent(BaseActivity.this, StatusActivity.class);
 						startActivity(intent);
 						finish();
 					} else if (item.getTitle().equals("Inventory")) {
@@ -83,34 +83,30 @@ abstract class BaseActivity extends Activity {
 					return true;
 				}
 			});
-			charcater_popup.show();
+			popup.show();
 			return true;
 			
 
-		case R.id.inventory:
+	/*	case R.id.inventory:
 			intent = new Intent(BaseActivity.this, InventoryActivity.class);
 			startActivity(intent);
 			finish();
-			return true;
+			return true;*/
 
 		case R.id.quests:
-			PopupMenu popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.quests));
+			popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.quests));
 			popup.getMenuInflater().inflate(R.menu.quest_menu, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
 					if (item.getTitle().equals("Habits")) {
-						Intent intent = new Intent(BaseActivity.this, HabitActivity.class);
-						startActivity(intent);
-						finish();
+						intent = new Intent(BaseActivity.this, HabitActivity.class);
 					} else if (item.getTitle().equals("Dailies")) {
-						Intent intent = new Intent(BaseActivity.this, DailyActivity.class);
-						startActivity(intent);
-						finish();
+						intent = new Intent(BaseActivity.this, DailyActivity.class);
 					} else if (item.getTitle().equals("To-Dos")) {
-						Intent intent = new Intent(BaseActivity.this, ToDoActivity.class);
-						startActivity(intent);
-						finish();
+						intent = new Intent(BaseActivity.this, ToDoActivity.class);
 					}
+					startActivity(intent);
+					finish();
 					return true;
 				}
 			});
@@ -118,11 +114,22 @@ abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.rewards:
-			intent = new Intent(BaseActivity.this, RewardActivity.class);
-			startActivity(intent);
-			finish();
+			popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.quests));
+			popup.getMenuInflater().inflate(R.menu.reward_shop, popup.getMenu());
+			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+				public boolean onMenuItemClick(MenuItem item) {
+					if (item.getTitle().equals("Rewards")) {
+						intent = new Intent(BaseActivity.this, RewardActivity.class);
+					} else if (item.getTitle().equals("Shop")) {
+						intent = new Intent(BaseActivity.this, ShopActivity.class);
+					} 
+					startActivity(intent);
+					finish();
+					return true;
+				}
+			});
+			popup.show();
 			return true;
-
 		default:
 			return super.onOptionsItemSelected(item);
 		}

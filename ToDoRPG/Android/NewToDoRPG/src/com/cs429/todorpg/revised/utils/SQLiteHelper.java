@@ -101,7 +101,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
 				null, values);
 	}
-	
+
 	/*
 	 * inserts users character into database
 	 * 
@@ -112,7 +112,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private void deleteCharacter() {
 		this.getReadableDatabase().delete(Constants.TABLE_CHARACTER, null, null);
 	}
-	
+
 	/*
 	 * inserts users character into database
 	 * 
@@ -123,8 +123,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void updateCharacter(ToDoCharacter ch) {
 		this.addCharacter(ch);
 	}
-	
-	
+
+
 	/**
 	 * getToDos() - returns a list of ToDos for the character
 	 * @return Arraylist of all ToDos
@@ -148,10 +148,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int difficulty = cursor.getInt(7);
 				int finished = cursor.getInt(8);
 				ToDo temp = new ToDo(my_todo, extra, primary_key);
-				
+
 				temp.setDueDate(due_month, due_date, due_hour, due_min);
 				temp.setDifficulty(difficulty);
-				
+
 				if (finished == 1)
 					temp.setFinish();
 				todos.add(temp);
@@ -189,13 +189,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("due_min", due_min);
 		values.put("difficulty", difficulty);
 		values.put("finished", finished);
-		
+
 		Log.d("[DB]", "addToDo()");
-		
+
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_TODO, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteToDo() - deletes the ToDo from the database
 	 * @param todo
@@ -203,11 +203,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean deleteToDo(ToDo todo) {
 		Log.d("[DB]", "deleteToDo()");
-		
+
 		return this.getReadableDatabase().delete(Constants.TABLE_TODO, 
 				"_id='" + todo.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateToDo() - updates the ToDo in the database
 	 * @param todo
@@ -234,13 +234,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		else 
 			finished = 0;
 		values.put("finished", finished);
-		
+
 		Log.d("[DB]", "updateToDo()");
-		
+
 		return this.getReadableDatabase().update(Constants.TABLE_TODO, values, "_id='" + todo.getKey() + "'", null) > 0;
 	}
-	
-	
+
+
 	/**
 	 * getDailies() - returns a list of dailies for the character
 	 * @return Arraylist of all dailies
@@ -312,7 +312,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		Log.d("Weekid", "" + weekid);
 		return result;
 	}
-	
+
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -325,7 +325,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_DAILIES, 
 				"_id='" + daily.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -350,7 +350,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return false;
 		return this.getReadableDatabase().update(Constants.TABLE_DAILIES, values, "_id='" + daily.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * getDailiesWeek() - returns a list of dailies for the character
 	 * @return Arraylist of all dailiesweek
@@ -415,7 +415,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_DAILIESWEEK, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -425,7 +425,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_DAILIESWEEK, 
 				"_id='" + weekid + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -490,20 +490,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		String characteristic = habit.getCharacteristic();
 		int difficulty = habit.getDifficulty();
 		int progress = habit.getProgress();
-		
+
 		ContentValues values = new ContentValues();
 		values.put("title", title);
 		values.put("extra", extra);
 		values.put("characteristic", characteristic);
 		values.put("difficulty", difficulty);
 		values.put("progress", progress);
-		
+
 		Log.d("[DB]", "addHabit()");
-		
+
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteHabit() - deletes the Habit from the database
 	 * @param habit
@@ -511,11 +511,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean deleteHabit(Habit habit) {
 		Log.d("[DB]", "deleteHabit()");
-		
+
 		return this.getReadableDatabase().delete(Constants.TABLE_HABITS, 
 				"_id='" + habit.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateHabit() - updates the Habit in the database
 	 * @param habit
@@ -528,12 +528,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("characteristic", habit.getCharacteristic());
 		values.put("difficulty", habit.getDifficulty());
 		values.put("progress", habit.getProgress());
-		
+
 		Log.d("[DB]", "updatesHabit()");
-		
+
 		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * getRewards() - returns a list of all rewards for the character
 	 * @return Arraylist of all rewards for character
@@ -556,7 +556,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return rewards;
 		}
 	}
-	
+
 
 	/**
 	 * addReward() - adds a reward to the database
@@ -574,7 +574,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteReward() - deletes the specific reward from the DB
 	 * @param reward
@@ -584,7 +584,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, 
 				"_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateReward() - updates the reward in the DB
 	 * @param reward
@@ -597,7 +597,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("cost", reward.getCost());
 		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * getDailies() - returns a list of dailies for the character
 	 * @return Arraylist of all dailies
@@ -640,8 +640,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public int addInventory(Inventory inventory) {
 		this.deleteInventory();
-		
-		
+
+
 		String armorname; Integer armorresid;
 		if(inventory.getArmor() == null)
 		{
@@ -698,7 +698,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("weaponresid", weaponresid);
 		return (int)(this.getReadableDatabase().insert(Constants.TABLE_EQUIP, null, values));
 	}
-	
+
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -708,7 +708,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		this.deleteUnused();
 		this.getReadableDatabase().delete(Constants.TABLE_EQUIP, null, null);
 	}
-	
+
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -717,7 +717,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void updateInventory(Inventory inventory) {
 		this.addInventory(inventory);
 	}
-	
+
 	/**
 	 * getDailiesWeek() - returns a list of dailies for the character
 	 * @return Arraylist of all dailiesweek
@@ -773,10 +773,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			values.put("resid", item.getResId());
 			values.put("type", type);
 			this.getReadableDatabase().insert(Constants.TABLE_INVENTORY, null, values);
-				
+
 		}
 	}
-	
+
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -785,7 +785,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private void deleteUnused() {
 		this.getReadableDatabase().delete(Constants.TABLE_INVENTORY, null, null);
 	}
-	
+
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -796,7 +796,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		this.addUnused(inventory);
 	}
 
-	
+
 	/*
 	 * returns all the vices a character has 0 = _id 1= name 2= stat 3 =effect
 	 */
@@ -834,8 +834,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().insert(Constants.TABLE_VICES, null,
 				values);
 	}
-	
-	
+
+
 	public int addStat(Stat stat){
 		String name = stat.getName();
 		int count = stat.getCount();
@@ -845,7 +845,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_STAT, null,
 				values));
 	}
-	
+
 	public boolean updateStat(Stat stat){
 		String name = stat.getName();
 		int count = stat.getCount();
@@ -854,17 +854,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("count", count);
 		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + stat.getId() + "'", null) > 0;
 	}
-	
+
 	public ArrayList<Stat> getStats(){
 		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_STAT,
 				null, null, null, null, null, null);
 		if (cursor.getCount() == 0)
 			return null;
 		else {
-			ArrayList<Stat> stats = new ArrayList<Stat>;
+			ArrayList<Stat> stats = new ArrayList<Stat>();
 			cursor.moveToFirst();
 			do {
-				int id = cursor.getString(0);
+				int id = cursor.getInt(0);
 				String name = cursor.getString(1);
 				int count = cursor.getInt(2);
 				stats.add(new Stat(id, name, count));
@@ -872,9 +872,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return stats;
 		}
 	}
-	
+
 	public int addLogItem(LogItem item){
-		String text = item.getText();
+		String text = item.getContent();
 		String date = item.getDate_time();
 		ContentValues values = new ContentValues();
 		values.put("content", text);
@@ -882,17 +882,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_LOG, null,
 				values));
 	}
-	
+
 	public ArrayList<LogItem> getLog(){
 		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_LOG,
 				null, null, null, null, null, null);
 		if (cursor.getCount() == 0)
 			return null;
 		else {
-			ArrayList<LogItem> log = new ArrayList<LogItem>;
+			ArrayList<LogItem> log = new ArrayList<LogItem>();
 			cursor.moveToFirst();
 			do {
-				int id = cursor.getString(0);
+				int id = cursor.getInt(0);
 				String content = cursor.getString(1);
 				String date = cursor.getString(2);
 				log.add(new LogItem(id, content, date));
@@ -900,7 +900,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return log;
 		}
 	}
-	
+
 	private boolean getBool(int tempint){
 		if(tempint == 1)
 			return true;
