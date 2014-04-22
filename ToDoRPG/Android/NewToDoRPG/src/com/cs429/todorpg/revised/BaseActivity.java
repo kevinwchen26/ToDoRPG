@@ -1,5 +1,7 @@
 package com.cs429.todorpg.revised;
 
+import java.text.DecimalFormat;
+
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -153,12 +155,18 @@ public abstract class BaseActivity extends Activity {
 		exp = (TextView) findViewById(R.id.character_exp);
 		ToDoCharacter character = db.getCharacter();
 		hp.setText(Integer.toString(character.getHP()));
-		exp.setText(Integer.toString(character.getCurrExp()));
+		DecimalFormat df = new DecimalFormat("#.00"); 
+		double curr_exp = character.getCurrExp() / (double)(character.getLevel() * 100) * 100;
+		String result = df.format(curr_exp).concat("%");
+		exp.setText(result);
 	}
 	public static void TextValidate() {
 		ToDoCharacter character = db.getCharacter();
 		hp.setText(Integer.toString(character.getHP()));
-		exp.setText(Integer.toString(character.getCurrExp()));
+		DecimalFormat df = new DecimalFormat("#.00"); 
+		double curr_exp = character.getCurrExp() / (double)(character.getLevel() * 100) * 100;
+		String result = df.format(curr_exp).concat("%");
+		exp.setText(result);
 	}
 
 	ActionBar.OnNavigationListener navigationListener = new OnNavigationListener() {

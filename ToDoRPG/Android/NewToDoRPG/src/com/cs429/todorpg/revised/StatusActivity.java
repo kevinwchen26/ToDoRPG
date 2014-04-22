@@ -1,5 +1,6 @@
 package com.cs429.todorpg.revised;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.os.Bundle;
@@ -53,8 +54,11 @@ public class StatusActivity extends BaseActivity {
 		}
 		current_level.setText(Integer.toString(character.getLevel()));
 		current_hp.setText(Integer.toString(character.getHP()));
-		current_exp.setText(Integer.toString(character.getCurrExp()));
 		current_money.setText(Integer.toString(character.getGold()));
+		DecimalFormat df = new DecimalFormat("#.00"); 
+		double curr_exp = character.getCurrExp() / (double)(character.getLevel() * 100) * 100;
+		String result = df.format(curr_exp).concat("%");
+		current_exp.setText(result);
 		
 	}
 

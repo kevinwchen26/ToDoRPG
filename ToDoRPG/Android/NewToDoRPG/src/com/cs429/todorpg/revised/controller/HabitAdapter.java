@@ -402,10 +402,11 @@ public class HabitAdapter extends BaseAdapter  {
 			character.setLevel(character.getLevel() + 1);
 			character.setCurrExp(0);
 			character.setHP(character.getHP() + 20);
-		} else if (character.getCurrExp() <= 0) {
-			if(character.getLevel() > 1) 
-				character.setLevel(character.getLevel() - 1);
+		} else if(character.getLevel() == 1 && character.getCurrExp() < 0) {
 			character.setCurrExp(0);
+		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
+			character.setLevel(character.getLevel() - 1);
+			character.setCurrExp(character.getLevel() * 100);
 			if(character.getHP() < 100)
 				character.setHP(100);
 			if(character.getGold() < 0) 
