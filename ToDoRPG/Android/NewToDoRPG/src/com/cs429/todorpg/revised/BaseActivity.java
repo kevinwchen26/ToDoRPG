@@ -2,38 +2,33 @@ package com.cs429.todorpg.revised;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.cs429.todorpg.revised.model.ToDoCharacter;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 abstract class BaseActivity extends Activity {
 	Intent intent;
 	ActionBar actionbar;
 	TextView hp, exp;
 	PopupMenu popup;
+	private SQLiteHelper db;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		actionbar = getActionBar();
 		if (actionbar != null)
 			setActionbar();
+		db = new SQLiteHelper(this);
 	}
 
 	@Override
@@ -55,28 +50,31 @@ abstract class BaseActivity extends Activity {
 
 		case android.R.id.home:
 			// NavUtils.navigateUpFromSameTask(this);
-			Intent homeintent = new Intent(BaseActivity.this, MainActivity.class);
+			Intent homeintent = new Intent(BaseActivity.this,
+					MainActivity.class);
 			startActivity(homeintent);
 			finish();
 			return true;
 
 		case R.id.character_status:
 			/*
-			intent = new Intent(BaseActivity.this, CharacterActivity.class);
-			startActivity(intent);
-			finish();
-			return true;
-			*/
-			popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.character_status));
-			popup.getMenuInflater().inflate(R.menu.character_menu, popup.getMenu());
+			 * intent = new Intent(BaseActivity.this, CharacterActivity.class);
+			 * startActivity(intent); finish(); return true;
+			 */
+			popup = new PopupMenu(BaseActivity.this,
+					(View) findViewById(R.id.character_status));
+			popup.getMenuInflater().inflate(R.menu.character_menu,
+					popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
 					if (item.getTitle().equals("Status")) {
-						Intent intent = new Intent(BaseActivity.this, StatusActivity.class);
+						Intent intent = new Intent(BaseActivity.this,
+								StatusActivity.class);
 						startActivity(intent);
 						finish();
 					} else if (item.getTitle().equals("Inventory")) {
-						Intent intent = new Intent(BaseActivity.this, InventoryActivity.class);
+						Intent intent = new Intent(BaseActivity.this,
+								InventoryActivity.class);
 						startActivity(intent);
 						finish();
 					}
@@ -85,25 +83,28 @@ abstract class BaseActivity extends Activity {
 			});
 			popup.show();
 			return true;
-			
 
-	/*	case R.id.inventory:
-			intent = new Intent(BaseActivity.this, InventoryActivity.class);
-			startActivity(intent);
-			finish();
-			return true;*/
+			/*
+			 * case R.id.inventory: intent = new Intent(BaseActivity.this,
+			 * InventoryActivity.class); startActivity(intent); finish(); return
+			 * true;
+			 */
 
 		case R.id.quests:
-			popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.quests));
+			popup = new PopupMenu(BaseActivity.this,
+					(View) findViewById(R.id.quests));
 			popup.getMenuInflater().inflate(R.menu.quest_menu, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
 					if (item.getTitle().equals("Habits")) {
-						intent = new Intent(BaseActivity.this, HabitActivity.class);
+						intent = new Intent(BaseActivity.this,
+								HabitActivity.class);
 					} else if (item.getTitle().equals("Dailies")) {
-						intent = new Intent(BaseActivity.this, DailyActivity.class);
+						intent = new Intent(BaseActivity.this,
+								DailyActivity.class);
 					} else if (item.getTitle().equals("To-Dos")) {
-						intent = new Intent(BaseActivity.this, ToDoActivity.class);
+						intent = new Intent(BaseActivity.this,
+								ToDoActivity.class);
 					}
 					startActivity(intent);
 					finish();
@@ -114,15 +115,19 @@ abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.rewards:
-			popup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.quests));
-			popup.getMenuInflater().inflate(R.menu.reward_shop, popup.getMenu());
+			popup = new PopupMenu(BaseActivity.this,
+					(View) findViewById(R.id.quests));
+			popup.getMenuInflater()
+					.inflate(R.menu.reward_shop, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
 					if (item.getTitle().equals("Rewards")) {
-						intent = new Intent(BaseActivity.this, RewardActivity.class);
+						intent = new Intent(BaseActivity.this,
+								RewardActivity.class);
 					} else if (item.getTitle().equals("Shop")) {
-						intent = new Intent(BaseActivity.this, ShopActivity.class);
-					} 
+						intent = new Intent(BaseActivity.this,
+								ShopActivity.class);
+					}
 					startActivity(intent);
 					finish();
 					return true;
@@ -146,6 +151,9 @@ abstract class BaseActivity extends Activity {
 	protected void setHeader(int resId) {
 		hp = (TextView) findViewById(R.id.character_hp);
 		exp = (TextView) findViewById(R.id.character_exp);
+		ToDoCharacter character = db.getCharacter();
+		hp.setText(Integer.toString(character.getHP()));
+		exp.setText(Integer.toString(character.getCurrExp()));
 	}
 
 	ActionBar.OnNavigationListener navigationListener = new OnNavigationListener() {
@@ -174,7 +182,7 @@ abstract class BaseActivity extends Activity {
 
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

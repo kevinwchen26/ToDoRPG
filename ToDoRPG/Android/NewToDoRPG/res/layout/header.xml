@@ -26,28 +26,57 @@
         android:orientation="vertical"
         android:weightSum="2" >
 
-        <TextView
-            android:id="@+id/character_hp"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="HP"
-            android:textColor="#fff"
-            android:textSize="12sp" />
+            android:orientation="horizontal"
+            android:weightSum="10" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:text="HP"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/character_hp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="8"
+                android:textColor="#0099ff"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#aaa" />
 
-        <TextView
-            android:id="@+id/character_exp"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="EXP"
-            android:textColor="#fff"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:weightSum="10" >
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:text="EXP"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/character_exp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="8"
+                android:textColor="#0099ff"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
