@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs429.todorpg.revised.BaseActivity;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
@@ -104,6 +105,7 @@ public class DailyAdapter extends BaseAdapter{
 				if(day.getBooleanStatus()){
 					check_button.setText(R.string.check);
 					UpdateCharacterStatus();
+					BaseActivity.TextValidate();
 					edit_button.setClickable(false);
 					edit_button.setFocusable(false);
 				}	

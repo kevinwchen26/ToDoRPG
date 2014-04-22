@@ -3,7 +3,6 @@ package com.cs429.todorpg.revised.controller;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +15,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs429.todorpg.revised.BaseActivity;
 import com.cs429.todorpg.revised.R;
-import com.cs429.todorpg.revised.R.color;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
-public class HabitAdapter extends BaseAdapter {
-
+public class HabitAdapter extends BaseAdapter  {
 	private Context context;
 	private ArrayList<Habit> habit;
 	private HabitAdapter adapter = this;
@@ -149,6 +147,7 @@ public class HabitAdapter extends BaseAdapter {
 					delete_button.setBackgroundResource(onehabit.getStatus());
 					// my_habit.setBackgroundResource(Color.YELLOW);
 				}
+				BaseActivity.TextValidate();
 				db.updateHabit(onehabit);
 			}
 		};

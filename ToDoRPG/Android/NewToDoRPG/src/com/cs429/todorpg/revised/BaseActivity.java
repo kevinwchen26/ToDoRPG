@@ -15,12 +15,12 @@ import android.widget.TextView;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
-abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 	Intent intent;
 	ActionBar actionbar;
-	TextView hp, exp;
+	static TextView hp, exp;
 	PopupMenu popup;
-	private SQLiteHelper db;
+	private static SQLiteHelper db;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -151,6 +151,11 @@ abstract class BaseActivity extends Activity {
 	protected void setHeader(int resId) {
 		hp = (TextView) findViewById(R.id.character_hp);
 		exp = (TextView) findViewById(R.id.character_exp);
+		ToDoCharacter character = db.getCharacter();
+		hp.setText(Integer.toString(character.getHP()));
+		exp.setText(Integer.toString(character.getCurrExp()));
+	}
+	public static void TextValidate() {
 		ToDoCharacter character = db.getCharacter();
 		hp.setText(Integer.toString(character.getHP()));
 		exp.setText(Integer.toString(character.getCurrExp()));

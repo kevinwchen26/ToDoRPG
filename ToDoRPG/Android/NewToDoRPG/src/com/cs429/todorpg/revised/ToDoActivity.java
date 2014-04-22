@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.ToDoAdapter;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class ToDoActivity extends BaseActivity {
@@ -82,6 +85,7 @@ public class ToDoActivity extends BaseActivity {
 		// SetAdapter();
 		adapter = new ToDoAdapter(ToDoActivity.this, todos);
 		adapter.notifyDataSetChanged();
+		TextValidate();
 	}
 
 	private void SetAdapter() {

@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs429.todorpg.revised.BaseActivity;
 import com.cs429.todorpg.revised.CalendarView;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.ToDoActivity;
@@ -133,6 +134,7 @@ public class ToDoAdapter extends BaseAdapter{
 			public void onClick(View v){
 				Toast.makeText(context, "successfully done this job", Toast.LENGTH_SHORT).show();
 				UpdateCharacterStatus();
+				BaseActivity.TextValidate();
 				todos.get(position).setFinish();
 				db.updateToDo(todos.get(position));
 				todos.remove(position);
