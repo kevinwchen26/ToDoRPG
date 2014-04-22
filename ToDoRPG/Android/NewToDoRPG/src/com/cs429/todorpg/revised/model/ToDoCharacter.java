@@ -24,7 +24,7 @@ public class ToDoCharacter{
 		this.currentEXP = currentEXP;
 		this.nextEXP = nextEXP;
 	}
-
+	
 	public int getGold() {
 		return gold;
 	}

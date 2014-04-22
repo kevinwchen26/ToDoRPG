@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class DailyAdapter extends BaseAdapter{
@@ -26,6 +27,7 @@ public class DailyAdapter extends BaseAdapter{
 	private DailyAdapter adapter = this;
 	private LayoutInflater inflater;
 	private SQLiteHelper db;
+	private int difficulty;
 
 	public DailyAdapter(Context context, ArrayList<Daily> daily) {
 		this.context = context;
@@ -52,6 +54,7 @@ public class DailyAdapter extends BaseAdapter{
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final Daily day = daily.get(position);
+		difficulty = day.getDifficulty();
 		String blank = "    ";
 		
 		if (convertView == null) {
@@ -100,6 +103,7 @@ public class DailyAdapter extends BaseAdapter{
 				
 				if(day.getBooleanStatus()){
 					check_button.setText(R.string.check);
+					UpdateCharacterStatus();
 					edit_button.setClickable(false);
 					edit_button.setFocusable(false);
 				}	
@@ -165,6 +169,7 @@ public class DailyAdapter extends BaseAdapter{
 					hard.setBackgroundResource(R.color.original);
 					break;
 				}
+				difficulty = day.getDifficulty();
 			}
 		};
 		hard.setOnClickListener(difficultyListener);
@@ -392,6 +397,30 @@ public class DailyAdapter extends BaseAdapter{
 		}
 		
 		return convertView;
+	}
+	private void UpdateCharacterStatus() {
+		ToDoCharacter character = db.getCharacter();
+		switch(difficulty) {
+			case 0:
+				character = new ToDoCharacter(character.getName(), character.getGold() + 10, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 10, character.getNextExp()- 10);
+				break;
+			case 1:
+				character = new ToDoCharacter(character.getName(), character.getGold() + 20, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 20, character.getNextExp()- 20);
+				break;
+			case 2:
+				character = new ToDoCharacter(character.getName(), character.getGold() + 30, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 40, character.getNextExp()- 30);
+				break;
+		}
+		if(character.getCurrExp() >= character.getLevel() * 100) {
+			character.setLevel(character.getLevel() + 1);
+			character.setCurrExp(0);
+			character.setHP(character.getHP() + 20);
+		}
+		db.updateCharacter(character);
+//		character = new ToDoCharacter(character.getGold(), HP, level, currentEXP, nextEXP)
 	}
 	
 }

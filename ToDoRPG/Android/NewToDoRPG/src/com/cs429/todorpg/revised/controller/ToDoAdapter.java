@@ -20,6 +20,7 @@ import com.cs429.todorpg.revised.CalendarView;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.ToDoActivity;
 import com.cs429.todorpg.revised.model.ToDo;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class ToDoAdapter extends BaseAdapter{
@@ -29,6 +30,7 @@ public class ToDoAdapter extends BaseAdapter{
 	private ToDoAdapter adapter = this;
 	private LayoutInflater inflater;
 	private SQLiteHelper db;
+	int difficulty;
 	
 	public ToDoAdapter(Context context, ArrayList<ToDo> todos){
 		this.context = context;
@@ -55,6 +57,7 @@ public class ToDoAdapter extends BaseAdapter{
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		String blank = "    ";
+		difficulty = todos.get(position).getDifficulty();
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.todo_list_view_row, parent, false);
 		}
@@ -123,18 +126,21 @@ public class ToDoAdapter extends BaseAdapter{
 		hard.setOnClickListener(mListener);
 		medium.setOnClickListener(mListener);
 		easy.setOnClickListener(mListener);
-		
+		difficulty = todos.get(position).getDifficulty();
 		
 		done_button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
 				Toast.makeText(context, "successfully done this job", Toast.LENGTH_SHORT).show();
+				UpdateCharacterStatus();
 				todos.get(position).setFinish();
 				db.updateToDo(todos.get(position));
 				todos.remove(position);
 				adapter.notifyDataSetChanged();
 			}
+			
 		});
+		
 		
 		save_close_button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -242,61 +248,29 @@ public class ToDoAdapter extends BaseAdapter{
 		
 		return convertView;
 	}
-
-/*	
-	private void edit_field_operation(final int position, View view){
-		
-		final Button due_date = (Button)view.findViewById(R.id.due_date_button);
-		due_date.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				Intent intent = new Intent(context, CalendarView.class);
-				((ToDoActivity) context).startActivityForResult(intent, 0);
-//				context.startActivity(intent);
-			}
-		});
-		
-		final EditText extra_note = (EditText)view.findViewById(R.id.extra_notes);
-		final Button save_close = (Button)view.findViewById(R.id.save_close);
-		save_close.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				String tmp = extra_note.getText().toString();
-				if(tmp != null){
-					todos.get(position).setExtra(tmp);
-					Log.d("[TODO]", "extra note: " + tmp);
-				}
-			}
-		});
-		
-		final Button hard = (Button)view.findViewById(R.id.hard);
-		final Button medium = (Button)view.findViewById(R.id.medium);
-		final Button easy = (Button)view.findViewById(R.id.easy);
-		
-		OnClickListener mListener = new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				switch(v.getId()){
-				case R.id.hard:
-					Log.d("[TODO]", "difficult hard");
-					todos.get(position).setDifficulty(2);
-					break;
-					
-				case R.id.medium:
-					Log.d("[TODO]", "difficult medium");
-					todos.get(position).setDifficulty(1);
-					break;
-					
-				case R.id.easy:
-					Log.d("[TODO]", "difficult easy");
-					todos.get(position).setDifficulty(0);
-					break;
-				}
-			}
-		};
-		hard.setOnClickListener(mListener);
-		medium.setOnClickListener(mListener);
-		easy.setOnClickListener(mListener);
+	private void UpdateCharacterStatus() {
+		ToDoCharacter character = db.getCharacter();
+		switch(difficulty) {
+			case 0:
+				character = new ToDoCharacter(character.getName(), character.getGold() + 10, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 10, character.getNextExp()- 10);
+				break;
+			case 1:
+				character = new ToDoCharacter(character.getName(), character.getGold() + 20, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 20, character.getNextExp()- 20);
+				break;
+			case 2:
+				character = new ToDoCharacter(character.getName(), character.getGold() + 30, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 40, character.getNextExp()- 30);
+				break;
+		}
+		if(character.getCurrExp() >= character.getLevel() * 100) {
+			character.setLevel(character.getLevel() + 1);
+			character.setCurrExp(0);
+			character.setHP(character.getHP() + 20);
+		}
+		db.updateCharacter(character);
+//		character = new ToDoCharacter(character.getGold(), HP, level, currentEXP, nextEXP)
 	}
-*/	
+
 }
