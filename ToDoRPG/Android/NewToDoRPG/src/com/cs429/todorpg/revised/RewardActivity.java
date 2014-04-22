@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cs429.todorpg.revised.controller.HabitAdapter;
 import com.cs429.todorpg.revised.model.Reward;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 import android.annotation.SuppressLint;
@@ -34,13 +35,13 @@ public class RewardActivity extends BaseActivity {
 	TextView rewards_heading;
 	TextView gold;
 	EditText new_reward;
-	Character test_character = new Character();
+	ToDoCharacter my_character;
 	Button add_reward;
 	ArrayList<Reward> reward_data;
 	ListView reward_list;
 	Intent intent;
 	RewardsAdapter adapter;
-	SQLiteHelper sql;
+	SQLiteHelper sql = new SQLiteHelper(this);
 	
 	private class RewardsAdapter extends BaseAdapter{
 
@@ -227,13 +228,13 @@ public class RewardActivity extends BaseActivity {
 		setContentView(R.layout.rewards_activity);
 		setHeader(R.id.header);
 		FindViewById();
+		my_character = sql.getCharacter();
 		setUpLayout();
 		pullRewards();
 		
 	}
 	
 	private void pullRewards() {
-		sql = new SQLiteHelper(this);
 		reward_data = sql.getRewards();
 		if(reward_data == null) {
 			reward_data = new ArrayList<Reward>();
@@ -254,7 +255,7 @@ public class RewardActivity extends BaseActivity {
 	
 	private void setUpLayout(){
 	    
-	    gold.setText("Gold: " + test_character.getGold());
+	    gold.setText("Gold: " + my_character.getGold());
 	    
 	    add_reward.setOnClickListener(ButtonListener);
 
@@ -265,14 +266,15 @@ public class RewardActivity extends BaseActivity {
 			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		int value = test_character.getGold() - cost;
-		test_character.setGold(value);
+		int value = my_character.getGold() - cost;
+		my_character.setGold(value);
+		sql.updateCharacter(my_character);
 	    gold.setText("Gold: " + value );
 
 	}
 	
 	public boolean canPurchase(int cost) {
-		if(cost > test_character.getGold())
+		if(cost > my_character.getGold())
 			return false;
 		return true;
 	}
