@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-import com.cs429.todorpg.revised.utils.Vice;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
@@ -241,21 +240,4 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 	}
 	
-	public void testVicesGetAdd() {
-		Vice drugs = new Vice("crack", "INT", -100);
-		Vice lazy = new Vice("lazy", "HP", -10);
-
-		assertNotNull(db);
-		long id = db.addVices(drugs);
-		assertNotSame(-1, id);
-		id = db.addVices(drugs);
-		assertEquals(-1, id);
-		id = db.addVices(lazy);
-		assertNotSame(-1, id);
-
-		ArrayList<Vice> vices = db.getVices();
-		assertEquals(2, vices.size());
-		assertTrue(vices.contains(drugs));
-		assertTrue(vices.contains(lazy));
-	}
 }

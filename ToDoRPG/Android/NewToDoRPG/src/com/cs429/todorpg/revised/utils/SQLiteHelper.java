@@ -790,45 +790,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		this.deleteUnused();
 		this.addUnused(inventory);
 	}
-
-	
-	/*
-	 * returns all the vices a character has 0 = _id 1= name 2= stat 3 =effect
-	 */
-	public ArrayList<Vice> getVices() {
-		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_VICES,
-				null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			ArrayList<Vice> vices = new ArrayList<Vice>();
-			cursor.moveToFirst();
-			do {
-				String name = cursor.getString(1);
-				String stat = cursor.getString(2);
-				int effect = cursor.getInt(3);
-				vices.add(new Vice(name, stat, effect));
-			} while (cursor.moveToNext());
-			return vices;
-		}
-	}
-
-	/*
-	 * inserts vice into database
-	 * 
-	 * @vice - the Vice to insert
-	 */
-	public long addVices(Vice vice) {
-		String name = vice.getName();
-		String stat = vice.getStat();
-		int effect = vice.getEffect();
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("stat", stat);
-		values.put("effect", effect);
-		return this.getReadableDatabase().insert(Constants.TABLE_VICES, null,
-				values);
-	}
 	
 	private boolean getBool(int tempint){
 		if(tempint == 1)
