@@ -727,9 +727,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
-				String name = cursor.getString(1);
-				int resid = cursor.getInt(2);
-				int type = cursor.getInt(3);
+				int type = cursor.getInt(1);
+				String name = cursor.getString(2);
+				int resid = cursor.getInt(3);
 				RpgItem tempitem = null;
 				if(type == 1)
 					tempitem = new Armor(name, resid);
