@@ -55,10 +55,11 @@
     <string name="title_activity_inventory">InventoryActivity</string>
     <string name="title_activity_stats">StatsActivity</string>
     <string name="equipment">Equipment</string>
-    
+
     <!-- Inventory Strings -->
     <string name="inventory">Inventory</string>
     <string name="item_image_row">Item image</string>
     <string name="check">V</string>
+    <string name="title_activity_shop">ShopActivity</string>
 
 </resources>

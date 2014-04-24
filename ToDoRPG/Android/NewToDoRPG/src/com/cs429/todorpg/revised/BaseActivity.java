@@ -118,9 +118,23 @@ abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.rewards:
-			intent = new Intent(BaseActivity.this, RewardActivity.class);
-			startActivity(intent);
-			finish();
+			PopupMenu shopPopup = new PopupMenu(BaseActivity.this, (View) findViewById(R.id.rewards));
+			shopPopup.getMenuInflater().inflate(R.menu.shop_menu, shopPopup.getMenu());
+			shopPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+				public boolean onMenuItemClick(MenuItem item) {
+					if (item.getTitle().equals("Shop")) {
+						Intent intent = new Intent(BaseActivity.this, ShopActivity.class);
+						startActivity(intent);
+						finish();
+					} else if (item.getTitle().equals("Reward")) {
+						Intent intent = new Intent(BaseActivity.this, RewardActivity.class);
+						startActivity(intent);
+						finish();
+					}
+					return true;
+				}
+			});
+			shopPopup.show();
 			return true;
 
 		default:

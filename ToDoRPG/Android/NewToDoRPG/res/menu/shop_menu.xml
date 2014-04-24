@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/shop_shop"
+        android:title="Shop"/>
+    
+    <item
+        android:id="@+id/shop_reward"
+        android:title="Reward"/>
+    
+
+</menu>

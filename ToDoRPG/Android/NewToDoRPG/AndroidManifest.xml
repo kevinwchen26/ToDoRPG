@@ -8,8 +8,8 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name="com.cs429.todorpg.revised.GameApplication"
         android:allowBackup="true"
@@ -48,13 +48,19 @@
             android:name="com.cs429.todorpg.revised.StatsActivity"
             android:label="@string/title_activity_stats" >
         </activity>
-        
-        <receiver android:name="com.cs429.todoprg.service.AlarmReceiver"
-            android:process=":remote" />         
-        
-        <service 
+
+        <receiver
+            android:name="com.cs429.todoprg.service.AlarmReceiver"
+            android:process=":remote" />
+
+        <service
             android:name="com.cs429.todoprg.service.AlarmService"
             android:enabled="true" />
+
+        <activity
+            android:name="com.cs429.todorpg.revised.ShopActivity"
+            android:label="@string/title_activity_shop" >
+        </activity>
     </application>
 
 </manifest>
