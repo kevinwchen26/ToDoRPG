@@ -496,8 +496,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("difficulty", difficulty);
 		values.put("progress", progress);
 		
-		Log.d("[DB]", "addHabit()");
-		
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
 				values));
 	}
@@ -508,7 +506,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if habit has been successfully deleted, else false
 	 */
 	public boolean deleteHabit(Habit habit) {
-		Log.d("[DB]", "deleteHabit()");
 		
 		return this.getReadableDatabase().delete(Constants.TABLE_HABITS, 
 				"_id='" + habit.getKey() + "'", null) > 0;
@@ -526,8 +523,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("characteristic", habit.getCharacteristic());
 		values.put("difficulty", habit.getDifficulty());
 		values.put("progress", habit.getProgress());
-		
-		Log.d("[DB]", "updatesHabit()");
 		
 		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
 	}
