@@ -2,6 +2,8 @@ package com.cs429.todorpg.revised.itemsystem;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 public abstract class Equipment extends RpgItem {
 	private int damage;
 	private int critical;
@@ -96,6 +98,6 @@ public abstract class Equipment extends RpgItem {
 				this.getDamage() == equip.getDamage() && this.getCritical() == equip.getCritical() &&
 				this.getMulti_Hit() == equip.getMulti_Hit() && this.getnegEffects().equals(equip.getnegEffects()) && 
 				this.getDamage_Reduction() == equip.getDamage_Reduction() && this.getEvasion() == equip.getEvasion() &&
-				this.getAccuracy() == equip.getAccuracy() && this.getposEffects().equals(equip.getnegEffects()));
+				this.getAccuracy() == equip.getAccuracy() && this.getposEffects().equals(equip.getposEffects()));
 	}
 }

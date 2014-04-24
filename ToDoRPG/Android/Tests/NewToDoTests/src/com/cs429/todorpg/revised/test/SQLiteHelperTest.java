@@ -3,13 +3,13 @@ package com.cs429.todorpg.revised.test;
 import java.util.ArrayList;
 
 
+
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
-
 import com.cs429.todorpg.revised.itemsystem.*;
 
 import android.database.Cursor;
@@ -41,8 +41,10 @@ public class SQLiteHelperTest extends AndroidTestCase {
 			names.add(cursor.getString(0));
 		} while (cursor.moveToNext());
 		assertTrue(names.contains("character"));
-		assertTrue(names.contains("vices"));
-		assertTrue(names.contains("equip"));
+		assertTrue(names.contains("equiparmor"));
+		assertTrue(names.contains("equipweapon"));
+		assertTrue(names.contains("equipshield"));
+		assertTrue(names.contains("equiphelmet"));
 		assertTrue(names.contains("todo"));
 		assertTrue(names.contains("rewards"));
 		assertTrue(names.contains("dailies"));
@@ -219,7 +221,12 @@ public class SQLiteHelperTest extends AndroidTestCase {
 	}
 	
 	public void testInventory() {
-		Inventory char_warrior = new Inventory(new Armor("A1", 1), new Helmet("H1",2 ), new Shield("S1", 3), new Weapon("W1", 4), new ArrayList<RpgItem>());
+		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+		Inventory char_warrior = new Inventory(new Armor("A1", 1, 0, 0, 0, negs, 0, 0, 0, poss), null, null, 
+				new Weapon("W1", 4, 0, 0, 0, negs, 0, 0, 0, poss), new ArrayList<RpgItem>());
+		
+		assertTrue(char_warrior.equals(char_warrior));
 
 		assertNotNull(db);
 		int char_warrior_id = db.addInventory(char_warrior);
@@ -229,8 +236,15 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(temp_char_warrior.equals(char_warrior));
 		
 		ArrayList <RpgItem> itemlist = new ArrayList<RpgItem>();
-		itemlist.add(new Armor("A2", 5));
+		negs.add(new NegativeEffects("Blind", 20));
+		poss.add(new PositiveEffects("nullBlind"));
+		itemlist.add(new Helmet("A2", 5, 1, 1, 1, negs, 1, 1, 1, poss));
+		char_warrior.setHelmet(new Helmet("A2", 5, 1, 1, 1, negs, 1, 1, 1, poss));
 		char_warrior.setInventoryItems(itemlist);
+		
+		assertTrue(char_warrior.equals(char_warrior));
+		
+		
 		db.updateInventory(char_warrior);
 		temp_char_warrior = db.getInventory();
 		assertTrue(temp_char_warrior.equals(char_warrior));

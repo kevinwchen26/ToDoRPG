@@ -35,8 +35,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.REWARDS_TABLE_CREATE);
 		db.execSQL(Constants.DAILIES_TABLE_CREATE);
 		db.execSQL(Constants.DAILIESWEEK_TABLE_CREATE);
-		db.execSQL(Constants.VICES_TABLE_CREATE);
-		db.execSQL(Constants.EQUIP_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPARMOR_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPHELMET_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPSHIELD_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPWEAPON_TABLE_CREATE);
 		db.execSQL(Constants.INVENTORY_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
 		db.execSQL(Constants.HABITS_TABLE_CREATE);
@@ -599,33 +601,27 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public Inventory getInventory() {
 		Cursor cursor = this.getReadableDatabase().query(
-				Constants.TABLE_EQUIP, null, null, null, null, null, null);
+				Constants.TABLE_EQUIPARMOR, null, null, null, null, null, null);
 		if (cursor.getCount() == 0)
 			return null;
-		else {
-			cursor.moveToFirst();
-			int primary_key = cursor.getInt(0);
-			String armorname = cursor.getString(1);
-			int armorresid = cursor.getInt(2);
-			String helmetname = cursor.getString(3);
-			int helmetresid = cursor.getInt(4);
-			String shieldname = cursor.getString(5);
-			int shieldresid = cursor.getInt(6);
-			String weaponname = cursor.getString(7);
-			int weaponresid = cursor.getInt(8);
-			ArrayList <RpgItem> unused = this.getUnused();
-			Armor temparmor = null; Helmet temphelmet = null; Shield tempshield = null; Weapon tempweapon = null;
-			if(armorname != null)
-				temparmor = new Armor(armorname, armorresid);
-			if(helmetname != null)
-				temphelmet= new Helmet(helmetname, helmetresid);
-			if(shieldname != null)
-				tempshield = new Shield (shieldname, shieldresid);
-			if(weaponname != null)
-				tempweapon = new Weapon(weaponname, weaponresid);
-			Inventory tempinventory = new Inventory(temparmor, temphelmet, tempshield, tempweapon, unused);
-			return tempinventory;
-		}
+		Armor temparmor = (Armor) getEquip(cursor, "armor");
+		
+		cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIPHELMET, null, null, null, null, null, null);
+		Helmet temphelmet = (Helmet) getEquip(cursor, "helmet");
+		
+		cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIPSHIELD, null, null, null, null, null, null);
+		Shield tempshield = (Shield) getEquip(cursor, "shield");
+		
+		cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIPWEAPON, null, null, null, null, null, null);
+		Weapon tempweapon = (Weapon) getEquip(cursor, "weapon");
+		
+		ArrayList <RpgItem> unused = this.getUnused();
+		
+		Inventory tempinventory = new Inventory(temparmor, temphelmet, tempshield, tempweapon, unused);
+		return tempinventory;
 	}
 
 	/**
@@ -636,62 +632,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public int addInventory(Inventory inventory) {
 		this.deleteInventory();
 		
+		int temp1 = this.addEquip(inventory.getArmor());
+		int temp2 = this.addEquip(inventory.getHelmet());
+		int temp3 = this.addEquip(inventory.getShield());
+		int temp4 = this.addEquip(inventory.getWeapon());
 		
-		String armorname; Integer armorresid;
-		if(inventory.getArmor() == null)
-		{
-			armorname = null;
-			armorresid = null;
-		}
-		else
-		{
-			armorname = inventory.getArmor().getName();
-			armorresid = inventory.getArmor().getResId();
-		}
-		String helmetname; Integer helmetresid;
-		if(inventory.getHelmet() == null)
-		{
-			helmetname = null;
-			helmetresid = null;
-		}
-		else
-		{
-			helmetname = inventory.getHelmet().getName();
-			helmetresid = inventory.getHelmet().getResId();
-		}
-		String shieldname; Integer shieldresid;
-		if(inventory.getShield() == null)
-		{
-			shieldname = null;
-			shieldresid = null;
-		}
-		else
-		{
-			shieldname = inventory.getShield().getName();
-			shieldresid = inventory.getShield().getResId();
-		}
-		String weaponname; Integer weaponresid;
-		if(inventory.getWeapon() == null)
-		{
-			weaponname = null;
-			weaponresid = null;
-		}
-		else
-		{
-			weaponname = inventory.getWeapon().getName();
-			weaponresid = inventory.getWeapon().getResId();
-		}
 		this.addUnused(inventory.getInventoryItems());
-		ContentValues values = new ContentValues();
-		values.put("armorname", armorname);
-		values.put("armorresid", armorresid);
-		values.put("helmetname", helmetname);
-		values.put("helmetresid", helmetresid);
-		values.put("shieldname", shieldname);
-		values.put("shieldresid", shieldresid);
-		values.put("weaponname", weaponname);
-		values.put("weaponresid", weaponresid);
-		return (int)(this.getReadableDatabase().insert(Constants.TABLE_EQUIP, null, values));
+		
+		if(temp1 == -1 || temp2 == -1 || temp3 == -1 || temp4 == -1)
+			return -1;
+		else
+			return 0;
+		
 	}
 	
 	/**
@@ -701,7 +653,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public void deleteInventory() {
 		this.deleteUnused();
-		this.getReadableDatabase().delete(Constants.TABLE_EQUIP, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPARMOR, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPHELMET, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPSHIELD, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPWEAPON, null, null);
 	}
 	
 	/**
@@ -720,10 +675,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private ArrayList<RpgItem> getUnused() {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_INVENTORY, null, null, null, null, null, null);
+		ArrayList<RpgItem> inventory = new ArrayList<RpgItem>();
 		if (cursor.getCount() == 0)
-			return null;
+			return inventory;
 		else {
-			ArrayList<RpgItem> inventory = new ArrayList<RpgItem>();
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
@@ -783,6 +738,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return the int for DB position of the dailyweek
 	 */
 	private void addUnused(ArrayList<RpgItem> inventoryItems) {
+		deleteUnused();
 		for(int counter = 0; counter < inventoryItems.size(); counter ++)
 		{
 			Equipment item = (Equipment) inventoryItems.get(counter);
@@ -842,8 +798,109 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if successfully updated, false otherwise
 	 */
 	private void updateUnused(ArrayList <RpgItem> inventory) {
-		this.deleteUnused();
 		this.addUnused(inventory);
+	}
+	
+	/**
+	 * getDailiesWeek() - returns a list of dailies for the character
+	 * @return Arraylist of all dailiesweek
+	 */
+	private Equipment getEquip(Cursor cursor, String equip) {
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			cursor.moveToFirst();
+			int primary_key = cursor.getInt(0);
+			String name = cursor.getString(1);
+			int resid = cursor.getInt(2);
+			int damage = cursor.getInt(3);
+			int critical = cursor.getInt(4);
+			int multihit = cursor.getInt(5);
+			String negEffects = cursor.getString(6);
+			int damagereduction = cursor.getInt(7);
+			int evasion = cursor.getInt(8);
+			int accuracy = cursor.getInt(9);
+			String posEffects = cursor.getString(10);
+			ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+			while(!negEffects.equals(""))
+			{
+				int tempspace = negEffects.indexOf(' ');
+				int tempcomma = negEffects.indexOf(',');
+				String tempeffect = negEffects.substring(0, tempspace);
+				int temppercent = Integer.parseInt(negEffects.substring(tempspace + 1, tempcomma));
+				negs.add(new NegativeEffects(tempeffect, temppercent));
+				negEffects = negEffects.substring(tempcomma + 1);
+			}
+			
+			ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+			while(!posEffects.equals(""))
+			{
+				int tempcomma = posEffects.indexOf(',');
+				String tempeffect = posEffects.substring(0, tempcomma);
+				poss.add(new PositiveEffects(tempeffect));
+				posEffects = posEffects.substring(tempcomma + 1);
+			}
+					
+			Equipment tempitem = null;
+			if(equip.equals("armor"))
+				tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			else if(equip.equals("helmet"))
+				tempitem = new Helmet(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			else if(equip.equals("shield"))
+				tempitem = new Shield(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			else 
+				tempitem = new Weapon(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			return tempitem;
+		}
+	}
+
+	/**
+	 * addDailiesWeek() - adds a dailyweek for the character
+	 * @param seven bools
+	 * @return the int for DB position of the dailyweek
+	 */
+	private int addEquip(Equipment item) {
+		if (item == null)
+			return 0;
+		ArrayList <NegativeEffects> negs = item.getnegEffects();
+		String negatives = "";
+		for(int x = 0; x < negs.size(); x ++)
+		{
+			NegativeEffects tempneg = negs.get(x);
+			negatives = negatives + tempneg.getName() + " " + tempneg.getAffect() + ",";
+		}
+		ArrayList <PositiveEffects> poss = item.getposEffects();
+		String positives = "";
+		for(int x = 0; x < poss.size(); x ++)
+		{
+			PositiveEffects temppos = poss.get(x);
+			positives = positives + temppos.getName() + ",";
+		}
+		ContentValues values = new ContentValues();
+		values.put("name", item.getName());
+		values.put("resid", item.getResId());
+		values.put("damage", item.getDamage());
+		values.put("critical", item.getCritical());
+		values.put("multihit", item.getMulti_Hit());
+		values.put("negEffects", negatives);
+		values.put("damagereduction", item.getDamage_Reduction());
+		values.put("evasion", item.getEvasion());
+		values.put("accuracy", item.getAccuracy());
+		values.put("posEffects", positives);
+		
+		
+		if(item instanceof Armor)
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPARMOR, null, values));
+		if(item instanceof Helmet)
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPHELMET, null, values));
+		if(item instanceof Shield)
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPSHIELD, null, values));
+		else
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPWEAPON, null, values));
 	}
 	
 	private boolean getBool(int tempint){

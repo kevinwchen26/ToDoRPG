@@ -1,5 +1,7 @@
 package com.cs429.todorpg.revised.test;
 
+import java.util.ArrayList;
+
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +12,8 @@ import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.itemsystem.Armor;
 import com.cs429.todorpg.revised.itemsystem.Helmet;
 import com.cs429.todorpg.revised.itemsystem.Inventory;
+import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
+import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
 import com.cs429.todorpg.revised.itemsystem.RpgItem;
 import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
@@ -36,15 +40,18 @@ public class InventoryActivityTest extends
 		activity = getActivity();
 		solo = new Solo(getInstrumentation(), getActivity());
 		
-		inventory = new Inventory();
-		inventory.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1));
-		inventory.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1));
-		inventory.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1));
-		inventory.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1));
+		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 		
-		inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0));
-		inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1));
-		inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2));
+		inventory = new Inventory();
+		inventory.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		
+		inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
 		
 		activity.inventory = inventory;
 	}

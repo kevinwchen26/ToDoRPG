@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.cs429.todorpg.revised.Avatar;
 import com.cs429.todorpg.revised.GameApplication;
@@ -212,8 +213,10 @@ public class Inventory {
 	}
 	public boolean equals(Object o) {
 		Inventory inventory = (Inventory) o;
-		return (this.getArmor().equals(inventory.getArmor()) && this.getHelmet().equals(inventory.getHelmet()) 
-				&& this.getShield().equals(inventory.getShield()) 
-				&& this.getWeapon().equals(inventory.getWeapon()) && this.getInventoryItems().equals(inventory.getInventoryItems()));
+		return (((this.getArmor() == null && inventory.getArmor() == null) || (this.getArmor().equals(inventory.getArmor() ) ) )
+				&& ((this.getHelmet() == null && inventory.getHelmet() == null) || (this.getHelmet().equals(inventory.getHelmet() ) ) )
+				&& ((this.getShield() == null && inventory.getShield() == null) || (this.getShield().equals(inventory.getShield() ) ) )
+				&& ((this.getWeapon() == null && inventory.getWeapon() == null) || (this.getWeapon().equals(inventory.getWeapon() ) ) )
+				&& this.getInventoryItems().equals(inventory.getInventoryItems()));
 	}
 }
