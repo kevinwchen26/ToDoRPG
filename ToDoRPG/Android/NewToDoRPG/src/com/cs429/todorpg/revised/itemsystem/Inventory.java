@@ -16,6 +16,7 @@ public class Inventory {
 	private Helmet helmet;
 	private Shield shield;
 	private Weapon weapon;
+	private Weapon secondary;
 	private ArrayList<RpgItem> inventoryItems;
 
 	public Inventory() {
@@ -23,14 +24,16 @@ public class Inventory {
 		this.helmet = null;
 		this.shield = null;
 		this.weapon = null;
+		this.secondary = null;
 		this.inventoryItems = new ArrayList<RpgItem>();
 	}
 	
-	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, ArrayList<RpgItem> equipmentItems) {
+	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, Weapon secondary, ArrayList<RpgItem> equipmentItems) {
 		this.armor = armor;
 		this.helmet = helmet;
 		this.shield = shield;
 		this.weapon = weapon;
+		this.secondary = secondary;
 		if (equipmentItems != null) {
 			this.inventoryItems = equipmentItems;
 		}
@@ -99,6 +102,14 @@ public class Inventory {
 		this.weapon = weapon;
 	}
 	
+	public Weapon getSecondary() {
+		return secondary;
+	}
+
+	public void setSecondary(Weapon weapon) {
+		this.secondary = weapon;
+	}
+	
 	/*
 	 * Boolean methods 
 	 */
@@ -119,11 +130,15 @@ public class Inventory {
 		return this.weapon != null;
 	}
 	
+	public boolean isSecondarySet() {
+		return this.secondary != null;
+	}
+	
 	/**
 	 * Function handles item equipping
 	 * @param item
 	 */
-	public void equipItem(int position) {
+	public void equipItem(int position, boolean second) {
 		RpgItem item = inventoryItems.get(position);
 		if (item instanceof Helmet) {
 			if (this.helmet == null) { // just equip item, you don't have anything on
@@ -137,7 +152,7 @@ public class Inventory {
 				inventoryItems.add(temp);
 			}
 		}
-		else if (item instanceof Weapon) {
+		else if (item instanceof Weapon && !second) {
 			if (this.weapon == null) { // just equip item, you don't have anything on
 				this.weapon = (Weapon) item;
 				inventoryItems.remove(position);
@@ -145,6 +160,18 @@ public class Inventory {
 			else { // store currently equipped item in inventory, equip new item
 				Weapon temp = this.weapon;
 				this.weapon = (Weapon)item;
+				inventoryItems.remove(position);
+				inventoryItems.add(temp);
+			}
+		}
+		else if (item instanceof Weapon && second) {
+			if (this.secondary == null) { // just equip item, you don't have anything on
+				this.secondary = (Weapon) item;
+				inventoryItems.remove(position);
+			}
+			else { // store currently equipped item in inventory, equip new item
+				Weapon temp = this.secondary;
+				this.secondary = (Weapon)item;
 				inventoryItems.remove(position);
 				inventoryItems.add(temp);
 			}
@@ -205,6 +232,11 @@ public class Inventory {
 			canvas.drawBitmap(weaponImage, 0,0, null);
 		}
 		
+		if (secondary != null) {
+			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), secondary.getResId());
+			canvas.drawBitmap(weaponImage, 0,0, null);
+		}
+		
 		if (shield != null) {
 			Bitmap shieldImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), shield.getResId());
 			canvas.drawBitmap(shieldImage, 0,0, null);
@@ -217,6 +249,7 @@ public class Inventory {
 				&& ((this.getHelmet() == null && inventory.getHelmet() == null) || (this.getHelmet().equals(inventory.getHelmet() ) ) )
 				&& ((this.getShield() == null && inventory.getShield() == null) || (this.getShield().equals(inventory.getShield() ) ) )
 				&& ((this.getWeapon() == null && inventory.getWeapon() == null) || (this.getWeapon().equals(inventory.getWeapon() ) ) )
+				&& ((this.getSecondary() == null && inventory.getSecondary() == null) || (this.getSecondary().equals(inventory.getSecondary() ) ) )
 				&& this.getInventoryItems().equals(inventory.getInventoryItems()));
 	}
 }

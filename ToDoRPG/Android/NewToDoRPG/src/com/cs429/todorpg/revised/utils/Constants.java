@@ -25,6 +25,8 @@ public class Constants {
 									// equipped items;(_id,name,resid)
 	static String TABLE_EQUIPWEAPON = "equipweapon"; // Table for
 	// equipped items;(_id,name,resid)
+	static String TABLE_EQUIPSECONDARY = "equipsecondary"; // Table for
+	// equipped items;(_id,name,resid)
 	static String TABLE_EQUIPHELMET = "equiphelmet"; // Table for
 	// equipped items;(_id,name,resid)
 	static String TABLE_EQUIPSHIELD = "equipshield"; // Table for
@@ -50,6 +52,7 @@ public class Constants {
 	static final String DAILIESWEEK_TABLE_CREATE = "create table dailiesweek(_id integer primary key autoincrement, mon int not null, tues int not null, wed int not null, thurs int not null, fri int not null, sat int not null, sun int not null)";
 	static final String EQUIPARMOR_TABLE_CREATE = "create table equiparmor(_id integer primary key autoincrement, name text, resid INTEGER, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";
 	static final String EQUIPWEAPON_TABLE_CREATE = "create table equipweapon(_id integer primary key autoincrement, name text, resid INTEGER, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";
+	static final String EQUIPSECONDARY_TABLE_CREATE = "create table equipsecondary(_id integer primary key autoincrement, name text, resid INTEGER, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";
 	static final String EQUIPHELMET_TABLE_CREATE = "create table equiphelmet(_id integer primary key autoincrement, name text, resid INTEGER, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";
 	static final String EQUIPSHIELD_TABLE_CREATE = "create table equipshield(_id integer primary key autoincrement, name text, resid INTEGER, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";	
 	static final String INVENTORY_TABLE_CREATE = "create table inventory(_id integer primary key autoincrement, type int not null, name text not null, resid int not null, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";

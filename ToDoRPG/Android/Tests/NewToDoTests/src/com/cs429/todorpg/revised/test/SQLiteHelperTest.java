@@ -224,7 +224,8 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 		Inventory char_warrior = new Inventory(new Armor("A1", 1, 0, 0, 0, negs, 0, 0, 0, poss), null, null, 
-				new Weapon("W1", 4, 0, 0, 0, negs, 0, 0, 0, poss), new ArrayList<RpgItem>());
+				new Weapon("W1", 4, 0, 0, 0, negs, 0, 0, 0, poss), new Weapon("W1", 4, 1, 1, 1, negs, 1, 1, 1, poss), 
+				new ArrayList<RpgItem>());
 		
 		assertTrue(char_warrior.equals(char_warrior));
 
