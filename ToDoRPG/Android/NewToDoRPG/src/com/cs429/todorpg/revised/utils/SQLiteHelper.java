@@ -37,8 +37,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.REWARDS_TABLE_CREATE);
 		db.execSQL(Constants.DAILIES_TABLE_CREATE);
 		db.execSQL(Constants.DAILIESWEEK_TABLE_CREATE);
-		db.execSQL(Constants.VICES_TABLE_CREATE);
-		db.execSQL(Constants.EQUIP_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPARMOR_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPHELMET_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPSHIELD_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPWEAPON_TABLE_CREATE);
+		db.execSQL(Constants.EQUIPSECONDARY_TABLE_CREATE);
 		db.execSQL(Constants.INVENTORY_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
 		db.execSQL(Constants.HABITS_TABLE_CREATE);
@@ -101,7 +104,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
 				null, values);
 	}
-
+	
 	/*
 	 * inserts users character into database
 	 * 
@@ -112,7 +115,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private void deleteCharacter() {
 		this.getReadableDatabase().delete(Constants.TABLE_CHARACTER, null, null);
 	}
-
+	
 	/*
 	 * inserts users character into database
 	 * 
@@ -123,8 +126,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void updateCharacter(ToDoCharacter ch) {
 		this.addCharacter(ch);
 	}
-
-
+	
+	
 	/**
 	 * getToDos() - returns a list of ToDos for the character
 	 * @return Arraylist of all ToDos
@@ -148,10 +151,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int difficulty = cursor.getInt(7);
 				int finished = cursor.getInt(8);
 				ToDo temp = new ToDo(my_todo, extra, primary_key);
-
+				
 				temp.setDueDate(due_month, due_date, due_hour, due_min);
 				temp.setDifficulty(difficulty);
-
+				
 				if (finished == 1)
 					temp.setFinish();
 				todos.add(temp);
@@ -189,13 +192,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("due_min", due_min);
 		values.put("difficulty", difficulty);
 		values.put("finished", finished);
-
+		
 		Log.d("[DB]", "addToDo()");
-
+		
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_TODO, null,
 				values));
 	}
-
+	
 	/**
 	 * deleteToDo() - deletes the ToDo from the database
 	 * @param todo
@@ -203,11 +206,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean deleteToDo(ToDo todo) {
 		Log.d("[DB]", "deleteToDo()");
-
+		
 		return this.getReadableDatabase().delete(Constants.TABLE_TODO, 
 				"_id='" + todo.getKey() + "'", null) > 0;
 	}
-
+	
 	/**
 	 * updateToDo() - updates the ToDo in the database
 	 * @param todo
@@ -234,13 +237,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		else 
 			finished = 0;
 		values.put("finished", finished);
-
+		
 		Log.d("[DB]", "updateToDo()");
-
+		
 		return this.getReadableDatabase().update(Constants.TABLE_TODO, values, "_id='" + todo.getKey() + "'", null) > 0;
 	}
-
-
+	
+	
 	/**
 	 * getDailies() - returns a list of dailies for the character
 	 * @return Arraylist of all dailies
@@ -312,7 +315,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		Log.d("Weekid", "" + weekid);
 		return result;
 	}
-
+	
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -325,7 +328,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_DAILIES, 
 				"_id='" + daily.getKey() + "'", null) > 0;
 	}
-
+	
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -350,7 +353,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return false;
 		return this.getReadableDatabase().update(Constants.TABLE_DAILIES, values, "_id='" + daily.getKey() + "'", null) > 0;
 	}
-
+	
 	/**
 	 * getDailiesWeek() - returns a list of dailies for the character
 	 * @return Arraylist of all dailiesweek
@@ -415,7 +418,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_DAILIESWEEK, null,
 				values));
 	}
-
+	
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -425,7 +428,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_DAILIESWEEK, 
 				"_id='" + weekid + "'", null) > 0;
 	}
-
+	
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -490,20 +493,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		String characteristic = habit.getCharacteristic();
 		int difficulty = habit.getDifficulty();
 		int progress = habit.getProgress();
-
+		
 		ContentValues values = new ContentValues();
 		values.put("title", title);
 		values.put("extra", extra);
 		values.put("characteristic", characteristic);
 		values.put("difficulty", difficulty);
 		values.put("progress", progress);
-
+		
 		Log.d("[DB]", "addHabit()");
-
+		
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
 				values));
 	}
-
+	
 	/**
 	 * deleteHabit() - deletes the Habit from the database
 	 * @param habit
@@ -511,11 +514,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean deleteHabit(Habit habit) {
 		Log.d("[DB]", "deleteHabit()");
-
+		
 		return this.getReadableDatabase().delete(Constants.TABLE_HABITS, 
 				"_id='" + habit.getKey() + "'", null) > 0;
 	}
-
+	
 	/**
 	 * updateHabit() - updates the Habit in the database
 	 * @param habit
@@ -528,12 +531,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("characteristic", habit.getCharacteristic());
 		values.put("difficulty", habit.getDifficulty());
 		values.put("progress", habit.getProgress());
-
+		
 		Log.d("[DB]", "updatesHabit()");
-
+		
 		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
 	}
-
+	
 	/**
 	 * getRewards() - returns a list of all rewards for the character
 	 * @return Arraylist of all rewards for character
@@ -574,7 +577,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
 				values));
 	}
-
+	
 	/**
 	 * deleteReward() - deletes the specific reward from the DB
 	 * @param reward
@@ -584,7 +587,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, 
 				"_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
-
+	
 	/**
 	 * updateReward() - updates the reward in the DB
 	 * @param reward
@@ -597,40 +600,39 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("cost", reward.getCost());
 		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
-
+	
 	/**
 	 * getDailies() - returns a list of dailies for the character
 	 * @return Arraylist of all dailies
 	 */
 	public Inventory getInventory() {
 		Cursor cursor = this.getReadableDatabase().query(
-				Constants.TABLE_EQUIP, null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
+				Constants.TABLE_EQUIPARMOR, null, null, null, null, null, null);
+		Armor temparmor = (Armor) getEquip(cursor, "armor");
+		
+		cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIPHELMET, null, null, null, null, null, null);
+		Helmet temphelmet = (Helmet) getEquip(cursor, "helmet");
+		
+		cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIPSHIELD, null, null, null, null, null, null);
+		Shield tempshield = (Shield) getEquip(cursor, "shield");
+		
+		cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIPWEAPON, null, null, null, null, null, null);
+		Weapon tempweapon = (Weapon) getEquip(cursor, "weapon");
+		
+		cursor = this.getReadableDatabase().query(
+				Constants.TABLE_EQUIPSECONDARY, null, null, null, null, null, null);
+		Weapon tempsecondary = (Weapon) getEquip(cursor, "weapon");
+		
+		ArrayList <RpgItem> unused = this.getUnused();
+		
+		if(temparmor == null && temphelmet == null && tempshield == null && tempweapon == null && tempsecondary == null && unused.isEmpty())
 			return null;
-		else {
-			cursor.moveToFirst();
-			int primary_key = cursor.getInt(0);
-			String armorname = cursor.getString(1);
-			int armorresid = cursor.getInt(2);
-			String helmetname = cursor.getString(3);
-			int helmetresid = cursor.getInt(4);
-			String shieldname = cursor.getString(5);
-			int shieldresid = cursor.getInt(6);
-			String weaponname = cursor.getString(7);
-			int weaponresid = cursor.getInt(8);
-			ArrayList <RpgItem> unused = this.getUnused();
-			Armor temparmor = null; Helmet temphelmet = null; Shield tempshield = null; Weapon tempweapon = null;
-			if(armorname != null)
-				temparmor = new Armor(armorname, armorresid);
-			if(helmetname != null)
-				temphelmet= new Helmet(helmetname, helmetresid);
-			if(shieldname != null)
-				tempshield = new Shield (shieldname, shieldresid);
-			if(weaponname != null)
-				tempweapon = new Weapon(weaponname, weaponresid);
-			Inventory tempinventory = new Inventory(temparmor, temphelmet, tempshield, tempweapon, unused);
-			return tempinventory;
-		}
+		
+		Inventory tempinventory = new Inventory(temparmor, temphelmet, tempshield, tempweapon, tempsecondary, unused);
+		return tempinventory;
 	}
 
 	/**
@@ -640,65 +642,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public int addInventory(Inventory inventory) {
 		this.deleteInventory();
-
-
-		String armorname; Integer armorresid;
-		if(inventory.getArmor() == null)
-		{
-			armorname = null;
-			armorresid = null;
-		}
-		else
-		{
-			armorname = inventory.getArmor().getName();
-			armorresid = inventory.getArmor().getResId();
-		}
-		String helmetname; Integer helmetresid;
-		if(inventory.getHelmet() == null)
-		{
-			helmetname = null;
-			helmetresid = null;
-		}
-		else
-		{
-			helmetname = inventory.getHelmet().getName();
-			helmetresid = inventory.getHelmet().getResId();
-		}
-		String shieldname; Integer shieldresid;
-		if(inventory.getShield() == null)
-		{
-			shieldname = null;
-			shieldresid = null;
-		}
-		else
-		{
-			shieldname = inventory.getShield().getName();
-			shieldresid = inventory.getShield().getResId();
-		}
-		String weaponname; Integer weaponresid;
-		if(inventory.getWeapon() == null)
-		{
-			weaponname = null;
-			weaponresid = null;
-		}
-		else
-		{
-			weaponname = inventory.getWeapon().getName();
-			weaponresid = inventory.getWeapon().getResId();
-		}
+		
+		int temp1 = this.addEquip(inventory.getArmor(), false);
+		int temp2 = this.addEquip(inventory.getHelmet(), false);
+		int temp3 = this.addEquip(inventory.getShield(), false);
+		int temp4 = this.addEquip(inventory.getWeapon(), false);
+		int temp5 = this.addEquip(inventory.getSecondary(), true);
+		
 		this.addUnused(inventory.getInventoryItems());
-		ContentValues values = new ContentValues();
-		values.put("armorname", armorname);
-		values.put("armorresid", armorresid);
-		values.put("helmetname", helmetname);
-		values.put("helmetresid", helmetresid);
-		values.put("shieldname", shieldname);
-		values.put("shieldresid", shieldresid);
-		values.put("weaponname", weaponname);
-		values.put("weaponresid", weaponresid);
-		return (int)(this.getReadableDatabase().insert(Constants.TABLE_EQUIP, null, values));
+		
+		if(temp1 == -1 || temp2 == -1 || temp3 == -1 || temp4 == -1 || temp5 == -1)
+			return -1;
+		else
+			return 0;
+		
 	}
-
+	
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -706,9 +665,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public void deleteInventory() {
 		this.deleteUnused();
-		this.getReadableDatabase().delete(Constants.TABLE_EQUIP, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPARMOR, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPHELMET, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPSHIELD, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPWEAPON, null, null);
+		this.getReadableDatabase().delete(Constants.TABLE_EQUIPSECONDARY, null, null);
 	}
-
+	
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -717,7 +680,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void updateInventory(Inventory inventory) {
 		this.addInventory(inventory);
 	}
-
+	
 	/**
 	 * getDailiesWeek() - returns a list of dailies for the character
 	 * @return Arraylist of all dailiesweek
@@ -725,25 +688,57 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private ArrayList<RpgItem> getUnused() {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_INVENTORY, null, null, null, null, null, null);
+		ArrayList<RpgItem> inventory = new ArrayList<RpgItem>();
 		if (cursor.getCount() == 0)
-			return null;
+			return inventory;
 		else {
-			ArrayList<RpgItem> inventory = new ArrayList<RpgItem>();
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
-				String name = cursor.getString(1);
-				int resid = cursor.getInt(2);
-				int type = cursor.getInt(3);
+				int type = cursor.getInt(1);
+				String name = cursor.getString(2);
+				int resid = cursor.getInt(3);
+				int damage = cursor.getInt(4);
+				int critical = cursor.getInt(5);
+				int multihit = cursor.getInt(6);
+				String negEffects = cursor.getString(7);
+				int damagereduction = cursor.getInt(8);
+				int evasion = cursor.getInt(9);
+				int accuracy = cursor.getInt(10);
+				String posEffects = cursor.getString(11);
+				ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+				while(!negEffects.equals(""))
+				{
+					int tempspace = negEffects.indexOf(' ');
+					int tempcomma = negEffects.indexOf(',');
+					String tempeffect = negEffects.substring(0, tempspace);
+					int temppercent = Integer.parseInt(negEffects.substring(tempspace + 1, tempcomma));
+					negs.add(new NegativeEffects(tempeffect, temppercent));
+					negEffects = negEffects.substring(tempcomma + 1);
+				}
+				
+				ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+				while(!posEffects.equals(""))
+				{
+					int tempcomma = posEffects.indexOf(',');
+					String tempeffect = posEffects.substring(0, tempcomma);
+					poss.add(new PositiveEffects(tempeffect));
+					posEffects = posEffects.substring(tempcomma + 1);
+				}
+						
 				RpgItem tempitem = null;
 				if(type == 1)
-					tempitem = new Armor(name, resid);
+					tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
 				if(type == 2)
-					tempitem = new Helmet(name, resid);
+					tempitem = new Helmet(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
 				if(type == 3)
-					tempitem = new Shield(name, resid);
+					tempitem = new Shield(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
 				if(type == 4)
-					tempitem = new Weapon(name, resid);
+					tempitem = new Weapon(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
 				inventory.add(tempitem);
 			} while (cursor.moveToNext());
 			return inventory;
@@ -756,9 +751,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return the int for DB position of the dailyweek
 	 */
 	private void addUnused(ArrayList<RpgItem> inventoryItems) {
+		deleteUnused();
 		for(int counter = 0; counter < inventoryItems.size(); counter ++)
 		{
-			RpgItem item = inventoryItems.get(counter);
+			Equipment item = (Equipment) inventoryItems.get(counter);
 			int type = 0;
 			if(item instanceof Armor)
 				type = 1;
@@ -768,15 +764,38 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				type = 3;
 			if(item instanceof Weapon)
 				type = 4;
+			ArrayList <NegativeEffects> negs = item.getnegEffects();
+			String negatives = "";
+			for(int x = 0; x < negs.size(); x ++)
+			{
+				NegativeEffects tempneg = negs.get(x);
+				negatives = negatives + tempneg.getName() + " " + tempneg.getAffect() + ",";
+			}
+			ArrayList <PositiveEffects> poss = item.getposEffects();
+			String positives = "";
+			for(int x = 0; x < poss.size(); x ++)
+			{
+				PositiveEffects temppos = poss.get(x);
+				positives = positives + temppos.getName() + ",";
+			}
 			ContentValues values = new ContentValues();
+			values.put("type", type);
 			values.put("name", item.getName());
 			values.put("resid", item.getResId());
-			values.put("type", type);
+			values.put("damage", item.getDamage());
+			values.put("critical", item.getCritical());
+			values.put("multihit", item.getMulti_Hit());
+			values.put("negEffects", negatives);
+			values.put("damagereduction", item.getDamage_Reduction());
+			values.put("evasion", item.getEvasion());
+			values.put("accuracy", item.getAccuracy());
+			values.put("posEffects", positives);
+			
 			this.getReadableDatabase().insert(Constants.TABLE_INVENTORY, null, values);
-
+				
 		}
 	}
-
+	
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -785,7 +804,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private void deleteUnused() {
 		this.getReadableDatabase().delete(Constants.TABLE_INVENTORY, null, null);
 	}
-
+	
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -796,111 +815,111 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		this.addUnused(inventory);
 	}
 
-
-	/*
-	 * returns all the vices a character has 0 = _id 1= name 2= stat 3 =effect
+	
+	/**
+	 * getDailiesWeek() - returns a list of dailies for the character
+	 * @return Arraylist of all dailiesweek
 	 */
-	public ArrayList<Vice> getVices() {
-		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_VICES,
-				null, null, null, null, null, null);
+	private Equipment getEquip(Cursor cursor, String equip) {
 		if (cursor.getCount() == 0)
 			return null;
 		else {
-			ArrayList<Vice> vices = new ArrayList<Vice>();
 			cursor.moveToFirst();
-			do {
-				String name = cursor.getString(1);
-				String stat = cursor.getString(2);
-				int effect = cursor.getInt(3);
-				vices.add(new Vice(name, stat, effect));
-			} while (cursor.moveToNext());
-			return vices;
+			int primary_key = cursor.getInt(0);
+			String name = cursor.getString(1);
+			int resid = cursor.getInt(2);
+			int damage = cursor.getInt(3);
+			int critical = cursor.getInt(4);
+			int multihit = cursor.getInt(5);
+			String negEffects = cursor.getString(6);
+			int damagereduction = cursor.getInt(7);
+			int evasion = cursor.getInt(8);
+			int accuracy = cursor.getInt(9);
+			String posEffects = cursor.getString(10);
+			ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+			while(!negEffects.equals(""))
+			{
+				int tempspace = negEffects.indexOf(' ');
+				int tempcomma = negEffects.indexOf(',');
+				String tempeffect = negEffects.substring(0, tempspace);
+				int temppercent = Integer.parseInt(negEffects.substring(tempspace + 1, tempcomma));
+				negs.add(new NegativeEffects(tempeffect, temppercent));
+				negEffects = negEffects.substring(tempcomma + 1);
+			}
+			
+			ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+			while(!posEffects.equals(""))
+			{
+				int tempcomma = posEffects.indexOf(',');
+				String tempeffect = posEffects.substring(0, tempcomma);
+				poss.add(new PositiveEffects(tempeffect));
+				posEffects = posEffects.substring(tempcomma + 1);
+			}
+					
+			Equipment tempitem = null;
+			if(equip.equals("armor"))
+				tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			else if(equip.equals("helmet"))
+				tempitem = new Helmet(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			else if(equip.equals("shield"))
+				tempitem = new Shield(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			else
+				tempitem = new Weapon(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			return tempitem;
 		}
 	}
 
-	/*
-	 * inserts vice into database
-	 * 
-	 * @vice - the Vice to insert
+	/**
+	 * addDailiesWeek() - adds a dailyweek for the character
+	 * @param seven bools
+	 * @return the int for DB position of the dailyweek
 	 */
-	public long addVices(Vice vice) {
-		String name = vice.getName();
-		String stat = vice.getStat();
-		int effect = vice.getEffect();
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("stat", stat);
-		values.put("effect", effect);
-		return this.getReadableDatabase().insert(Constants.TABLE_VICES, null,
-				values);
-	}
-
-
-	public int addStat(Stat stat){
-		String name = stat.getName();
-		int count = stat.getCount();
-		ContentValues values = new ContentValues();
-		values.put("name",name);
-		values.put("count", count);
-		return (int) (this.getReadableDatabase().insert(Constants.TABLE_STAT, null,
-				values));
-	}
-
-	public boolean updateStat(Stat stat){
-		String name = stat.getName();
-		int count = stat.getCount();
-		ContentValues values = new ContentValues();
-		values.put("name",name);
-		values.put("count", count);
-		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + stat.getId() + "'", null) > 0;
-	}
-
-	public ArrayList<Stat> getStats(){
-		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_STAT,
-				null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			ArrayList<Stat> stats = new ArrayList<Stat>();
-			cursor.moveToFirst();
-			do {
-				int id = cursor.getInt(0);
-				String name = cursor.getString(1);
-				int count = cursor.getInt(2);
-				stats.add(new Stat(id, name, count));
-			} while (cursor.moveToNext());
-			return stats;
+	private int addEquip(Equipment item, boolean secondary) {
+		if (item == null)
+			return 0;
+		ArrayList <NegativeEffects> negs = item.getnegEffects();
+		String negatives = "";
+		for(int x = 0; x < negs.size(); x ++)
+		{
+			NegativeEffects tempneg = negs.get(x);
+			negatives = negatives + tempneg.getName() + " " + tempneg.getAffect() + ",";
 		}
-	}
-
-	public int addLogItem(LogItem item){
-		String text = item.getContent();
-		String date = item.getDate_time();
-		ContentValues values = new ContentValues();
-		values.put("content", text);
-		values.put("date", date);
-		return (int) (this.getReadableDatabase().insert(Constants.TABLE_LOG, null,
-				values));
-	}
-
-	public ArrayList<LogItem> getLog(){
-		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_LOG,
-				null, null, null, null, null, null);
-		if (cursor.getCount() == 0)
-			return null;
-		else {
-			ArrayList<LogItem> log = new ArrayList<LogItem>();
-			cursor.moveToFirst();
-			do {
-				int id = cursor.getInt(0);
-				String content = cursor.getString(1);
-				String date = cursor.getString(2);
-				log.add(new LogItem(id, content, date));
-			} while (cursor.moveToNext());
-			return log;
+		ArrayList <PositiveEffects> poss = item.getposEffects();
+		String positives = "";
+		for(int x = 0; x < poss.size(); x ++)
+		{
+			PositiveEffects temppos = poss.get(x);
+			positives = positives + temppos.getName() + ",";
 		}
+		ContentValues values = new ContentValues();
+		values.put("name", item.getName());
+		values.put("resid", item.getResId());
+		values.put("damage", item.getDamage());
+		values.put("critical", item.getCritical());
+		values.put("multihit", item.getMulti_Hit());
+		values.put("negEffects", negatives);
+		values.put("damagereduction", item.getDamage_Reduction());
+		values.put("evasion", item.getEvasion());
+		values.put("accuracy", item.getAccuracy());
+		values.put("posEffects", positives);
+		
+		
+		if(item instanceof Armor)
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPARMOR, null, values));
+		else if(item instanceof Helmet)
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPHELMET, null, values));
+		else if(item instanceof Shield)
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPSHIELD, null, values));
+		else if(!secondary)
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPWEAPON, null, values));
+		else 
+			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPSECONDARY, null, values));
 	}
-
+	
 	private boolean getBool(int tempint){
 		if(tempint == 1)
 			return true;

@@ -86,11 +86,11 @@ public abstract class BaseActivity extends Activity {
 			popup.show();
 			return true;
 
-		case R.id.battle:
-			intent = new Intent(BaseActivity.this, BattleActivity.class);
-			startActivity(intent);
-			finish();
-			return true;
+//		case R.id.battle:
+//			intent = new Intent(BaseActivity.this, BattleActivity.class);
+//			startActivity(intent);
+//			finish();
+//			return true;
 
 		case R.id.quests:
 			popup = new PopupMenu(BaseActivity.this,
