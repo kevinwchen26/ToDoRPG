@@ -2,17 +2,21 @@ package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cs429.todorpg.revised.controller.ItemListAdapter;
 import com.cs429.todorpg.revised.controller.ShopListAdapter;
 import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
 import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
@@ -22,6 +26,7 @@ import com.cs429.todorpg.revised.itemsystem.Weapon;
 
 public class ShopActivity extends BaseActivity {
 	ShopListAdapter adapter;
+	Shop shop;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,8 @@ public class ShopActivity extends BaseActivity {
 		   section 
 		*/
 		// Set up Shop Items List
-		Shop shop = new Shop();
+		this.shop = new Shop(); // Shop should be a persistent object via database.
+		
 		
 		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
@@ -94,11 +100,8 @@ public class ShopActivity extends BaseActivity {
 				   		break;
 					   
 				   	   case R.id.shop_menu_info:
-				   		Toast.makeText(ShopActivity.this,
-					    		"Item information",
-					      Toast.LENGTH_LONG).show();
-				   		// Remove Item from inventory
-				   		//inventory.removeInventory(position);
+				   		   // Diplay item info
+				   		   showItemInfoDialog(shop.getItem(position));
 				   		
 				   		// Refresh list
 				   		ShopActivity.this.runOnUiThread(new Runnable() {
@@ -112,6 +115,32 @@ public class ShopActivity extends BaseActivity {
 			   }
 		});
 		popupMenu.show();
+	}
+	
+	
+	public void showItemInfoDialog(RpgItem item) {
+		final Dialog d = new Dialog(ShopActivity.this);
+		d.setContentView(R.layout.item_info_dialog);
+		d.setTitle(item.getName());
+		
+		TextView text = (TextView) d.findViewById(R.id.item_info_text);
+		
+		// Can display Item stats here
+		text.setText("Item stats");
+		
+		
+		ImageView image = (ImageView) d.findViewById(R.id.item_info_image);
+		image.setImageResource(item.getResId());
+		Button dialogButton = (Button) d.findViewById(R.id.item_info_dialog_button);
+		// if button is clicked, close the custom dialog
+		dialogButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				d.dismiss();
+			}
+		});
+
+		d.show();
 	}
 }
 

@@ -35,4 +35,8 @@ public class Shop {
 	public RpgItem removeItem(int i) {
 		return this.shopItems.remove(i);
 	}
+	
+	public RpgItem getItem(int i) {
+		return this.shopItems.get(i);
+	}
 }
