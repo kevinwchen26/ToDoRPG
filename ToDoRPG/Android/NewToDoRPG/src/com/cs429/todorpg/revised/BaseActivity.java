@@ -86,11 +86,11 @@ public abstract class BaseActivity extends Activity {
 			popup.show();
 			return true;
 
-			/*
-			 * case R.id.inventory: intent = new Intent(BaseActivity.this,
-			 * InventoryActivity.class); startActivity(intent); finish(); return
-			 * true;
-			 */
+		case R.id.battle:
+			intent = new Intent(BaseActivity.this, BattleActivity.class);
+			startActivity(intent);
+			finish();
+			return true;
 
 		case R.id.quests:
 			popup = new PopupMenu(BaseActivity.this,
@@ -155,16 +155,19 @@ public abstract class BaseActivity extends Activity {
 		exp = (TextView) findViewById(R.id.character_exp);
 		ToDoCharacter character = db.getCharacter();
 		hp.setText(Integer.toString(character.getHP()));
-		DecimalFormat df = new DecimalFormat("#.00"); 
-		double curr_exp = character.getCurrExp() / (double)(character.getLevel() * 100) * 100;
+		DecimalFormat df = new DecimalFormat("#.00");
+		double curr_exp = character.getCurrExp()
+				/ (double) (character.getLevel() * 100) * 100;
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
 	}
+
 	public static void TextValidate() {
 		ToDoCharacter character = db.getCharacter();
 		hp.setText(Integer.toString(character.getHP()));
-		DecimalFormat df = new DecimalFormat("#.00"); 
-		double curr_exp = character.getCurrExp() / (double)(character.getLevel() * 100) * 100;
+		DecimalFormat df = new DecimalFormat("#.00");
+		double curr_exp = character.getCurrExp()
+				/ (double) (character.getLevel() * 100) * 100;
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
 	}
