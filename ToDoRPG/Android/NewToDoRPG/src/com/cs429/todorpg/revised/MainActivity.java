@@ -12,22 +12,23 @@ public class MainActivity extends BaseActivity {
 	Button rewardsButton;
 	Intent intent;
 	SQLiteHelper sql;
-
+	ToDoCharacter character;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		setHeader(R.id.header);
 		sql = new SQLiteHelper(this);
 		CreateCharacter();
+		setHeader(R.id.header);
 
 	}
 
 	private void CreateCharacter() {
-		ToDoCharacter character = sql.getCharacter();
 		if (character == null) {
 			character = new ToDoCharacter("Hello", 0, 100, 1, 0, 100);
 			sql.addCharacter(character);
+		} else {
+			character = sql.getCharacter();
 		}
 
 	}
