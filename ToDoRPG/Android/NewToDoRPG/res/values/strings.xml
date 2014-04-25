@@ -62,6 +62,8 @@
     <string name="current_hp">HP</string>
     <string name="current_exp">EXP</string>
     <string name="complete_list">Completed ToDo Lists</string>
+    <string name="attack">Attack</string>
+    <string name="change_weapon">Change Weapon</string>
 
     <!-- Inventory Strings -->
     <string name="inventory">Inventory</string>
