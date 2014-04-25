@@ -43,6 +43,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.INVENTORY_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
 		db.execSQL(Constants.HABITS_TABLE_CREATE);
+		db.execSQL(Constants.LIBRARY_TABLE_CREATE);
 	}
 
 	@Override
