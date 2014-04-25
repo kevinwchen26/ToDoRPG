@@ -909,6 +909,167 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPSECONDARY, null, values));
 	}
 	
+	/**
+	 * getHabits() - returns a list of habits for the character
+	 * @return Arraylist of all habits
+	 */
+	public Equipment getLibrary(String text) {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_LIBRARY, null, "name='" + text + "'", null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			cursor.moveToFirst();
+			int primary_key = cursor.getInt(0);
+			int type = cursor.getInt(1);
+			String name = cursor.getString(2);
+			int resid = cursor.getInt(3);
+			int damage = cursor.getInt(4);
+			int critical = cursor.getInt(5);
+			int multihit = cursor.getInt(6);
+			String negEffects = cursor.getString(7);
+			int damagereduction = cursor.getInt(8);
+			int evasion = cursor.getInt(9);
+			int accuracy = cursor.getInt(10);
+			String posEffects = cursor.getString(11);
+			ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+			while(!negEffects.equals(""))
+			{
+				int tempspace = negEffects.indexOf(' ');
+				int tempcomma = negEffects.indexOf(',');
+				String tempeffect = negEffects.substring(0, tempspace);
+				int temppercent = Integer.parseInt(negEffects.substring(tempspace + 1, tempcomma));
+				negs.add(new NegativeEffects(tempeffect, temppercent));
+				negEffects = negEffects.substring(tempcomma + 1);
+			}
+			
+			ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+			while(!posEffects.equals(""))
+			{
+				int tempcomma = posEffects.indexOf(',');
+				String tempeffect = posEffects.substring(0, tempcomma);
+				poss.add(new PositiveEffects(tempeffect));
+				posEffects = posEffects.substring(tempcomma + 1);
+			}
+					
+			Equipment tempitem = null;
+			if(type == 1)
+				tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			if(type == 2)
+				tempitem = new Helmet(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			if(type == 3)
+				tempitem = new Shield(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			if(type == 4)
+				tempitem = new Weapon(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+						accuracy, poss);
+			return tempitem;
+		}
+	}
+
+	/**
+	 * addHabit() - adds a habit for the character
+	 * @param habit
+	 * @return the int for DB position of the habit
+	 */
+	public int addLibrary(Equipment item) {
+		int type = 0;
+		if(item instanceof Armor)
+			type = 1;
+		if(item instanceof Helmet)
+			type = 2;
+		if(item instanceof Shield)
+			type = 3;
+		if(item instanceof Weapon)
+			type = 4;
+		ArrayList <NegativeEffects> negs = item.getnegEffects();
+		String negatives = "";
+		for(int x = 0; x < negs.size(); x ++)
+		{
+			NegativeEffects tempneg = negs.get(x);
+			negatives = negatives + tempneg.getName() + " " + tempneg.getAffect() + ",";
+		}
+		ArrayList <PositiveEffects> poss = item.getposEffects();
+		String positives = "";
+		for(int x = 0; x < poss.size(); x ++)
+		{
+			PositiveEffects temppos = poss.get(x);
+			positives = positives + temppos.getName() + ",";
+		}
+		ContentValues values = new ContentValues();
+		values.put("type", type);
+		values.put("name", item.getName());
+		values.put("resid", item.getResId());
+		values.put("damage", item.getDamage());
+		values.put("critical", item.getCritical());
+		values.put("multihit", item.getMulti_Hit());
+		values.put("negEffects", negatives);
+		values.put("damagereduction", item.getDamage_Reduction());
+		values.put("evasion", item.getEvasion());
+		values.put("accuracy", item.getAccuracy());
+		values.put("posEffects", positives);
+		
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_LIBRARY, null, values));
+	}
+	
+	/**
+	 * deleteHabit() - deletes the Habit from the database
+	 * @param habit
+	 * @return true if habit has been successfully deleted, else false
+	 */
+	public boolean deleteLibrary(String text) {
+		
+		return this.getReadableDatabase().delete(Constants.TABLE_LIBRARY, 
+				"name='" + text + "'", null) > 0;
+	}
+	
+	/**
+	 * updateHabit() - updates the Habit in the database
+	 * @param habit
+	 * @return true if successfully updated, false otherwise
+	 */
+	public boolean updateLibrary(Equipment item) {
+		int type = 0;
+		if(item instanceof Armor)
+			type = 1;
+		if(item instanceof Helmet)
+			type = 2;
+		if(item instanceof Shield)
+			type = 3;
+		if(item instanceof Weapon)
+			type = 4;
+		ArrayList <NegativeEffects> negs = item.getnegEffects();
+		String negatives = "";
+		for(int x = 0; x < negs.size(); x ++)
+		{
+			NegativeEffects tempneg = negs.get(x);
+			negatives = negatives + tempneg.getName() + " " + tempneg.getAffect() + ",";
+		}
+		ArrayList <PositiveEffects> poss = item.getposEffects();
+		String positives = "";
+		for(int x = 0; x < poss.size(); x ++)
+		{
+			PositiveEffects temppos = poss.get(x);
+			positives = positives + temppos.getName() + ",";
+		}
+		ContentValues values = new ContentValues();
+		values.put("type", type);
+		values.put("name", item.getName());
+		values.put("resid", item.getResId());
+		values.put("damage", item.getDamage());
+		values.put("critical", item.getCritical());
+		values.put("multihit", item.getMulti_Hit());
+		values.put("negEffects", negatives);
+		values.put("damagereduction", item.getDamage_Reduction());
+		values.put("evasion", item.getEvasion());
+		values.put("accuracy", item.getAccuracy());
+		values.put("posEffects", positives);
+		
+		return this.getReadableDatabase().update(Constants.TABLE_LIBRARY , values, "name='" + item.getName() + "'", null) > 0;
+	}
+	
 	private boolean getBool(int tempint){
 		if(tempint == 1)
 			return true;
