@@ -87,7 +87,7 @@ public abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.battle:
-			intent = new Intent(BaseActivity.this, BattleActivity.class);
+			intent = new Intent(BaseActivity.this, BattleMainActivity.class);
 			startActivity(intent);
 			finish();
 			return true;
