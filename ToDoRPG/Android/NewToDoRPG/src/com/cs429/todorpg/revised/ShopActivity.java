@@ -1,13 +1,12 @@
 package com.cs429.todorpg.revised;
-
+import android.os.Bundle;
+import android.view.WindowManager;
 import java.util.ArrayList;
 
 import android.app.Dialog;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;

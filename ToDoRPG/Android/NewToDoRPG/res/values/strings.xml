@@ -55,6 +55,15 @@
     <string name="title_activity_inventory">InventoryActivity</string>
     <string name="title_activity_stats">StatsActivity</string>
     <string name="equipment">Equipment</string>
+    <string name="current_level">Current Level </string>
+    <string name="completed_quest">Number of Completed Quest </string>
+    <string name="current_money">Current Money </string>
+    <string name="total_battles">Number of Battles </string>
+    <string name="current_hp">HP</string>
+    <string name="current_exp">EXP</string>
+    <string name="complete_list">Completed ToDo Lists</string>
+    <string name="attack">Attack</string>
+    <string name="change_weapon">Change Weapon</string>
 
     <!-- Inventory Strings -->
     <string name="inventory">Inventory</string>

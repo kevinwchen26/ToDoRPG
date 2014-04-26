@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/black">
+
+    <RelativeLayout
+        android:id="@+id/battle_screen"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:background="@drawable/battle_border" >
+        
+    <TextView
+        android:id="@+id/battle_announcement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:background="@drawable/battle_border"
+        android:textSize="50px"
+        android:visibility="invisible" />    
+    
+    <RelativeLayout 
+    	android:id="@+id/battle_enemy_side"
+    	android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/transparent">
+        
+       
+         <ImageView
+            android:id="@+id/battle_enemy_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            
+        </ImageView>
+        
+         <ImageView
+            android:id="@+id/battle_enemy_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" >
+            
+        </ImageView>
+        
+         <ImageView
+            android:id="@+id/battle_enemy_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" >
+            
+        </ImageView>
+        
+    </RelativeLayout>
+    
+    
+    <RelativeLayout 
+    	android:id="@+id/battle_player_side"
+    	android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/transparent">
+        
+       
+         <ImageView
+            android:id="@+id/battle_player_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            
+        </ImageView>
+        
+         <ImageView
+            android:id="@+id/battle_player_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            
+        </ImageView>
+        <ImageView
+            android:id="@+id/battle_player_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            
+        </ImageView>
+        
+    </RelativeLayout>
+    
+
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/battle_navigator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/battle_border">
+
+        <RelativeLayout
+            android:id="@+id/battle_enemy_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/battle_border" >
+            
+            <TextView
+            	android:id="@+id/battle_enemy_info_name"
+           		android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:textColor="@color/white" />
+            <TextView
+            	android:id="@+id/battle_enemy_info_hp"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:textColor="@color/white" />
+            
+         </RelativeLayout>
+
+         <RelativeLayout
+             android:id="@+id/battle_action_menu"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:background="@drawable/battle_border" >
+            
+             <Button
+       			   android:id="@+id/attack_button"
+     			   android:layout_width="wrap_content"
+      			   android:layout_height="wrap_content"
+       			   android:text="@string/attack" />
+
+    <Button
+        android:id="@+id/change_weapon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:text="@string/change_weapon" />
+
+         </RelativeLayout>
+
+         <RelativeLayout
+             android:id="@+id/battle_character_info"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:background="@drawable/battle_border" >
+
+            <TextView
+            	android:id="@+id/battle_player_info_name"
+           		android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:textColor="@color/white" />
+            <TextView
+            	android:id="@+id/battle_player_info_hp"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:textColor="@color/white" />
+            <TextView
+            	android:id="@+id/battle_player_info_mp"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:textColor="@color/white" />
+
+         </RelativeLayout>
+       
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

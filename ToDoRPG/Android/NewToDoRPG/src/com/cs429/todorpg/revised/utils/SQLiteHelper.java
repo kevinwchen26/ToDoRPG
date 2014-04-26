@@ -2,9 +2,11 @@ package com.cs429.todorpg.revised.utils;
 
 import java.util.ArrayList;
 
+import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.itemsystem.*;
@@ -43,6 +45,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(Constants.INVENTORY_TABLE_CREATE);
 		db.execSQL(Constants.TODO_TABLE_CREATE);
 		db.execSQL(Constants.HABITS_TABLE_CREATE);
+		db.execSQL(Constants.STAT_TABLE_CREATE);
+		db.execSQL(Constants.LOG_TABLE_CREATE);
 		db.execSQL(Constants.LIBRARY_TABLE_CREATE);
 	}
 
@@ -67,7 +71,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			int level = cursor.getInt(4);
 			int currexp = cursor.getInt(5);
 			int nextexp = cursor.getInt(6);
-			ToDoCharacter tempchar = new ToDoCharacter(name, gold);
+			ToDoCharacter tempchar = new ToDoCharacter(name, gold, HP, level, currexp, nextexp);
 			tempchar.setHP(HP);
 			tempchar.setLevel(level);
 			tempchar.setCurrExp(currexp);
@@ -498,6 +502,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("difficulty", difficulty);
 		values.put("progress", progress);
 		
+		Log.d("[DB]", "addHabit()");
+		
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
 				values));
 	}
@@ -508,6 +514,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if habit has been successfully deleted, else false
 	 */
 	public boolean deleteHabit(Habit habit) {
+		Log.d("[DB]", "deleteHabit()");
 		
 		return this.getReadableDatabase().delete(Constants.TABLE_HABITS, 
 				"_id='" + habit.getKey() + "'", null) > 0;
@@ -525,6 +532,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("characteristic", habit.getCharacteristic());
 		values.put("difficulty", habit.getDifficulty());
 		values.put("progress", habit.getProgress());
+		
+		Log.d("[DB]", "updatesHabit()");
 		
 		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
 	}
@@ -551,6 +560,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return rewards;
 		}
 	}
+
 
 	/**
 	 * addReward() - adds a reward to the database
@@ -802,8 +812,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @return true if successfully updated, false otherwise
 	 */
 	private void updateUnused(ArrayList <RpgItem> inventory) {
+		this.deleteUnused();
 		this.addUnused(inventory);
 	}
+
 	
 	/**
 	 * getDailiesWeek() - returns a list of dailies for the character

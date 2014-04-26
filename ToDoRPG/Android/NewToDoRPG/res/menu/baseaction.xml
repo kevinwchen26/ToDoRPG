@@ -13,7 +13,7 @@
         android:showAsAction="always" />
     
     <item
-        android:id="@+id/inventory"
+        android:id="@+id/battle"
         android:icon="@drawable/ic_inventory"
         android:title="inventory"
         android:showAsAction="always" />

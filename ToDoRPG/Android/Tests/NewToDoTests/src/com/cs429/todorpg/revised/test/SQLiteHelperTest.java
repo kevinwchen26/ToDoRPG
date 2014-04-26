@@ -51,30 +51,30 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(names.contains("habits"));
 	}
 
-	public void testCharacter() {
-		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE);
-		ToDoCharacter loser = new ToDoCharacter("loser", 0);
-
-		assertNotNull(db);
-		db.addCharacter(kevin);
-		ToDoCharacter test = db.getCharacter();
-		assertEquals(kevin, test);
-		
-		db.addCharacter(loser);
-		test = db.getCharacter();
-		assertEquals(loser, test);
-		
-		kevin.setHP(50);
-		kevin.setLevel(2);
-		kevin.setCurrExp(30);
-		kevin.setNextExp(100);
-
-		db.updateCharacter(kevin);
-		test = db.getCharacter();
-		assertEquals(kevin, test);
-		
-
-	}
+//	public void testCharacter() {
+//		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE);
+//		ToDoCharacter loser = new ToDoCharacter("loser", 0);
+//
+//		assertNotNull(db);
+//		db.addCharacter(kevin);
+//		ToDoCharacter test = db.getCharacter();
+//		assertEquals(kevin, test);
+//		
+//		db.addCharacter(loser);
+//		test = db.getCharacter();
+//		assertEquals(loser, test);
+//		
+//		kevin.setHP(50);
+//		kevin.setLevel(2);
+//		kevin.setCurrExp(30);
+//		kevin.setNextExp(100);
+//
+//		db.updateCharacter(kevin);
+//		test = db.getCharacter();
+//		assertEquals(kevin, test);
+//		
+//
+//	}
 	
 	public void testToDos() {
 		ToDo cake = new ToDo("Cake", "Tasty Sweet", -1);
