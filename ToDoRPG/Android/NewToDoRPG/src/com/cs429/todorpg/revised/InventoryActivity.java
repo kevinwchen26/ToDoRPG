@@ -45,6 +45,7 @@ public class InventoryActivity extends BaseActivity {
 	/**
 	 * Requirements: Inventory must not be null.
 	 */
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,23 +59,22 @@ public class InventoryActivity extends BaseActivity {
 		   TODO: Migrate this code to application initialization
 		   section 
 		*/
-		avatar = new Avatar();
 		
 		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 		
-		avatar.inventory.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		avatar.inventory.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		avatar.inventory.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		avatar.inventory.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		
-		avatar.inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
-		avatar.inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		avatar.inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
 		
 		// This image goes in action bar.
 		ImageView image = (ImageView) findViewById(R.id.character_activity);
-		image.setImageBitmap(avatar.getBitmap());
+		image.setImageBitmap(app.avatar.getBitmap());
 		
 		/* END INITIALIZATION CODE */
 
@@ -88,7 +88,7 @@ public class InventoryActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if (avatar.inventory.isHelmetSet())
+				if (app.avatar.inventory.isHelmetSet())
 					showEquipmentDialog(v, HELMET);
 			}
 		});
@@ -97,7 +97,7 @@ public class InventoryActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if (avatar.inventory.isWeaponSet())
+				if (app.avatar.inventory.isWeaponSet())
 					showEquipmentDialog(v, WEAPON);
 			}
 		});
@@ -106,7 +106,7 @@ public class InventoryActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if (avatar.inventory.isShieldSet())
+				if (app.avatar.inventory.isShieldSet())
 					showEquipmentDialog(v, SHIELD);
 			}
 		});
@@ -115,7 +115,7 @@ public class InventoryActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if (avatar.inventory.isArmorSet())
+				if (app.avatar.inventory.isArmorSet())
 					showEquipmentDialog(v, ARMOR);
 			}
 		});
@@ -123,7 +123,7 @@ public class InventoryActivity extends BaseActivity {
 		setImageViews();
 		
 		// Set up Possession Items List
-		ArrayList<RpgItem> inventoryList = avatar.inventory.getInventoryItems();
+		ArrayList<RpgItem> inventoryList = app.avatar.inventory.getInventoryItems();
 		ListView listView = (ListView) findViewById(R.id.inventory_equipment_list);
         adapter = new ItemListAdapter(InventoryActivity.this, R.layout.inventory_list_row, inventoryList);
         adapter.setNotifyOnChange(true);
@@ -157,7 +157,7 @@ public class InventoryActivity extends BaseActivity {
 					    		"Equipped",
 					      Toast.LENGTH_LONG).show();
 				   		// Equip item
-				   		avatar.inventory.equipItem(position, true);
+				   		app.avatar.inventory.equipItem(position, true);
 				   		// Refresh list 
 				   		
 				   		InventoryActivity.this.runOnUiThread(new Runnable() {
@@ -174,7 +174,7 @@ public class InventoryActivity extends BaseActivity {
 					    		"Item discarded",
 					      Toast.LENGTH_LONG).show();
 				   		// Remove Item from inventory
-				   		avatar.inventory.removeInventory(position);
+				   		app.avatar.inventory.removeInventory(position);
 				   		
 				   		// Refresh list
 				   		adapter.notifyDataSetChanged();
@@ -202,20 +202,20 @@ public class InventoryActivity extends BaseActivity {
 				   		// Unequip item
 				   		switch(equipmentType) {
 				   		case HELMET:
-				   			avatar.inventory.addInventory(avatar.inventory.getHelmet());
-				   			avatar.inventory.setHelmet(null);
+				   			app.avatar.inventory.addInventory(app.avatar.inventory.getHelmet());
+				   			app.avatar.inventory.setHelmet(null);
 				   			break;
 				   		case WEAPON:
-				   			avatar.inventory.addInventory(avatar.inventory.getWeapon());
-				   			avatar.inventory.setWeapon(null);
+				   			app.avatar.inventory.addInventory(app.avatar.inventory.getWeapon());
+				   			app.avatar.inventory.setWeapon(null);
 				   			break;
 				   		case SHIELD:
-				   			avatar.inventory.addInventory(avatar.inventory.getShield());
-				   			avatar.inventory.setShield(null);
+				   			app.avatar.inventory.addInventory(app.avatar.inventory.getShield());
+				   			app.avatar.inventory.setShield(null);
 				   			break;
 				   		case ARMOR:
-				   			avatar.inventory.addInventory(avatar.inventory.getArmor());
-				   			avatar.inventory.setArmor(null);
+				   			app.avatar.inventory.addInventory(app.avatar.inventory.getArmor());
+				   			app.avatar.inventory.setArmor(null);
 				   			break;
 				   		}
 				   		
@@ -231,16 +231,16 @@ public class InventoryActivity extends BaseActivity {
 				   		// Remove Item
 				   		switch(equipmentType) {
 				   		case HELMET:
-				   			avatar.inventory.setHelmet(null);
+				   			app.avatar.inventory.setHelmet(null);
 				   			break;
 				   		case WEAPON:
-				   			avatar.inventory.setWeapon(null);
+				   			app.avatar.inventory.setWeapon(null);
 				   			break;
 				   		case SHIELD:
-				   			avatar.inventory.setShield(null);
+				   			app.avatar.inventory.setShield(null);
 				   			break;
 				   		case ARMOR:
-				   			avatar.inventory.setArmor(null);
+				   			app.avatar.inventory.setArmor(null);
 				   			break;
 				   		}
 				   		
@@ -256,11 +256,11 @@ public class InventoryActivity extends BaseActivity {
 	}
 	
 	public void setImageViews() {
-		helmet_image.setImageBitmap(getEquipmentImage(avatar.inventory.getHelmet(), "#FFCCFF", -38, 0));
-		weapon_image.setImageBitmap(getEquipmentImage(avatar.inventory.getWeapon(), "#FFCCFF", 15, -20));
-		display_image.setImageBitmap(avatar.getBitmap());
-		shield_image.setImageBitmap(getEquipmentImage(avatar.inventory.getShield(), "#FFCCFF", -55, -40));
-		armor_image.setImageBitmap(getEquipmentImage(avatar.inventory.getArmor(), "#FFCCFF", -38, -60));
+		helmet_image.setImageBitmap(getEquipmentImage(app.avatar.inventory.getHelmet(), "#FFCCFF", -38, 0));
+		weapon_image.setImageBitmap(getEquipmentImage(app.avatar.inventory.getWeapon(), "#FFCCFF", 15, -20));
+		display_image.setImageBitmap(app.avatar.getBitmap());
+		shield_image.setImageBitmap(getEquipmentImage(app.avatar.inventory.getShield(), "#FFCCFF", -55, -40));
+		armor_image.setImageBitmap(getEquipmentImage(app.avatar.inventory.getArmor(), "#FFCCFF", -38, -60));
 	}
 
 	public Bitmap getEquipmentImage(RpgItem item, String colorString, int xOffset, int yOffset) {

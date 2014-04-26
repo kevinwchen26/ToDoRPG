@@ -26,18 +26,17 @@ public abstract class BaseActivity extends Activity {
 	static TextView hp, exp;
 	PopupMenu popup;
 	private static SQLiteHelper db;
-	public static Avatar avatar;
+	GameApplication app=(GameApplication)getApplication();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		app = (GameApplication)getApplication();
 		actionbar = getActionBar();
-		avatar=new Avatar();
 
 		if (actionbar != null)
 			setActionbar();
 		db = new SQLiteHelper(this);
-		avatar=new Avatar();
 	}
 
 	@Override
@@ -51,7 +50,7 @@ public abstract class BaseActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.baseaction, menu);
 		MenuItem item =menu.getItem(0);
-		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),avatar.getBitmap());
+		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),app.avatar.getBitmap());
 		item.setIcon(drawable);
 		return true;
 	}
@@ -155,7 +154,7 @@ public abstract class BaseActivity extends Activity {
 	private void setActionbar() {
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeButtonEnabled(true);
-		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),avatar.getBitmap());
+		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),app.avatar.getBitmap());
 		actionbar.setIcon(drawable);
 		actionbar.setDisplayShowTitleEnabled(false);
 
@@ -172,7 +171,7 @@ public abstract class BaseActivity extends Activity {
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
 		ImageView icon = (ImageView)findViewById(R.id.character_activity);
-		icon.setImageBitmap(avatar.getBitmap());
+		icon.setImageBitmap(app.avatar.getBitmap());
 	}
 
 	public static void TextValidate() {

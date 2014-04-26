@@ -2,6 +2,7 @@ package com.cs429.todorpg.revised;
 
 import com.cs429.todorpg.revised.itemsystem.Inventory;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,7 +17,8 @@ public class Avatar {
 	public Inventory inventory;
 	
 	public Avatar () {
-		this.skin = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), R.drawable.skin_c06534);
+		Context context = GameApplication.getAppContext();
+		this.skin = BitmapFactory.decodeResource(context.getResources(), R.drawable.skin_c06534);
 		inventory=new Inventory();
 	}
 	
