@@ -53,7 +53,7 @@ public class InventoryActivityTest extends
 		inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
 		
-		activity.inventory = inventory;
+		activity.avatar.inventory = inventory;
 	}
 
 	@Override 

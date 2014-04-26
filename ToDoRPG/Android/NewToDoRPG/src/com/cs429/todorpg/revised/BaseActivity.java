@@ -5,12 +5,15 @@ import java.text.DecimalFormat;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -23,14 +26,18 @@ public abstract class BaseActivity extends Activity {
 	static TextView hp, exp;
 	PopupMenu popup;
 	private static SQLiteHelper db;
+	public static Avatar avatar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		actionbar = getActionBar();
+		avatar=new Avatar();
+
 		if (actionbar != null)
 			setActionbar();
 		db = new SQLiteHelper(this);
+		avatar=new Avatar();
 	}
 
 	@Override
@@ -43,6 +50,9 @@ public abstract class BaseActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.baseaction, menu);
+		MenuItem item =menu.getItem(0);
+		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),avatar.getBitmap());
+		item.setIcon(drawable);
 		return true;
 	}
 
@@ -145,7 +155,8 @@ public abstract class BaseActivity extends Activity {
 	private void setActionbar() {
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeButtonEnabled(true);
-		actionbar.setIcon(R.drawable.ic_character);
+		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),avatar.getBitmap());
+		actionbar.setIcon(drawable);
 		actionbar.setDisplayShowTitleEnabled(false);
 
 	}
@@ -160,6 +171,9 @@ public abstract class BaseActivity extends Activity {
 				/ (double) (character.getLevel() * 100) * 100;
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
+		setContentView(R.layout.character_activity);
+		ImageView icon = (ImageView)findViewById(R.id.character_activity);
+		icon.setImageBitmap(avatar.getBitmap());
 	}
 
 	public static void TextValidate() {
