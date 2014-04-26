@@ -102,6 +102,7 @@ public class MainActivity extends BaseActivity {
 			tempequip = new Weapon("Buster Sword", R.drawable.weapon_special_1, 200, 50, 75, negs, 5, 5, 5, poss);
 			sql.addLibrary(tempequip, 5000);
 			
+			//armor
 			negs.clear();
 			tempequip = new Armor("Iron Armor", R.drawable.broad_armor_healer_1, 0, 0, 0, negs, 10, 0, 0, poss);
 			sql.addLibrary(tempequip, 200);
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity {
 			tempequip = new Armor("Mythril Vest", R.drawable.broad_armor_healer_5, 0, 0, 0, negs, 50, 0, 0, poss);
 			sql.addLibrary(tempequip, 500);
 			
+			//helmet
 			tempequip = new Helmet("Hat", R.drawable.head_warrior_1, 0, 0, 0, negs, 5, 0, 30, poss);
 			sql.addLibrary(tempequip, 200);
 			
@@ -121,6 +123,7 @@ public class MainActivity extends BaseActivity {
 			tempequip = new Helmet("Warrior's Helm", R.drawable.head_warrior_5, 0, 0, 0, negs, 5, 0, 80, poss);
 			sql.addLibrary(tempequip, 500);
 			
+			//shield
 			tempequip = new Shield("Standard Shield", R.drawable.shield_warrior_1, 0, 0, 0, negs, 5, 10, 0, poss);
 			sql.addLibrary(tempequip, 200);
 			
