@@ -1,5 +1,14 @@
 package com.cs429.todorpg.revised;
 
+import java.util.ArrayList;
+
+import com.cs429.todorpg.revised.itemsystem.Armor;
+import com.cs429.todorpg.revised.itemsystem.Helmet;
+import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
+import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
+import com.cs429.todorpg.revised.itemsystem.Shield;
+import com.cs429.todorpg.revised.itemsystem.Weapon;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -27,4 +36,6 @@ public class GameApplication extends Application {
 	public void setAppContext(Context mAppContext) {
         this.mAppContext = mAppContext;
     }
+
+
 }

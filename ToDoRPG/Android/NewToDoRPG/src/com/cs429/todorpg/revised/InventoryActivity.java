@@ -52,26 +52,6 @@ public class InventoryActivity extends BaseActivity {
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.inventory_activity);
 		setHeader(R.id.header);
-		
-		/* 
-		   INITIALIZE CODE, TEMPORARY. THIS SHOULD BE DONE
-		   WHEN THE APPLICATION STARTS
-		   TODO: Migrate this code to application initialization
-		   section 
-		*/
-		
-		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
-		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
-		
-		app.avatar.inventory.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		
-		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
-		
 		// This image goes in action bar.
 		ImageView image = (ImageView) findViewById(R.id.character_activity);
 		image.setImageBitmap(app.avatar.getBitmap());
