@@ -18,7 +18,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class DeviceListActivity extends Activity {
+public class DeviceListActivity extends BaseActivity {
 
 	private Set<BluetoothDevice> pairedDevices;
 	private ArrayAdapter<String> adapter;
@@ -26,7 +26,7 @@ public class DeviceListActivity extends Activity {
 	private BluetoothDevice selected_device;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_device_list);
 		

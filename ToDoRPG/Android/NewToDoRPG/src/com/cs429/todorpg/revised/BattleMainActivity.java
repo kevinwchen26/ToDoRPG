@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class BattleMainActivity extends Activity {
+public class BattleMainActivity extends BaseActivity {
 
 	private BluetoothService BTService;
 	private BTControl btctrl;
@@ -22,7 +22,7 @@ public class BattleMainActivity extends Activity {
 	private Button bluetooth_connect_btn;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		Log.e("[LifeCycle]", "++ onCreate ++");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_battle_main);
