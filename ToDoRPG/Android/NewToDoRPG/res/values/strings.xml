@@ -69,5 +69,9 @@
     <string name="inventory">Inventory</string>
     <string name="item_image_row">Item image</string>
     <string name="check">V</string>
+    <string name="title_activity_shop">ShopActivity</string>
+    
+    <!-- Shop Strings -->
+    <string name="shop">Shop</string>
 
 </resources>

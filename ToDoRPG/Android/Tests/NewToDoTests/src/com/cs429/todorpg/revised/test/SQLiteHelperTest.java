@@ -255,4 +255,41 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 	}
 	
+	public void testLibrary() {
+		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+		Equipment temparmor = new Armor("A1", 1, 0, 0, 0, negs, 0, 0, 0, poss);
+		Equipment tempweapon = new Weapon("W1", 4, 0, 0, 0, negs, 0, 0, 0, poss);
+				
+
+		assertNotNull(db);
+		int idarmor = db.addLibrary(temparmor, 50);
+		assertNotSame(-1, idarmor);
+		int idarmor2 = db.addLibrary(temparmor, 50);
+		assertEquals(-1, idarmor2);
+		int idweapon = db.addLibrary(tempweapon, 50);
+		assertNotSame(-1, idweapon);
+		
+		EquipCost testarmor = db.getLibrary("A1");
+		assertEquals(temparmor, testarmor.getEquipment());
+		assertEquals(50, testarmor.getCost());
+		
+		negs.add(new NegativeEffects("Blind", 20));
+		poss.add(new PositiveEffects("nullBlind"));
+		tempweapon = new Weapon("W1", 4, 0, 0, 0, negs, 0, 0, 0, poss);
+		
+		assertTrue(db.updateLibrary(tempweapon, 30));
+		EquipCost testweapon = db.getLibrary("W1");
+		assertEquals(tempweapon, testweapon.getEquipment());
+		assertEquals(30, testweapon.getCost());
+		
+		assertTrue(db.deleteLibrary("A1"));
+		assertTrue(db.deleteLibrary("W1"));
+		testarmor = db.getLibrary("A1");
+		assertNull(testarmor);
+		testweapon = db.getLibrary("W1");
+		assertNull(testweapon);
+		
+	}
+	
 }
