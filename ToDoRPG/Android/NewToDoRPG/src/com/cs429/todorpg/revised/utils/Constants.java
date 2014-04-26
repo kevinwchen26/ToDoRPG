@@ -35,7 +35,6 @@ public class Constants {
 											// items;(_id,name,resid)
 	static String TABLE_HABITS = "habits"; // Table for
 									// habits;(_id,title,extra,characteristic,difficulty,progress);
-	
 	static String TABLE_LOG="log";//log(id,content,date)
 	static String TABLE_STAT="stat";//stat(id,name,count);
 	/*
@@ -45,6 +44,9 @@ public class Constants {
 	private static final String COLUMN_NAME = "name";
 	private static final String COLUMN_REWARD_COST = "cost";
 
+	static String TABLE_LIBRARY = "library"; // Table for
+	// habits;(_id,title,extra,characteristic,difficulty,progress);
+	
 	/*
 	 * Table Creation Queries;
 	 */
@@ -59,6 +61,7 @@ public class Constants {
 	static final String EQUIPHELMET_TABLE_CREATE = "create table equiphelmet(_id integer primary key autoincrement, name text, resid INTEGER, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";
 	static final String EQUIPSHIELD_TABLE_CREATE = "create table equipshield(_id integer primary key autoincrement, name text, resid INTEGER, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";	
 	static final String INVENTORY_TABLE_CREATE = "create table inventory(_id integer primary key autoincrement, type int not null, name text not null, resid int not null, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null)";
+	static final String LIBRARY_TABLE_CREATE = "create table library(_id integer primary key autoincrement, type int not null, name text not null unique, resid int not null, damage INTEGER, critical INTEGER, multihit INTEGER, negEffects text not null, damagereduction INTEGER, evasion INTEGER, accuracy INTEGER, posEffects text not null, cost int not null)";
 	static final String TODO_TABLE_CREATE = "create table todo(_id integer primary key autoincrement, my_todo text not null unique, extra text not null, due_month int not null, due_date int not null, due_hour int not null, due_min int not null, difficulty int not null, finished int not null)";
 	static final String HABITS_TABLE_CREATE = "create table habits(_id integer primary key autoincrement, title text not null unique, extra text not null, characteristic text not null, difficulty int not null, progress int not null)";
 	static final String LOG_TABLE_CREATE = "create table log(_id integer primary key autoincrement, content text not null unique, date text not null)";

@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:id="@+id/shop_group_popupmenu">
+      <item android:id="@+id/shop_menu_purchase"
+          android:title="Purchase"/>
+      <item android:id="@+id/shop_menu_info"
+          android:title="Info"/>
+  </group>
+</menu>

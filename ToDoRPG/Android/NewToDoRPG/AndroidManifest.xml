@@ -59,6 +59,11 @@
         <service
             android:name="com.cs429.todoprg.service.AlarmService"
             android:enabled="true" />
+
+        <activity
+            android:name="com.cs429.todorpg.revised.ShopActivity"
+            android:label="@string/title_activity_shop" >
+        </activity>
     </application>
 
 </manifest>

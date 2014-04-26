@@ -2,11 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
+    android:orientation="vertical">
+  
+     
+    <include layout="@layout/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+    <!-- Title -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:text="Shop Activity"/>
-
+        android:id="@+id/shop_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        
+        android:layout_marginTop="5dp"
+        
+        android:textSize="20sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="@string/shop"
+        />
+    
+    <!--  Shop List -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        <ListView
+            android:id="@+id/shop_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            />
+    </RelativeLayout>
+    
 </LinearLayout>
