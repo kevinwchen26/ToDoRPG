@@ -171,7 +171,6 @@ public abstract class BaseActivity extends Activity {
 				/ (double) (character.getLevel() * 100) * 100;
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
-		setContentView(R.layout.character_activity);
 		ImageView icon = (ImageView)findViewById(R.id.character_activity);
 		icon.setImageBitmap(avatar.getBitmap());
 	}
