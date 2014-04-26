@@ -406,12 +406,14 @@ public class HabitAdapter extends BaseAdapter  {
 			character.setCurrExp(0);
 		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
 			character.setLevel(character.getLevel() - 1);
+			character.setHP(character.getHP() - 20);
 			character.setCurrExp(character.getLevel() * 100);
 			if(character.getHP() < 100)
 				character.setHP(100);
-			if(character.getGold() < 0) 
-				character.setGold(0);
+			
 		}
+		if(character.getGold() < 0) 
+			character.setGold(0);
 		db.updateCharacter(character);
 		// character = new ToDoCharacter(character.getGold(), HP, level,
 		// currentEXP, nextEXP)
