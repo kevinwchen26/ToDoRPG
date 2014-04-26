@@ -913,7 +913,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * getHabits() - returns a list of habits for the character
 	 * @return Arraylist of all habits
 	 */
-	public Equipment getLibrary(String text) {
+	public EquipCost getLibrary(String text) {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_LIBRARY, null, "name='" + text + "'", null, null, null, null);
 		if (cursor.getCount() == 0)
@@ -932,6 +932,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			int evasion = cursor.getInt(9);
 			int accuracy = cursor.getInt(10);
 			String posEffects = cursor.getString(11);
+			int cost = cursor.getInt(12);
 			ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
 			while(!negEffects.equals(""))
 			{
@@ -965,7 +966,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			if(type == 4)
 				tempitem = new Weapon(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
 						accuracy, poss);
-			return tempitem;
+			return new EquipCost(tempitem, cost);
 		}
 	}
 
@@ -974,7 +975,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @param habit
 	 * @return the int for DB position of the habit
 	 */
-	public int addLibrary(Equipment item) {
+	public int addLibrary(Equipment item, int cost) {
 		int type = 0;
 		if(item instanceof Armor)
 			type = 1;
@@ -1010,6 +1011,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("evasion", item.getEvasion());
 		values.put("accuracy", item.getAccuracy());
 		values.put("posEffects", positives);
+		values.put("cost", cost);
 		
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_LIBRARY, null, values));
 	}
@@ -1030,7 +1032,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @param habit
 	 * @return true if successfully updated, false otherwise
 	 */
-	public boolean updateLibrary(Equipment item) {
+	public boolean updateLibrary(Equipment item, int cost) {
 		int type = 0;
 		if(item instanceof Armor)
 			type = 1;
@@ -1066,6 +1068,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("evasion", item.getEvasion());
 		values.put("accuracy", item.getAccuracy());
 		values.put("posEffects", positives);
+		values.put("cost", cost);
 		
 		return this.getReadableDatabase().update(Constants.TABLE_LIBRARY , values, "name='" + item.getName() + "'", null) > 0;
 	}
