@@ -45,7 +45,7 @@ public class BattleActivity extends BaseActivity {
 	int width, height, playerMaxHP, enemyMaxHP;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo, enemySide, playerSide;
 	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement;
-	ImageView enemyImage, playerImage, playerEffect, enemyEffect, playerStatus, enemyStatus;
+	ImageView enemyImage, playerImage, playerEffect, enemyEffect, playerStatusPoison, playerStatusBlind, playerStatusCurse, enemyStatusPoison, enemyStatusBlind, enemyStatusCurse;
 	AnimationDrawable playerWalk, playerAttack, enemyAttack;
 	Button attack, change_weapon;
 	Intent intent;
@@ -75,6 +75,8 @@ public class BattleActivity extends BaseActivity {
 		setUpBattleNavigator();
 		setUpBattleMenu();
 		setUpBattleInfo();
+	    setUpStatusEffects();
+	    applyStatusEffects();
 		update();
 		
 	}
@@ -105,18 +107,6 @@ public class BattleActivity extends BaseActivity {
 	    playerEffectParams.addRule(RelativeLayout.ALIGN_BOTTOM, playerImage.getId());
 	    playerEffect.setLayoutParams(playerEffectParams);
 	    
-	    
-	    RelativeLayout.LayoutParams playerStatusParams = new RelativeLayout.LayoutParams(playerStatus.getLayoutParams());
-	    playerStatusParams.addRule(RelativeLayout.ALIGN_LEFT, playerImage.getId());
-	    playerStatusParams.addRule(RelativeLayout.ABOVE, playerImage.getId());
-	    playerStatus.setLayoutParams(playerStatusParams);
-	    
-	    RelativeLayout.LayoutParams enemyStatusParams = new RelativeLayout.LayoutParams(enemyStatus.getLayoutParams());
-	    enemyStatusParams.addRule(RelativeLayout.ALIGN_LEFT, enemyImage.getId());
-	    enemyStatusParams.addRule(RelativeLayout.ABOVE, enemyImage.getId());
-
-	    enemyStatus.setLayoutParams(enemyStatusParams);
-
 	    RelativeLayout.LayoutParams announcementParams =  new RelativeLayout.LayoutParams(battleAnnouncement.getLayoutParams());
 	    announcementParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 	    battleAnnouncement.setLayoutParams(announcementParams);
@@ -137,10 +127,48 @@ public class BattleActivity extends BaseActivity {
 	    playerImage.setImageBitmap(inventory.getBitmap());
 	    enemyImage.setImageBitmap(inventory.getBitmap());
 	    
-	    
 
 	}
+	
+	private void setUpStatusEffects(){
 
+	    RelativeLayout.LayoutParams playerStatusPoisonParams = new RelativeLayout.LayoutParams(playerStatusPoison.getLayoutParams());
+	    playerStatusPoisonParams.addRule(RelativeLayout.ALIGN_LEFT, playerImage.getId());
+	    playerStatusPoisonParams.addRule(RelativeLayout.ABOVE, playerImage.getId());
+	    playerStatusPoison.setLayoutParams(playerStatusPoisonParams);
+	    
+	    
+	    RelativeLayout.LayoutParams playerStatusBlindParams = new RelativeLayout.LayoutParams(playerStatusBlind.getLayoutParams());
+	    playerStatusBlindParams.addRule(RelativeLayout.LEFT_OF, playerStatusPoison.getId());
+	    playerStatusBlind.setLayoutParams(playerStatusBlindParams);
+	    
+	    RelativeLayout.LayoutParams playerStatusCurseParams = new RelativeLayout.LayoutParams(playerStatusCurse.getLayoutParams());
+	    playerStatusCurseParams.addRule(RelativeLayout.RIGHT_OF, playerStatusPoison.getId());
+	    playerStatusCurse.setLayoutParams(playerStatusCurseParams);
+	    
+	    RelativeLayout.LayoutParams enemyStatusPoisonParams = new RelativeLayout.LayoutParams(enemyStatusPoison.getLayoutParams());
+	    enemyStatusPoisonParams.addRule(RelativeLayout.ALIGN_LEFT, enemyImage.getId());
+	    enemyStatusPoisonParams.addRule(RelativeLayout.ABOVE, enemyImage.getId());
+	    enemyStatusPoison.setLayoutParams(enemyStatusPoisonParams);
+	    
+	    
+	    RelativeLayout.LayoutParams enemyStatusBlindParams = new RelativeLayout.LayoutParams(enemyStatusBlind.getLayoutParams());
+	    enemyStatusBlindParams.addRule(RelativeLayout.LEFT_OF, enemyStatusPoison.getId());
+	    enemyStatusBlind.setLayoutParams(enemyStatusBlindParams);
+	    
+	    RelativeLayout.LayoutParams enemyStatusCurseParams = new RelativeLayout.LayoutParams(enemyStatusCurse.getLayoutParams());
+	    enemyStatusCurseParams.addRule(RelativeLayout.RIGHT_OF, enemyStatusPoison.getId());
+	    enemyStatusCurse.setLayoutParams(enemyStatusCurseParams);
+
+
+	    
+	}
+
+	private void applyStatusEffects() {
+		enemyStatusCurse.setBackgroundResource(R.drawable.curse);
+		enemyStatusPoison.setBackgroundResource(R.drawable.poison);
+		enemyStatusBlind.setBackgroundResource(R.drawable.blind);
+	}
 	private void setUpBattleNavigator() {
 		// Set up Battle navigator
 		RelativeLayout.LayoutParams battleNav = new RelativeLayout.LayoutParams(width, height/4);
@@ -339,8 +367,12 @@ public class BattleActivity extends BaseActivity {
 		battleAnnouncement = (TextView) findViewById(R.id.battle_announcement);
 		attack = (Button)findViewById(R.id.attack_button);
 		change_weapon = (Button)findViewById(R.id.change_weapon);
-		playerStatus = (ImageView)findViewById(R.id.battle_player_status);
-		enemyStatus = (ImageView)findViewById(R.id.battle_enemy_status);
+		playerStatusPoison = (ImageView)findViewById(R.id.battle_player_status_poison);
+		enemyStatusPoison = (ImageView)findViewById(R.id.battle_enemy_status_poison);
+		playerStatusBlind = (ImageView)findViewById(R.id.battle_player_status_blind);
+		enemyStatusBlind = (ImageView)findViewById(R.id.battle_enemy_status_blind);
+		playerStatusCurse = (ImageView)findViewById(R.id.battle_player_status_curse);
+		enemyStatusCurse = (ImageView)findViewById(R.id.battle_enemy_status_curse);
 		
 	}
 

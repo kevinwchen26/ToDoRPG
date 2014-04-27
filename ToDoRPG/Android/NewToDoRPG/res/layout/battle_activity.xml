@@ -46,9 +46,23 @@
         </ImageView>
         
          <ImageView
-            android:id="@+id/battle_enemy_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/battle_enemy_status_poison"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_centerInParent="true" >
+                    </ImageView>
+             
+             <ImageView
+            android:id="@+id/battle_enemy_status_blind"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_centerInParent="true" >
+                    </ImageView>
+                 
+                 <ImageView
+            android:id="@+id/battle_enemy_status_curse"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:layout_centerInParent="true" >
             
         </ImageView>
@@ -80,7 +94,21 @@
             
         </ImageView>
         <ImageView
-            android:id="@+id/battle_player_status"
+            android:id="@+id/battle_player_status_poison"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            
+        </ImageView>
+        <ImageView
+            android:id="@+id/battle_player_status_blind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            
+        </ImageView>
+        <ImageView
+            android:id="@+id/battle_player_status_curse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
