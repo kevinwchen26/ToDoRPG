@@ -124,7 +124,7 @@ public class BTMessageHandler extends Handler{
 	
 	private void showAlertDialog(String message){
 		AlertDialog.Builder ab = null;
-		ab = new AlertDialog.Builder((Activity)appContext);
+		ab = new AlertDialog.Builder(appContext);
 		ab.setTitle("connection failure");
 		ab.setMessage(message);
 		ab.setPositiveButton("OK", null);
