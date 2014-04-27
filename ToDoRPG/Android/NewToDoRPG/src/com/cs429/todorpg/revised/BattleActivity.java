@@ -55,27 +55,7 @@ public class BattleActivity extends BaseActivity {
 	SQLiteHelper sql = new SQLiteHelper(this);
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
-	Thread myThread;
-	
-	class StatusRunner implements Runnable{
 
-		@Override
-		public void run() {
-			while(!Thread.currentThread().isInterrupted()){
-				try{
-					runStatusEffects();
-					Thread.sleep(1000);
-				} catch(InterruptedException e){
-					Thread.currentThread().interrupt();
-				}catch(Exception e){
-					
-				}
-				
-			}
-			
-		}
-		
-	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,12 +68,6 @@ public class BattleActivity extends BaseActivity {
 
 	}
 
-	private void startThread(){
-		myThread = null;
-		Runnable myRunnableThread = new StatusRunner();
-		myThread = new Thread(myRunnableThread);
-		myThread.start();
-	}
 
 	private void setUpActivity() {
 	    setPlayers();
@@ -103,11 +77,6 @@ public class BattleActivity extends BaseActivity {
 		setUpBattleInfo();
 		update();
 		
-	}
-	
-	private void runStatusEffects() {
-		setBattleMessage(player.getName() + " attacks " + enemy.getName());
-
 	}
 
 	private void setUpBattleScreen() {
@@ -379,7 +348,7 @@ public class BattleActivity extends BaseActivity {
 	private void setUpLayout() {
 
 		 //Remove title bar
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    //Remove notification bar
 	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    // Sets to landscape 
