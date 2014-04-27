@@ -502,6 +502,8 @@ public class BluetoothService {
 				Log.i(TAG, "BEGIN mConnectedThread");
 				mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_SETTLED).sendToTarget();
 				
+				byte[] buffer = new byte[1024];
+
 				while(true){
 					try {
 						int header = mmInStream.read();
