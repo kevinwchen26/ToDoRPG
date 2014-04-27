@@ -10,6 +10,8 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:name="com.cs429.todorpg.revised.GameApplication"
@@ -26,9 +28,11 @@
         <activity android:name="com.cs429.todorpg.revised.InventoryActivity" />
         <activity android:name="com.cs429.todorpg.revised.RewardsActivity" />
         <activity android:name="com.cs429.todorpg.revised.BattleActivity" />
-        <activity android:name="com.cs429.todorpg.revised.ShopActivity" />
+<!--      <activity android:name="com.cs429.todorpg.revised.ShopActivity" />  -->
         <activity android:name="com.cs429.todorpg.revised.CalendarView" />
         <activity android:name="com.cs429.todorpg.revised.AlarmNotification" />
+        <activity android:name="com.cs429.todorpg.revised.DeviceListActivity"
+            android:parentActivityName="com.cs429.todorpg.revised.BattleMainActivity" />
         <activity
             android:name="com.cs429.todorpg.revised.DailyActivity"
             android:label="@string/title_activity_daily" >
@@ -63,6 +67,11 @@
         <activity
             android:name="com.cs429.todorpg.revised.ShopActivity"
             android:label="@string/title_activity_shop" >
+        </activity>
+        <activity
+            android:name="com.cs429.todorpg.revised.BattleMainActivity"
+            android:parentActivityName="com.cs429.todorpg.revised.MainActivity"
+            android:label="@string/title_activity_battle_main" >
         </activity>
     </application>
 
