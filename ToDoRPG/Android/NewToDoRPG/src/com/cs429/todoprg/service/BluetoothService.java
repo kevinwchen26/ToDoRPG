@@ -58,7 +58,7 @@ public class BluetoothService {
 		private int mState;
 		private Context appContext;
 		
-		private Handler mHandler;
+		private BTMessageHandler mHandler;
 		
 		/**
 		 * Constructor. Prepares a new Bluetooth_connect session.
@@ -91,25 +91,27 @@ public class BluetoothService {
 			return mState;
 		}
 		
+		public synchronized void resetState(){
+			mState = STATE_LISTEN;
+		}
+		
 		/**
 		 * Start the chat service. Specifically start AcceptThread to begin a
 		 * session in listening (server) mode. Called by the Activity onResume()
 		 */
 		public synchronized void start() {
-
-			if(mState == STATE_CONNECTING){
-				if(mConnectThread != null)
-					return;
-			}
+			Log.d(TAG, "Bluetooth Service start()");
 			
 			// Cancel any thread attempting to make a connection
-			if (mConnectThread != null) {
+			if (mConnectThread != null && mState != STATE_CONNECTING) {
+				Log.d(TAG, "connect thread null");
 				mConnectThread.cancel();
 				mConnectThread = null;
 			}
 
 			// Cancel any thread currently running a connection
 			if (mConnectedThread != null) {
+				Log.d(TAG, "connected thread null");
 				mConnectedThread.cancel();
 				mConnectedThread = null;
 			}
@@ -117,6 +119,7 @@ public class BluetoothService {
 			// Start the thread to listen on a BluetoothServerSocket
 			//if connected or connect is null (no trial yet), then wait for connection
 			if (mAcceptThread == null) {
+				Log.d(TAG, "accept thread reset");
 				mAcceptThread = new AcceptThread();
 				mAcceptThread.start();
 			}
@@ -192,6 +195,8 @@ public class BluetoothService {
 		 * Stop all threads
 		 */
 		public synchronized void stop() {
+			Log.d("BTHandler", "destroying the connection at all...");
+			
 			if (mConnectThread != null) {
 				mConnectThread.cancel();
 				mConnectThread = null;
@@ -227,23 +232,27 @@ public class BluetoothService {
 			r.write(out);
 		}
 
+		/*
+		public byte[] read(){
+			// Create temporary object
+			ConnectedThread r;
+			// Synchronize a copy of the ConnectedThread
+			synchronized (this) {
+				if(mState != STATE_CONNECTED)
+					return null;
+				r = mConnectedThread;
+			}
+			// Perform the read unsynchronized
+			return r.read();
+		}
+		*/
+		
 		/**
 		 * Indicate that the connection attempt failed and notify the UI Activity.
 		 */
 		private void connectionFailed(int arg1, int arg2) {
 			setState(STATE_LISTEN);
 			mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_FAIL, arg1, arg2).sendToTarget();
-/*		
-			Handler postHandler = new Handler();
-			postHandler.post(new Runnable(){
-				@Override
-				public void run(){
-					Looper.prepare();
-					Toast.makeText(appContext, "Failed to connect", Toast.LENGTH_SHORT).show();
-					Looper.loop();
-				}
-			});
-*/			
 		}
 
 		/**
@@ -296,30 +305,6 @@ public class BluetoothService {
 					
 					Log.d(TAG, "receiving a request from a friend..");
 					mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_REQUEST, socket).sendToTarget();
-/*
-					// If a connection was accepted
-					if (socket != null) {
-						synchronized (BluetoothService.this) {
-							switch (mState) {
-							case STATE_LISTEN:
-							case STATE_CONNECTING:
-								// Situation normal. Start the connected thread.
-								connected(socket, socket.getRemoteDevice());
-								break;
-							case STATE_NONE:
-							case STATE_CONNECTED:
-								// Either not ready or already connected. Terminate
-								// new socket.
-								try {
-									socket.close();
-								} catch (IOException e) {
-									Log.e(TAG, "Could not close unwanted socket", e);
-								}
-								break;
-							}
-						}
-					}
-*/					
 				}
 				if (D)
 					Log.i(TAG, "END mAcceptThread");
@@ -369,10 +354,6 @@ public class BluetoothService {
 		private class ConnectThread extends Thread {
 			private final BluetoothSocket mmSocket;
 			private final BluetoothDevice mmDevice;
-			
-//			private ConnectingThread checkThread;
-//			private Handler mHandler;
-//			private ProgressDialog mDialog;
 
 			public ConnectThread(BluetoothDevice device) {
 				Log.d(TAG, "connectThread start");
@@ -399,26 +380,7 @@ public class BluetoothService {
 				try {
 					// This is a blocking call and will only return on a
 					// successful connection or an exception
-/*					
-					mHandler.post(new Runnable(){
-						@Override
-						public void run(){
-							long starttime = System.currentTimeMillis();
-							while(true){
-								long currenttime = System.currentTimeMillis();
-								//mDialog = ProgressDialog.show(appContext, "Bluetooth Connection", "connecting to your friend", true);
-								mDialog.setTitle("Bluetooth Connection");
-								mDialog.setMessage("connecting to your friend");
-								mDialog.setCancelable(false);
-								mDialog.show();
-								if(currenttime - starttime > 5000){
-									connectionFailed();
-									mDialog.dismiss();
-								}
-							}
-						}
-					});
-*/					
+					
 //					mHandler.obtainMessage(BTMessageHandler.MESSAGE_PERMISSION).sendToTarget();
 					mmSocket.connect();
 				} catch (IOException e) {
@@ -433,6 +395,8 @@ public class BluetoothService {
 								e2);
 					}
 					// Start the service over to restart listening mode
+					Log.d(TAG, "originally resetting start()?");
+					setState(STATE_LISTEN);
 					BluetoothService.this.start();
 					return;
 				}
@@ -441,23 +405,30 @@ public class BluetoothService {
 				// Reset the ConnectThread because we're done
 				//wait for the message from a friend
 				synchronized (BluetoothService.this) {
-//					mConnectThread = null;
+					mConnectThread = null;
 					try {
 						InputStream mmInStream = mmSocket.getInputStream();
 						answer = mmInStream.read();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					mConnectThread = null;
-				}
-				
-				Log.d(TAG, "reading answer: " + answer);
-				// Start the connected thread
-				if(answer == 1)
-					connected(mmSocket, mmDevice);
-				else
-					connectionFailed(1, 1);
-				Looper.loop();
+					Log.d(TAG, "reading answer: " + answer);
+					// Start the connected thread
+					if(answer == 1){
+						boolean myturn = mHandler.toggleMyTurn();
+						if(!myturn){Log.e(TAG, "error handling game turn...");}
+						connected(mmSocket, mmDevice);
+					}
+					else{
+						try {
+							mmSocket.close();
+						} catch (IOException e) {
+							Log.e(TAG, "close() of connect socket failed", e);
+						}
+						connectionFailed(1, 1);
+					}
+				}				
+				Looper.loop();			
 			}
 
 			public void cancel() {
@@ -502,18 +473,40 @@ public class BluetoothService {
 				Log.i(TAG, "BEGIN mConnectedThread");
 				mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_SETTLED).sendToTarget();
 				
-				byte[] buffer = new byte[1024];
-
+				byte[] buffer;
+				int bytes;
+				
 				while(true){
 					try {
-						int header = mmInStream.read();
+						buffer = new byte[128];
 						
+						bytes = mmInStream.read(buffer);
+//						Log.d("BTHandler", "buffer read is: " + buffer +" and its size: " + bytes);
+						
+						//receiving from an enemy for invoking an action
+						if(buffer[0] == 0x01){
+							//enenmy invoked and action and I need to send acknowledge message...
+							//apply a msg from an enemy too
+							Log.d("BTHandler", "received invocation");
+							mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_ACKNOWLEDGE, -1, bytes, buffer).sendToTarget();
+							//next turn??
+							mHandler.toggleMyTurn();
+						}
+						//receiving from an enemy for acknowledge
+						else if (buffer[0] == 0x11){
+							//enemy send an acknowledge message and now move forward to next turn
+							Log.d("BTHandler", "received acknowledge..");
+							//next turn??
+							mHandler.toggleMyTurn();
+						}
 						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e("BTHandler", "unable to read(): ", e);
+						break;
 					}
+					buffer = null;
 				}
+								
 			}
 
 			/**
@@ -524,12 +517,34 @@ public class BluetoothService {
 			 */
 			public void write(byte[] buffer) {
 				try {
+					Log.d("BTHandler", "write()");
 					mmOutStream.write(buffer);
+//					mmOutStream.flush();
+//					mmOutStream.close();
 
 				} catch (IOException e) {
 					Log.e(TAG, "Exception during write", e);
 				}
 			}
+			
+			/**
+			 * read from the connected InputStream
+			 * 
+			 * @return buffer read from InputStream
+			 */
+			/*
+			public byte[] read(){
+				byte[] buffer = new byte[1024];
+				try{
+					mmInStream.read(buffer);
+					mmInStream.close();
+					
+				} catch(IOException e) {
+					Log.e(TAG, "Exception during read", e);
+				}
+				return buffer;
+			}
+			*/
 
 			public void cancel() {
 				Log.d(TAG, "cancel " + this);

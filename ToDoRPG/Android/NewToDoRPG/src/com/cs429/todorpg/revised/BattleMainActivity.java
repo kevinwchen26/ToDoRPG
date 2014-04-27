@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -28,6 +29,7 @@ public class BattleMainActivity extends BaseActivity {
 		Log.e("[LifeCycle]", "++ onCreate ++");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_battle_main);
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		findViewById();
 		
 		btctrl = BTControl.getInstance(BattleMainActivity.this);
@@ -55,7 +57,7 @@ public class BattleMainActivity extends BaseActivity {
 	public void onDestroy(){
 		Log.e("[LifeCycle]", "++ onDestroy ++");
 		super.onDestroy();
-		BTService.stop();
+//		BTService.stop();
 	}
 	
 	@Override

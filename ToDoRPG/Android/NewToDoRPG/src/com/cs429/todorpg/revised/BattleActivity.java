@@ -3,6 +3,7 @@ package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
 
+import com.cs429.todorpg.revised.controller.BTMessageHandler;
 import com.cs429.todorpg.revised.itemsystem.Armor;
 import com.cs429.todorpg.revised.itemsystem.Helmet;
 import com.cs429.todorpg.revised.itemsystem.Inventory;
@@ -55,6 +56,8 @@ public class BattleActivity extends BaseActivity {
 	SQLiteHelper sql = new SQLiteHelper(this);
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
+	
+	private BTMessageHandler mHandler;
 
 	
 	@Override
@@ -65,6 +68,7 @@ public class BattleActivity extends BaseActivity {
 		FindViewById();
 		setUpActivity();
 		
+		mHandler = BTMessageHandler.getInstance(BattleActivity.this);
 
 	}
 
@@ -329,15 +333,31 @@ public class BattleActivity extends BaseActivity {
 			switch (view.getId()) {
 			case R.id.attack_button:
 				//player.attack(enemy);
-				setBattleMessage(player.getName() + " attacks " + enemy.getName());
+//				setBattleMessage(player.getName() + " attacks " + enemy.getName());
 				/*
 				playerEffect.setBackgroundResource(R.drawable.player_attack);
 				playerAttack = (AnimationDrawable) playerEffect.getBackground();
 				playerAttack.start();
 				waitForEffectAnimationDone(playerAttack, playerEffect);
 				*/
-				Animate(playerAttack, playerEffect, R.drawable.player_attack);
-				update();
+//				Animate(playerAttack, playerEffect, R.drawable.player_attack);
+//				update();
+				
+				if(mHandler.getMyTurn()){
+					setBattleMessage(player.getName() + " attacks " + enemy.getName());
+					Animate(playerAttack, playerEffect, R.drawable.player_attack);
+					update();
+					mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_SEND).sendToTarget();
+				}
+				else{
+					AlertDialog.Builder ab = null;
+					ab = new AlertDialog.Builder(BattleActivity.this);
+					ab.setTitle("Battle");
+					ab.setMessage("It is not Your Turn!!");
+					ab.setPositiveButton("OK", null);
+					ab.show();
+				}
+				
 				break;
 			case R.id.change_weapon:
 				
