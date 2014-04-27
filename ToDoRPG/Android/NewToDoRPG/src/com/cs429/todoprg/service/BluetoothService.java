@@ -6,7 +6,9 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 import com.cs429.todorpg.revised.controller.BTControl;
+import com.cs429.todorpg.revised.controller.BTMessageHandler;
 
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -14,14 +16,19 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-/***																							*******
-***LOOK AT THE mConnectedThread MUCH MORE CAREFULLY... IT WILL SHOW HOW TO PARSE Neo1 PEN PROTOCOL...**
-***																								*******/																							
 
+/**
+ * Bluetooth Serivce in peer to peer for battle system.
+ * AcceptThread, ConnectThread, ConnectedThread 
+ * 
+ * @author ssong25
+ *
+ */
 public class BluetoothService {
 		
 		/*Bluetooth states*/
@@ -51,6 +58,8 @@ public class BluetoothService {
 		private int mState;
 		private Context appContext;
 		
+		private Handler mHandler;
+		
 		/**
 		 * Constructor. Prepares a new Bluetooth_connect session.
 		 * 
@@ -61,7 +70,9 @@ public class BluetoothService {
 			mAdapter = BTControl.getInstance(context).getAdapter();
 			D = BTControl.getInstance(context).IsBluetoothEnabled();
 			address = BTControl.getInstance(context).get_address();
+			appContext = context;
 			mState = STATE_NONE;
+			mHandler = BTMessageHandler.getInstance(context);
 		}
 		
 		/**
@@ -86,6 +97,11 @@ public class BluetoothService {
 		 */
 		public synchronized void start() {
 
+			if(mState == STATE_CONNECTING){
+				if(mConnectThread != null)
+					return;
+			}
+			
 			// Cancel any thread attempting to make a connection
 			if (mConnectThread != null) {
 				mConnectThread.cancel();
@@ -214,8 +230,20 @@ public class BluetoothService {
 		/**
 		 * Indicate that the connection attempt failed and notify the UI Activity.
 		 */
-		private void connectionFailed() {
+		private void connectionFailed(int arg1, int arg2) {
 			setState(STATE_LISTEN);
+			mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_FAIL, arg1, arg2).sendToTarget();
+/*		
+			Handler postHandler = new Handler();
+			postHandler.post(new Runnable(){
+				@Override
+				public void run(){
+					Looper.prepare();
+					Toast.makeText(appContext, "Failed to connect", Toast.LENGTH_SHORT).show();
+					Looper.loop();
+				}
+			});
+*/			
 		}
 
 		/**
@@ -265,7 +293,10 @@ public class BluetoothService {
 						Log.e(TAG, "accept() failed", e);
 						break;
 					}
-
+					
+					Log.d(TAG, "receiving a request from a friend..");
+					mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_REQUEST, socket).sendToTarget();
+/*
 					// If a connection was accepted
 					if (socket != null) {
 						synchronized (BluetoothService.this) {
@@ -288,6 +319,7 @@ public class BluetoothService {
 							}
 						}
 					}
+*/					
 				}
 				if (D)
 					Log.i(TAG, "END mAcceptThread");
@@ -304,6 +336,31 @@ public class BluetoothService {
 			}
 		}
 
+		public void acceptThreadConsequence(BluetoothSocket socket){
+			// If a connection was accepted
+			if (socket != null) {
+				synchronized (BluetoothService.this) {
+					switch (mState) {
+					case STATE_LISTEN:
+					case STATE_CONNECTING:
+						// Situation normal. Start the connected thread.
+						connected(socket, socket.getRemoteDevice());
+						break;
+					case STATE_NONE:
+					case STATE_CONNECTED:
+						// Either not ready or already connected. Terminate
+						// new socket.
+						try {
+							socket.close();
+						} catch (IOException e) {
+							Log.e(TAG, "Could not close unwanted socket", e);
+						}
+						break;
+					}
+				}
+			}
+		}
+		
 		/**
 		 * This thread runs while attempting to make an outgoing connection with a
 		 * device. It runs straight through; the connection either succeeds or
@@ -312,12 +369,15 @@ public class BluetoothService {
 		private class ConnectThread extends Thread {
 			private final BluetoothSocket mmSocket;
 			private final BluetoothDevice mmDevice;
+			
+//			private ConnectingThread checkThread;
+//			private Handler mHandler;
+//			private ProgressDialog mDialog;
 
 			public ConnectThread(BluetoothDevice device) {
 				Log.d(TAG, "connectThread start");
 				mmDevice = device;
 				BluetoothSocket tmp = null;
-
 				// Get a BluetoothSocket for a connection with the
 				// given BluetoothDevice
 				try {
@@ -330,6 +390,7 @@ public class BluetoothService {
 			@Override
 			public void run() {
 				setName("ConnectThread");
+				Looper.prepare();
 
 				// Always cancel discovery because it will slow down a connection
 				mAdapter.cancelDiscovery();
@@ -338,9 +399,31 @@ public class BluetoothService {
 				try {
 					// This is a blocking call and will only return on a
 					// successful connection or an exception
+/*					
+					mHandler.post(new Runnable(){
+						@Override
+						public void run(){
+							long starttime = System.currentTimeMillis();
+							while(true){
+								long currenttime = System.currentTimeMillis();
+								//mDialog = ProgressDialog.show(appContext, "Bluetooth Connection", "connecting to your friend", true);
+								mDialog.setTitle("Bluetooth Connection");
+								mDialog.setMessage("connecting to your friend");
+								mDialog.setCancelable(false);
+								mDialog.show();
+								if(currenttime - starttime > 5000){
+									connectionFailed();
+									mDialog.dismiss();
+								}
+							}
+						}
+					});
+*/					
+//					mHandler.obtainMessage(BTMessageHandler.MESSAGE_PERMISSION).sendToTarget();
 					mmSocket.connect();
 				} catch (IOException e) {
-					connectionFailed();
+					//connection failure
+					connectionFailed(0, 1);
 					// Close the socket
 					try {
 						mmSocket.close();
@@ -354,13 +437,27 @@ public class BluetoothService {
 					return;
 				}
 
+				int answer = 0;		//0: no , 1: yes for permission from a friend
 				// Reset the ConnectThread because we're done
+				//wait for the message from a friend
 				synchronized (BluetoothService.this) {
+//					mConnectThread = null;
+					try {
+						InputStream mmInStream = mmSocket.getInputStream();
+						answer = mmInStream.read();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					mConnectThread = null;
 				}
-
+				
+				Log.d(TAG, "reading answer: " + answer);
 				// Start the connected thread
-				connected(mmSocket, mmDevice);
+				if(answer == 1)
+					connected(mmSocket, mmDevice);
+				else
+					connectionFailed(1, 1);
+				Looper.loop();
 			}
 
 			public void cancel() {
@@ -372,7 +469,7 @@ public class BluetoothService {
 				}
 			}
 		}
-
+		
 		/**
 		 * This thread runs during a connection with a remote device. It handles all
 		 * incoming and outgoing transmissions.
@@ -403,6 +500,7 @@ public class BluetoothService {
 			@Override
 			public void run() {
 				Log.i(TAG, "BEGIN mConnectedThread");
+				mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_SETTLED).sendToTarget();
 				
 				while(true){
 					try {

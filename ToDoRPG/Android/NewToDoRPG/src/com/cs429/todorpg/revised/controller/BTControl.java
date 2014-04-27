@@ -70,7 +70,7 @@ public class BTControl {
 	}
 	
 	public void setDevice(BluetoothDevice selected){
-		if(device == null)
+		if(selected == null)
 			Log.d("[BluetoothControl]", "setDevice: device is null");
 		else
 			Log.d("[BluetoothControl]", "setDevice: " + selected.getAddress());

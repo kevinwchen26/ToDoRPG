@@ -3,8 +3,10 @@ package com.cs429.todorpg.revised;
 
 import com.cs429.todoprg.service.BluetoothService;
 import com.cs429.todorpg.revised.controller.BTControl;
+import com.cs429.todorpg.revised.controller.BTMessageHandler;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -13,7 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class BattleMainActivity extends Activity {
+public class BattleMainActivity extends BaseActivity {
 
 	private BluetoothService BTService;
 	private BTControl btctrl;
@@ -22,7 +24,7 @@ public class BattleMainActivity extends Activity {
 	private Button bluetooth_connect_btn;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		Log.e("[LifeCycle]", "++ onCreate ++");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_battle_main);
@@ -34,7 +36,8 @@ public class BattleMainActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "bluetooth is not available", Toast.LENGTH_SHORT).show();
 			bluetooth_connect_btn.setEnabled(false);
 		}
-		BTService = new BluetoothService(getBaseContext());
+		BTService = new BluetoothService(BattleMainActivity.this);
+		BTMessageHandler.getInstance(BattleMainActivity.this).setBTService(BTService);
 	}
 
 	@Override
