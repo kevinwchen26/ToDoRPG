@@ -39,7 +39,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BattleActivity extends Activity {
+public class BattleActivity extends BaseActivity {
 	enum GameState{ ready, gameOver }
 	GameState state = GameState.ready;
 	int width, height, playerMaxHP, enemyMaxHP;
@@ -56,25 +56,27 @@ public class BattleActivity extends Activity {
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
 
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setUpLayout();
-		setUpBattle();
 		setContentView(R.layout.battle_activity);
 		FindViewById();
 		setUpActivity();
+		
 
 	}
 
 
 	private void setUpActivity() {
+	    setPlayers();
 		setUpBattleScreen();
 		setUpBattleNavigator();
 		setUpBattleMenu();
 		setUpBattleInfo();
 		update();
+		
 	}
 
 	private void setUpBattleScreen() {
@@ -191,7 +193,6 @@ public class BattleActivity extends Activity {
 
 	    attack.setOnClickListener(ButtonListener);
 	    change_weapon.setOnClickListener(ButtonListener);
-	    setPlayers();
 	}
 	
 
@@ -199,13 +200,9 @@ public class BattleActivity extends Activity {
 		player = sql.getCharacter();
 		enemy = sql.getCharacter();
 		playerMaxHP = player.getHP();
-		playerName.setText(player.getName());
-		playerHP.setText("HP " + player.getHP() +"/" + playerMaxHP);
 		
 		enemyMaxHP = enemy.getHP();
-		enemyMaxHP = enemy.getHP();
-		enemyName.setText(enemy.getName());
-		enemyHP.setText("HP " + enemy.getHP() +"/" + enemyMaxHP);
+		enemyMaxHP = enemy.getHP();		
 
 	}
 
@@ -237,12 +234,12 @@ public class BattleActivity extends Activity {
 
 	//Updates the screen
 	private void update() {
-		//enemyName.setText(boss.getName() + " Lv." + Integer.toString(boss.getLEVEL()));
-	   // enemyHP.setText("HP" + boss.getHP() + "/" + boss.getMaxHP());
+		enemyName.setText(enemy.getName() + " Lv." + Integer.toString(enemy.getLevel()));
+	    enemyHP.setText("HP" + enemy.getHP() + "/" + enemyMaxHP);
 
 
-	    //playerName.setText(player.getName() + " Lv." + Integer.toString(player.getLEVEL()));
-	   // playerHP.setText("HP " + player.getHP() + "/" + player.getMaxHP());
+	    playerName.setText(player.getName() + " Lv." + Integer.toString(player.getLevel()));
+	    playerHP.setText("HP " + player.getHP() + "/" + playerMaxHP);
 
 	    // Need to add check game conditions. 
 	    Handler h = new Handler();
@@ -250,8 +247,8 @@ public class BattleActivity extends Activity {
 	    	@Override
 			public void run() {
 	    		checkGameConditions();
-	    	    if(state != GameState.gameOver)
-	    	    	changeTurn();
+	    	    if(state != GameState.gameOver);
+	    	    	//changeTurn();
 			}}, 1000);
 	}
 
@@ -279,23 +276,20 @@ public class BattleActivity extends Activity {
 	//Return true if game is over
 	private void checkGameConditions() {
 		
-		/*
+		
 		if(player.getHP() < 1) {
 			makeGameOverMessages("GAME OVER!");
 			battleEnd = builder.create();
 			battleEnd.show();	
 			state = GameState.gameOver;
 		}
-		if(boss.getHP() < 1) {
-			if(player.gainEXP(boss.getExp()))
-				setBattleMessage("LEVEL UP!" + player.getName() + " is " + Integer.toString(player.getLEVEL()));
+		if(enemy.getHP() < 1) {
 			makeGameOverMessages("VICTORY!");
 			battleEnd = builder.create();
 			battleEnd.show();
 			state = GameState.gameOver;
 
 		}
-*/
 
 	}
 
@@ -354,7 +348,7 @@ public class BattleActivity extends Activity {
 	private void setUpLayout() {
 
 		 //Remove title bar
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    //Remove notification bar
 	    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    // Sets to landscape 
@@ -370,9 +364,6 @@ public class BattleActivity extends Activity {
 
 	}
 
-	private void setUpBattle(){
-	
-	}
 
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
