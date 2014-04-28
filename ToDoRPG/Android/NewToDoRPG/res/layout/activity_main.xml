@@ -132,11 +132,4 @@
         android:text="Edit User Name" >
     </Button>
 
-
-        <ListView
-            android:id="@+id/log_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-        </ListView>
-
 </LinearLayout>
