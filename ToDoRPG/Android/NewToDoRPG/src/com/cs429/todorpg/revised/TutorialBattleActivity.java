@@ -56,6 +56,7 @@ public class TutorialBattleActivity extends BaseActivity {
 	SQLiteHelper sql = new SQLiteHelper(this);
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
+	boolean playerTurn = false;
 
 	
 	@Override
@@ -67,7 +68,7 @@ public class TutorialBattleActivity extends BaseActivity {
 		setUpActivity();
 		View view = findViewById(R.id.tutorial_battle_view);
 		setBattleMessage("HI! Welcome to the battle tutorial.\n" + "(Tap anywhere to continue)");
-
+		
 		view.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -81,7 +82,7 @@ public class TutorialBattleActivity extends BaseActivity {
 	}
 	
 	private void runTutorial(){
-
+		attack.setEnabled(false);
 		if(tutorialStep == 0){
 			setBattleMessage("This is the field in which you will battle!");
 		} 
@@ -130,9 +131,10 @@ public class TutorialBattleActivity extends BaseActivity {
 
 		}
 		else if (tutorialStep == 8){
-			makeGameOverMessages("You have finished the tutorial, would you like to go through it again?");
-			battleEnd = builder.create();
-			battleEnd.show();
+			setBattleMessage("You have finished the tutorial, Try and defeat the boss.");
+		}
+		else {
+			attack.setEnabled(true);
 		}
 		tutorialStep++;
 	}
@@ -193,8 +195,11 @@ public class TutorialBattleActivity extends BaseActivity {
 		inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
-	    playerImage.setImageBitmap(inventory.getBitmap());
-	    enemyImage.setImageBitmap(inventory.getBitmap());
+	    Avatar playerAv = new Avatar();
+	    playerAv.setInventory(inventory);
+		
+		playerImage.setImageBitmap(playerAv.getClearBitMap());
+	    enemyImage.setImageBitmap(playerAv.getClearBitMap());
 	    
 
 	}
@@ -335,7 +340,7 @@ public class TutorialBattleActivity extends BaseActivity {
 
 	//Updates the screen
 	private void update() {
-		enemyName.setText(enemy.getName() + " Lv." + Integer.toString(enemy.getLevel()));
+		enemyName.setText("Boss Lv." + Integer.toString(enemy.getLevel()));
 	    enemyHP.setText("HP" + enemy.getHP() + "/" + enemyMaxHP);
 
 
@@ -348,22 +353,25 @@ public class TutorialBattleActivity extends BaseActivity {
 	    	@Override
 			public void run() {
 	    		checkGameConditions();
-	    	    if(state != GameState.gameOver);
-	    	    	//changeTurn();
+	    	    if(state != GameState.gameOver)
+	    	    	changeTurn();
 			}}, 1000);
 	}
 
 	//Change turns
 	private void changeTurn() {
-		if(true) {
+		if(playerTurn) {
+			playerTurn = false;
 			Handler h = new Handler();
 		    h.postDelayed(new Runnable() {
 		    	@Override
 				public void run() {
+					bossAI();
 				}}, 1000);
 		}
 		//Boss just finished turn
 		else {
+			playerTurn = true;
 			Handler h = new Handler();
 		    h.postDelayed(new Runnable() {
 		    	@Override
@@ -374,6 +382,13 @@ public class TutorialBattleActivity extends BaseActivity {
 
 		}
 	}
+	private void bossAI() {
+		setBattleMessage("Boss attacks " + player.getName());
+		player.setHP(player.getHP() - 10);
+		Animate(enemyAttack, enemyEffect, R.drawable.enemy_attack);
+		update();
+	}
+	
 	//Return true if game is over
 	private void checkGameConditions() {
 		
@@ -410,6 +425,7 @@ public class TutorialBattleActivity extends BaseActivity {
 				waitForEffectAnimationDone(playerAttack, playerEffect);
 				*/
 				Animate(playerAttack, playerEffect, R.drawable.player_attack);
+				enemy.setHP(enemy.getHP() - 50);
 				update();
 				break;
 			case R.id.change_weapon:
@@ -487,7 +503,7 @@ public class TutorialBattleActivity extends BaseActivity {
 	public void makeGameOverMessages(String msg) {
 		builder = new AlertDialog.Builder(this);
 
-		builder.setMessage(msg);
+		builder.setMessage(msg + "Would you like to run the tutorial again?");
 
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 

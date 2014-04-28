@@ -157,7 +157,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="60dp"
-        android:text="@string/change_weapon" />
+        android:text="@string/change_weapon"
+        android:visibility="invisible" />
 
          </RelativeLayout>
 
