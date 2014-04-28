@@ -129,7 +129,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		//Log.d("Weekkey", "" + cake.getWeekKey());
 		anime.setKey(idanime);
 
-		ArrayList<Daily> dailies = db.getDailies();
+		ArrayList<Daily> dailies = db.getDailies(3);
 		assertEquals(2, dailies.size());
 		assertTrue(dailies.contains(cake));
 		assertTrue(dailies.contains(anime));
@@ -137,7 +137,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		anime.toggleRegularDate(5);
 		cake.toggleFinish();
 		assertTrue(db.updateDaily(anime));
-		dailies = db.getDailies();
+		dailies = db.getDailies(3);
 		assertEquals(2, dailies.size());
 		assertTrue(dailies.contains(anime));
 		assertFalse(dailies.contains(cake));
@@ -145,7 +145,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(db.updateDaily(cake));
 		
 		assertTrue(db.deleteDaily(anime));
-		dailies = db.getDailies();
+		dailies = db.getDailies(3);
 		assertEquals(1, dailies.size());
 		assertTrue(dailies.contains(cake));
 
