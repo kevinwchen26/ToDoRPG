@@ -256,27 +256,23 @@ public class MainActivity extends BaseActivity {
 	}
 
 	public void addInitialItems() {
-		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
-		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
+		
+		
 		GameApplication app = (GameApplication) getApplication();
+		
+		EquipCost tsword = sql.getLibrary("Broad Sword");
+		EquipCost tdagger = sql.getLibrary("Dagger");
+		
+		Weapon fsword = (Weapon) (tsword.getEquipment());
+		Weapon fdagger = (Weapon) (tdagger.getEquipment());
 
-		app.avatar.inventory
-				.setArmor(new Armor("Leather Armor",
-						R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
-						1, poss));
-		app.avatar.inventory.setHelmet(new Helmet("Leather Helmet",
-				R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.setShield(new Shield("Leather Shield",
-				R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.setWeapon(new Weapon("Iron Sword",
-				R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.setArmor(null);
+		app.avatar.inventory.setHelmet(null);
+		app.avatar.inventory.setShield(null);
+		app.avatar.inventory.setWeapon(fsword);
 
-		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 0",
-				R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 1",
-				R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
-		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 2",
-				R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
+		app.avatar.inventory.addInventory(fdagger);
+		
 		sql.addInventory(app.avatar.inventory);
 	}
 
