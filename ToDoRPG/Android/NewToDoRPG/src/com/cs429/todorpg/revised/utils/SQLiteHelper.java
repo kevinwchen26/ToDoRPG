@@ -267,13 +267,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int finished = cursor.getInt(4);
 				int weekid = cursor.getInt(5);
 				Daily temp = new Daily(my_daily, extra, primary_key);
-				if(finished == 0) {
-					missed_dailies.add(temp);
-				}
-				if (finished == 1) {
-					temp.toggleFinish();
-					finished_dailies.add(temp);
-				}
 				temp.setDifficulty(difficulty);
 				temp.setWeekKey(weekid);
 				ArrayList<Boolean> allDailiesWeek = this.getDailiesWeek(weekid);
@@ -281,6 +274,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				{
 					if(allDailiesWeek.get(index))
 						temp.toggleRegularDate(index);
+				}
+				if(finished == 0) {
+					missed_dailies.add(temp);
+				}
+				if (finished == 1) {
+					temp.toggleFinish();
+					finished_dailies.add(temp);
 				}
 				dailies.add(temp);
 			} while (cursor.moveToNext());
