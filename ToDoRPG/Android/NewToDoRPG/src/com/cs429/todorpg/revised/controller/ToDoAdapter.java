@@ -254,19 +254,23 @@ public class ToDoAdapter extends BaseAdapter{
 		ToDoCharacter character = db.getCharacter();
 		switch(difficulty) {
 			case 0:
+				Toast.makeText(context, "Earned [EXP: 10], [GOLD: 10]", Toast.LENGTH_LONG).show();
 				character = new ToDoCharacter(character.getName(), character.getGold() + 10, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 10, character.getNextExp()- 10);
 				break;
 			case 1:
+				Toast.makeText(context, "Earned [EXP: 20], [GOLD: 20]", Toast.LENGTH_LONG).show();
 				character = new ToDoCharacter(character.getName(), character.getGold() + 20, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 20, character.getNextExp()- 20);
 				break;
 			case 2:
+				Toast.makeText(context, "Earned [EXP: 30], [GOLD: 30]", Toast.LENGTH_LONG).show();
 				character = new ToDoCharacter(character.getName(), character.getGold() + 30, character.getHP(),
-						character.getLevel(), character.getCurrExp() + 40, character.getNextExp()- 30);
+						character.getLevel(), character.getCurrExp() + 30, character.getNextExp()- 30);
 				break;
 		}
 		if(character.getCurrExp() >= character.getLevel() * 100) {
+			Toast.makeText(context, "Level UP!", Toast.LENGTH_LONG).show();
 			character.setLevel(character.getLevel() + 1);
 			character.setCurrExp(0);
 			character.setHP(character.getHP() + 20);
