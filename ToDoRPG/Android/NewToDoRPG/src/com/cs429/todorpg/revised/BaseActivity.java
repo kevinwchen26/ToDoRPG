@@ -197,6 +197,12 @@ public abstract class BaseActivity extends Activity {
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
 		ImageView icon = (ImageView) findViewById(R.id.character_activity);
+		
+		if(icon == null){Log.e("appdebug", "icon is null");}
+		else if(app == null){Log.e("appdebug", "app is null");}
+		else if(app.avatar == null){Log.e("appdebug", "avatar is null");}
+		else{Log.e("appdebug", "what is null??");}
+		
 		icon.setImageBitmap(app.avatar.getBitmap());
 	}
 

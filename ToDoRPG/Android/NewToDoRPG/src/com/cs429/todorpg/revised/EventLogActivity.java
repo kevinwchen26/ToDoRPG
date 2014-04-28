@@ -35,12 +35,12 @@ public class EventLogActivity extends BaseActivity {
 		LogAdapter logAdapter = new LogAdapter(this, log);
 		log_list.setAdapter(logAdapter);
 	}
-
+/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.event_log, menu);
 		return true;
 	}
-
+*/
 }

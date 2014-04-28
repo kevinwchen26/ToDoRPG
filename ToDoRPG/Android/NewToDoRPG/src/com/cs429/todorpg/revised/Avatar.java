@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 
 public class Avatar implements Serializable{
 	/**
@@ -49,6 +50,9 @@ public class Avatar implements Serializable{
 		Canvas canvas = new Canvas(bitmap);
 		bitmap.eraseColor(Color.parseColor("#FFCCFF"));
 		canvas.drawBitmap(skin, 0,0, null);
+		
+		if(inventory == null){Log.e("appdebug", "inventory is null");}
+		
 		canvas.drawBitmap(inventory.getBitmap(), 0,0, null);
 		return bitmap;
 	}

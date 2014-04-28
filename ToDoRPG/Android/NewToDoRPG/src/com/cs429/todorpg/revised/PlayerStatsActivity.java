@@ -33,12 +33,12 @@ public class PlayerStatsActivity extends BaseActivity {
 		StatAdapter statAdapter = new StatAdapter(this, stats);
 		stat_list.setAdapter(statAdapter);
 	}
-
+/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.player_stats, menu);
 		return true;
 	}
-
+*/
 }
