@@ -1,4 +1,4 @@
-package battlelogic;
+package com.cs429.todorpg.battlelogic;
 
 import java.io.Serializable;
 

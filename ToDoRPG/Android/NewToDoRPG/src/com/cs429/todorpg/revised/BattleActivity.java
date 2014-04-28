@@ -29,10 +29,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import battlelogic.AttackResult;
-import battlelogic.BattleLogic;
-import battlelogic.BtPackage;
 
+import com.cs429.todorpg.battlelogic.AttackResult;
+import com.cs429.todorpg.battlelogic.BattleLogic;
+import com.cs429.todorpg.battlelogic.BtPackage;
 import com.cs429.todorpg.revised.controller.BTMessageHandler;
 import com.cs429.todorpg.revised.itemsystem.Armor;
 import com.cs429.todorpg.revised.itemsystem.Helmet;
@@ -45,6 +45,8 @@ import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+
+import com.cs429.todorpg.revised.MainActivity;
 
 public class BattleActivity extends BaseActivity {
 	enum GameState{ ready, gameOver }
@@ -361,16 +363,6 @@ public class BattleActivity extends BaseActivity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.attack_button:
-				//player.attack(enemy);
-//				setBattleMessage(player.getName() + " attacks " + enemy.getName());
-				/*
-				playerEffect.setBackgroundResource(R.drawable.player_attack);
-				playerAttack = (AnimationDrawable) playerEffect.getBackground();
-				playerAttack.start();
-				waitForEffectAnimationDone(playerAttack, playerEffect);
-				*/
-//				Animate(playerAttack, playerEffect, R.drawable.player_attack);
-//				update();
 				
 				if(mHandler.getMyTurn() && mHandler.isReadyToStart()){
 					// Calculate effects of this attack
@@ -476,28 +468,33 @@ public class BattleActivity extends BaseActivity {
 	public void makeGameOverMessages(String msg) {
 		builder = new AlertDialog.Builder(this);
 
-		builder.setMessage(msg + " Would you like to try again?");
+		builder.setMessage(msg);
 
-		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+				intent = new Intent(BattleActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
 				//player.setHP(player.getMaxHP());
 				//boss.setHP(boss.getMaxHP());
 			}
 		});
-
-		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+/*
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+				intent = new Intent(BattleActivity.this, MainActivity.class);
+				startActivity(intent);
 				finish();
 
 			}
 		});
-
+*/
 	}
 	private class ShareInfoTask extends AsyncTask<Void, Void, Void> {
 
@@ -572,7 +569,7 @@ public class BattleActivity extends BaseActivity {
 					setBattleMessage(enemy.getName() + " attacked you causing " + finalDamage + " damage!" );
 				}
 				
-				Animate(enemyAttack, playerEffect, R.drawable.player_attack);
+				Animate(enemyAttack, enemyEffect, R.drawable.enemy_attack);
 				
 				player.setHP(player.getHP() - finalDamage);
 				update();	
