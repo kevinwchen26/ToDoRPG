@@ -28,6 +28,7 @@ public class HabitAdapter extends BaseAdapter  {
 	private LayoutInflater inflater;
 	private SQLiteHelper db;
 	private int difficulty;
+	String change;
 
 	public HabitAdapter(Context context, ArrayList<Habit> habit) {
 		this.context = context;
@@ -360,13 +361,13 @@ public class HabitAdapter extends BaseAdapter  {
 		switch (difficulty) {
 		case 0:
 			if (sign == 1) {
-				Toast.makeText(context, "Earned [EXP: 10], [GOLD: 10]", Toast.LENGTH_LONG).show();
+				change = "Earned [EXP: 10], [GOLD: 10]";
 				character = new ToDoCharacter(character.getName(),
 						character.getGold() + 10, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 10,
 						character.getNextExp() - 10);
 			} else {
-				Toast.makeText(context, "Lost [EXP: 10], [GOLD: 10]", Toast.LENGTH_LONG).show();
+				change = "Lost [EXP: 10], [GOLD: 10]";
 				character = new ToDoCharacter(character.getName(),
 						character.getGold() - 10, character.getHP(),
 						character.getLevel(), character.getCurrExp() - 10,
@@ -375,13 +376,13 @@ public class HabitAdapter extends BaseAdapter  {
 			break;
 		case 1:
 			if(sign == 1) {
-				Toast.makeText(context, "Earned [EXP: 20], [GOLD: 20]", Toast.LENGTH_LONG).show();
+				change = "Earned [EXP: 20], [GOLD: 20]";
 				character = new ToDoCharacter(character.getName(),
 						character.getGold() + 20, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 20,
 						character.getNextExp() - 20);
 			} else {
-				Toast.makeText(context, "Lost [EXP: 20], [GOLD: 20]", Toast.LENGTH_LONG).show();
+				change = "Lost [EXP: 20], [GOLD: 20]";
 				character = new ToDoCharacter(character.getName(),
 						character.getGold() - 20, character.getHP(),
 						character.getLevel(), character.getCurrExp() - 20,
@@ -390,13 +391,13 @@ public class HabitAdapter extends BaseAdapter  {
 			break;
 		case 2:
 			if(sign == 1) {
-				Toast.makeText(context, "Earned [EXP: 30], [GOLD: 30]", Toast.LENGTH_LONG).show();
+				change = "Earned [EXP: 30], [GOLD: 30]";
 				character = new ToDoCharacter(character.getName(),
 						character.getGold() + 30, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 30,
 						character.getNextExp() - 30);
 			} else {
-				Toast.makeText(context, "Lost [EXP: 30], [GOLD: 30]", Toast.LENGTH_LONG).show();
+				change = "Lost [EXP: 30], [GOLD: 30]";
 				character = new ToDoCharacter(character.getName(),
 						character.getGold() - 30, character.getHP(),
 						character.getLevel(), character.getCurrExp() - 30,
@@ -405,14 +406,14 @@ public class HabitAdapter extends BaseAdapter  {
 			break;
 		}
 		if (character.getCurrExp() >= character.getLevel() * 100) {
-			Toast.makeText(context, "LEVEL UP!", Toast.LENGTH_LONG).show();
+			change = "LEVEL UP";
 			character.setLevel(character.getLevel() + 1);
 			character.setCurrExp(0);
 			character.setHP(character.getHP() + 20);
 		} else if(character.getLevel() == 1 && character.getCurrExp() < 0) {
 			character.setCurrExp(0);
 		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
-			Toast.makeText(context, "LEVEL DOWN!", Toast.LENGTH_LONG).show();
+			change = "LEVEL DOWN";
 			character.setLevel(character.getLevel() - 1);
 			character.setHP(character.getHP() - 20);
 			character.setCurrExp(character.getLevel() * 100);
@@ -422,6 +423,17 @@ public class HabitAdapter extends BaseAdapter  {
 		}
 		if(character.getGold() < 0) 
 			character.setGold(0);
+		
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View view = inflater.inflate(R.layout.toast, null);
+	    TextView text = (TextView) view.findViewById(R.id.textView2);
+	    text.setText(change);
+	    Toast toast = new Toast(context);
+	    toast.setView(view);
+	    toast.setDuration(Toast.LENGTH_LONG);
+	    toast.show();
+	    
+	    
 		db.updateCharacter(character);
 		// character = new ToDoCharacter(character.getGold(), HP, level,
 		// currentEXP, nextEXP)

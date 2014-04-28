@@ -32,6 +32,7 @@ public class ToDoAdapter extends BaseAdapter{
 	private LayoutInflater inflater;
 	private SQLiteHelper db;
 	int difficulty;
+	String change;
 	
 	public ToDoAdapter(Context context, ArrayList<ToDo> todos){
 		this.context = context;
@@ -254,27 +255,36 @@ public class ToDoAdapter extends BaseAdapter{
 		ToDoCharacter character = db.getCharacter();
 		switch(difficulty) {
 			case 0:
-				Toast.makeText(context, "Earned [EXP: 10], [GOLD: 10]", Toast.LENGTH_LONG).show();
+				change = "Earned [EXP: 10], [GOLD: 10]";
 				character = new ToDoCharacter(character.getName(), character.getGold() + 10, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 10, character.getNextExp()- 10);
 				break;
 			case 1:
-				Toast.makeText(context, "Earned [EXP: 20], [GOLD: 20]", Toast.LENGTH_LONG).show();
+				change = "Earned [EXP: 20], [GOLD: 20]";
 				character = new ToDoCharacter(character.getName(), character.getGold() + 20, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 20, character.getNextExp()- 20);
 				break;
 			case 2:
-				Toast.makeText(context, "Earned [EXP: 30], [GOLD: 30]", Toast.LENGTH_LONG).show();
+				change = "Earned [EXP: 30], [GOLD: 30]";
 				character = new ToDoCharacter(character.getName(), character.getGold() + 30, character.getHP(),
 						character.getLevel(), character.getCurrExp() + 30, character.getNextExp()- 30);
 				break;
 		}
 		if(character.getCurrExp() >= character.getLevel() * 100) {
-			Toast.makeText(context, "Level UP!", Toast.LENGTH_LONG).show();
+			change = "LEVEL UP";
 			character.setLevel(character.getLevel() + 1);
 			character.setCurrExp(0);
 			character.setHP(character.getHP() + 20);
 		}
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View view = inflater.inflate(R.layout.toast, null);
+	    TextView text = (TextView) view.findViewById(R.id.textView2);
+	    text.setText(change);
+	    Toast toast = new Toast(context);
+	    toast.setView(view);
+	    toast.setDuration(Toast.LENGTH_LONG);
+	    toast.show();
+		
 		db.updateCharacter(character);
 //		character = new ToDoCharacter(character.getGold(), HP, level, currentEXP, nextEXP)
 	}

@@ -23,6 +23,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 public class AlarmNotification extends Activity {
 	private ListView finished_list, missed_list;
 	private SQLiteHelper db;
+	String change;
 	ArrayList<Daily> finished_arr, missed_arr;
 	private DailyAdapter finished_adapter, missed_adapter;
 	private Vibrator v;
@@ -70,7 +71,7 @@ public class AlarmNotification extends Activity {
 	}
 	private void UpdateCharacter() {
 		ToDoCharacter character = db.getCharacter();
-		String change = "You Lost [EXP : " + missed_arr.size()*10 + "], [GOLD : " + missed_arr.size()*10 + "]";
+		change = "You Lost [EXP : " + missed_arr.size()*10 + "], [GOLD : " + missed_arr.size()*10 + "]";
 		System.out.println(change);
 		character = new ToDoCharacter(character.getName(), character.getGold() - (missed_arr.size()*10), character.getHP(),
 				character.getLevel(), character.getCurrExp() - (missed_arr.size()*10), character.getNextExp() + (missed_arr.size()*10));
@@ -82,7 +83,7 @@ public class AlarmNotification extends Activity {
 		} else if(character.getLevel() == 1 && character.getCurrExp() < 0) {
 			character.setCurrExp(0);
 		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
-			Toast.makeText(this, "LEVEL DOWN!", Toast.LENGTH_LONG).show();
+			change = change.concat(" + LEVEL DOWN");
 			character.setLevel(character.getLevel() - 1);
 			character.setHP(character.getHP() - 20);
 			character.setCurrExp(character.getLevel() * 100);
@@ -92,17 +93,16 @@ public class AlarmNotification extends Activity {
 		}
 		if(character.getGold() < 0) 
 			character.setGold(0);
-		Toast.makeText(this, change, Toast.LENGTH_LONG).show();
-		/*LayoutInflater inflater = getLayoutInflater();
+		
+		LayoutInflater inflater = getLayoutInflater();
 	    View view = inflater.inflate(R.layout.toast,
 	                                   (ViewGroup) findViewById(R.id.relativeLayout1));
-	    TextView text = (TextView) inflater.inflate(R.id.textView2, null);
+	    TextView text = (TextView) view.findViewById(R.id.textView2);
 	    text.setText(change);
-	    inflater.addView(text);
 	    Toast toast = new Toast(this);
 	    toast.setView(view);
 	    toast.setDuration(Toast.LENGTH_LONG);
-	    toast.show();*/
+	    toast.show();
 		db.updateCharacter(character);
 	}
 
