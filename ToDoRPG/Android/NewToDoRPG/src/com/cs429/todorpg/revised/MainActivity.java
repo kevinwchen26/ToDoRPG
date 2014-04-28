@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				intent = new Intent(MainActivity.this,
-						BattleActivity.class);
+						TutorialBattleActivity.class);
 				startActivity(intent);
 				finish();
 			}
