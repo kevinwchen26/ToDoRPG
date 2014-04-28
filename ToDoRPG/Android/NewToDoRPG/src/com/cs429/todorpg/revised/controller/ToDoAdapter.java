@@ -1,6 +1,8 @@
 package com.cs429.todorpg.revised.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import com.cs429.todorpg.revised.BaseActivity;
 import com.cs429.todorpg.revised.CalendarView;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.ToDoActivity;
+import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
@@ -31,6 +34,7 @@ public class ToDoAdapter extends BaseAdapter{
 	private ToDoAdapter adapter = this;
 	private LayoutInflater inflater;
 	private SQLiteHelper db;
+	private String title;
 	int difficulty;
 	String change;
 	
@@ -59,6 +63,7 @@ public class ToDoAdapter extends BaseAdapter{
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		String blank = "    ";
+		title = "Completed ToDo : " + todos.get(position).getToDo();
 		difficulty = todos.get(position).getDifficulty();
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.todo_list_view_row, parent, false);
@@ -140,6 +145,12 @@ public class ToDoAdapter extends BaseAdapter{
 				db.updateToDo(todos.get(position));
 				todos.remove(position);
 				adapter.notifyDataSetChanged();
+				Calendar c = Calendar.getInstance();
+				System.out.println("Current time => " + c.getTime());
+
+				SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+				String formattedDate = df.format(c.getTime());
+				db.addLogItem(new LogItem(title, formattedDate));
 			}
 			
 		});
