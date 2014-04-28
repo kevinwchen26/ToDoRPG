@@ -723,7 +723,7 @@ public class BattleActivity extends BaseActivity {
 				break;
 			}
 		}
-		if (victory == 1) {
+		if (victory == 0) {
 			for (Stat stat : stats) {
 				if (stat.getName().equals("Battles Won")) {
 					stat.setCount(stat.getCount() + 1);
@@ -739,7 +739,7 @@ public class BattleActivity extends BaseActivity {
 				}
 
 			}
-		} else if (victory == 0) {
+		} else if (victory == 1) {
 			for (Stat stat : stats) {
 				if (stat.getName().equals("Battles Lost")) {
 					stat.setCount(stat.getCount() + 1);
