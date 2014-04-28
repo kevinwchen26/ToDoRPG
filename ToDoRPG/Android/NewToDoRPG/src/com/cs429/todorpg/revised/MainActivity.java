@@ -262,11 +262,17 @@ public class MainActivity extends BaseActivity {
 
 		GameApplication app = (GameApplication) getApplication();
 
-		EquipCost tsword = sql.getLibrary("Broad Sword");
+		EquipCost tsword = sql.getLibrary("Mythril Sword");
 		EquipCost tdagger = sql.getLibrary("Dagger");
+		EquipCost tarmor = sql.getLibrary("Iron Armor");
+		EquipCost tshield = sql.getLibrary("Standard Shield");
+		EquipCost thelm = sql.getLibrary("Hat");
 
 		Weapon fsword = (Weapon) (tsword.getEquipment());
 		Weapon fdagger = (Weapon) (tdagger.getEquipment());
+		Armor farmor = (Armor) (tarmor.getEquipment());
+		Helmet fhelmet = (Helmet) (thelm.getEquipment());
+		Shield fshield = (Shield) (tshield.getEquipment());
 
 		app.avatar.inventory.setArmor(null);
 		app.avatar.inventory.setHelmet(null);
@@ -274,6 +280,9 @@ public class MainActivity extends BaseActivity {
 		app.avatar.inventory.setWeapon(fsword);
 
 		app.avatar.inventory.addInventory(fdagger);
+		app.avatar.inventory.addInventory(farmor);
+		app.avatar.inventory.addInventory(fhelmet);
+		app.avatar.inventory.addInventory(fshield);
 
 		sql.addInventory(app.avatar.inventory);
 	}
