@@ -1,6 +1,8 @@
 package com.cs429.todorpg.revised.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.cs429.todorpg.revised.BaseActivity;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
@@ -29,6 +32,7 @@ public class DailyAdapter extends BaseAdapter{
 	private LayoutInflater inflater;
 	private SQLiteHelper db;
 	private int difficulty;
+	private String title;
 
 	public DailyAdapter(Context context, ArrayList<Daily> daily) {
 		this.context = context;
@@ -56,6 +60,7 @@ public class DailyAdapter extends BaseAdapter{
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final Daily day = daily.get(position);
 		difficulty = day.getDifficulty();
+		title = "Completed Daily: " + day.getDaily();
 		String blank = "    ";
 		
 		if (convertView == null) {
@@ -115,6 +120,13 @@ public class DailyAdapter extends BaseAdapter{
 					edit_button.setFocusable(true);
 				}
 				db.updateDaily(day);
+				
+				Calendar c = Calendar.getInstance();
+				System.out.println("Current time => " + c.getTime());
+
+				SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+				String formattedDate = df.format(c.getTime());
+				db.addLogItem(new LogItem(title, formattedDate));
 				
 				my_daily.setBackgroundResource(day.getStatus());
 				edit_button.setBackgroundResource(day.getStatus());
