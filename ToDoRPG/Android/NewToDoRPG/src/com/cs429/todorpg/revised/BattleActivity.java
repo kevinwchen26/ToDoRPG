@@ -650,6 +650,7 @@ public class BattleActivity extends BaseActivity {
 			if(stat.getName().equals("Battles Fought")){
 				stat.setCount(stat.getCount()+1);
 				db.updateStat(stat);
+				break;
 			}
 		}
 		if(victory ==1){
@@ -657,14 +658,16 @@ public class BattleActivity extends BaseActivity {
 				if(stat.getName().equals("Battles Won")){
 					stat.setCount(stat.getCount()+1);
 					db.updateStat(stat);
-				}
-				Calendar c = Calendar.getInstance();
-				System.out.println("Current time => " + c.getTime());
+					Calendar c = Calendar.getInstance();
+					System.out.println("Current time => " + c.getTime());
 
-				SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-				String formattedDate = df.format(c.getTime());
-				String text = "Won battle against "+enemy.getName();
-				db.addLogItem(new LogItem(text,formattedDate));
+					SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+					String formattedDate = df.format(c.getTime());
+					String text = "Won battle against "+enemy.getName();
+					db.addLogItem(new LogItem(text,formattedDate));
+					break;
+				}
+
 			}
 		}
 		else{
@@ -672,14 +675,16 @@ public class BattleActivity extends BaseActivity {
 				if(stat.getName().equals("Battles Lost")){
 					stat.setCount(stat.getCount()+1);
 					db.updateStat(stat);
-				}
-				Calendar c = Calendar.getInstance();
-				System.out.println("Current time => " + c.getTime());
+					Calendar c = Calendar.getInstance();
+					System.out.println("Current time => " + c.getTime());
 
-				SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-				String formattedDate = df.format(c.getTime());
-				String text = "Lost battle against "+enemy.getName();
-				db.addLogItem(new LogItem(text,formattedDate));
+					SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+					String formattedDate = df.format(c.getTime());
+					String text = "Lost battle against "+enemy.getName();
+					db.addLogItem(new LogItem(text,formattedDate));
+					break;
+				}
+
 			}
 		}
 
