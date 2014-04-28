@@ -1,6 +1,12 @@
 package com.cs429.todorpg.revised.itemsystem;
 
-public abstract class StatusEffects {
+import java.io.Serializable;
+
+public abstract class StatusEffects implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 707598741464385006L;
 	private String name;
 	
 	public StatusEffects(String name) {

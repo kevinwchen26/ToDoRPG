@@ -1,5 +1,7 @@
 package com.cs429.todorpg.revised.model;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author lchen59, kwchen3
@@ -8,7 +10,12 @@ package com.cs429.todorpg.revised.model;
  *         Every character needs a name a a gold count
  */
 
-public class ToDoCharacter {
+public class ToDoCharacter implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1062021211113236302L;
+
 	private String name;
 	private int gold;
 	private int HP;
