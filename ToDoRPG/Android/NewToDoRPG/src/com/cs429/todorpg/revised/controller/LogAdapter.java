@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class LogAdapter extends BaseAdapter {
 	private Context context;
 	private LayoutInflater inflater;
-	private ArrayList<LogItem> log;
+	public ArrayList<LogItem> log;
 	private SQLiteHelper db;
 
 	public LogAdapter(Context context, ArrayList<LogItem> log) {

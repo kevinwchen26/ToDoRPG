@@ -43,6 +43,7 @@ public class Stat {
 
 	public boolean equals(Object o) {
 		Stat other = (Stat) o;
-		return this.name == other.name && this.count == other.count;
+		return this.name.equals(other.name) && this.count == other.count;
+
 	}
 }

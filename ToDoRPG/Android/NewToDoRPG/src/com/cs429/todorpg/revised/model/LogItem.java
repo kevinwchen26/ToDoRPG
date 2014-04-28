@@ -29,7 +29,7 @@ public class LogItem {
 
 	public boolean equals(Object o) {
 		LogItem other = (LogItem) o;
-		return this.content == other.content
+		return this.content.equals(other.content)
 				&& this.date_time.equals(other.date_time);
 	}
 
