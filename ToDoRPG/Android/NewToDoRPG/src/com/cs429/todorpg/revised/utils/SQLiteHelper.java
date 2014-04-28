@@ -938,6 +938,88 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * getHabits() - returns a list of habits for the character
 	 * @return Arraylist of all habits
 	 */
+	public ArrayList<EquipCost> getLibraryAll() {
+		Cursor cursor = this.getReadableDatabase().query(
+				Constants.TABLE_LIBRARY, null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			/**ArrayList<Habit> habits = new ArrayList<Habit>();
+			cursor.moveToFirst();
+			do {
+				int primary_key = cursor.getInt(0);
+				String title = cursor.getString(1);
+				String extra = cursor.getString(2);
+				String characteristic = cursor.getString(3);
+				int difficulty = cursor.getInt(4);
+				int progress = cursor.getInt(5);
+				Habit temp = new Habit(title, extra, primary_key);
+				temp.setProgress(progress);
+				temp.setCharacteristic(characteristic);
+				temp.setDifficulty(difficulty);
+				habits.add(temp);
+			} while (cursor.moveToNext());
+			return habits;
+		}**/
+			ArrayList<EquipCost> eqlist = new ArrayList<EquipCost>();
+			cursor.moveToFirst();
+			do {
+				int primary_key = cursor.getInt(0);
+				int type = cursor.getInt(1);
+				String name = cursor.getString(2);
+				int resid = cursor.getInt(3);
+				int damage = cursor.getInt(4);
+				int critical = cursor.getInt(5);
+				int multihit = cursor.getInt(6);
+				String negEffects = cursor.getString(7);
+				int damagereduction = cursor.getInt(8);
+				int evasion = cursor.getInt(9);
+				int accuracy = cursor.getInt(10);
+				String posEffects = cursor.getString(11);
+				int cost = cursor.getInt(12);
+				ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+				while(!negEffects.equals(""))
+				{
+					int tempspace = negEffects.indexOf(' ');
+					int tempcomma = negEffects.indexOf(',');
+					String tempeffect = negEffects.substring(0, tempspace);
+					int temppercent = Integer.parseInt(negEffects.substring(tempspace + 1, tempcomma));
+					negs.add(new NegativeEffects(tempeffect, temppercent));
+					negEffects = negEffects.substring(tempcomma + 1);
+				}
+				
+				ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+				while(!posEffects.equals(""))
+				{
+					int tempcomma = posEffects.indexOf(',');
+					String tempeffect = posEffects.substring(0, tempcomma);
+					poss.add(new PositiveEffects(tempeffect));
+					posEffects = posEffects.substring(tempcomma + 1);
+				}
+						
+				Equipment tempitem = null;
+				if(type == 1)
+					tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
+				if(type == 2)
+					tempitem = new Helmet(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
+				if(type == 3)
+					tempitem = new Shield(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
+				if(type == 4)
+					tempitem = new Weapon(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
+							accuracy, poss);
+				eqlist.add(new EquipCost(tempitem, cost));
+			} while (cursor.moveToNext());
+			return eqlist;
+		}
+	}
+	
+	/**
+	 * getHabits() - returns a list of habits for the character
+	 * @return Arraylist of all habits
+	 */
 	public EquipCost getLibrary(String text) {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_LIBRARY, null, "name='" + text + "'", null, null, null, null);
