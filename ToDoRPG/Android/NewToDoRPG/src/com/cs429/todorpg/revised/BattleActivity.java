@@ -46,8 +46,6 @@ import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
-import com.cs429.todorpg.revised.MainActivity;
-
 public class BattleActivity extends BaseActivity {
 	enum GameState{ ready, gameOver }
 	GameState state = GameState.ready;
@@ -524,6 +522,8 @@ public class BattleActivity extends BaseActivity {
 			 * 
 			 *  Need to include Inventory and ToDoCharacter Object in Avatar
 			 */
+			
+			/*
 			Avatar av = new Avatar();
 			Inventory in = new Inventory();
 		    ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
@@ -544,8 +544,33 @@ public class BattleActivity extends BaseActivity {
 			setPlayerInfo(myCharacter);
 			//ToDoCharacter enemeyCharacter = new ToDoCharacter("Alonso", 90, 120, 5, 0, 50);
 			av.setToDoCharacter(myCharacter);
-			mHandler.obtainMessage(BTMessageHandler.MESSAGE_SHARE_CHAR_INFO, new BtPackage(BtPackage.SHARE_INFO_PACKAGE, (av))).sendToTarget();
+			
+			
+			*/
+			Avatar av = new Avatar();
+			SQLiteHelper sql = new SQLiteHelper(BattleActivity.this);
+			inventory = sql.getInventory();
+			if (inventory == null) {
+				Log.d("BATTLE ACTIVITY", "INVENTORY IS NULL");
+			}
+			else {
+				Log.d("BATTLE ACTIVITY", inventory.getWeapon().getName());
+			}
+			ToDoCharacter c = sql.getCharacter();
+			if (c == null) {
+				Log.d("BATTLE ACTIVITY", "CHARACTER IS NULL");
+			}
+			else {
+				Log.d("BATTLE ACTIVITY", c.getName());
+			}
+			player = c;
+			av.setInventory(inventory);
+			av.setToDoCharacter(c);
+			setPlayerInfo(c);
 			playerAvatar = av;
+			playerImage.setImageBitmap(av.getClearBitmap());
+			mHandler.obtainMessage(BTMessageHandler.MESSAGE_SHARE_CHAR_INFO, new BtPackage(BtPackage.SHARE_INFO_PACKAGE, (av))).sendToTarget();
+			
 
 			return null;
 		}
