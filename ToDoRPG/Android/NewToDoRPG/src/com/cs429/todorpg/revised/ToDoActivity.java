@@ -93,7 +93,7 @@ public class ToDoActivity extends BaseActivity {
 	}
 
 	private void setToDoList() {
-		todos = db.getToDos();
+		todos = db.getToDos(2);
 		if (todos == null)
 			todos = new ArrayList<ToDo>();
 		else {

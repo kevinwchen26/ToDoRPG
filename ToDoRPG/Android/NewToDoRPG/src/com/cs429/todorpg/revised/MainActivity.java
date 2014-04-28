@@ -10,19 +10,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.cs429.todorpg.revised.utils.SQLiteHelper;
-import com.cs429.todorpg.revised.controller.StatAdapter;
-import com.cs429.todorpg.revised.itemsystem.*;
+import com.cs429.todorpg.revised.itemsystem.Armor;
+import com.cs429.todorpg.revised.itemsystem.EquipCost;
+import com.cs429.todorpg.revised.itemsystem.Equipment;
+import com.cs429.todorpg.revised.itemsystem.Helmet;
+import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
+import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
+import com.cs429.todorpg.revised.itemsystem.Shield;
+import com.cs429.todorpg.revised.itemsystem.Weapon;
+import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.Stat;
+import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class MainActivity extends BaseActivity {
 
@@ -62,10 +69,28 @@ public class MainActivity extends BaseActivity {
 			String formattedDate = df.format(c.getTime());
 			sql.addLogItem(new LogItem("Created Character", formattedDate));
 		}
+		UpdateStats();
 		GameApplication app = (GameApplication) getApplication();
 		app.avatar.inventory = sql.getInventory();
 	}
-
+	private void UpdateStats() {
+		ArrayList<Daily> completed_daily = new ArrayList<Daily>();
+		completed_daily = sql.getDailies(1);
+		if(completed_daily != null) {
+			int daily_count = completed_daily.size();
+			Log.d("SIZE", daily_count+"");
+			sql.updateStat(new Stat("Dailies Completed", daily_count));
+		}
+		
+		ArrayList<ToDo> completed_todo = new ArrayList<ToDo>();
+		completed_todo = sql.getToDos(1);
+		if(completed_todo != null) {
+			int todo_count = completed_todo.size();
+			System.out.println(todo_count);
+			sql.updateStat(new Stat("ToDos Completed", todo_count));
+		}
+		
+	}
 	private void initializeStats() {
 		sql.addStat(new Stat("Battles Fought", 0));
 		sql.addStat(new Stat("Battles Won", 0));
