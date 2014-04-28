@@ -51,30 +51,30 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(names.contains("habits"));
 	}
 
-//	public void testCharacter() {
-//		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE);
-//		ToDoCharacter loser = new ToDoCharacter("loser", 0);
-//
-//		assertNotNull(db);
-//		db.addCharacter(kevin);
-//		ToDoCharacter test = db.getCharacter();
-//		assertEquals(kevin, test);
-//		
-//		db.addCharacter(loser);
-//		test = db.getCharacter();
-//		assertEquals(loser, test);
-//		
-//		kevin.setHP(50);
-//		kevin.setLevel(2);
-//		kevin.setCurrExp(30);
-//		kevin.setNextExp(100);
-//
-//		db.updateCharacter(kevin);
-//		test = db.getCharacter();
-//		assertEquals(kevin, test);
-//		
-//
-//	}
+	public void testCharacter() {
+		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE, 1, 1, 1, 1);
+		ToDoCharacter loser = new ToDoCharacter("loser", 0, 1, 1, 1, 1);
+
+		assertNotNull(db);
+		db.addCharacter(kevin);
+		ToDoCharacter test = db.getCharacter();
+		assertEquals(kevin, test);
+		
+		db.addCharacter(loser);
+		test = db.getCharacter();
+		assertEquals(loser, test);
+		
+		kevin.setHP(50);
+		kevin.setLevel(2);
+		kevin.setCurrExp(30);
+		kevin.setNextExp(100);
+
+		db.updateCharacter(kevin);
+		test = db.getCharacter();
+		assertEquals(kevin, test);
+		
+
+	}
 	
 	public void testToDos() {
 		ToDo cake = new ToDo("Cake", "Tasty Sweet", -1);
@@ -91,7 +91,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		cake.setKey(idcake);
 		anime.setKey(idanime);
 
-		ArrayList<ToDo> todos = db.getToDos();
+		ArrayList<ToDo> todos = db.getToDos(2);
 		assertEquals(2, todos.size());
 		assertTrue(todos.contains(cake));
 		assertTrue(todos.contains(anime));
@@ -99,7 +99,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		cake.setFinish();
 		assertTrue(db.updateToDo(cake));
 		anime.setDueDate(5, 5, 5, 5);
-		todos = db.getToDos();
+		todos = db.getToDos(2);
 		assertEquals(2, todos.size());
 		assertTrue(todos.contains(cake));
 		assertFalse(todos.contains(anime));
@@ -107,7 +107,7 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(db.updateToDo(anime));
 		
 		assertTrue(db.deleteToDo(anime));
-		todos = db.getToDos();
+		todos = db.getToDos(2);
 		assertEquals(1, todos.size());
 		assertTrue(todos.contains(cake));
 
