@@ -28,10 +28,11 @@
         <activity android:name="com.cs429.todorpg.revised.InventoryActivity" />
         <activity android:name="com.cs429.todorpg.revised.RewardsActivity" />
         <activity android:name="com.cs429.todorpg.revised.BattleActivity" />
-<!--      <activity android:name="com.cs429.todorpg.revised.ShopActivity" />  -->
+        <!-- <activity android:name="com.cs429.todorpg.revised.ShopActivity" /> -->
         <activity android:name="com.cs429.todorpg.revised.CalendarView" />
         <activity android:name="com.cs429.todorpg.revised.AlarmNotification" />
-        <activity android:name="com.cs429.todorpg.revised.DeviceListActivity"
+        <activity
+            android:name="com.cs429.todorpg.revised.DeviceListActivity"
             android:parentActivityName="com.cs429.todorpg.revised.BattleMainActivity" />
         <activity
             android:name="com.cs429.todorpg.revised.DailyActivity"
@@ -70,14 +71,21 @@
         </activity>
         <activity
             android:name="com.cs429.todorpg.revised.BattleMainActivity"
-            android:parentActivityName="com.cs429.todorpg.revised.MainActivity"
-            android:label="@string/title_activity_battle_main" >
-        
+            android:label="@string/title_activity_battle_main"
+            android:parentActivityName="com.cs429.todorpg.revised.MainActivity" >
         </activity>
-         <activity
+        <activity
             android:name="com.cs429.todorpg.revised.TutorialBattleActivity"
-            android:parentActivityName="com.cs429.todorpg.revised.MainActivity"
-            android:label="@string/tutorial_battle" >
+            android:label="@string/tutorial_battle"
+            android:parentActivityName="com.cs429.todorpg.revised.MainActivity" >
+        </activity>
+        <activity
+            android:name="com.cs429.todorpg.revised.PlayerStats"
+            android:label="@string/title_activity_player_stats" >
+        </activity>
+        <activity
+            android:name="com.cs429.todorpg.revised.EventLog"
+            android:label="@string/title_activity_event_log" >
         </activity>
     </application>
 

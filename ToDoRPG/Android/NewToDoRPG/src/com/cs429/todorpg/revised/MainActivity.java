@@ -1,21 +1,27 @@
 package com.cs429.todorpg.revised;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+import com.cs429.todorpg.revised.controller.StatAdapter;
 import com.cs429.todorpg.revised.itemsystem.*;
-import com.cs429.todorpg.revised.itemsystem.Armor;
-import com.cs429.todorpg.revised.itemsystem.Helmet;
-import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
-import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
-import com.cs429.todorpg.revised.itemsystem.Shield;
-import com.cs429.todorpg.revised.itemsystem.Weapon;
+import com.cs429.todorpg.revised.model.LogItem;
+import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 
 public class MainActivity extends BaseActivity {
@@ -23,6 +29,8 @@ public class MainActivity extends BaseActivity {
 	Intent intent;
 	SQLiteHelper sql;
 	ToDoCharacter character;
+	TextView current_level, current_hp, current_exp, completed_quests,
+			current_money, total_battles;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,10 @@ public class MainActivity extends BaseActivity {
 		CreateCharacter();
 		CreateLibrary();
 		setHeader(R.id.header);
+		sql = new SQLiteHelper(getBaseContext());
+		FindViewById();
+		GetCharacterInfo();
+		fill_list();
 	}
 
 	private void CreateCharacter() {
@@ -42,9 +54,26 @@ public class MainActivity extends BaseActivity {
 			character = new ToDoCharacter("Hero", 0, 100, 1, 0, 100);
 			sql.addCharacter(character);
 			addInitialItems();
+			initializeStats();
+			Calendar c = Calendar.getInstance();
+			System.out.println("Current time => " + c.getTime());
+
+			SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+			String formattedDate = df.format(c.getTime());
+			sql.addLogItem(new LogItem("Created Character", formattedDate));
 		}
-		GameApplication app = (GameApplication)getApplication();
-		app.avatar.inventory=sql.getInventory();
+		GameApplication app = (GameApplication) getApplication();
+		app.avatar.inventory = sql.getInventory();
+	}
+
+	private void initializeStats() {
+		sql.addStat(new Stat("Battles Fought", 0));
+		sql.addStat(new Stat("Battles Won", 0));
+		sql.addStat(new Stat("Battles Lost", 0));
+		sql.addStat(new Stat("Dailies Completed", 0));
+		sql.addStat(new Stat("ToDos Completed", 0));
+		sql.addStat(new Stat("Items Bought", 0));
+		sql.addStat(new Stat("Gold Spent", 0));
 	}
 
 	private void CreateLibrary() {
@@ -226,4 +255,65 @@ public class MainActivity extends BaseActivity {
 		sql.addInventory(app.avatar.inventory);
 	}
 
+	private void FindViewById() {
+		current_level = (TextView) findViewById(R.id.current_level);
+		current_hp = (TextView) findViewById(R.id.current_hp);
+		current_exp = (TextView) findViewById(R.id.current_exp);
+		current_money = (TextView) findViewById(R.id.current_money);
+
+	}
+
+	private void GetCharacterInfo() {
+		character = sql.getCharacter();
+		if (character == null) {
+			return;
+		}
+		TextView char_name = (TextView) findViewById(R.id.char_name);
+		char_name.setText(character.getName());
+		current_level.setText(Integer.toString(character.getLevel()));
+		current_hp.setText(Integer.toString(character.getHP()));
+		current_money.setText(Integer.toString(character.getGold()));
+		DecimalFormat df = new DecimalFormat("#.00");
+		double curr_exp = character.getCurrExp()
+				/ (double) (character.getLevel() * 100) * 100;
+		String result = df.format(curr_exp).concat("%");
+		current_exp.setText(result);
+
+	}
+
+	public void setName(View view) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Enter Hero Name");
+
+		// Set up the input
+		final EditText input = new EditText(this);
+		// Specify the type of input expected; this, for example, sets the input
+		// as a password, and will mask the text
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		builder.setView(input);
+
+		// Set up the buttons
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String name = input.getText().toString();
+				sql.addCharacter(new ToDoCharacter(sql.getCharacter(), name));
+
+			}
+		});
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		builder.show();
+	}
+
+	public void fill_list() {
+		ArrayList<LogItem> log = sql.getLog();
+
+	}
 }

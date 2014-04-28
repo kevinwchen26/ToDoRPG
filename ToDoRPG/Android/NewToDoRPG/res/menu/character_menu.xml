@@ -2,10 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/character_status"
-        android:title="Status"/>
-    <item
         android:id="@+id/character_inventory"
         android:title="Inventory"/>
+    <item
+        android:id="@+id/player_stats"
+        android:title="Player Stats"/>
+    <item
+        android:id="@+id/event_log"
+        android:title="Event Log"/>
 
 </menu>
