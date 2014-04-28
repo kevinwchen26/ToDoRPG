@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
 		setHeader(R.id.header);
 
 	}
-
+	
 	private void CreateCharacter() {
 		character = sql.getCharacter();
 		if (character == null) {

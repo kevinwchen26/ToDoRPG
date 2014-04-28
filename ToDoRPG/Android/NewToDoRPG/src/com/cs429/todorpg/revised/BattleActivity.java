@@ -476,6 +476,7 @@ public class BattleActivity extends BaseActivity {
 				dialog.dismiss();
 				intent = new Intent(BattleActivity.this, MainActivity.class);
 				startActivity(intent);
+				mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_END).sendToTarget();
 				finish();
 				//player.setHP(player.getMaxHP());
 				//boss.setHP(boss.getMaxHP());

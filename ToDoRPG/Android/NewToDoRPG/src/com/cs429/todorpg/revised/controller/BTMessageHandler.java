@@ -31,6 +31,7 @@ public class BTMessageHandler extends Handler{
 	public final static int MESSAGE_CONNECTION_SETTLED = 3;
 	public final static int MESSAGE_BATTLE_SEND = 4;
 	public final static int MESSAGE_BATTLE_ACKNOWLEDGE = 5;
+	public final static int MESSAGE_BATTLE_END = 6;
 	
 	public final static int MESSAGE_SHARE_CHAR_INFO = 9;
 	
@@ -151,7 +152,6 @@ public class BTMessageHandler extends Handler{
 			BTService.writeObject(msg.obj);
 			toggleMyTurn();
 			
-			
 			break;
 			
 		case MESSAGE_BATTLE_ACKNOWLEDGE:
@@ -163,6 +163,11 @@ public class BTMessageHandler extends Handler{
 			battleToast("Got Attacked");
 			BTService.write(ackmsg);
 			break;
+			
+		case MESSAGE_BATTLE_END:
+			BTService.stop();
+			break;
+			
 		case MESSAGE_SHARE_CHAR_INFO:
 			Log.d("BTMESSAGE_HANDLER", "Send Attackto BT service");
 			BTService.writeObject(msg.obj);

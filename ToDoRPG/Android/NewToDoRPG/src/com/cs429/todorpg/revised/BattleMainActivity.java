@@ -57,7 +57,7 @@ public class BattleMainActivity extends BaseActivity {
 	public void onDestroy(){
 		Log.e("[LifeCycle]", "++ onDestroy ++");
 		super.onDestroy();
-//		BTService.stop();
+		BTService.stop();
 	}
 	
 	@Override
