@@ -101,7 +101,7 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 		TextView gold = (TextView) solo.getView(R.id.gold);
 		solo.sleep(200);
 
-		assertEquals(gold.getText().toString(), "Gold: 100");
+		assertEquals(gold.getText().toString(), "Gold: 80");
 	}
 	
 	
