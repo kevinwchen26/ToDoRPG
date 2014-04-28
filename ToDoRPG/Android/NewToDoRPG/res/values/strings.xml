@@ -5,6 +5,7 @@
     <string name="character_description">Character Activity</string>
     <string name="vice_description">Vice Activity</string>
     <string name="todo_description">ToDo Activity</string>
+    <string name="tutorial_battle">Tutorial Battle</string>
     <string name="rewards_description">Rewards Activity</string>
     <string name="inventory_description">Inventory Activity</string>
     <string name="title_activity_daily">DailyActivity</string>

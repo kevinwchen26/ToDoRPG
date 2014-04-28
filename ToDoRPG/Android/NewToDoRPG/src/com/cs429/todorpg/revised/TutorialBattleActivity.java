@@ -3,7 +3,6 @@ package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.controller.BTMessageHandler;
 import com.cs429.todorpg.revised.itemsystem.Armor;
 import com.cs429.todorpg.revised.itemsystem.Helmet;
 import com.cs429.todorpg.revised.itemsystem.Inventory;
@@ -25,8 +24,11 @@ import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -36,14 +38,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class BattleActivity extends BaseActivity {
+public class TutorialBattleActivity extends BaseActivity {
 	enum GameState{ ready, gameOver }
 	GameState state = GameState.ready;
-	int width, height, playerMaxHP, enemyMaxHP;
+	int width, height, playerMaxHP, enemyMaxHP, tutorialStep = 0;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu, playerInfo, enemySide, playerSide;
 	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement;
 	ImageView enemyImage, playerImage, playerEffect, enemyEffect, playerStatusPoison, playerStatusBlind, playerStatusCurse, enemyStatusPoison, enemyStatusBlind, enemyStatusCurse;
@@ -56,23 +56,87 @@ public class BattleActivity extends BaseActivity {
 	SQLiteHelper sql = new SQLiteHelper(this);
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
-	
-	private BTMessageHandler mHandler;
 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setUpLayout();
-		setContentView(R.layout.battle_activity);
+		setContentView(R.layout.tutorial_battle_activity);
 		FindViewById();
 		setUpActivity();
+		View view = findViewById(R.id.tutorial_battle_view);
+		setBattleMessage("HI! Welcome to the battle tutorial.\n" + "(Tap anywhere to continue)");
+
+		view.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				runTutorial();
+				return false;
+			}
+			
+		});
 		
-		mHandler = BTMessageHandler.getInstance(BattleActivity.this);
-
 	}
+	
+	private void runTutorial(){
 
+		if(tutorialStep == 0){
+			setBattleMessage("This is the field in which you will battle!");
+		} 
+		else if(tutorialStep == 1){
+			setBattleMessage("On the bottom corners, you can see your player and enemy name and HP");
+		}
+		else if(tutorialStep == 2){
+			setBattleMessage("Below you can press commands for attack and changing weapons. Changing Weapons takes up a turn!");
+		}
+		else if(tutorialStep == 3){
+			setBattleMessage("Next we will look at status effects.");
+		}
+		else if(tutorialStep == 4){
+			enemyStatusCurse.setBackgroundResource(R.drawable.curse);
+			
+			playerStatusCurse.setBackgroundResource(R.drawable.curse);	
+			
+			setBattleMessage("This is curse. This reduces the damage dealt by 20%.");
 
+		}
+		else if(tutorialStep == 5){
+			enemyStatusCurse.setBackgroundResource(0);
+			playerStatusCurse.setBackgroundResource(0);	
+			
+			enemyStatusPoison.setBackgroundResource(R.drawable.poison);
+			playerStatusPoison.setBackgroundResource(R.drawable.poison);
+			
+			setBattleMessage("This is poison. The character loses 10% of current HP per turn.");
+
+		}
+		else if(tutorialStep == 6){
+			enemyStatusPoison.setBackgroundResource(0);
+			playerStatusPoison.setBackgroundResource(0);
+			enemyStatusBlind.setBackgroundResource(R.drawable.blind);
+			playerStatusBlind.setBackgroundResource(R.drawable.blind);
+
+			setBattleMessage("This is blind. The character has a 20% chance of missing their attack.");
+
+		}
+		else if(tutorialStep == 7){
+			enemyStatusBlind.setBackgroundResource(0);
+			playerStatusBlind.setBackgroundResource(0);
+			
+			setBattleMessage("Finally, deplete your enemy's HP to win the battle!.");
+				
+
+		}
+		else if (tutorialStep == 8){
+			makeGameOverMessages("You have finished the tutorial, would you like to go through it again?");
+			battleEnd = builder.create();
+			battleEnd.show();
+		}
+		tutorialStep++;
+	}
+	
 	private void setUpActivity() {
 	    setPlayers();
 		setUpBattleScreen();
@@ -80,7 +144,7 @@ public class BattleActivity extends BaseActivity {
 		setUpBattleMenu();
 		setUpBattleInfo();
 	    setUpStatusEffects();
-	    applyStatusEffects();
+	    //applyStatusEffects();
 		update();
 		
 	}
@@ -113,6 +177,7 @@ public class BattleActivity extends BaseActivity {
 	    
 	    RelativeLayout.LayoutParams announcementParams =  new RelativeLayout.LayoutParams(battleAnnouncement.getLayoutParams());
 	    announcementParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+	    announcementParams.addRule(RelativeLayout.CENTER_VERTICAL);
 	    battleAnnouncement.setLayoutParams(announcementParams);
 	    
 	    
@@ -172,6 +237,10 @@ public class BattleActivity extends BaseActivity {
 		enemyStatusCurse.setBackgroundResource(R.drawable.curse);
 		enemyStatusPoison.setBackgroundResource(R.drawable.poison);
 		enemyStatusBlind.setBackgroundResource(R.drawable.blind);
+		
+		playerStatusCurse.setBackgroundResource(R.drawable.curse);
+		playerStatusPoison.setBackgroundResource(R.drawable.poison);
+		playerStatusBlind.setBackgroundResource(R.drawable.blind);
 	}
 	private void setUpBattleNavigator() {
 		// Set up Battle navigator
@@ -333,31 +402,15 @@ public class BattleActivity extends BaseActivity {
 			switch (view.getId()) {
 			case R.id.attack_button:
 				//player.attack(enemy);
-//				setBattleMessage(player.getName() + " attacks " + enemy.getName());
+				setBattleMessage(player.getName() + " attacks " + enemy.getName());
 				/*
 				playerEffect.setBackgroundResource(R.drawable.player_attack);
 				playerAttack = (AnimationDrawable) playerEffect.getBackground();
 				playerAttack.start();
 				waitForEffectAnimationDone(playerAttack, playerEffect);
 				*/
-//				Animate(playerAttack, playerEffect, R.drawable.player_attack);
-//				update();
-				
-				if(mHandler.getMyTurn()){
-					setBattleMessage(player.getName() + " attacks " + enemy.getName());
-					Animate(playerAttack, playerEffect, R.drawable.player_attack);
-					update();
-					mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_SEND).sendToTarget();
-				}
-				else{
-					AlertDialog.Builder ab = null;
-					ab = new AlertDialog.Builder(BattleActivity.this);
-					ab.setTitle("Battle");
-					ab.setMessage("It is not Your Turn!!");
-					ab.setPositiveButton("OK", null);
-					ab.show();
-				}
-				
+				Animate(playerAttack, playerEffect, R.drawable.player_attack);
+				update();
 				break;
 			case R.id.change_weapon:
 				
@@ -420,6 +473,7 @@ public class BattleActivity extends BaseActivity {
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
 		battleAnnouncement.setVisibility(View.VISIBLE);
+		/*
 		Handler h = new Handler();
 	    h.postDelayed(new Runnable() {
 	    	@Override
@@ -427,19 +481,22 @@ public class BattleActivity extends BaseActivity {
 	    		battleAnnouncement.setVisibility(View.INVISIBLE);
 
 	    	}}, 1000);
-
+*/
 	}
 
 	public void makeGameOverMessages(String msg) {
 		builder = new AlertDialog.Builder(this);
 
-		builder.setMessage(msg + " Would you like to try again?");
+		builder.setMessage(msg);
 
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+				tutorialStep = 0;
+				setBattleMessage("HI! Welcome to the battle tutorial.\n" + "(Tap anywhere to continue)");
+
 				//player.setHP(player.getMaxHP());
 
 				//boss.setHP(boss.getMaxHP());
@@ -453,6 +510,8 @@ public class BattleActivity extends BaseActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {			
 				dialog.dismiss();
+				Intent intent = new Intent(TutorialBattleActivity.this, MainActivity.class);
+				startActivity(intent);
 				finish();
 
 			}
