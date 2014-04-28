@@ -13,7 +13,6 @@ import com.cs429.todorpg.revised.itemsystem.*;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.ClipData.Item;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -55,8 +54,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 
-	/*
-	 * Gets character info 0 = _id 1 = name 2 = gold
+	/**
+	 * getCharacter()
+	 * @return your current Character information
 	 */
 	public ToDoCharacter getCharacter() {
 		Cursor cursor = this.getReadableDatabase().query(
@@ -80,12 +80,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
-	/*
-	 * inserts users character into database
-	 * 
-	 * @name - characters name
-	 * 
-	 * @gold - users gold
+	/**
+	 * addCharacter()
+	 * @param character
+	 * @return -1 if unsuccessful, 0 if successfull
 	 */
 	public long addCharacter(ToDoCharacter character) {
 		this.deleteCharacter();
@@ -106,23 +104,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				null, values);
 	}
 	
-	/*
-	 * inserts users character into database
-	 * 
-	 * @name - characters name
-	 * 
-	 * @gold - users gold
+	/**
+	 * deleteCharacter()
+	 * deletes character from the database
 	 */
 	private void deleteCharacter() {
 		this.getReadableDatabase().delete(Constants.TABLE_CHARACTER, null, null);
 	}
 	
-	/*
-	 * inserts users character into database
-	 * 
-	 * @name - characters name
-	 * 
-	 * @gold - users gold
+	/**
+	 * updateCharacter(ToDoCharacter)
+	 * @param ch adds the character to the database
 	 */
 	public void updateCharacter(ToDoCharacter ch) {
 		this.addCharacter(ch);
@@ -444,9 +436,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * updateHabit() - updates the Daily in the database
-	 * @param daily
-	 * @return true if successfully updated, false otherwise
+	 * updateDailyWeek() updates the DailyWeek object for the Daily DB
+	 * @param weekid
+	 * @param monb
+	 * @param tuesb
+	 * @param wedb
+	 * @param thursb
+	 * @param frib
+	 * @param satb
+	 * @param sunb
+	 * @return true if updated successfully
 	 */
 	private boolean updateDailyWeek(int weekid, boolean monb, boolean tuesb, boolean wedb, boolean thursb, boolean frib, boolean satb, boolean sunb) {
 		int mon = this.getInt(monb);
@@ -616,8 +615,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * getDailies() - returns a list of dailies for the character
-	 * @return Arraylist of all dailies
+	 * getInventory() gets the Inventory Object stored in the DB
+	 * @return Inventory object
 	 */
 	public Inventory getInventory() {
 		Cursor cursor = this.getReadableDatabase().query(
@@ -650,9 +649,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * addDailies() - adds a daily for the character
-	 * @param daily
-	 * @return the int for DB position of the daily
+	 * addInventory() adds an inventory to the DB
+	 * @param inventory
+	 * @return -1 if unsuccessful, 0 if successful
 	 */
 	public int addInventory(Inventory inventory) {
 		this.deleteInventory();
@@ -673,9 +672,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * deleteDaily() - deletes the Daily from the database
-	 * @param daily
-	 * @return true if daily has been successfully deleted, else false
+	 * deleteInventory()
+	 * deletes the Inventory for the character
 	 */
 	public void deleteInventory() {
 		this.deleteUnused();
@@ -687,17 +685,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * updateHabit() - updates the Daily in the database
-	 * @param daily
-	 * @return true if successfully updated, false otherwise
+	 * updateInventory() updates the Inventory
+	 * @param inventory
 	 */
 	public void updateInventory(Inventory inventory) {
 		this.addInventory(inventory);
 	}
 	
 	/**
-	 * getDailiesWeek() - returns a list of dailies for the character
-	 * @return Arraylist of all dailiesweek
+	 * getUnused() helper function used to get the unused Inventory list
+	 * @return Arraylist of RPGItems
 	 */
 	private ArrayList<RpgItem> getUnused() {
 		Cursor cursor = this.getReadableDatabase().query(
@@ -760,9 +757,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * addDailiesWeek() - adds a dailyweek for the character
-	 * @param seven bools
-	 * @return the int for DB position of the dailyweek
+	 * addUnused() adds an unused inventory list to a database - helper function
+	 * @param inventoryItems
 	 */
 	private void addUnused(ArrayList<RpgItem> inventoryItems) {
 		deleteUnused();
@@ -811,18 +807,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * deleteDaily() - deletes the Daily from the database
-	 * @param daily
-	 * @return true if daily has been successfully deleted, else false
+	 * deletes the Unused
 	 */
 	private void deleteUnused() {
 		this.getReadableDatabase().delete(Constants.TABLE_INVENTORY, null, null);
 	}
 	
 	/**
-	 * updateHabit() - updates the Daily in the database
-	 * @param daily
-	 * @return true if successfully updated, false otherwise
+	 * updateUnused() updates the unused inventory 
+	 * @param inventory
 	 */
 	private void updateUnused(ArrayList <RpgItem> inventory) {
 		this.deleteUnused();
@@ -831,8 +824,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 	
 	/**
-	 * getDailiesWeek() - returns a list of dailies for the character
-	 * @return Arraylist of all dailiesweek
+	 * getEquip() private helper function that gets the equipment from the DB
+	 * @param cursor
+	 * @param equip - type of equip
+	 * @return
 	 */
 	private Equipment getEquip(Cursor cursor, String equip) {
 		if (cursor.getCount() == 0)
@@ -888,9 +883,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * addDailiesWeek() - adds a dailyweek for the character
-	 * @param seven bools
-	 * @return the int for DB position of the dailyweek
+	 * addEquip() adds an Equip to the inventory
+	 * @param item
+	 * @param secondary
+	 * @return
 	 */
 	private int addEquip(Equipment item, boolean secondary) {
 		if (item == null)
@@ -935,8 +931,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * getHabits() - returns a list of habits for the character
-	 * @return Arraylist of all habits
+	 * getLibraryAll() returns all the items in the library
+	 * @return
 	 */
 	public ArrayList<EquipCost> getLibraryAll() {
 		Cursor cursor = this.getReadableDatabase().query(
@@ -944,23 +940,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		if (cursor.getCount() == 0)
 			return null;
 		else {
-			/**ArrayList<Habit> habits = new ArrayList<Habit>();
-			cursor.moveToFirst();
-			do {
-				int primary_key = cursor.getInt(0);
-				String title = cursor.getString(1);
-				String extra = cursor.getString(2);
-				String characteristic = cursor.getString(3);
-				int difficulty = cursor.getInt(4);
-				int progress = cursor.getInt(5);
-				Habit temp = new Habit(title, extra, primary_key);
-				temp.setProgress(progress);
-				temp.setCharacteristic(characteristic);
-				temp.setDifficulty(difficulty);
-				habits.add(temp);
-			} while (cursor.moveToNext());
-			return habits;
-		}**/
 			ArrayList<EquipCost> eqlist = new ArrayList<EquipCost>();
 			cursor.moveToFirst();
 			do {
@@ -1017,8 +996,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * getHabits() - returns a list of habits for the character
-	 * @return Arraylist of all habits
+	 * gets a specific item from the library
+	 * 
+	 * @param text
+	 * @return an equipCost object
 	 */
 	public EquipCost getLibrary(String text) {
 		Cursor cursor = this.getReadableDatabase().query(
@@ -1078,9 +1059,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * addHabit() - adds a habit for the character
-	 * @param habit
-	 * @return the int for DB position of the habit
+	 * adds to the Library class with an Equipment
+	 * @param item
+	 * @param cost
+	 * @return -1 if unsuccessful, int if placed
 	 */
 	public int addLibrary(Equipment item, int cost) {
 		int type = 0;
@@ -1124,9 +1106,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * deleteHabit() - deletes the Habit from the database
-	 * @param habit
-	 * @return true if habit has been successfully deleted, else false
+	 * deleteLibrary() deletes a specific library from the DB
+	 * @param text
+	 * @return
 	 */
 	public boolean deleteLibrary(String text) {
 		
@@ -1135,9 +1117,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * updateHabit() - updates the Habit in the database
-	 * @param habit
-	 * @return true if successfully updated, false otherwise
+	 * updates the Library of a specific Equipment
+	 * @param item
+	 * @param cost
+	 * @return
 	 */
 	public boolean updateLibrary(Equipment item, int cost) {
 		int type = 0;
@@ -1179,6 +1162,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		
 		return this.getReadableDatabase().update(Constants.TABLE_LIBRARY , values, "name='" + item.getName() + "'", null) > 0;
 	}
+	
+	/**
+	 * addStat() adds a stat to the Database
+	 * @param stat
+	 * @return
+	 */
 	public int addStat(Stat stat){
 		String name = stat.getName();
 		int count = stat.getCount();
@@ -1189,6 +1178,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				values));
 	}
 
+	/**
+	 * updateStat () updates the stat in the DB
+	 * @param stat
+	 * @return
+	 */
 	public boolean updateStat(Stat stat){
 		String name = stat.getName();
 		int count = stat.getCount();
@@ -1198,6 +1192,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().update(Constants.TABLE_STAT, values, "name='" + stat.getName() + "'", null) > 0;
 	}
 
+	/**
+	 * gets all the stats of in the DB
+	 * @return
+	 */
 	public ArrayList<Stat> getStats(){
 		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_STAT,
 				null, null, null, null, null, null);
@@ -1216,6 +1214,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
+	/**
+	 * adds a log to the Databasee
+	 * @param item
+	 * @return -1 if unsuccessful, int if placed
+	 */
 	public int addLogItem(LogItem item){
 		String text = item.getContent();
 		String date = item.getDate_time();
@@ -1226,6 +1229,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				values));
 	}
 
+	/**
+	 * getLog() gets all the Lobs in the Database
+	 * @return 
+	 */
 	public ArrayList<LogItem> getLog(){
 		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_LOG,
 				null, null, null, null, null, null);
@@ -1244,12 +1251,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 	
-	
+	/**
+	 * helper function that changes an into the a booolean
+	 * @param tempint
+	 * @return
+	 */
 	private boolean getBool(int tempint){
 		if(tempint == 1)
 			return true;
 		return false;
 	}
+	
+	/**
+	 * helper function that changes a boolean to an int
+	 * @param tempbool
+	 * @return
+	 */
 	private int getInt(boolean tempbool){
 		if(tempbool)
 			return 1;
