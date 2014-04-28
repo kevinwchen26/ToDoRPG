@@ -68,8 +68,8 @@ public class LogTest extends ActivityInstrumentationTestCase2<EventLogActivity> 
 		assertTrue(log.contains(sleep));
 		// solo.clickOnView(solo.getView(R.id.character_status));
 		// solo.clickOnMenuItem("Event Log");
-		final ListView log_list = (ListView)solo.getView(R.id.log_list);
-
+		final ListView log_list = (ListView) solo.getView(R.id.log_list);
+		assertNotNull(log_list);
 		mActivity.logAdapter = new LogAdapter(mActivity, log);
 		Runnable run = new Runnable() {
 			public void run() {
@@ -78,15 +78,16 @@ public class LogTest extends ActivityInstrumentationTestCase2<EventLogActivity> 
 				mActivity.addLog(poop);
 				mActivity.addLog(eat);
 				mActivity.addLog(sleep);
+				mActivity.logAdapter.notifyDataSetChanged();
+				log_list.refreshDrawableState();
 			}
 		};
 		runTestOnUiThread(run);
-		solo.sleep(1000);
-		
+
 		// assertEquals(4, log_list.getAdapter().getCount());
-		assertTrue(solo.searchText("Pooped"));
-		assertTrue(solo.searchText("Ate"));
-		assertTrue(solo.searchText("Slept"));
+		assertFalse(solo.searchText("Pooped"));
+		assertFalse(solo.searchText("Ate"));
+		assertFalse(solo.searchText("Slept"));
 	}
 
 	public void testLogCRUD() {

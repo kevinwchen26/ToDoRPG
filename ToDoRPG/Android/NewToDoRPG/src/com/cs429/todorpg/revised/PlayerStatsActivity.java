@@ -15,6 +15,7 @@ import android.widget.ListView;
 public class PlayerStatsActivity extends BaseActivity {
 
 	private SQLiteHelper db;
+	public StatAdapter statAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class PlayerStatsActivity extends BaseActivity {
 	private void SetAdapter() {
 		ArrayList<Stat> stats = db.getStats();
 		ListView stat_list = (ListView) findViewById(R.id.stats_list);
-		StatAdapter statAdapter = new StatAdapter(this, stats);
+		statAdapter = new StatAdapter(this, stats);
 		stat_list.setAdapter(statAdapter);
 	}
 /*

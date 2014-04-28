@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity {
 	private void CreateCharacter() {
 		character = sql.getCharacter();
 		if (character == null) {
-			character = new ToDoCharacter("Hero", 0, 100, 1, 0, 100);
+			character = new ToDoCharacter("Hero", 100, 100, 1, 0, 100);
 			sql.addCharacter(character);
 			addInitialItems();
 			initializeStats();

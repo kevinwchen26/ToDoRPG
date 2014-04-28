@@ -1,9 +1,13 @@
 package com.cs429.todorpg.revised;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.cs429.todorpg.revised.controller.HabitAdapter;
+import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.Reward;
+import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
@@ -206,7 +210,7 @@ public class RewardActivity extends BaseActivity {
 			purchase.setOnClickListener(new Button.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					updateGold(reward.getCost());
+					updateGold(reward.getCost(),reward.getInfo());
 				}
 			});
 			
@@ -261,7 +265,7 @@ public class RewardActivity extends BaseActivity {
 
 	}
 	
-	public void updateGold(int cost) {
+	public void updateGold(int cost,String itemName) {
 		if(!canPurchase(cost)){
 			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT).show();
 			return;
@@ -270,6 +274,26 @@ public class RewardActivity extends BaseActivity {
 		my_character.setGold(value);
 		sql.updateCharacter(my_character);
 	    gold.setText("Gold: " + value );
+	    
+	    Calendar c = Calendar.getInstance();
+		System.out.println("Current time => " + c.getTime());
+
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		String formattedDate = df.format(c.getTime());
+		sql.addLogItem(new LogItem("Bought Item: "+itemName, formattedDate));
+		
+		ArrayList<Stat>stats = sql.getStats();
+		for(Stat stat: stats){
+			if(stat.getName().equals("Gold Spent")){
+				stat.setCount(stat.getCount()+cost);
+				sql.updateStat(stat);
+			}
+			if(stat.getName().equals("Items Bought")){
+				stat.setCount(stat.getCount()+1);
+				sql.updateStat(stat);
+			}
+		}
+		
 
 	}
 	
