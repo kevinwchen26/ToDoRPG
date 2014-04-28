@@ -96,10 +96,28 @@ public abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.battle:
-			intent = new Intent(BaseActivity.this, BattleMainActivity.class);
-			startActivity(intent);
-			finish();
+			
+			popup = new PopupMenu(BaseActivity.this,
+					(View) findViewById(R.id.quests));
+			popup.getMenuInflater().inflate(R.menu.battle_main, popup.getMenu());
+			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+				public boolean onMenuItemClick(MenuItem item) {
+					if (item.getTitle().equals("Battle Menu")) {
+						intent = new Intent(BaseActivity.this, BattleMainActivity.class);
+					} else if (item.getTitle().equals("Tutorial")) {
+						intent = new Intent(BaseActivity.this,
+								TutorialBattleActivity.class);
+					}
+					startActivity(intent);
+					finish();
+					return true;
+				}
+			});
+			popup.show();
 			return true;
+			
+			
+			
 
 		case R.id.quests:
 			popup = new PopupMenu(BaseActivity.this,
