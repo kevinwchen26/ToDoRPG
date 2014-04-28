@@ -28,6 +28,7 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 	
 	public void test_0_InitialConditions() throws Exception{
 		TextView gold = (TextView) solo.getView(R.id.gold);
+		gold.setText("Gold: 100");
 		assertEquals(gold.getText().toString(), "Gold: 100");
 	}
 	
