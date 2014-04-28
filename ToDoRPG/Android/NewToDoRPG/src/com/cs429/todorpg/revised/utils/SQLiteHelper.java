@@ -249,13 +249,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * getDailies() - returns a list of dailies for the character
 	 * @return Arraylist of all dailies
 	 */
-	public ArrayList<Daily> getDailies() {
+	public ArrayList<Daily> getDailies(int option) {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_DAILIES, null, null, null, null, null, null);
 		if (cursor.getCount() == 0)
 			return null;
 		else {
 			ArrayList<Daily> dailies = new ArrayList<Daily>();
+			ArrayList<Daily> missed_dailies = new ArrayList<Daily>();
+			ArrayList<Daily> finished_dailies = new ArrayList<Daily>();
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
@@ -265,8 +267,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int finished = cursor.getInt(4);
 				int weekid = cursor.getInt(5);
 				Daily temp = new Daily(my_daily, extra, primary_key);
-				if (finished == 1)
+				if(finished == 0) {
+					missed_dailies.add(temp);
+				}
+				if (finished == 1) {
 					temp.toggleFinish();
+					finished_dailies.add(temp);
+				}
 				temp.setDifficulty(difficulty);
 				temp.setWeekKey(weekid);
 				ArrayList<Boolean> allDailiesWeek = this.getDailiesWeek(weekid);
@@ -277,7 +284,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				}
 				dailies.add(temp);
 			} while (cursor.moveToNext());
-			return dailies;
+			if(option == 1) return finished_dailies;
+			else if(option == 2) return missed_dailies;
+			else return dailies;
 		}
 	}
 
@@ -1084,6 +1093,71 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		
 		return this.getReadableDatabase().update(Constants.TABLE_LIBRARY , values, "name='" + item.getName() + "'", null) > 0;
 	}
+	public int addStat(Stat stat){
+		String name = stat.getName();
+		int count = stat.getCount();
+		ContentValues values = new ContentValues();
+		values.put("name",name);
+		values.put("count", count);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_STAT, null,
+				values));
+	}
+
+	public boolean updateStat(Stat stat){
+		String name = stat.getName();
+		int count = stat.getCount();
+		ContentValues values = new ContentValues();
+		values.put("name",name);
+		values.put("count", count);
+		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + stat.getId() + "'", null) > 0;
+	}
+
+	public ArrayList<Stat> getStats(){
+		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_STAT,
+				null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<Stat> stats = new ArrayList<Stat>();
+			cursor.moveToFirst();
+			do {
+				int id = cursor.getInt(0);
+				String name = cursor.getString(1);
+				int count = cursor.getInt(2);
+				stats.add(new Stat(id, name, count));
+			} while (cursor.moveToNext());
+			return stats;
+		}
+	}
+
+	public int addLogItem(LogItem item){
+		String text = item.getContent();
+		String date = item.getDate_time();
+		ContentValues values = new ContentValues();
+		values.put("content", text);
+		values.put("date", date);
+		return (int) (this.getReadableDatabase().insert(Constants.TABLE_LOG, null,
+				values));
+	}
+
+	public ArrayList<LogItem> getLog(){
+		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_LOG,
+				null, null, null, null, null, null);
+		if (cursor.getCount() == 0)
+			return null;
+		else {
+			ArrayList<LogItem> log = new ArrayList<LogItem>();
+			cursor.moveToFirst();
+			do {
+				int id = cursor.getInt(0);
+				String content = cursor.getString(1);
+				String date = cursor.getString(2);
+				log.add(new LogItem(id, content, date));
+			} while (cursor.moveToNext());
+			return log;
+		}
+	}
+	
 	
 	private boolean getBool(int tempint){
 		if(tempint == 1)

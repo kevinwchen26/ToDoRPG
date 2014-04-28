@@ -75,5 +75,7 @@
     <!-- Shop Strings -->
     <string name="shop">Shop</string>
     <string name="title_activity_battle_main">BattleMainActivity</string>
+    <string name="title_activity_player_stats">PlayerStats</string>
+    <string name="title_activity_event_log">EventLog</string>
 
 </resources>

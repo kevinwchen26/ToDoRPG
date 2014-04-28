@@ -24,6 +24,28 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="6"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/char_name"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
             android:text="@string/current_level" />
 
         <TextView
@@ -31,8 +53,8 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="4"
-            android:textStyle="bold|italic"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,8 +75,8 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="4"
-            android:textStyle="bold|italic"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
     <LinearLayout
@@ -75,32 +97,8 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="4"
-            android:textStyle="bold|italic"
-            android:gravity="center_horizontal" />
-    </LinearLayout>
-    
-    
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="10" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="6"
-            android:text="@string/completed_quest" />
-
-        <TextView
-            android:id="@+id/completed_quests"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="4"
-            android:textStyle="bold|italic"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
     <LinearLayout
@@ -121,44 +119,18 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="4"
-            android:textStyle="bold|italic"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="10" >
+    <Button
+        android:id="@+id/set_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="setName"
+        android:text="Edit User Name" >
+    </Button>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="6"
-            android:text="@string/total_battles" />
 
-        <TextView
-            android:id="@+id/total_battles"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="4"
-            android:textStyle="bold|italic"
-            android:gravity="center_horizontal" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:text="@string/complete_list" />
-
-    <ListView
-        android:id="@+id/completed_quest_list"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10" >
-    </ListView>
 
 </LinearLayout>

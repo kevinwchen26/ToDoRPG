@@ -16,10 +16,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cs429.todoprg.service.AlarmReceiver;
-import com.cs429.todoprg.service.AlarmService;
 import com.cs429.todorpg.revised.controller.DailyAdapter;
 import com.cs429.todorpg.revised.model.Daily;
-import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 
@@ -146,7 +144,7 @@ public class DailyActivity extends BaseActivity {
 		daily_list.setAdapter(adapter);
 	}
 	private void setDailyList(){
-		daily= db.getDailies();
+		daily= db.getDailies(3);
 		if(daily == null)
 			daily = new ArrayList<Daily>();
 	}

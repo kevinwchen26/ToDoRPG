@@ -2,25 +2,134 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:weightSum="30"
     tools:context=".MainActivity" >
 
-   <include layout="@layout/header"
+    <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"/>
-    
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        layout="@layout/header" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/char_name"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:text="@string/current_level" />
+
+        <TextView
+            android:id="@+id/current_level"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:text="@string/current_hp" />
+
+        <TextView
+            android:id="@+id/current_hp"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:text="@string/current_exp" />
+
+        <TextView
+            android:id="@+id/current_exp"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:text="@string/current_money" />
+
+        <TextView
+            android:id="@+id/current_money"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/battle_test"
+        android:id="@+id/set_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tutorial Battle" />
+        android:onClick="setName"
+        android:text="Edit User Name" >
+    </Button>
 
 </LinearLayout>

@@ -1,66 +1,120 @@
 package com.cs429.todorpg.revised;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.R;
-
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.cs429.todorpg.revised.controller.DailyAdapter;
+import com.cs429.todorpg.revised.model.Daily;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class AlarmNotification extends Activity {
+	private ListView finished_list, missed_list;
+	private SQLiteHelper db;
+	ArrayList<Daily> finished_arr, missed_arr;
+	private DailyAdapter finished_adapter, missed_adapter;
+	private Vibrator v;
+	// private Ringtone r;
+	private static long[] pattern = { 1000, 200, 1000, 2000, 1200 };
 
-	 private Vibrator v;
-//	 private Ringtone r;
-	 private static long[] pattern = {1000, 200, 1000, 2000, 1200};
-	 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_alarm_notification);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		getWindow().addFlags(
+				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+						| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		findViewById();
 		init();
+		db = new SQLiteHelper(this);
+		getData();
 	}
-	
+
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		super.onDestroy();
 		v.cancel();
 	}
-	
-	private void init(){
+
+	private void init() {
 		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		v.vibrate(pattern, 0);
 	}
-	
-	private void findViewById(){
+
+	private void findViewById() {
+		finished_list = (ListView)findViewById(R.id.finished_list);
+		missed_list = (ListView)findViewById(R.id.missed_list);
 	}
-	
-	Button.OnClickListener mListener = new Button.OnClickListener(){
-		@Override
-		public void onClick(View v){
-			switch(v.getId()){
+	private void getData() {
+		finished_arr = db.getDailies(1);
+		missed_arr = db.getDailies(2);
+		finished_adapter = new DailyAdapter(AlarmNotification.this, finished_arr);
+		finished_list.setAdapter(finished_adapter);
+		missed_adapter = new DailyAdapter(AlarmNotification.this, missed_arr);
+		missed_list.setAdapter(missed_adapter);
+		UpdateCharacter();
+	}
+	private void UpdateCharacter() {
+		ToDoCharacter character = db.getCharacter();
+		String change = "You Lost [EXP : " + missed_arr.size()*10 + "], [GOLD : " + missed_arr.size()*10 + "]";
+		System.out.println(change);
+		character = new ToDoCharacter(character.getName(), character.getGold() - (missed_arr.size()*10), character.getHP(),
+				character.getLevel(), character.getCurrExp() - (missed_arr.size()*10), character.getNextExp() + (missed_arr.size()*10));
+		
+		if (character.getCurrExp() >= character.getLevel() * 100) {
+			character.setLevel(character.getLevel() + 1);
+			character.setCurrExp(0);
+			character.setHP(character.getHP() + 20);
+		} else if(character.getLevel() == 1 && character.getCurrExp() < 0) {
+			character.setCurrExp(0);
+		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
+			Toast.makeText(this, "LEVEL DOWN!", Toast.LENGTH_LONG).show();
+			character.setLevel(character.getLevel() - 1);
+			character.setHP(character.getHP() - 20);
+			character.setCurrExp(character.getLevel() * 100);
+			if(character.getHP() < 100)
+				character.setHP(100);
 			
+		}
+		if(character.getGold() < 0) 
+			character.setGold(0);
+		Toast.makeText(this, change, Toast.LENGTH_LONG).show();
+		/*LayoutInflater inflater = getLayoutInflater();
+	    View view = inflater.inflate(R.layout.toast,
+	                                   (ViewGroup) findViewById(R.id.relativeLayout1));
+	    TextView text = (TextView) inflater.inflate(R.id.textView2, null);
+	    text.setText(change);
+	    inflater.addView(text);
+	    Toast toast = new Toast(this);
+	    toast.setView(view);
+	    toast.setDuration(Toast.LENGTH_LONG);
+	    toast.show();*/
+		db.updateCharacter(character);
+	}
+
+	Button.OnClickListener mListener = new Button.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+
 			default:
 				break;
 			}
 		}
 	};
-	
+
 }

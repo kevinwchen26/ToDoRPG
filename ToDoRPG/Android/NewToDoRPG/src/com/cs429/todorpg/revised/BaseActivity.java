@@ -26,12 +26,12 @@ public abstract class BaseActivity extends Activity {
 	static TextView hp, exp;
 	PopupMenu popup;
 	private static SQLiteHelper db;
-	GameApplication app=(GameApplication)getApplication();
+	GameApplication app = (GameApplication) getApplication();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		app = (GameApplication)getApplication();
+		app = (GameApplication) getApplication();
 		actionbar = getActionBar();
 
 		if (actionbar != null)
@@ -49,8 +49,9 @@ public abstract class BaseActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.baseaction, menu);
-		MenuItem item =menu.getItem(0);
-		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),app.avatar.getBitmap());
+		MenuItem item = menu.getItem(0);
+		BitmapDrawable drawable = new BitmapDrawable(getApplicationContext()
+				.getResources(), app.avatar.getBitmap());
 		item.setIcon(drawable);
 		return true;
 	}
@@ -78,16 +79,23 @@ public abstract class BaseActivity extends Activity {
 					popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
-					if (item.getTitle().equals("Status")) {
-						Intent intent = new Intent(BaseActivity.this,
-								StatusActivity.class);
-						startActivity(intent);
-						finish();
-					} else if (item.getTitle().equals("Inventory")) {
+					if (item.getTitle().equals("Inventory")) {
 						Intent intent = new Intent(BaseActivity.this,
 								InventoryActivity.class);
 						startActivity(intent);
 						finish();
+					} else if (item.getTitle().equals("Player Stats")) {
+						Intent intent = new Intent(BaseActivity.this,
+								PlayerStats.class);
+						startActivity(intent);
+						finish();
+
+					} else if (item.getTitle().equals("Event Log")) {
+						Intent intent = new Intent(BaseActivity.this,
+								EventLog.class);
+						startActivity(intent);
+						finish();
+
 					}
 					return true;
 				}
@@ -96,9 +104,26 @@ public abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.battle:
-			intent = new Intent(BaseActivity.this, BattleMainActivity.class);
-			startActivity(intent);
-			finish();
+
+			popup = new PopupMenu(BaseActivity.this,
+					(View) findViewById(R.id.quests));
+			popup.getMenuInflater()
+					.inflate(R.menu.battle_main, popup.getMenu());
+			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+				public boolean onMenuItemClick(MenuItem item) {
+					if (item.getTitle().equals("Battle Menu")) {
+						intent = new Intent(BaseActivity.this,
+								BattleMainActivity.class);
+					} else if (item.getTitle().equals("Tutorial")) {
+						intent = new Intent(BaseActivity.this,
+								TutorialBattleActivity.class);
+					}
+					startActivity(intent);
+					finish();
+					return true;
+				}
+			});
+			popup.show();
 			return true;
 
 		case R.id.quests:
@@ -154,7 +179,8 @@ public abstract class BaseActivity extends Activity {
 	private void setActionbar() {
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeButtonEnabled(true);
-		BitmapDrawable drawable =new BitmapDrawable(getApplicationContext().getResources(),app.avatar.getBitmap());
+		BitmapDrawable drawable = new BitmapDrawable(getApplicationContext()
+				.getResources(), app.avatar.getBitmap());
 		actionbar.setIcon(drawable);
 		actionbar.setDisplayShowTitleEnabled(false);
 
@@ -170,7 +196,7 @@ public abstract class BaseActivity extends Activity {
 				/ (double) (character.getLevel() * 100) * 100;
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
-		ImageView icon = (ImageView)findViewById(R.id.character_activity);
+		ImageView icon = (ImageView) findViewById(R.id.character_activity);
 		icon.setImageBitmap(app.avatar.getBitmap());
 	}
 
