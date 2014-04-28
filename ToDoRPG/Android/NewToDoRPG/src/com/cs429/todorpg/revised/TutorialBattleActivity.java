@@ -196,10 +196,10 @@ public class TutorialBattleActivity extends BaseActivity {
 		inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
 	    Avatar playerAv = new Avatar();
-	    playerAv.setInventory(inventory);
+	    //playerAv.setInventory(inventory);
 		
-		playerImage.setImageBitmap(playerAv.getClearBitMap());
-	    enemyImage.setImageBitmap(playerAv.getClearBitMap());
+		playerImage.setImageBitmap(inventory.getBitmap());
+	    enemyImage.setImageBitmap(inventory.getBitmap());
 	    
 
 	}

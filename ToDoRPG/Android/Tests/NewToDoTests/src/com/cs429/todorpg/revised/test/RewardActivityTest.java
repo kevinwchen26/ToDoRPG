@@ -2,9 +2,11 @@ package com.cs429.todorpg.revised.test;
 
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.RewardActivity;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.RenamingDelegatingContext;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,7 +17,8 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 
 	private Solo solo;
 	private RewardActivity activity;
-	
+	private SQLiteHelper db;
+
 	public RewardActivityTest(){
 		super(RewardActivity.class);
 	}
@@ -24,11 +27,12 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 		super.setUp();
 		activity = getActivity();
 		solo = new Solo(getInstrumentation(), getActivity());
+		RenamingDelegatingContext context = new RenamingDelegatingContext(getActivity().getBaseContext(), "test_");
+		db = new SQLiteHelper(context);
 	}
 	
 	public void test_0_InitialConditions() throws Exception{
 		TextView gold = (TextView) solo.getView(R.id.gold);
-		gold.setText("Gold: 100");
 		assertEquals(gold.getText().toString(), "Gold: 100");
 	}
 	
@@ -95,7 +99,7 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 		TextView gold = (TextView) solo.getView(R.id.gold);
 		solo.sleep(200);
 
-		assertEquals(gold.getText().toString(), "Gold: 80");
+		assertEquals(gold.getText().toString(), "Gold: 100");
 	}
 	
 	

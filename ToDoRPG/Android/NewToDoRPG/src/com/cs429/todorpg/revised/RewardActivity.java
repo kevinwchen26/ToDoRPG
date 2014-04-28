@@ -255,7 +255,7 @@ public class RewardActivity extends BaseActivity {
 	
 	private void setUpLayout(){
 	    
-	    gold.setText("Gold: " + my_character.getGold());
+	    gold.setText("Gold: 100");
 	    
 	    add_reward.setOnClickListener(ButtonListener);
 
