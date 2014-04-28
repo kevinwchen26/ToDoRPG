@@ -198,8 +198,8 @@ public class TutorialBattleActivity extends BaseActivity {
 	    Avatar playerAv = new Avatar();
 	    playerAv.setInventory(inventory);
 		
-		playerImage.setImageBitmap(playerAv.getClearBitMap());
-	    enemyImage.setImageBitmap(playerAv.getClearBitMap());
+		playerImage.setImageBitmap(playerAv.getClearBitmap());
+	    enemyImage.setImageBitmap(playerAv.getClearBitmap());
 	    
 
 	}
