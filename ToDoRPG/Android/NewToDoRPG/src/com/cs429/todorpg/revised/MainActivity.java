@@ -20,7 +20,6 @@ import com.cs429.todorpg.revised.model.ToDoCharacter;
 
 public class MainActivity extends BaseActivity {
 
-	Button battleButton;
 	Intent intent;
 	SQLiteHelper sql;
 	ToDoCharacter character;
@@ -35,20 +34,6 @@ public class MainActivity extends BaseActivity {
 		CreateCharacter();
 		CreateLibrary();
 		setHeader(R.id.header);
-		battleButton = (Button)findViewById(R.id.battle_test);
-		battleButton.setOnClickListener(new Button.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				intent = new Intent(MainActivity.this,
-						TutorialBattleActivity.class);
-				startActivity(intent);
-				finish();
-			}
-			
-		});
-		
 	}
 
 	private void CreateCharacter() {
