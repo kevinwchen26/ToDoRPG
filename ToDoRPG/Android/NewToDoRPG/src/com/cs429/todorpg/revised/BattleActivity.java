@@ -5,7 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -39,6 +41,8 @@ import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
 import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
 import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
+import com.cs429.todorpg.revised.model.LogItem;
+import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
@@ -329,18 +333,23 @@ public class BattleActivity extends BaseActivity {
 	}
 	//Return true if game is over
 	private void checkGameConditions() {
+		int victory=0;
 		if(player.getHP() < 1) {
 			makeGameOverMessages("GAME OVER!");
 			battleEnd = builder.create();
 			battleEnd.show();	
 			state = GameState.gameOver;
+			victory=1;
 		}
 		if(enemy.getHP() < 1) {
 			makeGameOverMessages("VICTORY!");
 			battleEnd = builder.create();
 			battleEnd.show();
 			state = GameState.gameOver;
+			victory=0;
 		}
+		updateStatsLog(player,enemy,victory);
+
 	}
 
 	/*
@@ -607,6 +616,50 @@ public class BattleActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 		return msgBytes;
+	}
+	
+
+	private void updateStatsLog(ToDoCharacter player, ToDoCharacter enemy, int victory) {
+		SQLiteHelper db = new SQLiteHelper(this);
+		ArrayList<Stat>stats = db.getStats();
+		for(Stat stat: stats){
+			if(stat.getName().equals("Battles Fought")){
+				stat.setCount(stat.getCount()+1);
+				db.updateStat(stat);
+			}
+		}
+		if(victory ==1){
+			for(Stat stat: stats){
+				if(stat.getName().equals("Battles Won")){
+					stat.setCount(stat.getCount()+1);
+					db.updateStat(stat);
+				}
+				Calendar c = Calendar.getInstance();
+				System.out.println("Current time => " + c.getTime());
+
+				SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+				String formattedDate = df.format(c.getTime());
+				String text = "Won battle against "+enemy.getName();
+				db.addLogItem(new LogItem(text,formattedDate));
+			}
+		}
+		else{
+			for(Stat stat: stats){
+				if(stat.getName().equals("Battles Lost")){
+					stat.setCount(stat.getCount()+1);
+					db.updateStat(stat);
+				}
+				Calendar c = Calendar.getInstance();
+				System.out.println("Current time => " + c.getTime());
+
+				SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+				String formattedDate = df.format(c.getTime());
+				String text = "Lost battle against "+enemy.getName();
+				db.addLogItem(new LogItem(text,formattedDate));
+			}
+		}
+
+		
 	}
 	
 
