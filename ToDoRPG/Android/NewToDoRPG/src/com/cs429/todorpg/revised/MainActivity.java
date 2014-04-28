@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
 	SQLiteHelper sql;
 	ToDoCharacter character;
 	TextView current_level, current_hp, current_exp, completed_quests,
-			current_money, total_battles;
+			current_money, total_battles, char_name;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -268,7 +268,7 @@ public class MainActivity extends BaseActivity {
 		if (character == null) {
 			return;
 		}
-		TextView char_name = (TextView) findViewById(R.id.char_name);
+		char_name = (TextView) findViewById(R.id.char_name);
 		char_name.setText(character.getName());
 		current_level.setText(Integer.toString(character.getLevel()));
 		current_hp.setText(Integer.toString(character.getHP()));
@@ -298,7 +298,8 @@ public class MainActivity extends BaseActivity {
 			public void onClick(DialogInterface dialog, int which) {
 				String name = input.getText().toString();
 				sql.addCharacter(new ToDoCharacter(sql.getCharacter(), name));
-
+				GetCharacterInfo();
+				char_name.invalidate();
 			}
 		});
 		builder.setNegativeButton("Cancel",
