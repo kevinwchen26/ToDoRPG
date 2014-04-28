@@ -72,6 +72,12 @@
             android:name="com.cs429.todorpg.revised.BattleMainActivity"
             android:parentActivityName="com.cs429.todorpg.revised.MainActivity"
             android:label="@string/title_activity_battle_main" >
+        
+        </activity>
+         <activity
+            android:name="com.cs429.todorpg.revised.TutorialBattleActivity"
+            android:parentActivityName="com.cs429.todorpg.revised.MainActivity"
+            android:label="@string/tutorial_battle" >
         </activity>
     </application>
 
