@@ -28,10 +28,14 @@ public class BattleLogic {
 		Weapon attackerWeapon = attacker.getWeapon();
 		
 		ArrayList<Equipment> attackerEquipment = new ArrayList<Equipment>();
-		attackerEquipment.add(attackerWeapon);
-		attackerEquipment.add(attackerHelmet);
-		attackerEquipment.add(attackerArmor);
-		attackerEquipment.add(attackerShield);
+		if (attackerWeapon != null)
+			attackerEquipment.add(attackerWeapon);
+		if (attackerHelmet != null)
+			attackerEquipment.add(attackerHelmet);
+		if (attackerArmor != null)
+			attackerEquipment.add(attackerArmor);
+		if (attackerShield != null)
+			attackerEquipment.add(attackerShield);
 		
 		Armor defenderArmor = defender.getArmor();
         Helmet defenderHelmet = defender.getHelmet();
@@ -39,10 +43,14 @@ public class BattleLogic {
         Weapon defenderWeapon = defender.getWeapon();
         
         ArrayList<Equipment> defenderEquipment = new ArrayList<Equipment>();
-        defenderEquipment.add(defenderWeapon);
-        defenderEquipment.add(defenderHelmet);
-        defenderEquipment.add(defenderArmor);
-        defenderEquipment.add(defenderShield);
+        if (defenderWeapon != null)
+            defenderEquipment.add(defenderWeapon);
+        if (defenderHelmet != null)
+            defenderEquipment.add(defenderHelmet);
+        if (defenderArmor != null)
+            defenderEquipment.add(defenderArmor);
+        if (defenderShield != null)
+            defenderEquipment.add(defenderShield);
         
         
         int defenderEvasion = 0;
@@ -52,7 +60,7 @@ public class BattleLogic {
         	defenderDefense += e.getDamage_Reduction();
         }
         
-        int attackerAccuracy = 0;
+        int attackerAccuracy = 70;
         int attackerMultiHit = 0;
         int attackerCritical = 0;
         int attackerDamage = 0;
@@ -100,7 +108,7 @@ public class BattleLogic {
 	public static int numHits(int multiHit) {
 		Random r = new Random();
 		int min = 1;
-		int max = multiHit + 1;
+		int max = multiHit + 2;
 		int resultHits = r.nextInt(max - min) + min;
 		return resultHits;
 	}
