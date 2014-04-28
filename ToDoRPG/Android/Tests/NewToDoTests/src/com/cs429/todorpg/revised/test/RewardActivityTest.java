@@ -18,7 +18,7 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 	private Solo solo;
 	private RewardActivity activity;
 	private SQLiteHelper db;
-	
+
 	public RewardActivityTest(){
 		super(RewardActivity.class);
 	}
@@ -29,13 +29,13 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 		db = new SQLiteHelper(context);
 		super.setUp();
 		activity = getActivity();
-		solo = new Solo(getInstrumentation(), getActivity());
+		solo = new Solo(getInstrumentation(), activity);
+
 	}
 	
 	public void test_0_InitialConditions() throws Exception{
 		TextView gold = (TextView) solo.getView(R.id.gold);
-		//gold.setText("Gold: 100");
-		assertEquals(gold.getText().toString(), "Gold: 0");
+		assertEquals(gold.getText().toString(), "Gold: 100");
 	}
 	
 	public void test_1_EmptyReward() throws Exception{
@@ -101,7 +101,7 @@ public class RewardActivityTest extends ActivityInstrumentationTestCase2<RewardA
 		TextView gold = (TextView) solo.getView(R.id.gold);
 		solo.sleep(200);
 
-		assertEquals(gold.getText().toString(), "Gold: 0");
+		assertEquals(gold.getText().toString(), "Gold: 100");
 	}
 	
 	

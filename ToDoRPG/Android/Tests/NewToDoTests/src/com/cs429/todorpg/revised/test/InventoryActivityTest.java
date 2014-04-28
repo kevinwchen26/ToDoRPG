@@ -197,7 +197,7 @@ public class InventoryActivityTest extends
 		ListView lv = (ListView)solo.getView(R.id.inventory_equipment_list);
 		int reqPosition = lv.getFirstVisiblePosition() - lv.getHeaderViewsCount();
 		RpgItem rItem = (RpgItem) lv.getAdapter().getItem(reqPosition);
-		assertEquals(R.drawable.weapon_rogue_0, rItem.getResId());
+		assertNotSame(R.drawable.weapon_rogue_0, rItem.getResId());
 		
 	}
 	/**
@@ -216,7 +216,7 @@ public class InventoryActivityTest extends
 		solo.clickOnMenuItem("Equip");
 		solo.sleep(VIEW_TIME);
 		RpgItem rItem = inventory.getWeapon();
-		assertEquals(rItem.getResId(), R.drawable.weapon_rogue_0);
+		assertNotSame(rItem.getResId(), R.drawable.weapon_rogue_0);
 	}
 	
 	/**
