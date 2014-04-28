@@ -1,25 +1,26 @@
 package com.cs429.todoprg.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.StreamCorruptedException;
 import java.util.UUID;
 
-import com.cs429.todorpg.revised.controller.BTControl;
-import com.cs429.todorpg.revised.controller.BTMessageHandler;
-
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
+import battlelogic.BtPackage;
+
+import com.cs429.todorpg.revised.controller.BTControl;
+import com.cs429.todorpg.revised.controller.BTMessageHandler;
 
 
 /**
@@ -230,6 +231,19 @@ public class BluetoothService {
 			}
 			// Perform the write unsynchronized
 			r.write(out);
+		}
+		
+		public void writeObject(Object out) {
+			// Create temporary object
+			ConnectedThread r;
+			// Synchronize a copy of the ConnectedThread
+			synchronized (this) {
+				if (mState != STATE_CONNECTED)
+					return;
+				r = mConnectedThread;
+			}
+			// Perform the write unsynchronized
+			r.writeObject(out);
 		}
 
 		/*
@@ -449,17 +463,23 @@ public class BluetoothService {
 			private final BluetoothSocket mmSocket;
 			private final InputStream mmInStream;
 			private final OutputStream mmOutStream;
+			private  ObjectOutputStream oos;
+			private  ObjectInputStream ois;
 
 			public ConnectedThread(BluetoothSocket socket) {
 				Log.d(TAG, "create ConnectedThread");
 				mmSocket = socket;
 				InputStream tmpIn = null;
 				OutputStream tmpOut = null;
+				oos = null;
+				ois = null;
 
 				// Get the BluetoothSocket input and output streams
 				try {
 					tmpIn = socket.getInputStream();
 					tmpOut = socket.getOutputStream();
+					oos = new ObjectOutputStream(tmpOut);
+					ois = new ObjectInputStream(tmpIn);
 				} catch (IOException e) {
 					Log.e(TAG, "temp sockets not created", e);
 				}
@@ -479,16 +499,44 @@ public class BluetoothService {
 				
 				while(true){
 					try {
-						buffer = new byte[128];
+						//buffer = new byte[512];
+						//bytes = mmInStream.read(buffer);
 						
-						bytes = mmInStream.read(buffer);
+						
+						//BtPackage btPack = (BtPackage)getObjectFromBytes(buffer);
+						BtPackage btPack;
+						try {
+							btPack = (BtPackage)ois.readObject();
+
+							if (btPack.getIdentifier() == BtPackage.ATTACK_PACKAGE) {
+								Log.d("BLUETOOTH SERVICE", "Received Attack Object");
+								//mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_ACKNOWLEDGE, -1, bytes, buffer).sendToTarget();
+								mHandler.obtainMessage(BTMessageHandler.RECEIVE_ATTACK, btPack.getObj()).sendToTarget();
+								
+							}
+							
+							else if (btPack.getIdentifier() == BtPackage.SHARE_INFO_PACKAGE) {
+								Log.d("BLUETOOTH SERVICE", "Received Share Object");
+								mHandler.obtainMessage(BTMessageHandler.RECEIVE_ENEMY_CHAR_INFO, btPack.getObj()).sendToTarget();
+								
+							}
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
+						
+						
+						
 //						Log.d("BTHandler", "buffer read is: " + buffer +" and its size: " + bytes);
-						
+						/*
 						//receiving from an enemy for invoking an action
 						if(buffer[0] == 0x01){
 							//enenmy invoked and action and I need to send acknowledge message...
 							//apply a msg from an enemy too
 							Log.d("BTHandler", "received invocation");
+							Log.d("BLUETOOTH SERVICE", "Attack");
 							mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_ACKNOWLEDGE, -1, bytes, buffer).sendToTarget();
 							//next turn??
 							mHandler.toggleMyTurn();
@@ -500,6 +548,7 @@ public class BluetoothService {
 							//next turn??
 							mHandler.toggleMyTurn();
 						}
+						*/
 						
 					} catch (IOException e) {
 						Log.e("BTHandler", "unable to read(): ", e);
@@ -525,6 +574,15 @@ public class BluetoothService {
 
 				} catch (IOException e) {
 					Log.e(TAG, "Exception during write", e);
+				}
+			}
+			
+			public void writeObject(Object in) {
+				try {
+					oos.writeObject(in);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 			
@@ -555,5 +613,34 @@ public class BluetoothService {
 					Log.e(TAG, "close() of connect socket failed", e);
 				}
 			}
+		}
+		/*
+		 * FUNCTIONS ADDED BY PAUL
+		 * 
+		 */
+		public Object getObjectFromBytes(byte [] myBytes) {
+			ByteArrayInputStream bis = new ByteArrayInputStream(myBytes);
+			Object retObject = null;
+			ObjectInput in = null;
+			try {
+				in = new ObjectInputStream(bis);
+				retObject = in.readObject();
+				
+				bis.close();
+				in.close();
+				
+				
+				
+			} catch (StreamCorruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return retObject;
 		}
 }

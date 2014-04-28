@@ -18,6 +18,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,6 +27,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import battlelogic.AttackResult;
+import battlelogic.BattleLogic;
+import battlelogic.BtPackage;
 
 import com.cs429.todorpg.revised.controller.BTMessageHandler;
 import com.cs429.todorpg.revised.itemsystem.Armor;
@@ -354,16 +358,34 @@ public class BattleActivity extends BaseActivity {
 //				update();
 				
 				if(mHandler.getMyTurn() && mHandler.isReadyToStart()){
-					setBattleMessage(player.getName() + " attacks " + enemy.getName());
-					Animate(playerAttack, playerEffect, R.drawable.player_attack);
-					
 					// Calculate effects of this attack
+					AttackResult attackResult = BattleLogic.calculateAttackResult(playerAvatar.getInventory(), enemyAvatar.getInventory());
 					
+					// First check if the attack registers
+					if (attackResult.isHit) {
+						// Loop through the hits
+						for (boolean b : attackResult.critChanceList) {
+							int finalDamage = attackResult.damagePerHit;
+							if (b) { // Is a critical Hit
+								finalDamage *= BattleLogic.CRITICAL_DAMAGE_MODIFIER;
+								setBattleMessage("You have critically hit " + enemy.getName() + " causing " + finalDamage + " damage!" );
+							}
+							else {
+								setBattleMessage(" You attacked " + enemy.getName() + " causing " + finalDamage + " damage!" );
+							}
+							
+							Animate(playerAttack, playerEffect, R.drawable.player_attack);
+							enemy.setHP(enemy.getHP() - finalDamage);
+							update();
+						}
+					}
+					else {
+						setBattleMessage(" Your attack missed!" );
+					}
 					
+					Log.d("BATTLE_ACTIVITY", "Attack");
+					mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_SEND, (new BtPackage(BtPackage.ATTACK_PACKAGE, attackResult))).sendToTarget();
 					
-					
-					update();
-					mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_SEND).sendToTarget();
 				}
 				else{
 					AlertDialog.Builder ab = null;
@@ -495,23 +517,22 @@ public class BattleActivity extends BaseActivity {
 		    ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
 			ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 		    in.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-			in.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 10, poss));
 			in.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-			in.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 10, 1, 1, negs, 1, 1, 70, poss));
 			
 			in.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
 			in.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
 			in.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
 			av.setInventory(in);
 			playerImage.setImageBitmap(av.getClearBitmap());
-			in.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_2, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_2, 1, 1, 1, negs, 1, 1, 10, poss));
 			
-			ToDoCharacter myCharacter = new ToDoCharacter("Bob", 90, 120, 5, 0, 50);
+			ToDoCharacter myCharacter = new ToDoCharacter("Alice", 90, 120, 5, 0, 50);
 			setPlayerInfo(myCharacter);
-			ToDoCharacter enemeyCharacter = new ToDoCharacter("Alice", 90, 120, 5, 0, 50);
-			av.setToDoCharacter(enemeyCharacter);
-			mHandler.obtainMessage(BTMessageHandler.MESSAGE_SHARE_CHAR_INFO, getByteRep(av)).sendToTarget();
-			
+			//ToDoCharacter enemeyCharacter = new ToDoCharacter("Alonso", 90, 120, 5, 0, 50);
+			av.setToDoCharacter(myCharacter);
+			mHandler.obtainMessage(BTMessageHandler.MESSAGE_SHARE_CHAR_INFO, new BtPackage(BtPackage.SHARE_INFO_PACKAGE, (av))).sendToTarget();
 			playerAvatar = av;
 
 			return null;
@@ -522,6 +543,31 @@ public class BattleActivity extends BaseActivity {
 	 * FUNCTIONS ADDED BY PAUL
 	 * These functions are called by BTMessageHandler.java. therefore must be public
 	 */
+	
+	public void defendAttack(AttackResult attackResult) {
+		// Loop through the hits
+		if (attackResult.isHit) {
+			for (boolean b : attackResult.critChanceList) {
+				int finalDamage = attackResult.damagePerHit;
+				if (b) { // Is a critical Hit
+					finalDamage *= BattleLogic.CRITICAL_DAMAGE_MODIFIER;
+					setBattleMessage(enemy.getName() + " critically attacked you causing " + finalDamage + " damage!" );
+				}
+				else {
+					setBattleMessage(enemy.getName() + " attacked you causing " + finalDamage + " damage!" );
+				}
+				
+				Animate(enemyAttack, playerEffect, R.drawable.player_attack);
+				
+				player.setHP(player.getHP() - finalDamage);
+				update();	
+			}
+		}
+		else {
+			setBattleMessage(enemy.getName() + " attacked you but missed!" );
+		}
+	}
+	
 	public void setEnemyImage(Avatar enemyAv) {
 		enemyAvatar = enemyAv;
 		enemyImage.setImageBitmap(enemyAv.getClearBitmap());
@@ -530,13 +576,13 @@ public class BattleActivity extends BaseActivity {
 	public void setEnemyInfo(ToDoCharacter c) {
 		enemy = c;
 		enemyName.setText(c.getName());
-		enemyHP.setText(c.getHP());
+		enemyHP.setText(Integer.toString(c.getHP()));
 	}
 	
 	public void setPlayerInfo(ToDoCharacter c) {
 		player = c;
 		playerName.setText(c.getName());
-		playerHP.setText(c.getHP());
+		playerHP.setText(Integer.toString(c.getHP()));
 	}
 	
 	public byte [] getByteRep(Object o) {
