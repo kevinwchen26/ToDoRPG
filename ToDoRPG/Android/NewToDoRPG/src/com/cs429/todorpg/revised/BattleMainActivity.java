@@ -1,9 +1,9 @@
 package com.cs429.todorpg.revised;
 
 
-import com.cs429.todoprg.service.BluetoothService;
 import com.cs429.todorpg.revised.controller.BTControl;
 import com.cs429.todorpg.revised.controller.BTMessageHandler;
+import com.cs429.todorpg.service.BluetoothService;
 
 import android.os.Bundle;
 import android.os.Handler;

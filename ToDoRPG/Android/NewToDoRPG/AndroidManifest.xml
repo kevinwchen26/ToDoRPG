@@ -58,11 +58,11 @@
         </activity>
 
         <receiver
-            android:name="com.cs429.todoprg.service.AlarmReceiver"
+            android:name="com.cs429.todorpg.service.AlarmReceiver"
             android:process=":remote" />
 
         <service
-            android:name="com.cs429.todoprg.service.AlarmService"
+            android:name="com.cs429.todorpg.service.AlarmService"
             android:enabled="true" />
 
         <activity
