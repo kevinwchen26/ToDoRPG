@@ -1,15 +1,13 @@
 package com.cs429.todorpg.revised.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.StreamCorruptedException;
 
-import com.cs429.todoprg.service.BluetoothService;
-import com.cs429.todorpg.revised.BattleActivity;
-import com.cs429.todorpg.revised.BattleMainActivity;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.AlertDialog.Builder;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +16,11 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
+
+import com.cs429.todoprg.service.BluetoothService;
+import com.cs429.todorpg.revised.Avatar;
+import com.cs429.todorpg.revised.BattleActivity;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 
 public class BTMessageHandler extends Handler{
 
@@ -29,6 +31,9 @@ public class BTMessageHandler extends Handler{
 	public final static int MESSAGE_BATTLE_SEND = 4;
 	public final static int MESSAGE_BATTLE_ACKNOWLEDGE = 5;
 	
+	public final static int MESSAGE_SHARE_CHAR_INFO = 9;
+	
+	
 	private static BTMessageHandler mHandler;
 	
 	private String TAG = "BTHandler";
@@ -38,11 +43,13 @@ public class BTMessageHandler extends Handler{
 	private BluetoothService BTService;
 	
 	private boolean isMyTurn;
+	private boolean readyToStart;
 	
 	private BTMessageHandler(Context context){
 		appContext = context;
 		mDialog = new ProgressDialog(context);
 		isMyTurn = false;
+		setReadyToStart(false);
 	}
 	
 	public static BTMessageHandler getInstance(Context context){
@@ -70,12 +77,33 @@ public class BTMessageHandler extends Handler{
 		return isMyTurn;
 	}
 	
+	public void changeContext(Context context){
+		appContext = context;
+	}
+	
+	public void callJesus() {
+		((BattleActivity)appContext).jesus();
+	}
+	
+	public void battleToast(String s) {
+		((BattleActivity)appContext).battleToast(s);
+	}
+	
+	private void setEnemyImage(Avatar enemyAv) {
+		((BattleActivity)appContext).setEnemyImage(enemyAv);
+	}
+	
+	public void setEnemyInfo(ToDoCharacter c) {
+		((BattleActivity)appContext).setEnemyInfo(c);
+	}
+	
 	@Override
 	public void handleMessage(Message msg){
 		switch(msg.what){
 		
 		case MESSAGE_CONNECTION_REQUEST:
 			this.showYesNoDialog("You have a request for battle, Will you accept it?", (BluetoothSocket)msg.obj);
+			
 			break;
 		
 		case MESSAGE_PERMISSION:
@@ -119,6 +147,7 @@ public class BTMessageHandler extends Handler{
 			
 			Log.d(TAG, "send a message with invoking an action: " + sendmsg[0]);
 			BTService.write(sendmsg);
+			callJesus();
 			break;
 			
 		case MESSAGE_BATTLE_ACKNOWLEDGE:
@@ -129,6 +158,35 @@ public class BTMessageHandler extends Handler{
 			Log.d(TAG, "send a message with acknowledging: " + ackmsg.toString());
 			BTService.write(ackmsg);
 			break;
+		case MESSAGE_SHARE_CHAR_INFO:
+			byte[] myBytes = (byte[]) msg.obj;
+			ByteArrayInputStream bis = new ByteArrayInputStream(myBytes);
+			ObjectInput in = null;
+			try {
+				in = new ObjectInputStream(bis);
+				Avatar enemyAv = (Avatar)in.readObject();
+				
+				// Initialize BattleActivity
+				setEnemyImage(enemyAv);
+				setEnemyInfo(enemyAv.getToDoCharacter());
+				
+				bis.close();
+				in.close();
+				
+				// Now the player is ready for battle
+				setReadyToStart(true);
+				
+			} catch (StreamCorruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			
 		default:
 			break;
@@ -136,6 +194,8 @@ public class BTMessageHandler extends Handler{
 	}
 	
 	
+	
+
 	private void connection_failure(int arg1, int arg2){
 		//connection time out
 		if(arg1 == 0 && arg2 == 0){
@@ -200,6 +260,14 @@ public class BTMessageHandler extends Handler{
 			}
 		});
 		ab.show();
+	}
+
+	public boolean isReadyToStart() {
+		return readyToStart;
+	}
+
+	public void setReadyToStart(boolean readyToStart) {
+		this.readyToStart = readyToStart;
 	}
 	
 }

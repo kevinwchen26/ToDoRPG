@@ -468,6 +468,7 @@ public class BluetoothService {
 				mmOutStream = tmpOut;
 			}
 
+			// Continuously receives message
 			@Override
 			public void run() {
 				Log.i(TAG, "BEGIN mConnectedThread");

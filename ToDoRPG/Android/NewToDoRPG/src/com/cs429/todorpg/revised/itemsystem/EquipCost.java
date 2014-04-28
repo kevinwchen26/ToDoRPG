@@ -1,6 +1,12 @@
 package com.cs429.todorpg.revised.itemsystem;
 
-public class EquipCost {
+import java.io.Serializable;
+
+public class EquipCost implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7606215269118767404L;
 	private Equipment equip;
 	private int cost;
 	

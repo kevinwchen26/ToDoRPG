@@ -1,5 +1,6 @@
 package com.cs429.todorpg.revised.itemsystem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
@@ -11,7 +12,11 @@ import com.cs429.todorpg.revised.Avatar;
 import com.cs429.todorpg.revised.GameApplication;
 import com.cs429.todorpg.revised.R;
 
-public class Inventory {
+public class Inventory implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7795460230072089745L;
 	private Armor armor;
 	private Helmet helmet;
 	private Shield shield;

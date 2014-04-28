@@ -1,7 +1,31 @@
 
 package com.cs429.todorpg.revised;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.Display;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.BTMessageHandler;
 import com.cs429.todorpg.revised.itemsystem.Armor;
@@ -13,32 +37,6 @@ import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.Display;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class BattleActivity extends BaseActivity {
 	enum GameState{ ready, gameOver }
@@ -52,6 +50,7 @@ public class BattleActivity extends BaseActivity {
 	Intent intent;
 	ArrayList<Character> party;
 	ToDoCharacter player, enemy;
+	Avatar playerAvatar, enemyAvatar;
 	Inventory inventory;
 	SQLiteHelper sql = new SQLiteHelper(this);
 	AlertDialog.Builder builder;
@@ -66,12 +65,44 @@ public class BattleActivity extends BaseActivity {
 		setUpLayout();
 		setContentView(R.layout.battle_activity);
 		FindViewById();
+		
+		
 		setUpActivity();
+		new ShareInfoTask().execute();
 		
 		mHandler = BTMessageHandler.getInstance(BattleActivity.this);
-
+		mHandler.changeContext(BattleActivity.this);
 	}
 
+	/*
+	 * CALL BACKS FOR BT HANDLER
+	 */
+	
+	
+	
+	
+	/*
+	 * SET
+	 */
+	public void jesus() {
+		Toast.makeText(BattleActivity.this, "jesus", Toast.LENGTH_SHORT).show();
+		inventory = new Inventory();
+	    ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+	    inventory.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		
+		inventory.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
+		inventory.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
+		
+	}
+	
+	public void battleToast(String s){
+		Toast.makeText(BattleActivity.this, s, Toast.LENGTH_SHORT).show();
+	}
 
 	private void setUpActivity() {
 	    setPlayers();
@@ -162,10 +193,7 @@ public class BattleActivity extends BaseActivity {
 	    
 	    RelativeLayout.LayoutParams enemyStatusCurseParams = new RelativeLayout.LayoutParams(enemyStatusCurse.getLayoutParams());
 	    enemyStatusCurseParams.addRule(RelativeLayout.RIGHT_OF, enemyStatusPoison.getId());
-	    enemyStatusCurse.setLayoutParams(enemyStatusCurseParams);
-
-
-	    
+	    enemyStatusCurse.setLayoutParams(enemyStatusCurseParams);   
 	}
 
 	private void applyStatusEffects() {
@@ -178,9 +206,6 @@ public class BattleActivity extends BaseActivity {
 		RelativeLayout.LayoutParams battleNav = new RelativeLayout.LayoutParams(width, height/4);
 		battleNav.addRule(RelativeLayout.BELOW, battleScreen.getId());
 	    battleNavigator.setLayoutParams(battleNav);
-	    
-	    
-
 	}
 
 	private void setUpBattleInfo() {
@@ -198,12 +223,9 @@ public class BattleActivity extends BaseActivity {
 
 	    //RelativeLayout.LayoutParams playerNameParams = new RelativeLayout.LayoutParams(playerName.getLayoutParams());
 
-
 	    RelativeLayout.LayoutParams playerHPParams = new RelativeLayout.LayoutParams(playerHP.getLayoutParams());
 	    playerHPParams.addRule(RelativeLayout.BELOW, playerName.getId());
 	    playerHP.setLayoutParams(playerHPParams);
-
-
 	}
 	
 	private void setUpBattleMenu() {
@@ -215,8 +237,7 @@ public class BattleActivity extends BaseActivity {
 	    
 	    RelativeLayout.LayoutParams attackParams = new RelativeLayout.LayoutParams(attack.getLayoutParams());
 	    attackParams.addRule(RelativeLayout.CENTER_VERTICAL, 1);
-	    attack.setLayoutParams(attackParams);
-	    
+	    attack.setLayoutParams(attackParams);   
 	    
 	    RelativeLayout.LayoutParams changeWeaponsParam = new RelativeLayout.LayoutParams(attack.getLayoutParams());
 	    changeWeaponsParam.addRule(RelativeLayout.CENTER_VERTICAL, 1);
@@ -232,10 +253,8 @@ public class BattleActivity extends BaseActivity {
 		player = sql.getCharacter();
 		enemy = sql.getCharacter();
 		playerMaxHP = player.getHP();
-		
 		enemyMaxHP = enemy.getHP();
 		enemyMaxHP = enemy.getHP();		
-
 	}
 
 	private void waitForEffectAnimationDone(AnimationDrawable anim, final ImageView img) {
@@ -248,13 +267,10 @@ public class BattleActivity extends BaseActivity {
                 	waitForEffectAnimationDone(a, img);
                 } else{
                 	img.setBackgroundResource(R.color.transparent);
-
                 }
             }
         }, timeBetweenChecks);
-
 	}
-
 
 	private void Animate(AnimationDrawable anim, final ImageView effect, int animation) {
 		effect.setBackgroundResource(animation);
@@ -263,13 +279,10 @@ public class BattleActivity extends BaseActivity {
 		waitForEffectAnimationDone(anim, effect);
 	}
 
-
 	//Updates the screen
 	private void update() {
 		enemyName.setText(enemy.getName() + " Lv." + Integer.toString(enemy.getLevel()));
 	    enemyHP.setText("HP" + enemy.getHP() + "/" + enemyMaxHP);
-
-
 	    playerName.setText(player.getName() + " Lv." + Integer.toString(player.getLevel()));
 	    playerHP.setText("HP " + player.getHP() + "/" + playerMaxHP);
 
@@ -302,13 +315,10 @@ public class BattleActivity extends BaseActivity {
 
 		    	}}, 1000);
 			//Prompt message, 'This character's turn'
-
 		}
 	}
 	//Return true if game is over
 	private void checkGameConditions() {
-		
-		
 		if(player.getHP() < 1) {
 			makeGameOverMessages("GAME OVER!");
 			battleEnd = builder.create();
@@ -320,12 +330,12 @@ public class BattleActivity extends BaseActivity {
 			battleEnd = builder.create();
 			battleEnd.show();
 			state = GameState.gameOver;
-
 		}
-
 	}
 
-	
+	/*
+	 * ATTACK BUTTON
+	 */
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 		@SuppressLint("NewApi")
 		@Override
@@ -343,9 +353,15 @@ public class BattleActivity extends BaseActivity {
 //				Animate(playerAttack, playerEffect, R.drawable.player_attack);
 //				update();
 				
-				if(mHandler.getMyTurn()){
+				if(mHandler.getMyTurn() && mHandler.isReadyToStart()){
 					setBattleMessage(player.getName() + " attacks " + enemy.getName());
 					Animate(playerAttack, playerEffect, R.drawable.player_attack);
+					
+					// Calculate effects of this attack
+					
+					
+					
+					
 					update();
 					mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_SEND).sendToTarget();
 				}
@@ -357,16 +373,13 @@ public class BattleActivity extends BaseActivity {
 					ab.setPositiveButton("OK", null);
 					ab.show();
 				}
-				
 				break;
 			case R.id.change_weapon:
 				
 				break;
 			}
 		}
-
 	};
-
 
 	private void FindViewById() {
 		battleScreen = (RelativeLayout) findViewById(R.id.battle_screen);
@@ -398,7 +411,6 @@ public class BattleActivity extends BaseActivity {
 
 
 	private void setUpLayout() {
-
 		 //Remove title bar
 	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    //Remove notification bar
@@ -411,11 +423,7 @@ public class BattleActivity extends BaseActivity {
 	    display.getSize(size);
 	    width = size.x;
 	    height = size.y;
-
-
-
 	}
-
 
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
@@ -425,9 +433,7 @@ public class BattleActivity extends BaseActivity {
 	    	@Override
 			public void run() {
 	    		battleAnnouncement.setVisibility(View.INVISIBLE);
-
 	    	}}, 1000);
-
 	}
 
 	public void makeGameOverMessages(String msg) {
@@ -441,17 +447,14 @@ public class BattleActivity extends BaseActivity {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 				//player.setHP(player.getMaxHP());
-
 				//boss.setHP(boss.getMaxHP());
-
-
 			}
 		});
 
 		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
 
 			@Override
-			public void onClick(DialogInterface dialog, int which) {			
+			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 				finish();
 
@@ -459,6 +462,100 @@ public class BattleActivity extends BaseActivity {
 		});
 
 	}
+	private class ShareInfoTask extends AsyncTask<Void, Void, Void> {
 
+		ProgressDialog progress;
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			progress = ProgressDialog.show(BattleActivity.this, "Initializing...", "Please wait while we load the battle", true);
+			
+			
+			
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			progress.dismiss();
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			/*
+			 *	GENERATE NEW AVATAR
+			 * 
+			 *  Need to include Inventory and ToDoCharacter Object in Avatar
+			 */
+			Avatar av = new Avatar();
+			Inventory in = new Inventory();
+		    ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
+			ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+		    in.setArmor(new Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.setShield(new Shield("Leather Shield", R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.setWeapon(new Weapon("Iron Sword", R.drawable.weapon_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
+			
+			in.addInventory(new Weapon("Rogue Weapon 0", R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.addInventory(new Weapon("Rogue Weapon 1", R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
+			in.addInventory(new Weapon("Rogue Weapon 2", R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
+			av.setInventory(in);
+			playerImage.setImageBitmap(av.getClearBitmap());
+			in.setHelmet(new Helmet("Leather Helmet", R.drawable.head_warrior_2, 1, 1, 1, negs, 1, 1, 1, poss));
+			
+			ToDoCharacter myCharacter = new ToDoCharacter("Bob", 90, 120, 5, 0, 50);
+			setPlayerInfo(myCharacter);
+			ToDoCharacter enemeyCharacter = new ToDoCharacter("Alice", 90, 120, 5, 0, 50);
+			av.setToDoCharacter(enemeyCharacter);
+			mHandler.obtainMessage(BTMessageHandler.MESSAGE_SHARE_CHAR_INFO, getByteRep(av)).sendToTarget();
+			
+			playerAvatar = av;
+
+			return null;
+		}
+	 }
+	
+	/*
+	 * FUNCTIONS ADDED BY PAUL
+	 * These functions are called by BTMessageHandler.java. therefore must be public
+	 */
+	public void setEnemyImage(Avatar enemyAv) {
+		enemyAvatar = enemyAv;
+		enemyImage.setImageBitmap(enemyAv.getClearBitmap());
+	}
+
+	public void setEnemyInfo(ToDoCharacter c) {
+		enemy = c;
+		enemyName.setText(c.getName());
+		enemyHP.setText(c.getHP());
+	}
+	
+	public void setPlayerInfo(ToDoCharacter c) {
+		player = c;
+		playerName.setText(c.getName());
+		playerHP.setText(c.getHP());
+	}
+	
+	public byte [] getByteRep(Object o) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out;
+		byte [] msgBytes = null;
+		
+		try {
+			out = new ObjectOutputStream(bos);
+			out.writeObject(o);
+			msgBytes = bos.toByteArray();
+			out.close();
+			bos.close(); 
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return msgBytes;
+	}
+	
 
 }

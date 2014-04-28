@@ -1,10 +1,15 @@
 package com.cs429.todorpg.revised.itemsystem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.util.Log;
 
-public abstract class Equipment extends RpgItem {
+public abstract class Equipment extends RpgItem implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2763463244560673526L;
 	private int damage;
 	private int critical;
 	private int multi_hit;

@@ -1,5 +1,7 @@
 package com.cs429.todorpg.revised.itemsystem;
 
+import java.io.Serializable;
+
 import com.cs429.todorpg.revised.model.Daily;
 
 /**
@@ -11,7 +13,11 @@ import com.cs429.todorpg.revised.model.Daily;
  * an associated resource(drawable) id for imageviews
  */
 
-public abstract class RpgItem {
+public abstract class RpgItem implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2257009856705996895L;
 	private String name;
 	private int resId;
 	
