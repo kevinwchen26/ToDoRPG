@@ -264,7 +264,6 @@ public class BattleActivity extends BaseActivity {
 		enemy = sql.getCharacter();
 		playerMaxHP = player.getHP();
 		enemyMaxHP = enemy.getHP();
-		enemyMaxHP = enemy.getHP();		
 	}
 
 	private void waitForEffectAnimationDone(AnimationDrawable anim, final ImageView img) {
@@ -589,12 +588,14 @@ public class BattleActivity extends BaseActivity {
 		enemy = c;
 		enemyName.setText(c.getName());
 		enemyHP.setText(Integer.toString(c.getHP()));
+		enemyMaxHP = enemy.getHP();
 	}
 	
 	public void setPlayerInfo(ToDoCharacter c) {
 		player = c;
 		playerName.setText(c.getName());
 		playerHP.setText(Integer.toString(c.getHP()));
+		playerMaxHP = player.getHP();
 	}
 	
 	public byte [] getByteRep(Object o) {
