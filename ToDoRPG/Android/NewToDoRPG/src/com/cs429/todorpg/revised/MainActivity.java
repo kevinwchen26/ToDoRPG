@@ -39,11 +39,12 @@ public class MainActivity extends BaseActivity {
 	private void CreateCharacter() {
 		character = sql.getCharacter();
 		if (character == null) {
-			character = new ToDoCharacter("Hello", 0, 100, 1, 0, 100);
+			character = new ToDoCharacter("Hero", 0, 100, 1, 0, 100);
 			sql.addCharacter(character);
 			addInitialItems();
-
 		}
+		GameApplication app = (GameApplication)getApplication();
+		app.avatar.inventory=sql.getInventory();
 	}
 
 	private void CreateLibrary() {
@@ -222,6 +223,7 @@ public class MainActivity extends BaseActivity {
 				R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		app.avatar.inventory.addInventory(new Weapon("Rogue Weapon 2",
 				R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
+		sql.addInventory(app.avatar.inventory);
 	}
 
 }

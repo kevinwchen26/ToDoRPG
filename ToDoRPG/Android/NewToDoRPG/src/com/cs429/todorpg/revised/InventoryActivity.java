@@ -26,6 +26,7 @@ import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
 import com.cs429.todorpg.revised.itemsystem.RpgItem;
 import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
+import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 public class InventoryActivity extends BaseActivity {
 	// Equipment Temporaryily public
@@ -45,6 +46,8 @@ public class InventoryActivity extends BaseActivity {
 	/**
 	 * Requirements: Inventory must not be null.
 	 */
+	private static SQLiteHelper db;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,8 @@ public class InventoryActivity extends BaseActivity {
 		// This image goes in action bar.
 		ImageView image = (ImageView) findViewById(R.id.character_activity);
 		image.setImageBitmap(app.avatar.getBitmap());
-		
+		db = new SQLiteHelper(this);
+
 		/* END INITIALIZATION CODE */
 
 		helmet_image = (ImageView) findViewById(R.id.inventory_helmet);
@@ -107,6 +111,7 @@ public class InventoryActivity extends BaseActivity {
 		ListView listView = (ListView) findViewById(R.id.inventory_equipment_list);
         adapter = new ItemListAdapter(InventoryActivity.this, R.layout.inventory_list_row, inventoryList);
         adapter.setNotifyOnChange(true);
+        db.addInventory(app.avatar.inventory);
         listView.setAdapter(adapter);
         
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -143,6 +148,7 @@ public class InventoryActivity extends BaseActivity {
 				   		InventoryActivity.this.runOnUiThread(new Runnable() {
 				   			public void run() {
 				   				adapter.notifyDataSetChanged();
+				   				db.addInventory(app.avatar.inventory);
 				   			}
 				   		});
 				   		
@@ -158,6 +164,7 @@ public class InventoryActivity extends BaseActivity {
 				   		
 				   		// Refresh list
 				   		adapter.notifyDataSetChanged();
+				   		db.addInventory(app.avatar.inventory);
 				   		setImageViews();
 				   		break;   
 				   }
@@ -201,6 +208,7 @@ public class InventoryActivity extends BaseActivity {
 				   		
 				   		// Refresh list and avatar 
 				   		adapter.notifyDataSetChanged();
+				   		db.addInventory(app.avatar.inventory);
 				   		setImageViews();
 				   		break;
 					   
@@ -226,6 +234,7 @@ public class InventoryActivity extends BaseActivity {
 				   		
 				   		// Refresh list
 				   		adapter.notifyDataSetChanged();
+				   		db.addInventory(app.avatar.inventory);
 				   		setImageViews();
 				   		break;   
 				   }

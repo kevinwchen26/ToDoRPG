@@ -2,18 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:orientation="vertical"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
 
-   <include layout="@layout/header"
+    <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"/>
-    
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        layout="@layout/header" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
+
+        <ListView
+            android:id="@+id/stats_list"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+        </ListView>
+
+        <ListView
+            android:id="@+id/log_list"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+        </ListView>
+    </LinearLayout>
+
 </LinearLayout>
