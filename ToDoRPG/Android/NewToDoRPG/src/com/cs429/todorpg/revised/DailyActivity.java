@@ -15,10 +15,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.cs429.todoprg.service.AlarmReceiver;
 import com.cs429.todorpg.revised.controller.DailyAdapter;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+import com.cs429.todorpg.service.AlarmReceiver;
 
 
 public class DailyActivity extends BaseActivity {

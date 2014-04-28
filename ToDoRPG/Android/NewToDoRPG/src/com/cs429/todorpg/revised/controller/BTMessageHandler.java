@@ -16,12 +16,12 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import battlelogic.AttackResult;
 
-import com.cs429.todoprg.service.BluetoothService;
+import com.cs429.todorpg.battlelogic.AttackResult;
 import com.cs429.todorpg.revised.Avatar;
 import com.cs429.todorpg.revised.BattleActivity;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
+import com.cs429.todorpg.service.BluetoothService;
 
 public class BTMessageHandler extends Handler{
 

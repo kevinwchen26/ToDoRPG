@@ -1,4 +1,4 @@
-package com.cs429.todoprg.service;
+package com.cs429.todorpg.service;
 
 import com.cs429.todorpg.revised.AlarmNotification;
 

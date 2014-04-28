@@ -1,4 +1,4 @@
-package com.cs429.todoprg.service;
+package com.cs429.todorpg.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,8 +17,8 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
-import battlelogic.BtPackage;
 
+import com.cs429.todorpg.battlelogic.BtPackage;
 import com.cs429.todorpg.revised.controller.BTControl;
 import com.cs429.todorpg.revised.controller.BTMessageHandler;
 
