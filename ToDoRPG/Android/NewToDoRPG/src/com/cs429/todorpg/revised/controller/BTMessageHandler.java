@@ -174,7 +174,7 @@ public class BTMessageHandler extends Handler{
 			break;
 		case RECEIVE_ENEMY_CHAR_INFO:
 			Avatar enemyAv = (Avatar)msg.obj;
-			battleToast(enemyAv.getToDoCharacter().getName() + "is the enemy");
+			battleToast(enemyAv.getToDoCharacter().getName() + " is the enemy");
 			setReadyToStart(true);
 			// Initialize BattleActivity
 			setEnemyImage(enemyAv);

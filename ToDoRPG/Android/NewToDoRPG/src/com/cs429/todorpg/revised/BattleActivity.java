@@ -128,7 +128,7 @@ public class BattleActivity extends BaseActivity {
 		setUpBattleMenu();
 		setUpBattleInfo();
 		setUpStatusEffects();
-		applyStatusEffects();
+		//applyStatusEffects();
 		update();
 
 	}
