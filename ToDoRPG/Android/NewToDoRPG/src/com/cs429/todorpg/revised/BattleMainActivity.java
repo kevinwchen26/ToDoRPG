@@ -26,7 +26,7 @@ public class BattleMainActivity extends BaseActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.e("[LifeCycle]", "BattleMainActivity: ++ onCreate ++");
+		Log.e("[LifeCycle]", "++ onCreate ++");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_battle_main);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -44,7 +44,7 @@ public class BattleMainActivity extends BaseActivity {
 
 	@Override
 	public void onResume(){
-		Log.e("[LifeCycle]", "BattleMainActivity: ++ onResume ++");
+		Log.e("[LifeCycle]", "++ onResume ++");
 		super.onResume();
 		//do only when BT is available
 		if(btctrl.IsBluetoothEnabled()){
@@ -55,7 +55,7 @@ public class BattleMainActivity extends BaseActivity {
 
 	@Override
 	public void onDestroy(){
-		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
+		Log.e("[LifeCycle]", "++ onDestroy ++");
 		super.onDestroy();
 		BTService.stop();
 	}

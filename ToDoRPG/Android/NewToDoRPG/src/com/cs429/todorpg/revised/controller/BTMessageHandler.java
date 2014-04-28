@@ -43,7 +43,7 @@ public class BTMessageHandler extends Handler{
 	
 	private String TAG = "BTHandler";
 	
-//	private Context appContext;
+	private Context appContext;
 	private Context myContext;
 	private ProgressDialog mDialog;
 	private BluetoothService BTService;
@@ -52,7 +52,7 @@ public class BTMessageHandler extends Handler{
 	private boolean readyToStart;
 	
 	private BTMessageHandler(Context context){
-		myContext = context;
+		appContext = context;
 		mDialog = new ProgressDialog(context);
 		isMyTurn = false;
 		setReadyToStart(false);
@@ -66,7 +66,7 @@ public class BTMessageHandler extends Handler{
 	
 	public void flush(){
 		mHandler = null;
-		myContext = null;
+		appContext = null;
 		mDialog = null;
 	}
 	
@@ -141,8 +141,8 @@ public class BTMessageHandler extends Handler{
 			break;
 			
 		case MESSAGE_CONNECTION_SETTLED:
-			Intent intent = new Intent(myContext, BattleActivity.class);
-			myContext.startActivity(intent);
+			Intent intent = new Intent(appContext, BattleActivity.class);
+			appContext.startActivity(intent);
 			
 			break;
 			
@@ -221,7 +221,7 @@ public class BTMessageHandler extends Handler{
 	
 	private void showAlertDialog(String message){
 		AlertDialog.Builder ab = null;
-		ab = new AlertDialog.Builder(myContext);
+		ab = new AlertDialog.Builder(appContext);
 		ab.setTitle("connection failure");
 		ab.setMessage(message);
 		ab.setPositiveButton("OK", null);
@@ -230,7 +230,7 @@ public class BTMessageHandler extends Handler{
 	
 	private void showYesNoDialog(String message, final BluetoothSocket socket){
 		AlertDialog.Builder ab = null;
-		ab = new AlertDialog.Builder(myContext);
+		ab = new AlertDialog.Builder(appContext);
 		ab.setTitle("connection request");
 		ab.setMessage(message);
 		ab.setCancelable(false);
