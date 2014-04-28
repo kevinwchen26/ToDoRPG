@@ -133,13 +133,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * getToDos() - returns a list of ToDos for the character
 	 * @return Arraylist of all ToDos
 	 */
-	public ArrayList<ToDo> getToDos() {
+	public ArrayList<ToDo> getToDos(int option) {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_TODO, null, null, null, null, null, null);
 		if (cursor.getCount() == 0)
 			return null;
 		else {
 			ArrayList<ToDo> todos = new ArrayList<ToDo>();
+			ArrayList<ToDo> completed_todos = new ArrayList<ToDo>();
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
@@ -156,11 +157,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				temp.setDueDate(due_month, due_date, due_hour, due_min);
 				temp.setDifficulty(difficulty);
 				
-				if (finished == 1)
+				if (finished == 1) {
 					temp.setFinish();
+					completed_todos.add(temp);
+				}
 				todos.add(temp);
 			} while (cursor.moveToNext());
-			return todos;
+			if(option == 1) return completed_todos;
+			else return todos;
 		}
 	}
 
@@ -1109,7 +1113,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put("name",name);
 		values.put("count", count);
-		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + stat.getId() + "'", null) > 0;
+		return this.getReadableDatabase().update(Constants.TABLE_STAT, values, "name='" + stat.getName() + "'", null) > 0;
 	}
 
 	public ArrayList<Stat> getStats(){
