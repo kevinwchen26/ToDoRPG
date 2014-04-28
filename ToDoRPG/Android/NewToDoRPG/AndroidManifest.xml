@@ -80,11 +80,11 @@
             android:parentActivityName="com.cs429.todorpg.revised.MainActivity" >
         </activity>
         <activity
-            android:name="com.cs429.todorpg.revised.PlayerStats"
+            android:name="com.cs429.todorpg.revised.PlayerStatsActivity"
             android:label="@string/title_activity_player_stats" >
         </activity>
         <activity
-            android:name="com.cs429.todorpg.revised.EventLog"
+            android:name="com.cs429.todorpg.revised.EventLogActivity"
             android:label="@string/title_activity_event_log" >
         </activity>
     </application>

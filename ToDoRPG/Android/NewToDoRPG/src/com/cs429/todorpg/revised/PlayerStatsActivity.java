@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.ListView;
 
-public class PlayerStats extends BaseActivity {
+public class PlayerStatsActivity extends BaseActivity {
 
 	private SQLiteHelper db;
 
