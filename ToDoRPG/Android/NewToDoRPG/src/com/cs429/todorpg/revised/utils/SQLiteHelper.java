@@ -249,13 +249,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * getDailies() - returns a list of dailies for the character
 	 * @return Arraylist of all dailies
 	 */
-	public ArrayList<Daily> getDailies() {
+	public ArrayList<Daily> getDailies(int option) {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_DAILIES, null, null, null, null, null, null);
 		if (cursor.getCount() == 0)
 			return null;
 		else {
 			ArrayList<Daily> dailies = new ArrayList<Daily>();
+			ArrayList<Daily> missed_dailies = new ArrayList<Daily>();
+			ArrayList<Daily> finished_dailies = new ArrayList<Daily>();
 			cursor.moveToFirst();
 			do {
 				int primary_key = cursor.getInt(0);
@@ -265,8 +267,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int finished = cursor.getInt(4);
 				int weekid = cursor.getInt(5);
 				Daily temp = new Daily(my_daily, extra, primary_key);
-				if (finished == 1)
+				if(finished == 0) {
+					missed_dailies.add(temp);
+				}
+				if (finished == 1) {
 					temp.toggleFinish();
+					finished_dailies.add(temp);
+				}
 				temp.setDifficulty(difficulty);
 				temp.setWeekKey(weekid);
 				ArrayList<Boolean> allDailiesWeek = this.getDailiesWeek(weekid);
@@ -277,7 +284,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				}
 				dailies.add(temp);
 			} while (cursor.moveToNext());
-			return dailies;
+			if(option == 1) return finished_dailies;
+			else if(option == 2) return missed_dailies;
+			else return dailies;
 		}
 	}
 
