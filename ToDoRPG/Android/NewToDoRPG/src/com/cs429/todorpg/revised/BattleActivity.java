@@ -285,6 +285,12 @@ public class BattleActivity extends BaseActivity {
 
 	//Updates the screen
 	private void update() {
+		if (enemy.getHP() < 0) {
+			enemy.setHP(0);
+		}
+		if (player.getHP() < 0) {
+			player.setHP(0);
+		}
 		enemyName.setText(enemy.getName() + " Lv." + Integer.toString(enemy.getLevel()));
 	    enemyHP.setText("HP" + enemy.getHP() + "/" + enemyMaxHP);
 	    playerName.setText(player.getName() + " Lv." + Integer.toString(player.getLevel()));

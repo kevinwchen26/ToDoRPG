@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import battlelogic.AttackResult;
-import battlelogic.BtPackage;
 
 import com.cs429.todoprg.service.BluetoothService;
 import com.cs429.todorpg.revised.Avatar;
@@ -180,7 +179,6 @@ public class BTMessageHandler extends Handler{
 		case RECEIVE_ATTACK:
 			AttackResult attackResult = (AttackResult)msg.obj;
 			defendAttack(attackResult);
-			battleToast("I'm under attack!");
 			toggleMyTurn();
 			
 			break;
