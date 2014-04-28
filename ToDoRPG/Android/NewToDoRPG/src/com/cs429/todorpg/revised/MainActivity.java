@@ -46,13 +46,14 @@ public class MainActivity extends BaseActivity {
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		sql = new SQLiteHelper(this);
-		CreateCharacter();
 		CreateLibrary();
-		setHeader(R.id.header);
+		CreateCharacter();
 		sql = new SQLiteHelper(getBaseContext());
 		FindViewById();
 		GetCharacterInfo();
 		fill_list();
+		setHeader(R.id.header);
+
 	}
 
 	private void CreateCharacter() {
@@ -73,24 +74,26 @@ public class MainActivity extends BaseActivity {
 		GameApplication app = (GameApplication) getApplication();
 		app.avatar.inventory = sql.getInventory();
 	}
+
 	private void UpdateStats() {
 		ArrayList<Daily> completed_daily = new ArrayList<Daily>();
 		completed_daily = sql.getDailies(1);
-		if(completed_daily != null) {
+		if (completed_daily != null) {
 			int daily_count = completed_daily.size();
-			Log.d("SIZE", daily_count+"");
+			Log.d("SIZE", daily_count + "");
 			sql.updateStat(new Stat("Dailies Completed", daily_count));
 		}
-		
+
 		ArrayList<ToDo> completed_todo = new ArrayList<ToDo>();
 		completed_todo = sql.getToDos(1);
-		if(completed_todo != null) {
+		if (completed_todo != null) {
 			int todo_count = completed_todo.size();
 			System.out.println(todo_count);
 			sql.updateStat(new Stat("ToDos Completed", todo_count));
 		}
-		
+
 	}
+
 	private void initializeStats() {
 		sql.addStat(new Stat("Battles Fought", 0));
 		sql.addStat(new Stat("Battles Won", 0));
@@ -256,13 +259,12 @@ public class MainActivity extends BaseActivity {
 	}
 
 	public void addInitialItems() {
-		
-		
+
 		GameApplication app = (GameApplication) getApplication();
-		
+
 		EquipCost tsword = sql.getLibrary("Broad Sword");
 		EquipCost tdagger = sql.getLibrary("Dagger");
-		
+
 		Weapon fsword = (Weapon) (tsword.getEquipment());
 		Weapon fdagger = (Weapon) (tdagger.getEquipment());
 
@@ -272,7 +274,7 @@ public class MainActivity extends BaseActivity {
 		app.avatar.inventory.setWeapon(fsword);
 
 		app.avatar.inventory.addInventory(fdagger);
-		
+
 		sql.addInventory(app.avatar.inventory);
 	}
 
