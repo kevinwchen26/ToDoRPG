@@ -86,13 +86,13 @@ public abstract class BaseActivity extends Activity {
 						finish();
 					} else if (item.getTitle().equals("Player Stats")) {
 						Intent intent = new Intent(BaseActivity.this,
-								PlayerStats.class);
+								PlayerStatsActivity.class);
 						startActivity(intent);
 						finish();
 
 					} else if (item.getTitle().equals("Event Log")) {
 						Intent intent = new Intent(BaseActivity.this,
-								EventLog.class);
+								EventLogActivity.class);
 						startActivity(intent);
 						finish();
 

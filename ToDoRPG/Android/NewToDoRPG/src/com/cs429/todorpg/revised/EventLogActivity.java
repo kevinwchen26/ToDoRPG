@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.ListView;
 
-public class EventLog extends BaseActivity {
+public class EventLogActivity extends BaseActivity {
 
 	private SQLiteHelper db;
 
