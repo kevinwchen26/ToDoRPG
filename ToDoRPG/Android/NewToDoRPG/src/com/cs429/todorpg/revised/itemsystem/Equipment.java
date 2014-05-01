@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import android.util.Log;
 
 public abstract class Equipment extends RpgItem implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 2763463244560673526L;
 	private int damage;
 	private int critical;
@@ -18,10 +16,23 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	private int evasion;
 	private int accuracy;
 	private ArrayList<PositiveEffects> posEffects = new ArrayList<PositiveEffects>();
-	
+
+	/**
+	 * Constructor
+	 * @param name
+	 * @param resId
+	 * @param damage
+	 * @param critical
+	 * @param multi_hit
+	 * @param negEffects
+	 * @param damage_reduction
+	 * @param evasion
+	 * @param accuracy
+	 * @param posEffects
+	 */
 	public Equipment(String name, int resId, int damage, int critical, int multi_hit, ArrayList<NegativeEffects> negEffects,
 			int damage_reduction, int evasion, int accuracy, ArrayList<PositiveEffects> posEffects) {
-		
+
 		super(name, resId);
 		this.damage = damage;
 		this.critical = critical;
@@ -32,7 +43,11 @@ public abstract class Equipment extends RpgItem implements Serializable {
 		this.accuracy = accuracy;
 		this.posEffects = new ArrayList <PositiveEffects>(posEffects);
 	}
-	
+
+	/**
+	 * Various getters and setters
+	 * @return
+	 */
 	public int getDamage() {
 		return damage;
 	}
@@ -40,7 +55,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-	
+
 	public int getCritical() {
 		return critical;
 	}
@@ -48,7 +63,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setCritical(int critical) {
 		this.critical = critical;
 	}
-	
+
 	public int getMulti_Hit() {
 		return multi_hit;
 	}
@@ -56,7 +71,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setMulti_Hit(int multi_hit) {
 		this.multi_hit = multi_hit;
 	}
-	
+
 	public int getDamage_Reduction() {
 		return damage_reduction;
 	}
@@ -64,7 +79,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setDamage_Reduction(int damage_reduction) {
 		this.damage_reduction = damage_reduction;
 	}
-	
+
 	public int getAccuracy() {
 		return accuracy;
 	}
@@ -72,7 +87,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setAccuracy(int accuracy) {
 		this.accuracy = accuracy;
 	}
-	
+
 	public int getEvasion() {
 		return evasion;
 	}
@@ -80,7 +95,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setEvasion(int evasion) {
 		this.evasion = evasion;
 	}
-	
+
 	public ArrayList<NegativeEffects> getnegEffects() {
 		return negEffects;
 	}
@@ -88,7 +103,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setnegEffects(ArrayList<NegativeEffects> negeffects) {
 		this.negEffects = new ArrayList<NegativeEffects> (negeffects);
 	}
-	
+
 	public ArrayList<PositiveEffects> getposEffects() {
 		return posEffects;
 	}
@@ -96,7 +111,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	public void setposEffects(ArrayList<PositiveEffects> poseffects) {
 		this.posEffects = new ArrayList<PositiveEffects> (poseffects);
 	}
-	
+
 	public boolean equals(Object o) {
 		Equipment equip = (Equipment) o;
 		return (this.getName().equals(equip.getName()) && this.getResId() == equip.getResId() &&

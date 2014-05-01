@@ -142,7 +142,7 @@ public class InventoryActivity extends BaseActivity {
 					    		"Equipped",
 					      Toast.LENGTH_LONG).show();
 				   		// Equip item
-				   		app.avatar.inventory.equipItem(position, true);
+				   		app.avatar.inventory.equipItem(position, false);
 				   		// Refresh list 
 				   		
 				   		InventoryActivity.this.runOnUiThread(new Runnable() {

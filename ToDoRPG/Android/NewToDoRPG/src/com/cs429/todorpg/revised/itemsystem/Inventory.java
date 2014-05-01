@@ -13,9 +13,7 @@ import com.cs429.todorpg.revised.GameApplication;
 import com.cs429.todorpg.revised.R;
 
 public class Inventory implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -7795460230072089745L;
 	private Armor armor;
 	private Helmet helmet;
@@ -24,6 +22,9 @@ public class Inventory implements Serializable {
 	private Weapon secondary;
 	private ArrayList<RpgItem> inventoryItems;
 
+	/**
+	 * Constructor for null Inventory
+	 */
 	public Inventory() {
 		this.armor = null;
 		this.helmet = null;
@@ -32,7 +33,16 @@ public class Inventory implements Serializable {
 		this.secondary = null;
 		this.inventoryItems = new ArrayList<RpgItem>();
 	}
-	
+
+	/**
+	 * Constructor for inventory
+	 * @param armor
+	 * @param helmet
+	 * @param shield
+	 * @param weapon
+	 * @param secondary
+	 * @param equipmentItems
+	 */
 	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, Weapon secondary, ArrayList<RpgItem> equipmentItems) {
 		this.armor = armor;
 		this.helmet = helmet;
@@ -46,23 +56,23 @@ public class Inventory implements Serializable {
 			this.inventoryItems = new ArrayList<RpgItem>();
 		}
 	}
-	
-	/*
-	 * Inventory List
+
+	/**
+	 * various helpers for inventory
+	 * @param e
 	 */
-	
 	public void addInventory (RpgItem e) {
 		inventoryItems.add(e);
 	}
-	
+
 	public void removeInventory (int index) {
 		inventoryItems.remove(index);
 	}
-	
+
 	public int numInventory () {
 		return inventoryItems.size();
 	}
-	
+
 	public ArrayList<RpgItem> getInventoryItems() {
 		return inventoryItems;
 	}
@@ -70,11 +80,11 @@ public class Inventory implements Serializable {
 	public void setInventoryItems(ArrayList<RpgItem> equipmentItems) {
 		this.inventoryItems = equipmentItems;
 	}
-	
-	/*
-	 * Adders Getters to equipped items
+
+	/**
+	 * various getters and setters for Object
+	 * @return
 	 */
-	
 	public Armor getArmor() {
 		return armor;
 	}
@@ -106,7 +116,7 @@ public class Inventory implements Serializable {
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
-	
+
 	public Weapon getSecondary() {
 		return secondary;
 	}
@@ -114,31 +124,31 @@ public class Inventory implements Serializable {
 	public void setSecondary(Weapon weapon) {
 		this.secondary = weapon;
 	}
-	
-	/*
-	 * Boolean methods 
+
+	/**
+	 * boolean methods 
+	 * @return
 	 */
-	
 	public boolean isArmorSet() {
 		return this.armor != null;
 	}
-	
+
 	public boolean isHelmetSet() {
 		return this.helmet != null;
 	}
-	
+
 	public boolean isShieldSet() {
 		return this.shield != null;
 	}
-	
+
 	public boolean isWeaponSet() {
 		return this.weapon != null;
 	}
-	
+
 	public boolean isSecondarySet() {
 		return this.secondary != null;
 	}
-	
+
 	/**
 	 * Function handles item equipping
 	 * @param item
@@ -205,10 +215,10 @@ public class Inventory implements Serializable {
 				inventoryItems.add(temp);
 			}
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * 
 	 * @return Bitmap image of character avatar EXCEPT skin.
@@ -216,7 +226,7 @@ public class Inventory implements Serializable {
 	public Bitmap getBitmap() {
 		Bitmap bitmap = Bitmap.createBitmap(Avatar.AVATAR_WIDTH, Avatar.AVATAR_HEIGHT, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
-		
+
 		// Get Images
 		if (armor != null) {
 			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), armor.getResId());
@@ -226,28 +236,29 @@ public class Inventory implements Serializable {
 			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), R.drawable.slim_shirt_white);
 			canvas.drawBitmap(armorImage, 0,0, null);
 		}
-		
+
 		if (helmet != null) {
 			Bitmap helmetImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), helmet.getResId());
 			canvas.drawBitmap(helmetImage, 0,0, null);
 		}
-		
+
 		if (weapon != null) {
 			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), weapon.getResId());
 			canvas.drawBitmap(weaponImage, 0,0, null);
 		}
-		
+
 		if (secondary != null) {
 			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), secondary.getResId());
 			canvas.drawBitmap(weaponImage, 0,0, null);
 		}
-		
+
 		if (shield != null) {
 			Bitmap shieldImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), shield.getResId());
 			canvas.drawBitmap(shieldImage, 0,0, null);
 		}
 		return bitmap;
 	}
+
 	public boolean equals(Object o) {
 		Inventory inventory = (Inventory) o;
 		return (((this.getArmor() == null && inventory.getArmor() == null) || (this.getArmor().equals(inventory.getArmor() ) ) )
