@@ -9,12 +9,22 @@ public class ToDo extends Quest {
 	private int difficulty;	//0 - easy / 1 - medium / 2 - hard
 	private int primary_key;
 
+	/**
+	 * Constructor
+	 * @param my_todo
+	 */
 	public ToDo(String my_todo) {
 		this.setToDo(my_todo);
 		finished = false;
 		difficulty = 0;
 	}
 
+	/**
+	 * Secondary Constructor
+	 * @param my_todo
+	 * @param extra
+	 * @param primary_key
+	 */
 	public ToDo(String my_todo, String extra, int primary_key) {
 		this.setToDo(my_todo);
 		this.setExtra(extra);
@@ -23,6 +33,10 @@ public class ToDo extends Quest {
 		difficulty = 0;	//default set - easy
 	}
 
+	/**
+	 * various setters and getters for variables in object
+	 * @return
+	 */
 	public String getToDo() {
 		return my_todo;
 	}
@@ -48,14 +62,14 @@ public class ToDo extends Quest {
 	public void setKey(int primary_key) {
 		this.primary_key = primary_key;
 	}
-	
+
 	public void setFinish(){
 		finished = true;
 	}
 	public boolean getStatus(){
 		return finished;
 	}
-	
+
 	public void setDifficulty(int rate){
 		if(rate < 0 || rate > 2){//error...
 			Log.e("[ToDo]", "difficuty out of range...");
@@ -63,7 +77,7 @@ public class ToDo extends Quest {
 		}
 		this.difficulty = rate;
 	}
-	
+
 	public int getDifficulty(){
 		return difficulty;
 	}
@@ -72,36 +86,36 @@ public class ToDo extends Quest {
 		ToDo todo = (ToDo) o;
 		return (this.primary_key == todo.getKey()
 				&& this.my_todo.equals(todo.getToDo()) && this.extra
-					.equals(todo.getExtra()) && this.getStatus() == todo.getStatus() && this.getDifficulty() == todo.getDifficulty()
-					&& this.getDueDate()[0] == todo.getDueDate()[0] && this.getDueDate()[1] == todo.getDueDate()[1] 
-							&& this.getDueDate()[2] == todo.getDueDate()[2] && this.getDueDate()[3] == todo.getDueDate()[3] );
+				.equals(todo.getExtra()) && this.getStatus() == todo.getStatus() && this.getDifficulty() == todo.getDifficulty()
+				&& this.getDueDate()[0] == todo.getDueDate()[0] && this.getDueDate()[1] == todo.getDueDate()[1] 
+						&& this.getDueDate()[2] == todo.getDueDate()[2] && this.getDueDate()[3] == todo.getDueDate()[3] );
 	}
 }
 
-	/*
-	 * private int icon; private String description; private ArrayList<String>
-	 * milestone;
-	 * 
-	 * public ToDo(){ super(); this.setType(TODO); icon = -1; }
-	 * 
-	 * public ToDo(String title){ super(title); this.setType(TODO); icon = -1; }
-	 * 
-	 * public void WriteDescription(String descrip){ if(descrip == null) return;
-	 * description = new String(descrip); }
-	 * 
-	 * public String getDescription(){ return description; }
-	 * 
-	 * public void setImage(int ResourceId){ icon = ResourceId; }
-	 * 
-	 * public int getImageResource(){ return icon; }
-	 * 
-	 * public void WriteMileStone(String milestone){ if(this.milestone == null){
-	 * this.milestone = new ArrayList<String>(); }
-	 * this.milestone.add(milestone); }
-	 * 
-	 * public void WriteMileStone(ArrayList<String> milelist){ if(milelist ==
-	 * null) return; if(milestone == null) milestone = new
-	 * ArrayList<String>(milelist); else milestone = milelist; }
-	 * 
-	 * public ArrayList<String> getMileStone(){ return milestone; }
-	 */
+/*
+ * private int icon; private String description; private ArrayList<String>
+ * milestone;
+ * 
+ * public ToDo(){ super(); this.setType(TODO); icon = -1; }
+ * 
+ * public ToDo(String title){ super(title); this.setType(TODO); icon = -1; }
+ * 
+ * public void WriteDescription(String descrip){ if(descrip == null) return;
+ * description = new String(descrip); }
+ * 
+ * public String getDescription(){ return description; }
+ * 
+ * public void setImage(int ResourceId){ icon = ResourceId; }
+ * 
+ * public int getImageResource(){ return icon; }
+ * 
+ * public void WriteMileStone(String milestone){ if(this.milestone == null){
+ * this.milestone = new ArrayList<String>(); }
+ * this.milestone.add(milestone); }
+ * 
+ * public void WriteMileStone(ArrayList<String> milelist){ if(milelist ==
+ * null) return; if(milestone == null) milestone = new
+ * ArrayList<String>(milelist); else milestone = milelist; }
+ * 
+ * public ArrayList<String> getMileStone(){ return milestone; }
+ */

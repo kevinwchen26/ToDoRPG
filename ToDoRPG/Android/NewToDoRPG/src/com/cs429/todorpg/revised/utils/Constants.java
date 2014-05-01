@@ -5,52 +5,31 @@ public class Constants {
 	 * DB INFO
 	 */
 	static String DATABASE_NAME = "TODO_DB"; // Name of DB
-	static int DATABASE_VERSION = 2;
+	static int DATABASE_VERSION = 2; //DB version
 
 	/*
 	 * Table Names
 	 */
+	static String TABLE_DAILIES = "dailies"; 
+	static String TABLE_DAILIESWEEK = "dailiesweek"; 
+	static String TABLE_CHARACTER = "character"; 
+	static String TABLE_REWARDS = "rewards";
+	static String TABLE_TODO = "todo"; 
+	static String TABLE_EQUIPARMOR = "equiparmor"; 
+	static String TABLE_EQUIPWEAPON = "equipweapon"; 
+	static String TABLE_EQUIPSECONDARY = "equipsecondary"; 
+	static String TABLE_EQUIPHELMET = "equiphelmet"; 
+	static String TABLE_EQUIPSHIELD = "equipshield"; 
+	static String TABLE_INVENTORY = "inventory";
+	static String TABLE_HABITS = "habits"; 
+	static String TABLE_LOG="log";
+	static String TABLE_STAT="stat";
+	static String TABLE_LIBRARY = "library";
 
-	static String TABLE_DAILIES = "dailies"; // Table for Daily Quests :
-												// (_id,my_daily, extra, difficulty finished, weekid)
-	static String TABLE_DAILIESWEEK = "dailiesweek"; // Table for Daily Week:
-												// (_id,mon,tues,wed,thurs,fri,sat)
-	static String TABLE_CHARACTER = "character"; // Table for Characters
-													// : (_id,name,gold)
-	static String TABLE_REWARDS = "rewards";// Table for Rewards
-											// (_id,info,extra,cost)
-	static String TABLE_TODO = "todo"; // Table for ToDo list items:
-										// (_id,name,extra,due_month,due_date,due_hour,due_min,difficulty,finished)
-	static String TABLE_EQUIPARMOR = "equiparmor"; // Table for
-									// equipped items;(_id,name,resid)
-	static String TABLE_EQUIPWEAPON = "equipweapon"; // Table for
-	// equipped items;(_id,name,resid)
-	static String TABLE_EQUIPSECONDARY = "equipsecondary"; // Table for
-	// equipped items;(_id,name,resid)
-	static String TABLE_EQUIPHELMET = "equiphelmet"; // Table for
-	// equipped items;(_id,name,resid)
-	static String TABLE_EQUIPSHIELD = "equipshield"; // Table for
-	// equipped items;(_id,name,resid)
-	static String TABLE_INVENTORY = "inventory"; // Table for
-											// items;(_id,name,resid)
-	static String TABLE_HABITS = "habits"; // Table for
-									// habits;(_id,title,extra,characteristic,difficulty,progress);
-	static String TABLE_LOG="log";//log(id,content,date)
-	static String TABLE_STAT="stat";//stat(id,name,count);
-	/*
-	 * Column Names
-	 */
-	private static String COLUMN_ID = "_id";
-	private static final String COLUMN_NAME = "name";
-	private static final String COLUMN_REWARD_COST = "cost";
 
-	static String TABLE_LIBRARY = "library"; // Table for
-	// habits;(_id,title,extra,characteristic,difficulty,progress);
-	
 	/*
 	 * Table Creation Queries;
 	 */
-
 	static final String CHARACTER_TABLE_CREATE = "create table character(_id integer primary key autoincrement, name text not null unique, gold int not null, HP int not null, level int not null, currExp int not null, nextExp int not null);";
 	static final String REWARDS_TABLE_CREATE = "create table rewards(_id integer primary key autoincrement, info text not null unique, extra text not null, cost int not null)";
 	static final String DAILIES_TABLE_CREATE = "create table dailies(_id integer primary key autoincrement, my_daily text not null unique, extra text not null, difficulty int not null, finished int not null, weekid int not null)";

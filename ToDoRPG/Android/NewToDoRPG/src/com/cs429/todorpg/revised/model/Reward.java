@@ -6,13 +6,25 @@ public class Reward {
 	private String extra;
 	private int cost;
 	private int primary_key;
-	
+
+	/**
+	 * Constructor
+	 * @param reward
+	 * @param cost
+	 */
 	public Reward(String reward, int cost) {
 		this.setInfo(reward);
 		this.setCost(cost);
 		this.setExtra("");
 	}
-	
+
+	/**
+	 * Secondary Constructor
+	 * @param key
+	 * @param reward
+	 * @param extra
+	 * @param cost
+	 */
 	public Reward(int key, String reward, String extra, int cost){
 		this.setPrimary_key(key);
 		this.setInfo(reward);
@@ -20,7 +32,10 @@ public class Reward {
 		this.setCost(cost);
 	}
 
-
+	/**
+	 * Various setters and getters for variables in object
+	 * @return
+	 */
 	public String getInfo() {
 		return info;
 	}
@@ -52,7 +67,7 @@ public class Reward {
 	public void setPrimary_key(int primary_key) {
 		this.primary_key = primary_key;
 	}
-	
+
 	public boolean equals(Object o) {
 		Reward reward2 = (Reward) o;
 		return (this.primary_key == reward2.getPrimary_key() && this.info.equals(reward2.getInfo())

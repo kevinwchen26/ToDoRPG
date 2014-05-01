@@ -6,17 +6,32 @@ public class Stat {
 	private int count;
 	private int id;
 
+	/**
+	 * Constructor 
+	 * @param id
+	 * @param name
+	 * @param count
+	 */
 	public Stat(int id, String name, int count) {
 		this.id = id;
 		this.name = name;
 		this.count = count;
 	}
 
+	/**
+	 * Secondary Constructors
+	 * @param name
+	 * @param count
+	 */
 	public Stat(String name, int count) {
 		this.name = name;
 		this.count = count;
 	}
 
+	/**
+	 * various setters and getters for the object
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}

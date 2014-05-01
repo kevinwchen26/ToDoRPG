@@ -5,19 +5,24 @@ import android.util.Log;
 import com.cs429.todorpg.revised.R;
 
 public class Daily extends Quest {
+
 	/*status*/
 	private int FINISHED = R.color.finished;
 	private int UNFINISHED = R.color.unfinished;
 	private boolean finished;
-	
+
 	private String my_daily;
 	private String extra;
 	private int primary_key;
 	private int week_primary_key;
-	
+
 	private int difficulty;	//0 - easy , 1 - medium, 2 - hard
 	private boolean[] repeat = new boolean[7]; //length 7, each index corresponds to days in a week. starts from monday.
 
+	/**
+	 * Constructor
+	 * @param my_daily
+	 */
 	public Daily(String my_daily) {
 		this.setDaily(my_daily);
 		// this.setExtra(extra); // TODO Need to be implemented later
@@ -27,6 +32,12 @@ public class Daily extends Quest {
 			repeat[i] = false;	//default set no regular
 	}
 
+	/**
+	 * Second Constructor
+	 * @param my_daily
+	 * @param extra
+	 * @param primary_key
+	 */
 	public Daily(String my_daily, String extra, int primary_key) {
 		this.setDaily(my_daily);
 		this.setExtra(extra);
@@ -38,6 +49,10 @@ public class Daily extends Quest {
 			repeat[i] = false;
 	}
 
+	/**
+	 * Setters and getter for the Object
+	 * @return
+	 */
 	public String getDaily() {
 		return my_daily;
 	}
@@ -63,13 +78,44 @@ public class Daily extends Quest {
 	public void setKey(int primary_key) {
 		this.primary_key = primary_key;
 	}
-	
+
 	public int getWeekKey() {
 		return week_primary_key;
 	}
 
 	public void setWeekKey(int week_primary_key) {
 		this.week_primary_key = week_primary_key;
+	}
+
+	public void toggleFinish(){
+		finished = !finished;
+	}
+
+	public boolean getBooleanStatus(){
+		return finished;
+	}
+
+	public int getStatus(){
+		if(finished)
+			return FINISHED;
+		else
+			return UNFINISHED;
+	}
+
+	public void setDifficulty(int difficult){
+		this.difficulty = difficult;
+	}
+
+	public int getDifficulty(){
+		return difficulty;
+	}
+
+	public void toggleRegularDate(int day){
+		repeat[day] = !repeat[day];
+	}
+
+	public boolean getRegularDate(int day){
+		return repeat[day];
 	}
 
 	public boolean equals(Object o) {
@@ -82,40 +128,11 @@ public class Daily extends Quest {
 				&& this.getRegularDate(6) == daily.getRegularDate(6));
 		return (correctWeekDates && this.primary_key == daily.getKey()
 				&& this.my_daily.equals(daily.getDaily()) && this.extra
-					.equals(daily.getExtra()) && this.getBooleanStatus() == daily.getBooleanStatus()
-					&& this.getDifficulty() == daily.getDifficulty() && this.getWeekKey() == daily.getWeekKey());
+				.equals(daily.getExtra()) && this.getBooleanStatus() == daily.getBooleanStatus()
+				&& this.getDifficulty() == daily.getDifficulty() && this.getWeekKey() == daily.getWeekKey());
 	}
-	
-	public void toggleFinish(){
-		finished = !finished;
-	}
-	
-	public boolean getBooleanStatus(){
-		return finished;
-	}
-	
-	public int getStatus(){
-		if(finished)
-			return FINISHED;
-		else
-			return UNFINISHED;
-	}
-	
-	public void setDifficulty(int difficult){
-		this.difficulty = difficult;
-	}
-	
-	public int getDifficulty(){
-		return difficulty;
-	}
-	
-	public void toggleRegularDate(int day){
-		repeat[day] = !repeat[day];
-	}
-	
-	public boolean getRegularDate(int day){
-		return repeat[day];
-	}
+
+
 }
 /*
  * private String description; private int icon;

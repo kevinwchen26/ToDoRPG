@@ -11,9 +11,7 @@ import java.io.Serializable;
  */
 
 public class ToDoCharacter implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1062021211113236302L;
 
 	private String name;
@@ -23,6 +21,15 @@ public class ToDoCharacter implements Serializable{
 	private int currentEXP;
 	private int nextEXP;
 
+	/**
+	 * Constructor
+	 * @param name
+	 * @param gold
+	 * @param HP
+	 * @param level
+	 * @param currentEXP
+	 * @param nextEXP
+	 */
 	public ToDoCharacter(String name, int gold, int HP, int level,
 			int currentEXP, int nextEXP) {
 		this.name = name;
@@ -33,6 +40,11 @@ public class ToDoCharacter implements Serializable{
 		this.nextEXP = nextEXP;
 	}
 
+	/**
+	 * Secondary Constructor
+	 * @param other
+	 * @param name
+	 */
 	public ToDoCharacter(ToDoCharacter other, String name) {
 		this.name = name;
 		this.gold = other.gold;
@@ -42,6 +54,10 @@ public class ToDoCharacter implements Serializable{
 		this.nextEXP = other.nextEXP;
 	}
 
+	/**
+	 * various setters and getters for the object
+	 * @return
+	 */
 	public int getGold() {
 		return gold;
 	}
@@ -97,6 +113,6 @@ public class ToDoCharacter implements Serializable{
 				&& this.getHP() == character.getHP()
 				&& this.getLevel() == character.getLevel()
 				&& this.getCurrExp() == character.getCurrExp() && this
-					.getNextExp() == character.getNextExp());
+				.getNextExp() == character.getNextExp());
 	}
 }

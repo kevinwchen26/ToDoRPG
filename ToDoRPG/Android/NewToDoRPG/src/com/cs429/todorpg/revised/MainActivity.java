@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity {
 	SQLiteHelper sql;
 	ToDoCharacter character;
 	TextView current_level, current_hp, current_exp, completed_quests,
-			current_money, total_battles, char_name;
+	current_money, total_battles, char_name;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
 		setHeader(R.id.header);
 
 	}
-	
+
 	private void CreateCharacter() {
 		character = sql.getCharacter();
 		if (character == null) {
@@ -104,6 +104,9 @@ public class MainActivity extends BaseActivity {
 		sql.addStat(new Stat("Gold Spent", 0));
 	}
 
+	/**
+	 * creates the library for the DB is none exists
+	 */
 	private void CreateLibrary() {
 		EquipCost tempequipcost = sql.getLibrary("Nirvana");
 		if (tempequipcost == null) {
@@ -117,7 +120,7 @@ public class MainActivity extends BaseActivity {
 			sql.addLibrary(tempequip, 30);
 
 			tempequip = new Weapon("Mythril Sword",
-					R.drawable.weapon_warrior_4, 40, 20, 0, negs, 0, 0, 0, poss);
+					R.drawable.weapon_warrior_4, 40, 10, 0, negs, 0, 0, 0, poss);
 			sql.addLibrary(tempequip, 60);
 
 			tempequip = new Weapon("Gigas Sword", R.drawable.weapon_warrior_5,
@@ -125,7 +128,7 @@ public class MainActivity extends BaseActivity {
 			sql.addLibrary(tempequip, 200);
 
 			tempequip = new Weapon("Excalibur", R.drawable.weapon_warrior_6,
-					150, 30, 10, negs, 0, 0, 0, poss);
+					150, 15, 10, negs, 0, 0, 0, poss);
 			sql.addLibrary(tempequip, 500);
 
 			tempequip = new Weapon("Dagger", R.drawable.weapon_rogue_0, 10, 10,
@@ -133,7 +136,7 @@ public class MainActivity extends BaseActivity {
 			sql.addLibrary(tempequip, 40);
 
 			tempequip = new Weapon("Dancing Dagger", R.drawable.weapon_rogue_2,
-					20, 20, 75, negs, 0, 0, 0, poss);
+					20, 10, 75, negs, 0, 0, 0, poss);
 			sql.addLibrary(tempequip, 70);
 
 			tempequip = new Weapon("Nunchuck", R.drawable.weapon_rogue_4, 80,
@@ -141,7 +144,7 @@ public class MainActivity extends BaseActivity {
 			sql.addLibrary(tempequip, 200);
 
 			tempequip = new Weapon("ManEater", R.drawable.weapon_rogue_6, 150,
-					30, 75, negs, 0, 0, 0, poss);
+					15, 75, negs, 0, 0, 0, poss);
 			sql.addLibrary(tempequip, 500);
 
 			negs.clear();
@@ -188,7 +191,7 @@ public class MainActivity extends BaseActivity {
 			negs.add(new NegativeEffects("Blind", 75));
 			negs.add(new NegativeEffects("Curse", 75));
 			tempequip = new Weapon("Buster Sword", R.drawable.weapon_special_1,
-					200, 50, 75, negs, 5, 5, 5, poss);
+					200, 30, 75, negs, 5, 5, 5, poss);
 			sql.addLibrary(tempequip, 5000);
 
 			// armor
@@ -258,21 +261,18 @@ public class MainActivity extends BaseActivity {
 
 	}
 
+	/**
+	 * creates the initial inventory if there was none
+	 */
 	public void addInitialItems() {
 
 		GameApplication app = (GameApplication) getApplication();
 
-		EquipCost tsword = sql.getLibrary("Mythril Sword");
+		EquipCost tsword = sql.getLibrary("Broad Sword");
 		EquipCost tdagger = sql.getLibrary("Dagger");
-		EquipCost tarmor = sql.getLibrary("Iron Armor");
-		EquipCost tshield = sql.getLibrary("Standard Shield");
-		EquipCost thelm = sql.getLibrary("Hat");
 
 		Weapon fsword = (Weapon) (tsword.getEquipment());
 		Weapon fdagger = (Weapon) (tdagger.getEquipment());
-		Armor farmor = (Armor) (tarmor.getEquipment());
-		Helmet fhelmet = (Helmet) (thelm.getEquipment());
-		Shield fshield = (Shield) (tshield.getEquipment());
 
 		app.avatar.inventory.setArmor(null);
 		app.avatar.inventory.setHelmet(null);
@@ -280,9 +280,6 @@ public class MainActivity extends BaseActivity {
 		app.avatar.inventory.setWeapon(fsword);
 
 		app.avatar.inventory.addInventory(fdagger);
-		app.avatar.inventory.addInventory(farmor);
-		app.avatar.inventory.addInventory(fhelmet);
-		app.avatar.inventory.addInventory(fshield);
 
 		sql.addInventory(app.avatar.inventory);
 	}
@@ -336,11 +333,11 @@ public class MainActivity extends BaseActivity {
 		});
 		builder.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
 
 		builder.show();
 	}

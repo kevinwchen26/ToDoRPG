@@ -103,7 +103,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().insert(Constants.TABLE_CHARACTER,
 				null, values);
 	}
-	
+
 	/**
 	 * deleteCharacter()
 	 * deletes character from the database
@@ -111,7 +111,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private void deleteCharacter() {
 		this.getReadableDatabase().delete(Constants.TABLE_CHARACTER, null, null);
 	}
-	
+
 	/**
 	 * updateCharacter(ToDoCharacter)
 	 * @param ch adds the character to the database
@@ -119,8 +119,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void updateCharacter(ToDoCharacter ch) {
 		this.addCharacter(ch);
 	}
-	
-	
+
+
 	/**
 	 * getToDos() - returns a list of ToDos for the character
 	 * @return Arraylist of all ToDos
@@ -145,10 +145,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				int difficulty = cursor.getInt(7);
 				int finished = cursor.getInt(8);
 				ToDo temp = new ToDo(my_todo, extra, primary_key);
-				
+
 				temp.setDueDate(due_month, due_date, due_hour, due_min);
 				temp.setDifficulty(difficulty);
-				
+
 				if (finished == 1) {
 					temp.setFinish();
 					completed_todos.add(temp);
@@ -189,13 +189,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("due_min", due_min);
 		values.put("difficulty", difficulty);
 		values.put("finished", finished);
-		
+
 		Log.d("[DB]", "addToDo()");
-		
+
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_TODO, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteToDo() - deletes the ToDo from the database
 	 * @param todo
@@ -203,11 +203,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean deleteToDo(ToDo todo) {
 		Log.d("[DB]", "deleteToDo()");
-		
+
 		return this.getReadableDatabase().delete(Constants.TABLE_TODO, 
 				"_id='" + todo.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateToDo() - updates the ToDo in the database
 	 * @param todo
@@ -234,13 +234,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		else 
 			finished = 0;
 		values.put("finished", finished);
-		
+
 		Log.d("[DB]", "updateToDo()");
-		
+
 		return this.getReadableDatabase().update(Constants.TABLE_TODO, values, "_id='" + todo.getKey() + "'", null) > 0;
 	}
-	
-	
+
+
 	/**
 	 * getDailies() - returns a list of dailies for the character
 	 * @return Arraylist of all dailies
@@ -321,7 +321,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		Log.d("Weekid", "" + weekid);
 		return result;
 	}
-	
+
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -334,7 +334,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_DAILIES, 
 				"_id='" + daily.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateHabit() - updates the Daily in the database
 	 * @param daily
@@ -359,7 +359,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return false;
 		return this.getReadableDatabase().update(Constants.TABLE_DAILIES, values, "_id='" + daily.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * getDailiesWeek() - returns a list of dailies for the character
 	 * @return Arraylist of all dailiesweek
@@ -424,7 +424,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_DAILIESWEEK, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteDaily() - deletes the Daily from the database
 	 * @param daily
@@ -434,7 +434,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_DAILIESWEEK, 
 				"_id='" + weekid + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateDailyWeek() updates the DailyWeek object for the Daily DB
 	 * @param weekid
@@ -506,20 +506,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		String characteristic = habit.getCharacteristic();
 		int difficulty = habit.getDifficulty();
 		int progress = habit.getProgress();
-		
+
 		ContentValues values = new ContentValues();
 		values.put("title", title);
 		values.put("extra", extra);
 		values.put("characteristic", characteristic);
 		values.put("difficulty", difficulty);
 		values.put("progress", progress);
-		
+
 		Log.d("[DB]", "addHabit()");
-		
+
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_HABITS, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteHabit() - deletes the Habit from the database
 	 * @param habit
@@ -527,11 +527,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public boolean deleteHabit(Habit habit) {
 		Log.d("[DB]", "deleteHabit()");
-		
+
 		return this.getReadableDatabase().delete(Constants.TABLE_HABITS, 
 				"_id='" + habit.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateHabit() - updates the Habit in the database
 	 * @param habit
@@ -544,12 +544,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("characteristic", habit.getCharacteristic());
 		values.put("difficulty", habit.getDifficulty());
 		values.put("progress", habit.getProgress());
-		
+
 		Log.d("[DB]", "updatesHabit()");
-		
+
 		return this.getReadableDatabase().update(Constants.TABLE_HABITS, values, "_id='" + habit.getKey() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * getRewards() - returns a list of all rewards for the character
 	 * @return Arraylist of all rewards for character
@@ -590,7 +590,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_REWARDS, null,
 				values));
 	}
-	
+
 	/**
 	 * deleteReward() - deletes the specific reward from the DB
 	 * @param reward
@@ -600,7 +600,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return this.getReadableDatabase().delete(Constants.TABLE_REWARDS, 
 				"_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updateReward() - updates the reward in the DB
 	 * @param reward
@@ -613,7 +613,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("cost", reward.getCost());
 		return this.getReadableDatabase().update(Constants.TABLE_REWARDS, values, "_id='" + reward.getPrimary_key() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * getInventory() gets the Inventory Object stored in the DB
 	 * @return Inventory object
@@ -622,28 +622,28 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		Cursor cursor = this.getReadableDatabase().query(
 				Constants.TABLE_EQUIPARMOR, null, null, null, null, null, null);
 		Armor temparmor = (Armor) getEquip(cursor, "armor");
-		
+
 		cursor = this.getReadableDatabase().query(
 				Constants.TABLE_EQUIPHELMET, null, null, null, null, null, null);
 		Helmet temphelmet = (Helmet) getEquip(cursor, "helmet");
-		
+
 		cursor = this.getReadableDatabase().query(
 				Constants.TABLE_EQUIPSHIELD, null, null, null, null, null, null);
 		Shield tempshield = (Shield) getEquip(cursor, "shield");
-		
+
 		cursor = this.getReadableDatabase().query(
 				Constants.TABLE_EQUIPWEAPON, null, null, null, null, null, null);
 		Weapon tempweapon = (Weapon) getEquip(cursor, "weapon");
-		
+
 		cursor = this.getReadableDatabase().query(
 				Constants.TABLE_EQUIPSECONDARY, null, null, null, null, null, null);
 		Weapon tempsecondary = (Weapon) getEquip(cursor, "weapon");
-		
+
 		ArrayList <RpgItem> unused = this.getUnused();
-		
+
 		if(temparmor == null && temphelmet == null && tempshield == null && tempweapon == null && tempsecondary == null && unused.isEmpty())
 			return null;
-		
+
 		Inventory tempinventory = new Inventory(temparmor, temphelmet, tempshield, tempweapon, tempsecondary, unused);
 		return tempinventory;
 	}
@@ -655,22 +655,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public int addInventory(Inventory inventory) {
 		this.deleteInventory();
-		
+
 		int temp1 = this.addEquip(inventory.getArmor(), false);
 		int temp2 = this.addEquip(inventory.getHelmet(), false);
 		int temp3 = this.addEquip(inventory.getShield(), false);
 		int temp4 = this.addEquip(inventory.getWeapon(), false);
 		int temp5 = this.addEquip(inventory.getSecondary(), true);
-		
+
 		this.addUnused(inventory.getInventoryItems());
-		
+
 		if(temp1 == -1 || temp2 == -1 || temp3 == -1 || temp4 == -1 || temp5 == -1)
 			return -1;
 		else
 			return 0;
-		
+
 	}
-	
+
 	/**
 	 * deleteInventory()
 	 * deletes the Inventory for the character
@@ -683,7 +683,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		this.getReadableDatabase().delete(Constants.TABLE_EQUIPWEAPON, null, null);
 		this.getReadableDatabase().delete(Constants.TABLE_EQUIPSECONDARY, null, null);
 	}
-	
+
 	/**
 	 * updateInventory() updates the Inventory
 	 * @param inventory
@@ -691,7 +691,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void updateInventory(Inventory inventory) {
 		this.addInventory(inventory);
 	}
-	
+
 	/**
 	 * getUnused() helper function used to get the unused Inventory list
 	 * @return Arraylist of RPGItems
@@ -727,7 +727,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 					negs.add(new NegativeEffects(tempeffect, temppercent));
 					negEffects = negEffects.substring(tempcomma + 1);
 				}
-				
+
 				ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 				while(!posEffects.equals(""))
 				{
@@ -736,7 +736,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 					poss.add(new PositiveEffects(tempeffect));
 					posEffects = posEffects.substring(tempcomma + 1);
 				}
-						
+
 				RpgItem tempitem = null;
 				if(type == 1)
 					tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
@@ -800,19 +800,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			values.put("evasion", item.getEvasion());
 			values.put("accuracy", item.getAccuracy());
 			values.put("posEffects", positives);
-			
+
 			this.getReadableDatabase().insert(Constants.TABLE_INVENTORY, null, values);
-				
+
 		}
 	}
-	
+
 	/**
 	 * deletes the Unused
 	 */
 	private void deleteUnused() {
 		this.getReadableDatabase().delete(Constants.TABLE_INVENTORY, null, null);
 	}
-	
+
 	/**
 	 * updateUnused() updates the unused inventory 
 	 * @param inventory
@@ -822,7 +822,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		this.addUnused(inventory);
 	}
 
-	
+
 	/**
 	 * getEquip() private helper function that gets the equipment from the DB
 	 * @param cursor
@@ -855,7 +855,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				negs.add(new NegativeEffects(tempeffect, temppercent));
 				negEffects = negEffects.substring(tempcomma + 1);
 			}
-			
+
 			ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 			while(!posEffects.equals(""))
 			{
@@ -864,7 +864,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				poss.add(new PositiveEffects(tempeffect));
 				posEffects = posEffects.substring(tempcomma + 1);
 			}
-					
+
 			Equipment tempitem = null;
 			if(equip.equals("armor"))
 				tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
@@ -916,8 +916,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("evasion", item.getEvasion());
 		values.put("accuracy", item.getAccuracy());
 		values.put("posEffects", positives);
-		
-		
+
+
 		if(item instanceof Armor)
 			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPARMOR, null, values));
 		else if(item instanceof Helmet)
@@ -929,7 +929,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		else 
 			return (int) (this.getReadableDatabase().insert(Constants.TABLE_EQUIPSECONDARY, null, values));
 	}
-	
+
 	/**
 	 * getLibraryAll() returns all the items in the library
 	 * @return
@@ -966,7 +966,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 					negs.add(new NegativeEffects(tempeffect, temppercent));
 					negEffects = negEffects.substring(tempcomma + 1);
 				}
-				
+
 				ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 				while(!posEffects.equals(""))
 				{
@@ -975,7 +975,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 					poss.add(new PositiveEffects(tempeffect));
 					posEffects = posEffects.substring(tempcomma + 1);
 				}
-						
+
 				Equipment tempitem = null;
 				if(type == 1)
 					tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
@@ -994,7 +994,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return eqlist;
 		}
 	}
-	
+
 	/**
 	 * gets a specific item from the library
 	 * 
@@ -1031,7 +1031,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				negs.add(new NegativeEffects(tempeffect, temppercent));
 				negEffects = negEffects.substring(tempcomma + 1);
 			}
-			
+
 			ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
 			while(!posEffects.equals(""))
 			{
@@ -1040,7 +1040,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 				poss.add(new PositiveEffects(tempeffect));
 				posEffects = posEffects.substring(tempcomma + 1);
 			}
-					
+
 			Equipment tempitem = null;
 			if(type == 1)
 				tempitem = new Armor(name, resid, damage, critical, multihit, negs, damagereduction, evasion, 
@@ -1101,21 +1101,21 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("accuracy", item.getAccuracy());
 		values.put("posEffects", positives);
 		values.put("cost", cost);
-		
+
 		return (int) (this.getReadableDatabase().insert(Constants.TABLE_LIBRARY, null, values));
 	}
-	
+
 	/**
 	 * deleteLibrary() deletes a specific library from the DB
 	 * @param text
 	 * @return
 	 */
 	public boolean deleteLibrary(String text) {
-		
+
 		return this.getReadableDatabase().delete(Constants.TABLE_LIBRARY, 
 				"name='" + text + "'", null) > 0;
 	}
-	
+
 	/**
 	 * updates the Library of a specific Equipment
 	 * @param item
@@ -1159,10 +1159,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		values.put("accuracy", item.getAccuracy());
 		values.put("posEffects", positives);
 		values.put("cost", cost);
-		
+
 		return this.getReadableDatabase().update(Constants.TABLE_LIBRARY , values, "name='" + item.getName() + "'", null) > 0;
 	}
-	
+
 	/**
 	 * addStat() adds a stat to the Database
 	 * @param stat
@@ -1250,7 +1250,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return log;
 		}
 	}
-	
+
 	/**
 	 * helper function that changes an into the a booolean
 	 * @param tempint
@@ -1261,7 +1261,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return true;
 		return false;
 	}
-	
+
 	/**
 	 * helper function that changes a boolean to an int
 	 * @param tempbool

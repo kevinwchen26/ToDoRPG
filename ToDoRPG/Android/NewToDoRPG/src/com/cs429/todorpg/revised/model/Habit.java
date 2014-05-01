@@ -13,13 +13,13 @@ public class Habit {
 	private int NORMAL = R.color.normal;		//0 - 3
 	private int BAD = R.color.bad;			//-1 - -4
 	private int VERY_BAD = R.color.very_bad;	//-5 - 8
-	
+
 	/*variable in habit*/
 	private String my_habit;
 	private String extra;
 	private int primary_key;
 	private int progress;
-	
+
 	private String characteristic;	//+: good, -: bad, +-: both, NA: none or not available
 	private int difficulty;	//0 - easy / 1 - medium / 2 - hard
 
@@ -30,6 +30,12 @@ public class Habit {
 		characteristic = "+-";	//default set both
 	}
 
+	/**
+	 * Habit Constructor
+	 * @param my_habit
+	 * @param extra
+	 * @param primary_key
+	 */
 	public Habit(String my_habit, String extra, int primary_key) {
 		this.setHabit(my_habit);
 		this.setExtra(extra);
@@ -39,6 +45,10 @@ public class Habit {
 		characteristic = "+-";	//default set both
 	}
 
+	/**
+	 * Setters and getters for various variables in object
+	 * @return
+	 */
 	public String getHabit() {
 		return my_habit;
 	}
@@ -64,31 +74,23 @@ public class Habit {
 	public void setKey(int primary_key) {
 		this.primary_key = primary_key;
 	}
-	
-	public boolean equals(Object o) {
-		Habit habit = (Habit) o;
-		return (this.primary_key == habit.getKey()
-				&& this.my_habit.equals(habit.getHabit()) && this.extra
-					.equals(habit.getExtra()) && this.progress == habit.getProgress()
-					&& this.getCharacteristic().equals(habit.getCharacteristic()) && this.getDifficulty() == habit.getDifficulty());
-	}
 
 	public void setProgress(int progress){
 		this.progress = progress;
 	}
-	
+
 	public int getProgress(){
 		return progress;
 	}
-	
+
 	public void plus_change(){
 		progress++;
 	}
-	
+
 	public void minus_change(){
 		progress--;
 	}
-	
+
 	/**
 	 * private String VERY_GOOD = "#4682b4";	//8 - 11
 	private String GOOD = "#7dff23";		//4 - 7
@@ -96,7 +98,7 @@ public class Habit {
 	private String BAD = "#ff6347";			//-1 - -4
 	private String VERY_BAD = "#720000";	//-5 - 8
 	 */
-	
+
 	public int getStatus(){
 		//very bad
 		if(progress < -4){
@@ -124,17 +126,17 @@ public class Habit {
 			return VERY_GOOD;
 		}
 	}
-	
+
 	public void setCharacteristic(String character){
 		this.characteristic = character;
 	}
 	public String getCharacteristic(){
 		if(this.characteristic == null)
 			this.characteristic = "+-";
-		
+
 		return this.characteristic;
 	}
-	
+
 	public void setDifficulty(int difficult){
 		if(difficult < 0 || difficult > 2){
 			Log.e("[Habit]", "invalid difficulty");
@@ -144,5 +146,13 @@ public class Habit {
 	}
 	public int getDifficulty(){
 		return difficulty;
+	}
+
+	public boolean equals(Object o) {
+		Habit habit = (Habit) o;
+		return (this.primary_key == habit.getKey()
+				&& this.my_habit.equals(habit.getHabit()) && this.extra
+				.equals(habit.getExtra()) && this.progress == habit.getProgress()
+				&& this.getCharacteristic().equals(habit.getCharacteristic()) && this.getDifficulty() == habit.getDifficulty());
 	}
 }
