@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Shop {
 
-	private ArrayList<RpgItem> shopItems;
+	private ArrayList<EquipCost> shopItems;
 
 	public Shop() {
-		this.shopItems = new ArrayList<RpgItem>();
+		this.shopItems = new ArrayList<EquipCost>();
 	}
 
-	public Shop(ArrayList<RpgItem> shopItems) {
+	public Shop(ArrayList<EquipCost> shopItems) {
 		super();
 		this.shopItems = shopItems;
 	}
@@ -18,25 +18,25 @@ public class Shop {
 	/*
 	 * GETTERS & SETTERS
 	 */
-	public ArrayList<RpgItem> getShopItems() {
+	public ArrayList<EquipCost> getShopItems() {
 		return shopItems;
 	}
 
-	public void setShopItems(ArrayList<RpgItem> shopItems) {
+	public void setShopItems(ArrayList<EquipCost> shopItems) {
 		this.shopItems = shopItems;
 	}
 
 	// Item setting for shop
 
-	public void addItem(RpgItem i){
+	public void addItem(EquipCost i){
 		this.shopItems.add(i);
 	}
 
-	public RpgItem removeItem(int i) {
+	public EquipCost removeItem(int i) {
 		return this.shopItems.remove(i);
 	}
 
-	public RpgItem getItem(int i) {
+	public EquipCost getItem(int i) {
 		return this.shopItems.get(i);
 	}
 }

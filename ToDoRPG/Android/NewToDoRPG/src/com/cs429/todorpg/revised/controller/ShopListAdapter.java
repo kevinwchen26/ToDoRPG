@@ -2,10 +2,6 @@ package com.cs429.todorpg.revised.controller;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.GameApplication;
-import com.cs429.todorpg.revised.R;
-import com.cs429.todorpg.revised.itemsystem.RpgItem;
-
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -15,12 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ShopListAdapter extends ArrayAdapter<RpgItem> {
+import com.cs429.todorpg.revised.GameApplication;
+import com.cs429.todorpg.revised.R;
+import com.cs429.todorpg.revised.itemsystem.EquipCost;
+import com.cs429.todorpg.revised.itemsystem.RpgItem;
+
+public class ShopListAdapter extends ArrayAdapter<EquipCost> {
 	private final Context context;
-	private final ArrayList<RpgItem> shopItems;
+	private final ArrayList<EquipCost> shopItems;
 	private int layout;
 
-	public ShopListAdapter(Context context, int layoutResourceId, ArrayList<RpgItem> shopItems) {
+	public ShopListAdapter(Context context, int layoutResourceId, ArrayList<EquipCost> shopItems) {
 		super(context, layoutResourceId, shopItems);
 		this.context = context;
 		this.shopItems = shopItems;
@@ -33,16 +34,16 @@ public class ShopListAdapter extends ArrayAdapter<RpgItem> {
 		LayoutInflater inflater = (LayoutInflater) context
 			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		RpgItem shopItem = shopItems.get(position);
+		EquipCost shopItem = shopItems.get(position);
 		View rowView = inflater.inflate(layout, parent, false);
 		
 		// Set Name
 		TextView name = (TextView) rowView.findViewById(R.id.shop_item_name);
-		name.setText(shopItem.getName());
+		name.setText(shopItem.getEquipment().getName());
 	
 		// Set Image Icon
 		ImageView icon = (ImageView)rowView.findViewById(R.id.shop_img_icon);
-		icon.setImageBitmap(BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), shopItem.getResId()));
+		icon.setImageBitmap(BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), shopItem.getEquipment().getResId()));
 		return rowView;
 	}
 }

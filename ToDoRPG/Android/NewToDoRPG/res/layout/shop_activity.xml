@@ -23,6 +23,18 @@
         android:text="@string/shop"
         />
     
+     <TextView
+        android:id="@+id/shop_gold"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        
+        android:layout_marginTop="5dp"
+        
+        android:textSize="20sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="@string/shop"
+        />
+    
     <!--  Shop List -->
     <RelativeLayout
         android:layout_width="fill_parent"

@@ -19,10 +19,59 @@
     </LinearLayout>
     
     <TextView
-        android:id="@+id/item_info_text"
+        android:id="@+id/item_info_damage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/item_info_image_container"/>
+    
+    <TextView
+        android:id="@+id/item_info_critical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_info_image_container"
+        android:layout_below="@+id/item_info_damage"/>
+    
+     <TextView
+        android:id="@+id/item_info_multi"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_info_image_container"
+        android:layout_below="@+id/item_info_critical"/>
+     
+     <TextView
+        android:id="@+id/item_info_defense"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_info_image_container"
+        android:layout_below="@+id/item_info_multi"/>
+     
+     <TextView
+        android:id="@+id/item_info_evasion"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_info_image_container"
+        android:layout_below="@+id/item_info_defense"/>
+     
+     <TextView
+        android:id="@+id/item_info_accuracy"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_info_image_container"
+        android:layout_below="@+id/item_info_evasion"/>
+     
+     <TextView
+        android:id="@+id/item_info_effects"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_info_image_container"
+        android:layout_below="@+id/item_info_accuracy"/>
+    
+    <TextView
+        android:id="@+id/item_info_cost"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_info_image_container"
+        android:layout_below="@+id/item_info_effects"/>
  
      <Button
         android:id="@+id/item_info_dialog_button"
