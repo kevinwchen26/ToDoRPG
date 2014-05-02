@@ -1,21 +1,24 @@
 package com.cs429.todorpg.revised.utils;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs429.todorpg.revised.R;
+import com.cs429.todorpg.revised.model.ToDoCharacter;
 
 /**
  * 
  * @author kchen26, hlim10
- *
+ * 
  */
 public class Constants {
 	/*
 	 * DB INFO
 	 */
+	private static String change;
 	static String DATABASE_NAME = "TODO_DB"; // Name of DB
 	static int DATABASE_VERSION = 2; // DB version
 
@@ -57,14 +60,90 @@ public class Constants {
 	static final String LOG_TABLE_CREATE = "create table log(_id integer primary key autoincrement, content text not null unique, date text not null)";
 	static final String STAT_TABLE_CREATE = "create table stat(_id integer primary key autoincrement, name text not null unique, count int not null)";
 
-	
-	public static void ToastMessage(Context context, View view, String change) {
-		TextView text = (TextView) view.findViewById(R.id.textView2);
-	    text.setText(change);
-	    Toast toast = new Toast(context);
-	    toast.setView(view);
-	    toast.setDuration(Toast.LENGTH_LONG);
-	    toast.show();
+	public static void UpdateCharacterStatus(SQLiteHelper db, int difficulty,
+			Context context, int sign) {
+		ToDoCharacter character = db.getCharacter();
+		switch (difficulty) {
+		case 0:
+			if (sign == 1) {
+				change = "Earned [EXP: 10], [GOLD: 10]";
+				character = new ToDoCharacter(character.getName(),
+						character.getGold() + 10, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 10,
+						character.getNextExp() - 10);
+			} else {
+				change = "Lost [EXP: 10], [GOLD: 10]";
+				character = new ToDoCharacter(character.getName(),
+						character.getGold() - 10, character.getHP(),
+						character.getLevel(), character.getCurrExp() - 10,
+						character.getNextExp() + 10);
+			}
+			break;
+		case 1:
+			if (sign == 1) {
+				change = "Earned [EXP: 20], [GOLD: 20]";
+				character = new ToDoCharacter(character.getName(),
+						character.getGold() + 20, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 20,
+						character.getNextExp() - 20);
+			} else {
+				change = "Lost [EXP: 20], [GOLD: 20]";
+				character = new ToDoCharacter(character.getName(),
+						character.getGold() - 20, character.getHP(),
+						character.getLevel(), character.getCurrExp() - 20,
+						character.getNextExp() + 20);
+			}
+			break;
+		case 2:
+			if (sign == 1) {
+				change = "Earned [EXP: 30], [GOLD: 30]";
+				character = new ToDoCharacter(character.getName(),
+						character.getGold() + 30, character.getHP(),
+						character.getLevel(), character.getCurrExp() + 30,
+						character.getNextExp() - 30);
+			} else {
+				change = "Lost [EXP: 30], [GOLD: 30]";
+				character = new ToDoCharacter(character.getName(),
+						character.getGold() - 30, character.getHP(),
+						character.getLevel(), character.getCurrExp() - 30,
+						character.getNextExp() + 30);
+			}
+			break;
+		}
+		if (character.getCurrExp() >= character.getLevel() * 100) {
+			change = "LEVEL UP";
+			character.setLevel(character.getLevel() + 1);
+			character.setCurrExp(0);
+			character.setHP(character.getHP() + 20);
+		} else if (character.getLevel() == 1 && character.getCurrExp() < 0) {
+			character.setCurrExp(0);
+		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
+			change = "LEVEL DOWN";
+			character.setLevel(character.getLevel() - 1);
+			character.setHP(character.getHP() - 20);
+			character.setCurrExp(character.getLevel() * 100);
+			if (character.getHP() < 100)
+				character.setHP(100);
+
+		}
+		if (character.getGold() < 0)
+			character.setGold(0);
+
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toast, null);
+		Constants.ToastMessage(context, view, change);
+		db.updateCharacter(character);
+		// character = new ToDoCharacter(character.getGold(), HP, level,
+		// currentEXP, nextEXP)
 	}
 
+	public static void ToastMessage(Context context, View view, String change) {
+		TextView text = (TextView) view.findViewById(R.id.textView2);
+		text.setText(change);
+		Toast toast = new Toast(context);
+		toast.setView(view);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.show();
+	}
 }

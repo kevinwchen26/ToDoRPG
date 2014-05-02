@@ -128,7 +128,7 @@ public class HabitAdapter extends BaseAdapter  {
 					// Toast.makeText(context, "Good",
 					// Toast.LENGTH_SHORT).show();
 					onehabit.plus_change();
-					UpdateCharacterStatus(1);
+					Constants.UpdateCharacterStatus(db, difficulty, context, 1);
 					Log.d("[HABIT]", "progress: " + onehabit.getProgress());
 					good_button.setBackgroundResource(onehabit.getStatus());
 					bad_button.setBackgroundResource(onehabit.getStatus());
@@ -142,7 +142,7 @@ public class HabitAdapter extends BaseAdapter  {
 					// Toast.makeText(context, "Bad",
 					// Toast.LENGTH_SHORT).show();
 					onehabit.minus_change();
-					UpdateCharacterStatus(2);
+					Constants.UpdateCharacterStatus(db, difficulty, context, 2);
 					Log.d("[HABIT]", "progress: " + onehabit.getProgress());
 					good_button.setBackgroundResource(onehabit.getStatus());
 					bad_button.setBackgroundResource(onehabit.getStatus());
@@ -360,81 +360,4 @@ public class HabitAdapter extends BaseAdapter  {
 
 		return returnView;
 	}
-
-	private void UpdateCharacterStatus(int sign) {
-		ToDoCharacter character = db.getCharacter();
-		switch (difficulty) {
-		case 0:
-			if (sign == 1) {
-				change = "Earned [EXP: 10], [GOLD: 10]";
-				character = new ToDoCharacter(character.getName(),
-						character.getGold() + 10, character.getHP(),
-						character.getLevel(), character.getCurrExp() + 10,
-						character.getNextExp() - 10);
-			} else {
-				change = "Lost [EXP: 10], [GOLD: 10]";
-				character = new ToDoCharacter(character.getName(),
-						character.getGold() - 10, character.getHP(),
-						character.getLevel(), character.getCurrExp() - 10,
-						character.getNextExp() + 10);
-			}
-			break;
-		case 1:
-			if(sign == 1) {
-				change = "Earned [EXP: 20], [GOLD: 20]";
-				character = new ToDoCharacter(character.getName(),
-						character.getGold() + 20, character.getHP(),
-						character.getLevel(), character.getCurrExp() + 20,
-						character.getNextExp() - 20);
-			} else {
-				change = "Lost [EXP: 20], [GOLD: 20]";
-				character = new ToDoCharacter(character.getName(),
-						character.getGold() - 20, character.getHP(),
-						character.getLevel(), character.getCurrExp() - 20,
-						character.getNextExp() + 20);
-			}
-			break;
-		case 2:
-			if(sign == 1) {
-				change = "Earned [EXP: 30], [GOLD: 30]";
-				character = new ToDoCharacter(character.getName(),
-						character.getGold() + 30, character.getHP(),
-						character.getLevel(), character.getCurrExp() + 30,
-						character.getNextExp() - 30);
-			} else {
-				change = "Lost [EXP: 30], [GOLD: 30]";
-				character = new ToDoCharacter(character.getName(),
-						character.getGold() - 30, character.getHP(),
-						character.getLevel(), character.getCurrExp() - 30,
-						character.getNextExp() + 30);
-			}
-			break;
-		}
-		if (character.getCurrExp() >= character.getLevel() * 100) {
-			change = "LEVEL UP";
-			character.setLevel(character.getLevel() + 1);
-			character.setCurrExp(0);
-			character.setHP(character.getHP() + 20);
-		} else if(character.getLevel() == 1 && character.getCurrExp() < 0) {
-			character.setCurrExp(0);
-		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
-			change = "LEVEL DOWN";
-			character.setLevel(character.getLevel() - 1);
-			character.setHP(character.getHP() - 20);
-			character.setCurrExp(character.getLevel() * 100);
-			if(character.getHP() < 100)
-				character.setHP(100);
-			
-		}
-		if(character.getGold() < 0) 
-			character.setGold(0);
-		
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View view = inflater.inflate(R.layout.toast, null);
-	    Constants.ToastMessage(context, view, change);
-		db.updateCharacter(character);
-		// character = new ToDoCharacter(character.getGold(), HP, level,
-		// currentEXP, nextEXP)
-	}
-
 }

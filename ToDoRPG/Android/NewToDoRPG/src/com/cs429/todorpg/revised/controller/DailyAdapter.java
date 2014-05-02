@@ -21,7 +21,7 @@ import com.cs429.todorpg.revised.BaseActivity;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.LogItem;
-import com.cs429.todorpg.revised.model.ToDoCharacter;
+import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
  * 
@@ -113,7 +113,7 @@ public class DailyAdapter extends BaseAdapter{
 				
 				if(day.getBooleanStatus()){
 					check_button.setText(R.string.check);
-					UpdateCharacterStatus();
+					Constants.UpdateCharacterStatus(db, difficulty, context, 1);
 					BaseActivity.TextValidate();
 					edit_button.setClickable(false);
 					edit_button.setFocusable(false);
@@ -416,40 +416,4 @@ public class DailyAdapter extends BaseAdapter{
 		
 		return convertView;
 	}
-	private void UpdateCharacterStatus() {
-		ToDoCharacter character = db.getCharacter();
-		switch(difficulty) {
-			case 0:
-				character = new ToDoCharacter(character.getName(), character.getGold() + 10, character.getHP(),
-						character.getLevel(), character.getCurrExp() + 10, character.getNextExp()- 10);
-				break;
-			case 1:
-				character = new ToDoCharacter(character.getName(), character.getGold() + 20, character.getHP(),
-						character.getLevel(), character.getCurrExp() + 20, character.getNextExp()- 20);
-				break;
-			case 2:
-				character = new ToDoCharacter(character.getName(), character.getGold() + 30, character.getHP(),
-						character.getLevel(), character.getCurrExp() + 40, character.getNextExp()- 30);
-				break;
-		}
-		if (character.getCurrExp() >= character.getLevel() * 100) {
-			character.setLevel(character.getLevel() + 1);
-			character.setCurrExp(0);
-			character.setHP(character.getHP() + 20);
-		} else if(character.getLevel() == 1 && character.getCurrExp() < 0) {
-			character.setCurrExp(0);
-		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
-			character.setLevel(character.getLevel() - 1);
-			character.setHP(character.getHP() - 20);
-			character.setCurrExp(character.getLevel() * 100);
-			if(character.getHP() < 100)
-				character.setHP(100);
-			
-		}
-		if(character.getGold() < 0) 
-			character.setGold(0);
-		db.updateCharacter(character);
-//		character = new ToDoCharacter(character.getGold(), HP, level, currentEXP, nextEXP)
-	}
-	
 }
