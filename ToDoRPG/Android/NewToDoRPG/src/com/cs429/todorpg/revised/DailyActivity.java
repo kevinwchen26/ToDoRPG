@@ -20,7 +20,11 @@ import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.service.AlarmReceiver;
 
-
+/**
+ * 
+ * @author hlim10, ssong25
+ *
+ */
 public class DailyActivity extends BaseActivity {
 	private EditText add_daily_field;
 	private CheckBox alarm_check;

@@ -27,7 +27,7 @@ import android.widget.TextView;
  * This class sets the calendar view and simple task handling
  * for clicking the corresponding day button moves onto the day view
  * 
- * @author Seong wan Song, Dong min Shin
+ * @author ssong25, hlim10
  *
  */
 public class CalendarView extends Activity implements OnClickListener{

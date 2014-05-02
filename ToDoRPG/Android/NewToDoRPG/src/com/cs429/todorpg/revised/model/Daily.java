@@ -3,7 +3,11 @@ package com.cs429.todorpg.revised.model;
 import android.util.Log;
 
 import com.cs429.todorpg.revised.R;
-
+/**
+ * 
+ * @author hlim10, ssong25
+ *
+ */
 public class Daily extends Quest {
 
 	/* status */

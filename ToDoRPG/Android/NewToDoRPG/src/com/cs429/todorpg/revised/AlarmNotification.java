@@ -19,7 +19,11 @@ import com.cs429.todorpg.revised.controller.DailyAdapter;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * 
+ * @author hlim10, ssong25
+ *
+ */
 public class AlarmNotification extends Activity {
 	private ListView finished_list, missed_list;
 	private SQLiteHelper db;

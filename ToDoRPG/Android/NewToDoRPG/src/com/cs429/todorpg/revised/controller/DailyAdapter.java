@@ -23,7 +23,11 @@ import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * 
+ * @author hlim10, ssong25
+ *
+ */
 public class DailyAdapter extends BaseAdapter{
 	
 	private Context context;

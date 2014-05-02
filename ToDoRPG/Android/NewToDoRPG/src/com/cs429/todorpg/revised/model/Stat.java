@@ -1,5 +1,9 @@
 package com.cs429.todorpg.revised.model;
-
+/**
+ * 
+ * @author kchen26, hlim10
+ *
+ */
 public class Stat {
 
 	private String name;

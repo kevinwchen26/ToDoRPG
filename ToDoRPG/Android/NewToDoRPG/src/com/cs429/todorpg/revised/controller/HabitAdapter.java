@@ -20,7 +20,11 @@ import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * 
+ * @author hlim10, ssong25
+ *
+ */
 public class HabitAdapter extends BaseAdapter  {
 	private Context context;
 	private ArrayList<Habit> habit;

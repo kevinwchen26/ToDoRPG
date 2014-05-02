@@ -19,7 +19,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * @author Leon Chen
+ * @author Leon Chen edited by hlim10, kchen26
  * 
  */
 public class SQLiteHelper extends SQLiteOpenHelper {

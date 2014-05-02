@@ -15,7 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+/**
+ * 
+ * @author kchen26, hlim10
+ *
+ */
 public class StatAdapter extends BaseAdapter {
 
 	private Context context;

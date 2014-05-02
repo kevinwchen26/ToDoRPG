@@ -13,7 +13,11 @@ import android.widget.Toast;
 import com.cs429.todorpg.revised.controller.HabitAdapter;
 import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * 
+ * @author hlim10, ssong25
+ *
+ */
 public class HabitActivity extends BaseActivity {
 	private EditText add_habit_field;
 	private ListView habit_list;

@@ -1,5 +1,9 @@
 package com.cs429.todorpg.revised.utils;
-
+/**
+ * 
+ * @author kchen26, hlim10
+ *
+ */
 public class Constants {
 	/*
 	 * DB INFO

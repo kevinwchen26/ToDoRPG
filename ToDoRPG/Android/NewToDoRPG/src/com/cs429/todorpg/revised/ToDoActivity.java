@@ -18,7 +18,11 @@ import com.cs429.todorpg.revised.controller.ToDoAdapter;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * 
+ * @author hlim10, ssong25
+ *
+ */
 public class ToDoActivity extends BaseActivity {
 	private EditText add_todo_field;
 	private ListView todo_list;

@@ -18,7 +18,11 @@ import com.cs429.todorpg.revised.controller.ToDoAdapter;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * 
+ * @author hlim10, kchen26
+ *
+ */
 public class StatusActivity extends BaseActivity {
 	TextView current_level, current_hp, current_exp, completed_quests,
 			current_money, total_battles;

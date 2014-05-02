@@ -30,7 +30,11 @@ import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * 
+ * @author kchen26, hlim10
+ *
+ */
 public class MainActivity extends BaseActivity {
 
 	Intent intent;
