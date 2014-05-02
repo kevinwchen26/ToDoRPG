@@ -1,4 +1,12 @@
 package com.cs429.todorpg.revised.utils;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.cs429.todorpg.revised.R;
+
 /**
  * 
  * @author kchen26, hlim10
@@ -48,4 +56,15 @@ public class Constants {
 	static final String HABITS_TABLE_CREATE = "create table habits(_id integer primary key autoincrement, title text not null unique, extra text not null, characteristic text not null, difficulty int not null, progress int not null)";
 	static final String LOG_TABLE_CREATE = "create table log(_id integer primary key autoincrement, content text not null unique, date text not null)";
 	static final String STAT_TABLE_CREATE = "create table stat(_id integer primary key autoincrement, name text not null unique, count int not null)";
+
+	
+	public static void ToastMessage(Context context, View view, String change) {
+		TextView text = (TextView) view.findViewById(R.id.textView2);
+	    text.setText(change);
+	    Toast toast = new Toast(context);
+	    toast.setView(view);
+	    toast.setDuration(Toast.LENGTH_LONG);
+	    toast.show();
+	}
+
 }

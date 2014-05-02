@@ -25,6 +25,7 @@ import com.cs429.todorpg.revised.ToDoActivity;
 import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
+import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
  * 
@@ -293,13 +294,7 @@ public class ToDoAdapter extends BaseAdapter{
 		}
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View view = inflater.inflate(R.layout.toast, null);
-	    TextView text = (TextView) view.findViewById(R.id.textView2);
-	    text.setText(change);
-	    Toast toast = new Toast(context);
-	    toast.setView(view);
-	    toast.setDuration(Toast.LENGTH_LONG);
-	    toast.show();
-		
+	    Constants.ToastMessage(context, view, change);
 		db.updateCharacter(character);
 //		character = new ToDoCharacter(character.getGold(), HP, level, currentEXP, nextEXP)
 	}

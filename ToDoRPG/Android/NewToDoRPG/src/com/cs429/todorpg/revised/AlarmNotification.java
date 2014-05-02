@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.cs429.todorpg.revised.controller.DailyAdapter;
 import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
+import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
  * 
@@ -27,6 +28,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 public class AlarmNotification extends Activity {
 	private ListView finished_list, missed_list;
 	private SQLiteHelper db;
+	private Context context;
 	String change;
 	ArrayList<Daily> finished_arr, missed_arr;
 	private DailyAdapter finished_adapter, missed_adapter;
@@ -45,6 +47,7 @@ public class AlarmNotification extends Activity {
 						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		findViewById();
 		init();
+		this.context = this;
 		db = new SQLiteHelper(this);
 		getData();
 	}
@@ -99,14 +102,8 @@ public class AlarmNotification extends Activity {
 			character.setGold(0);
 		
 		LayoutInflater inflater = getLayoutInflater();
-	    View view = inflater.inflate(R.layout.toast,
-	                                   (ViewGroup) findViewById(R.id.relativeLayout1));
-	    TextView text = (TextView) view.findViewById(R.id.textView2);
-	    text.setText(change);
-	    Toast toast = new Toast(this);
-	    toast.setView(view);
-	    toast.setDuration(Toast.LENGTH_LONG);
-	    toast.show();
+	    View view = inflater.inflate(R.layout.toast, (ViewGroup) findViewById(R.id.relativeLayout1));
+	    Constants.ToastMessage(context, view, change);
 		db.updateCharacter(character);
 	}
 
