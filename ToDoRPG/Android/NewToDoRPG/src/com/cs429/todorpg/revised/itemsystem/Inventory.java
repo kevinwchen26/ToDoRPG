@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.cs429.todorpg.revised.Avatar;
 import com.cs429.todorpg.revised.GameApplication;
@@ -36,6 +35,7 @@ public class Inventory implements Serializable {
 
 	/**
 	 * Constructor for inventory
+	 * 
 	 * @param armor
 	 * @param helmet
 	 * @param shield
@@ -43,7 +43,8 @@ public class Inventory implements Serializable {
 	 * @param secondary
 	 * @param equipmentItems
 	 */
-	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon, Weapon secondary, ArrayList<RpgItem> equipmentItems) {
+	public Inventory(Armor armor, Helmet helmet, Shield shield, Weapon weapon,
+			Weapon secondary, ArrayList<RpgItem> equipmentItems) {
 		this.armor = armor;
 		this.helmet = helmet;
 		this.shield = shield;
@@ -51,25 +52,25 @@ public class Inventory implements Serializable {
 		this.secondary = secondary;
 		if (equipmentItems != null) {
 			this.inventoryItems = equipmentItems;
-		}
-		else {
+		} else {
 			this.inventoryItems = new ArrayList<RpgItem>();
 		}
 	}
 
 	/**
 	 * various helpers for inventory
+	 * 
 	 * @param e
 	 */
-	public void addInventory (RpgItem e) {
+	public void addInventory(RpgItem e) {
 		inventoryItems.add(e);
 	}
 
-	public void removeInventory (int index) {
+	public void removeInventory(int index) {
 		inventoryItems.remove(index);
 	}
 
-	public int numInventory () {
+	public int numInventory() {
 		return inventoryItems.size();
 	}
 
@@ -83,6 +84,7 @@ public class Inventory implements Serializable {
 
 	/**
 	 * various getters and setters for Object
+	 * 
 	 * @return
 	 */
 	public Armor getArmor() {
@@ -126,7 +128,8 @@ public class Inventory implements Serializable {
 	}
 
 	/**
-	 * boolean methods 
+	 * boolean methods
+	 * 
 	 * @return
 	 */
 	public boolean isArmorSet() {
@@ -151,71 +154,72 @@ public class Inventory implements Serializable {
 
 	/**
 	 * Function handles item equipping
+	 * 
 	 * @param item
 	 */
 	public void equipItem(int position, boolean second) {
 		RpgItem item = inventoryItems.get(position);
 		if (item instanceof Helmet) {
-			if (this.helmet == null) { // just equip item, you don't have anything on
+			if (this.helmet == null) { // just equip item, you don't have
+				// anything on
 				this.helmet = (Helmet) item;
 				inventoryItems.remove(position);
-			}
-			else { // store currently equipped item in inventory, equip new item
+			} else { // store currently equipped item in inventory, equip new
+				// item
 				Helmet temp = this.helmet;
-				this.helmet = (Helmet)item;
+				this.helmet = (Helmet) item;
 				inventoryItems.remove(position);
 				inventoryItems.add(temp);
 			}
-		}
-		else if (item instanceof Weapon && !second) {
-			if (this.weapon == null) { // just equip item, you don't have anything on
+		} else if (item instanceof Weapon && !second) {
+			if (this.weapon == null) { // just equip item, you don't have
+				// anything on
 				this.weapon = (Weapon) item;
 				inventoryItems.remove(position);
-			}
-			else { // store currently equipped item in inventory, equip new item
+			} else { // store currently equipped item in inventory, equip new
+				// item
 				Weapon temp = this.weapon;
-				this.weapon = (Weapon)item;
+				this.weapon = (Weapon) item;
 				inventoryItems.remove(position);
 				inventoryItems.add(temp);
 			}
-		}
-		else if (item instanceof Weapon && second) {
-			if (this.secondary == null) { // just equip item, you don't have anything on
+		} else if (item instanceof Weapon && second) {
+			if (this.secondary == null) { // just equip item, you don't have
+				// anything on
 				this.secondary = (Weapon) item;
 				inventoryItems.remove(position);
-			}
-			else { // store currently equipped item in inventory, equip new item
+			} else { // store currently equipped item in inventory, equip new
+				// item
 				Weapon temp = this.secondary;
-				this.secondary = (Weapon)item;
+				this.secondary = (Weapon) item;
 				inventoryItems.remove(position);
 				inventoryItems.add(temp);
 			}
-		}
-		else if (item instanceof Shield) {
-			if (this.shield == null) { // just equip item, you don't have anything on
+		} else if (item instanceof Shield) {
+			if (this.shield == null) { // just equip item, you don't have
+				// anything on
 				this.shield = (Shield) item;
 				inventoryItems.remove(position);
-			}
-			else { // store currently equipped item in inventory, equip new item
+			} else { // store currently equipped item in inventory, equip new
+				// item
 				Shield temp = this.shield;
-				this.shield = (Shield)item;
+				this.shield = (Shield) item;
 				inventoryItems.remove(position);
 				inventoryItems.add(temp);
 			}
-		}
-		else if (item instanceof Armor) {
-			if (this.armor == null) { // just equip item, you don't have anything on
+		} else if (item instanceof Armor) {
+			if (this.armor == null) { // just equip item, you don't have
+				// anything on
 				this.armor = (Armor) item;
 				inventoryItems.remove(position);
-			}
-			else { // store currently equipped item in inventory, equip new item
+			} else { // store currently equipped item in inventory, equip new
+				// item
 				Armor temp = this.armor;
-				this.armor = (Armor)item;
+				this.armor = (Armor) item;
 				inventoryItems.remove(position);
 				inventoryItems.add(temp);
 			}
 		}
-
 
 	}
 
@@ -224,48 +228,60 @@ public class Inventory implements Serializable {
 	 * @return Bitmap image of character avatar EXCEPT skin.
 	 */
 	public Bitmap getBitmap() {
-		Bitmap bitmap = Bitmap.createBitmap(Avatar.AVATAR_WIDTH, Avatar.AVATAR_HEIGHT, Bitmap.Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(Avatar.AVATAR_WIDTH,
+				Avatar.AVATAR_HEIGHT, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 
 		// Get Images
 		if (armor != null) {
-			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), armor.getResId());
-			canvas.drawBitmap(armorImage, 0,0, null);
-		}
-		else { // Default white shirt
-			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), R.drawable.slim_shirt_white);
-			canvas.drawBitmap(armorImage, 0,0, null);
+			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication
+					.getAppContext().getResources(), armor.getResId());
+			canvas.drawBitmap(armorImage, 0, 0, null);
+		} else { // Default white shirt
+			Bitmap armorImage = BitmapFactory.decodeResource(GameApplication
+					.getAppContext().getResources(),
+					R.drawable.slim_shirt_white);
+			canvas.drawBitmap(armorImage, 0, 0, null);
 		}
 
 		if (helmet != null) {
-			Bitmap helmetImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), helmet.getResId());
-			canvas.drawBitmap(helmetImage, 0,0, null);
+			Bitmap helmetImage = BitmapFactory.decodeResource(GameApplication
+					.getAppContext().getResources(), helmet.getResId());
+			canvas.drawBitmap(helmetImage, 0, 0, null);
 		}
 
 		if (weapon != null) {
-			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), weapon.getResId());
-			canvas.drawBitmap(weaponImage, 0,0, null);
+			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication
+					.getAppContext().getResources(), weapon.getResId());
+			canvas.drawBitmap(weaponImage, 0, 0, null);
 		}
 
 		if (secondary != null) {
-			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), secondary.getResId());
-			canvas.drawBitmap(weaponImage, 0,0, null);
+			Bitmap weaponImage = BitmapFactory.decodeResource(GameApplication
+					.getAppContext().getResources(), secondary.getResId());
+			canvas.drawBitmap(weaponImage, 0, 0, null);
 		}
 
 		if (shield != null) {
-			Bitmap shieldImage = BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), shield.getResId());
-			canvas.drawBitmap(shieldImage, 0,0, null);
+			Bitmap shieldImage = BitmapFactory.decodeResource(GameApplication
+					.getAppContext().getResources(), shield.getResId());
+			canvas.drawBitmap(shieldImage, 0, 0, null);
 		}
 		return bitmap;
 	}
 
 	public boolean equals(Object o) {
 		Inventory inventory = (Inventory) o;
-		return (((this.getArmor() == null && inventory.getArmor() == null) || (this.getArmor().equals(inventory.getArmor() ) ) )
-				&& ((this.getHelmet() == null && inventory.getHelmet() == null) || (this.getHelmet().equals(inventory.getHelmet() ) ) )
-				&& ((this.getShield() == null && inventory.getShield() == null) || (this.getShield().equals(inventory.getShield() ) ) )
-				&& ((this.getWeapon() == null && inventory.getWeapon() == null) || (this.getWeapon().equals(inventory.getWeapon() ) ) )
-				&& ((this.getSecondary() == null && inventory.getSecondary() == null) || (this.getSecondary().equals(inventory.getSecondary() ) ) )
-				&& this.getInventoryItems().equals(inventory.getInventoryItems()));
+		return (((this.getArmor() == null && inventory.getArmor() == null) || (this
+				.getArmor().equals(inventory.getArmor())))
+				&& ((this.getHelmet() == null && inventory.getHelmet() == null) || (this
+						.getHelmet().equals(inventory.getHelmet())))
+						&& ((this.getShield() == null && inventory.getShield() == null) || (this
+								.getShield().equals(inventory.getShield())))
+								&& ((this.getWeapon() == null && inventory.getWeapon() == null) || (this
+										.getWeapon().equals(inventory.getWeapon())))
+										&& ((this.getSecondary() == null && inventory.getSecondary() == null) || (this
+												.getSecondary().equals(inventory.getSecondary()))) && this
+												.getInventoryItems().equals(inventory.getInventoryItems()));
 	}
 }

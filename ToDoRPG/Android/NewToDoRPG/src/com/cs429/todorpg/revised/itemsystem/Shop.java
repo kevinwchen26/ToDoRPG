@@ -28,7 +28,7 @@ public class Shop {
 
 	// Item setting for shop
 
-	public void addItem(EquipCost i){
+	public void addItem(EquipCost i) {
 		this.shopItems.add(i);
 	}
 

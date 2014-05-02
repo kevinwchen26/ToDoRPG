@@ -6,7 +6,7 @@ import com.cs429.todorpg.revised.R;
 
 public class Daily extends Quest {
 
-	/*status*/
+	/* status */
 	private int FINISHED = R.color.finished;
 	private int UNFINISHED = R.color.unfinished;
 	private boolean finished;
@@ -16,24 +16,28 @@ public class Daily extends Quest {
 	private int primary_key;
 	private int week_primary_key;
 
-	private int difficulty;	//0 - easy , 1 - medium, 2 - hard
-	private boolean[] repeat = new boolean[7]; //length 7, each index corresponds to days in a week. starts from monday.
+	private int difficulty; // 0 - easy , 1 - medium, 2 - hard
+	private boolean[] repeat = new boolean[7]; // length 7, each index
+	// corresponds to days in a
+	// week. starts from monday.
 
 	/**
 	 * Constructor
+	 * 
 	 * @param my_daily
 	 */
 	public Daily(String my_daily) {
 		this.setDaily(my_daily);
 		// this.setExtra(extra); // TODO Need to be implemented later
 		finished = false;
-		difficulty = 0;	//default set easy
-		for(int i = 0; i < 7; ++i)
-			repeat[i] = false;	//default set no regular
+		difficulty = 0; // default set easy
+		for (int i = 0; i < 7; ++i)
+			repeat[i] = false; // default set no regular
 	}
 
 	/**
 	 * Second Constructor
+	 * 
 	 * @param my_daily
 	 * @param extra
 	 * @param primary_key
@@ -45,12 +49,13 @@ public class Daily extends Quest {
 		week_primary_key = -1;
 		finished = false;
 		difficulty = 0;
-		for(int i = 0; i < 7; ++i)
+		for (int i = 0; i < 7; ++i)
 			repeat[i] = false;
 	}
 
 	/**
 	 * Setters and getter for the Object
+	 * 
 	 * @return
 	 */
 	public String getDaily() {
@@ -62,7 +67,7 @@ public class Daily extends Quest {
 	}
 
 	public String getExtra() {
-		if(extra == null)
+		if (extra == null)
 			return new String();
 		return extra;
 	}
@@ -87,34 +92,34 @@ public class Daily extends Quest {
 		this.week_primary_key = week_primary_key;
 	}
 
-	public void toggleFinish(){
+	public void toggleFinish() {
 		finished = !finished;
 	}
 
-	public boolean getBooleanStatus(){
+	public boolean getBooleanStatus() {
 		return finished;
 	}
 
-	public int getStatus(){
-		if(finished)
+	public int getStatus() {
+		if (finished)
 			return FINISHED;
 		else
 			return UNFINISHED;
 	}
 
-	public void setDifficulty(int difficult){
+	public void setDifficulty(int difficult) {
 		this.difficulty = difficult;
 	}
 
-	public int getDifficulty(){
+	public int getDifficulty() {
 		return difficulty;
 	}
 
-	public void toggleRegularDate(int day){
+	public void toggleRegularDate(int day) {
 		repeat[day] = !repeat[day];
 	}
 
-	public boolean getRegularDate(int day){
+	public boolean getRegularDate(int day) {
 		return repeat[day];
 	}
 
@@ -122,16 +127,21 @@ public class Daily extends Quest {
 		Daily daily = (Daily) o;
 		Log.d("this.getWeekKey()", "" + this.getWeekKey());
 		Log.d("daily.getWeekKey()", "" + daily.getWeekKey());
-		boolean correctWeekDates = (this.getRegularDate(0) == daily.getRegularDate(0) && this.getRegularDate(1) == daily.getRegularDate(1)
-				&& this.getRegularDate(2) == daily.getRegularDate(2) && this.getRegularDate(3) == daily.getRegularDate(3)
-				&& this.getRegularDate(4) == daily.getRegularDate(4) && this.getRegularDate(5) == daily.getRegularDate(5)
-				&& this.getRegularDate(6) == daily.getRegularDate(6));
+		boolean correctWeekDates = (this.getRegularDate(0) == daily
+				.getRegularDate(0)
+				&& this.getRegularDate(1) == daily.getRegularDate(1)
+				&& this.getRegularDate(2) == daily.getRegularDate(2)
+				&& this.getRegularDate(3) == daily.getRegularDate(3)
+				&& this.getRegularDate(4) == daily.getRegularDate(4)
+				&& this.getRegularDate(5) == daily.getRegularDate(5) && this
+				.getRegularDate(6) == daily.getRegularDate(6));
 		return (correctWeekDates && this.primary_key == daily.getKey()
-				&& this.my_daily.equals(daily.getDaily()) && this.extra
-				.equals(daily.getExtra()) && this.getBooleanStatus() == daily.getBooleanStatus()
-				&& this.getDifficulty() == daily.getDifficulty() && this.getWeekKey() == daily.getWeekKey());
+				&& this.my_daily.equals(daily.getDaily())
+				&& this.extra.equals(daily.getExtra())
+				&& this.getBooleanStatus() == daily.getBooleanStatus()
+				&& this.getDifficulty() == daily.getDifficulty() && this
+				.getWeekKey() == daily.getWeekKey());
 	}
-
 
 }
 /*

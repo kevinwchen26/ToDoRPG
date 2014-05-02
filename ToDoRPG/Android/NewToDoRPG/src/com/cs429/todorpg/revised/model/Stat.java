@@ -7,7 +7,8 @@ public class Stat {
 	private int id;
 
 	/**
-	 * Constructor 
+	 * Constructor
+	 * 
 	 * @param id
 	 * @param name
 	 * @param count
@@ -20,6 +21,7 @@ public class Stat {
 
 	/**
 	 * Secondary Constructors
+	 * 
 	 * @param name
 	 * @param count
 	 */
@@ -30,6 +32,7 @@ public class Stat {
 
 	/**
 	 * various setters and getters for the object
+	 * 
 	 * @return
 	 */
 	public String getName() {

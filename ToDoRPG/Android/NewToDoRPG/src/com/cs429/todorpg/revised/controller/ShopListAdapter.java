@@ -14,36 +14,47 @@ import android.widget.TextView;
 import com.cs429.todorpg.revised.GameApplication;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.itemsystem.EquipCost;
-import com.cs429.todorpg.revised.itemsystem.RpgItem;
 
 public class ShopListAdapter extends ArrayAdapter<EquipCost> {
 	private final Context context;
 	private final ArrayList<EquipCost> shopItems;
 	private int layout;
 
-	public ShopListAdapter(Context context, int layoutResourceId, ArrayList<EquipCost> shopItems) {
+	/**
+	 * Constructor, sets the arraylist to shopitems.
+	 * 
+	 * @param context
+	 * @param layoutResourceId
+	 * @param shopItems
+	 */
+	public ShopListAdapter(Context context, int layoutResourceId,
+			ArrayList<EquipCost> shopItems) {
 		super(context, layoutResourceId, shopItems);
 		this.context = context;
 		this.shopItems = shopItems;
 		this.layout = layoutResourceId;
 	}
-	
- 
+
+	/**
+	 * contains the image picture and name.
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
-			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 		EquipCost shopItem = shopItems.get(position);
 		View rowView = inflater.inflate(layout, parent, false);
-		
+
 		// Set Name
 		TextView name = (TextView) rowView.findViewById(R.id.shop_item_name);
 		name.setText(shopItem.getEquipment().getName());
-	
+
 		// Set Image Icon
-		ImageView icon = (ImageView)rowView.findViewById(R.id.shop_img_icon);
-		icon.setImageBitmap(BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), shopItem.getEquipment().getResId()));
+		ImageView icon = (ImageView) rowView.findViewById(R.id.shop_img_icon);
+		icon.setImageBitmap(BitmapFactory.decodeResource(GameApplication
+				.getAppContext().getResources(), shopItem.getEquipment()
+				.getResId()));
 		return rowView;
 	}
 }

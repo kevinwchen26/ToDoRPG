@@ -6,11 +6,12 @@ public class ToDo extends Quest {
 	private boolean finished;
 	private String my_todo;
 	private String extra;
-	private int difficulty;	//0 - easy / 1 - medium / 2 - hard
+	private int difficulty; // 0 - easy / 1 - medium / 2 - hard
 	private int primary_key;
 
 	/**
 	 * Constructor
+	 * 
 	 * @param my_todo
 	 */
 	public ToDo(String my_todo) {
@@ -21,6 +22,7 @@ public class ToDo extends Quest {
 
 	/**
 	 * Secondary Constructor
+	 * 
 	 * @param my_todo
 	 * @param extra
 	 * @param primary_key
@@ -30,11 +32,12 @@ public class ToDo extends Quest {
 		this.setExtra(extra);
 		this.setKey(primary_key);
 		finished = false;
-		difficulty = 0;	//default set - easy
+		difficulty = 0; // default set - easy
 	}
 
 	/**
 	 * various setters and getters for variables in object
+	 * 
 	 * @return
 	 */
 	public String getToDo() {
@@ -46,7 +49,7 @@ public class ToDo extends Quest {
 	}
 
 	public String getExtra() {
-		if(extra == null)
+		if (extra == null)
 			return new String();
 		return extra;
 	}
@@ -63,32 +66,37 @@ public class ToDo extends Quest {
 		this.primary_key = primary_key;
 	}
 
-	public void setFinish(){
+	public void setFinish() {
 		finished = true;
 	}
-	public boolean getStatus(){
+
+	public boolean getStatus() {
 		return finished;
 	}
 
-	public void setDifficulty(int rate){
-		if(rate < 0 || rate > 2){//error...
+	public void setDifficulty(int rate) {
+		if (rate < 0 || rate > 2) {// error...
 			Log.e("[ToDo]", "difficuty out of range...");
 			return;
 		}
 		this.difficulty = rate;
 	}
 
-	public int getDifficulty(){
+	public int getDifficulty() {
 		return difficulty;
 	}
 
 	public boolean equals(Object o) {
 		ToDo todo = (ToDo) o;
 		return (this.primary_key == todo.getKey()
-				&& this.my_todo.equals(todo.getToDo()) && this.extra
-				.equals(todo.getExtra()) && this.getStatus() == todo.getStatus() && this.getDifficulty() == todo.getDifficulty()
-				&& this.getDueDate()[0] == todo.getDueDate()[0] && this.getDueDate()[1] == todo.getDueDate()[1] 
-						&& this.getDueDate()[2] == todo.getDueDate()[2] && this.getDueDate()[3] == todo.getDueDate()[3] );
+				&& this.my_todo.equals(todo.getToDo())
+				&& this.extra.equals(todo.getExtra())
+				&& this.getStatus() == todo.getStatus()
+				&& this.getDifficulty() == todo.getDifficulty()
+				&& this.getDueDate()[0] == todo.getDueDate()[0]
+				&& this.getDueDate()[1] == todo.getDueDate()[1]
+				&& this.getDueDate()[2] == todo.getDueDate()[2] && this
+					.getDueDate()[3] == todo.getDueDate()[3]);
 	}
 }
 
@@ -110,12 +118,11 @@ public class ToDo extends Quest {
  * public int getImageResource(){ return icon; }
  * 
  * public void WriteMileStone(String milestone){ if(this.milestone == null){
- * this.milestone = new ArrayList<String>(); }
- * this.milestone.add(milestone); }
+ * this.milestone = new ArrayList<String>(); } this.milestone.add(milestone); }
  * 
- * public void WriteMileStone(ArrayList<String> milelist){ if(milelist ==
- * null) return; if(milestone == null) milestone = new
- * ArrayList<String>(milelist); else milestone = milelist; }
+ * public void WriteMileStone(ArrayList<String> milelist){ if(milelist == null)
+ * return; if(milestone == null) milestone = new ArrayList<String>(milelist);
+ * else milestone = milelist; }
  * 
  * public ArrayList<String> getMileStone(){ return milestone; }
  */

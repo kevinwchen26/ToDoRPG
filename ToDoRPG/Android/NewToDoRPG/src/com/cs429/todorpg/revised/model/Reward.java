@@ -1,6 +1,5 @@
 package com.cs429.todorpg.revised.model;
 
-
 public class Reward {
 	private String info;
 	private String extra;
@@ -9,6 +8,7 @@ public class Reward {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param reward
 	 * @param cost
 	 */
@@ -20,12 +20,13 @@ public class Reward {
 
 	/**
 	 * Secondary Constructor
+	 * 
 	 * @param key
 	 * @param reward
 	 * @param extra
 	 * @param cost
 	 */
-	public Reward(int key, String reward, String extra, int cost){
+	public Reward(int key, String reward, String extra, int cost) {
 		this.setPrimary_key(key);
 		this.setInfo(reward);
 		this.setExtra(extra);
@@ -34,6 +35,7 @@ public class Reward {
 
 	/**
 	 * Various setters and getters for variables in object
+	 * 
 	 * @return
 	 */
 	public String getInfo() {
@@ -70,7 +72,9 @@ public class Reward {
 
 	public boolean equals(Object o) {
 		Reward reward2 = (Reward) o;
-		return (this.primary_key == reward2.getPrimary_key() && this.info.equals(reward2.getInfo())
-				&& this.extra.equals(reward2.getExtra()) && this.cost == reward2.getCost());
+		return (this.primary_key == reward2.getPrimary_key()
+				&& this.info.equals(reward2.getInfo())
+				&& this.extra.equals(reward2.getExtra()) && this.cost == reward2
+				.getCost());
 	}
 }

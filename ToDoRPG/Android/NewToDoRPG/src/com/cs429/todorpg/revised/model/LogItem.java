@@ -8,28 +8,31 @@ public class LogItem {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param id
 	 * @param content
 	 * @param date
 	 */
 	public LogItem(int id, String content, String date) {
-		this.id=id;
-		this.content=content;
-		this.date_time=date;
+		this.id = id;
+		this.content = content;
+		this.date_time = date;
 	}
 
 	/**
 	 * Secondary Constructor
+	 * 
 	 * @param content
 	 * @param date
 	 */
-	public LogItem(String content, String date){
-		this.content=content;
-		this.date_time=date;
+	public LogItem(String content, String date) {
+		this.content = content;
+		this.date_time = date;
 	}
 
 	/**
 	 * Getters and setters for various variables for the Object
+	 * 
 	 * @return
 	 */
 	public int getId() {

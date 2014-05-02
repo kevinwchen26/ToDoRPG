@@ -3,8 +3,6 @@ package com.cs429.todorpg.revised.itemsystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.util.Log;
-
 public abstract class Equipment extends RpgItem implements Serializable {
 
 	private static final long serialVersionUID = 2763463244560673526L;
@@ -19,6 +17,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param name
 	 * @param resId
 	 * @param damage
@@ -30,8 +29,10 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	 * @param accuracy
 	 * @param posEffects
 	 */
-	public Equipment(String name, int resId, int damage, int critical, int multi_hit, ArrayList<NegativeEffects> negEffects,
-			int damage_reduction, int evasion, int accuracy, ArrayList<PositiveEffects> posEffects) {
+	public Equipment(String name, int resId, int damage, int critical,
+			int multi_hit, ArrayList<NegativeEffects> negEffects,
+			int damage_reduction, int evasion, int accuracy,
+			ArrayList<PositiveEffects> posEffects) {
 
 		super(name, resId);
 		this.damage = damage;
@@ -41,11 +42,12 @@ public abstract class Equipment extends RpgItem implements Serializable {
 		this.damage_reduction = damage_reduction;
 		this.evasion = evasion;
 		this.accuracy = accuracy;
-		this.posEffects = new ArrayList <PositiveEffects>(posEffects);
+		this.posEffects = new ArrayList<PositiveEffects>(posEffects);
 	}
 
 	/**
 	 * Various getters and setters
+	 * 
 	 * @return
 	 */
 	public int getDamage() {
@@ -101,7 +103,7 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	}
 
 	public void setnegEffects(ArrayList<NegativeEffects> negeffects) {
-		this.negEffects = new ArrayList<NegativeEffects> (negeffects);
+		this.negEffects = new ArrayList<NegativeEffects>(negeffects);
 	}
 
 	public ArrayList<PositiveEffects> getposEffects() {
@@ -109,15 +111,20 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	}
 
 	public void setposEffects(ArrayList<PositiveEffects> poseffects) {
-		this.posEffects = new ArrayList<PositiveEffects> (poseffects);
+		this.posEffects = new ArrayList<PositiveEffects>(poseffects);
 	}
 
 	public boolean equals(Object o) {
 		Equipment equip = (Equipment) o;
-		return (this.getName().equals(equip.getName()) && this.getResId() == equip.getResId() &&
-				this.getDamage() == equip.getDamage() && this.getCritical() == equip.getCritical() &&
-				this.getMulti_Hit() == equip.getMulti_Hit() && this.getnegEffects().equals(equip.getnegEffects()) && 
-				this.getDamage_Reduction() == equip.getDamage_Reduction() && this.getEvasion() == equip.getEvasion() &&
-				this.getAccuracy() == equip.getAccuracy() && this.getposEffects().equals(equip.getposEffects()));
+		return (this.getName().equals(equip.getName())
+				&& this.getResId() == equip.getResId()
+				&& this.getDamage() == equip.getDamage()
+				&& this.getCritical() == equip.getCritical()
+				&& this.getMulti_Hit() == equip.getMulti_Hit()
+				&& this.getnegEffects().equals(equip.getnegEffects())
+				&& this.getDamage_Reduction() == equip.getDamage_Reduction()
+				&& this.getEvasion() == equip.getEvasion()
+				&& this.getAccuracy() == equip.getAccuracy() && this
+				.getposEffects().equals(equip.getposEffects()));
 	}
 }

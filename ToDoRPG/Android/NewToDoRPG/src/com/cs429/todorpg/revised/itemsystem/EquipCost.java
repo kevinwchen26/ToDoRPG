@@ -10,6 +10,7 @@ public class EquipCost implements Serializable {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param tempequip
 	 * @param tempcost
 	 */
@@ -20,6 +21,7 @@ public class EquipCost implements Serializable {
 
 	/**
 	 * getter methods
+	 * 
 	 * @return
 	 */
 	public int getCost() {
@@ -32,6 +34,7 @@ public class EquipCost implements Serializable {
 
 	public boolean equals(Object o) {
 		EquipCost tempecost = (EquipCost) o;
-		return (this.getEquipment().equals(tempecost.getEquipment()) && this.getCost() == tempecost.getCost());
+		return (this.getEquipment().equals(tempecost.getEquipment()) && this
+				.getCost() == tempecost.getCost());
 	}
 }

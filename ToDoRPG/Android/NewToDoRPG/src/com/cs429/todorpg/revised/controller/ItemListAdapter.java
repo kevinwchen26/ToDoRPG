@@ -20,29 +20,31 @@ public class ItemListAdapter extends ArrayAdapter<RpgItem> {
 	private final ArrayList<RpgItem> inventoryItems;
 	private int layout;
 
-	public ItemListAdapter(Context context, int layoutResourceId, ArrayList<RpgItem> inventoryItems) {
+	public ItemListAdapter(Context context, int layoutResourceId,
+			ArrayList<RpgItem> inventoryItems) {
 		super(context, layoutResourceId, inventoryItems);
 		this.context = context;
 		this.inventoryItems = inventoryItems;
 		this.layout = layoutResourceId;
 	}
-	
- 
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
-			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 		RpgItem equippedItem = inventoryItems.get(position);
 		View rowView = inflater.inflate(layout, parent, false);
-		
+
 		// Set Name
-		TextView name = (TextView) rowView.findViewById(R.id.equipped_item_name);
+		TextView name = (TextView) rowView
+				.findViewById(R.id.equipped_item_name);
 		name.setText(equippedItem.getName());
-	
+
 		// Set Image Icon
-		ImageView icon = (ImageView)rowView.findViewById(R.id.imgIcon);
-		icon.setImageBitmap(BitmapFactory.decodeResource(GameApplication.getAppContext().getResources(), equippedItem.getResId()));
+		ImageView icon = (ImageView) rowView.findViewById(R.id.imgIcon);
+		icon.setImageBitmap(BitmapFactory.decodeResource(GameApplication
+				.getAppContext().getResources(), equippedItem.getResId()));
 		return rowView;
 	}
 }

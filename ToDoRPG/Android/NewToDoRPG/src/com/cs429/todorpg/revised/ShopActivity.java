@@ -1,7 +1,6 @@
 package com.cs429.todorpg.revised;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
@@ -21,11 +20,7 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.ShopListAdapter;
 import com.cs429.todorpg.revised.itemsystem.EquipCost;
-import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
-import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
-import com.cs429.todorpg.revised.itemsystem.RpgItem;
 import com.cs429.todorpg.revised.itemsystem.Shop;
-import com.cs429.todorpg.revised.itemsystem.Weapon;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
@@ -52,10 +47,7 @@ public class ShopActivity extends BaseActivity {
 		my_character = db.getCharacter();
 
 		gold.setText("Gold: " + my_character.getGold());
-		/*
-		 * INITIALIZE CODE, TEMPORARY. THIS SHOULD BE DONE WHEN THE APPLICATION
-		 * STARTS TODO: Migrate this code to application initialization section
-		 */
+
 		// Set up Shop Items List
 		this.shop = new Shop(); // Shop should be a persistent object via
 		// database.
@@ -75,7 +67,9 @@ public class ShopActivity extends BaseActivity {
 		listView.setAdapter(adapter);
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
-
+			/**
+			 * Click any of the list items
+			 */
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -99,40 +93,50 @@ public class ShopActivity extends BaseActivity {
 			public boolean onMenuItemClick(MenuItem item) {
 				switch (item.getItemId()) {
 				case R.id.shop_menu_purchase:
+					// when you click purchase, checks for duplicates
+					// and adequate cost
 					allItems = db.getLibraryAll();
 					my_character = db.getCharacter();
-					if(allItems.get(position).getCost() > my_character.getGold())
-					{
-						Toast.makeText(ShopActivity.this, "Too Expensive",
-								Toast.LENGTH_LONG).show();
-					}
-					else
-					{
-						if(app.avatar.inventory.getInventoryItems().contains(allItems.get(position).getEquipment())
-								|| isEqual(app.avatar.inventory.getArmor(), (allItems.get(position).getEquipment()))
-								|| isEqual(app.avatar.inventory.getHelmet(), (allItems.get(position).getEquipment()))
-								|| isEqual(app.avatar.inventory.getWeapon(), (allItems.get(position).getEquipment()))
-								|| isEqual(app.avatar.inventory.getShield(), (allItems.get(position).getEquipment())))
-						{
-							Toast.makeText(ShopActivity.this, "Already Own",
-									Toast.LENGTH_LONG).show();
-						}
-						else
-						{
-							int newGold = my_character.getGold() - allItems.get(position).getCost();
+					if (allItems.get(position).getCost() > my_character
+							.getGold()) {
+						Toast.makeText(ShopActivity.this,
+								"Too Expensive", Toast.LENGTH_LONG)
+								.show();
+					} else {
+						if (app.avatar.inventory.getInventoryItems()
+								.contains(
+										allItems.get(position)
+										.getEquipment())
+										|| isEqual(app.avatar.inventory
+												.getArmor(), (allItems
+														.get(position).getEquipment()))
+														|| isEqual(app.avatar.inventory
+																.getHelmet(), (allItems
+																		.get(position).getEquipment()))
+																		|| isEqual(app.avatar.inventory
+																				.getWeapon(), (allItems
+																						.get(position).getEquipment()))
+																						|| isEqual(app.avatar.inventory
+																								.getShield(), (allItems
+																										.get(position).getEquipment()))) {
+							Toast.makeText(ShopActivity.this,
+									"Already Own", Toast.LENGTH_LONG)
+									.show();
+						} else {
+							int newGold = my_character.getGold()
+									- allItems.get(position).getCost();
 							my_character.setGold(newGold);
 							db.updateCharacter(my_character);
-							app.avatar.inventory.addInventory(allItems.get(position).getEquipment());
-							Toast.makeText(ShopActivity.this, "Purchased",
-									Toast.LENGTH_LONG).show();
+							app.avatar.inventory.addInventory(allItems
+									.get(position).getEquipment());
+							Toast.makeText(ShopActivity.this,
+									"Purchased", Toast.LENGTH_LONG)
+									.show();
 						}
+						// resets the gold counter
 						my_character = db.getCharacter();
-					
 						gold.setText("Gold: " + my_character.getGold());
 					}
-					
-					// Equip item
-					// inventory.equipItem(position, true);
 
 					// Refresh list
 					ShopActivity.this.runOnUiThread(new Runnable() {
@@ -221,8 +225,8 @@ public class ShopActivity extends BaseActivity {
 
 		d.show();
 	}
-	
+
 	private static boolean isEqual(Object o1, Object o2) {
-	    return o1 == o2 || (o1 != null && o1.equals(o2));
+		return o1 == o2 || (o1 != null && o1.equals(o2));
 	}
 }

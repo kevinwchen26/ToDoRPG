@@ -10,7 +10,7 @@ import java.io.Serializable;
  *         Every character needs a name a a gold count
  */
 
-public class ToDoCharacter implements Serializable{
+public class ToDoCharacter implements Serializable {
 
 	private static final long serialVersionUID = -1062021211113236302L;
 
@@ -23,6 +23,7 @@ public class ToDoCharacter implements Serializable{
 
 	/**
 	 * Constructor
+	 * 
 	 * @param name
 	 * @param gold
 	 * @param HP
@@ -42,6 +43,7 @@ public class ToDoCharacter implements Serializable{
 
 	/**
 	 * Secondary Constructor
+	 * 
 	 * @param other
 	 * @param name
 	 */
@@ -56,6 +58,7 @@ public class ToDoCharacter implements Serializable{
 
 	/**
 	 * various setters and getters for the object
+	 * 
 	 * @return
 	 */
 	public int getGold() {

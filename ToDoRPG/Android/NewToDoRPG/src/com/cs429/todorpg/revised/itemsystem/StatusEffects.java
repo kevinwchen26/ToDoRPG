@@ -8,6 +8,7 @@ public abstract class StatusEffects implements Serializable {
 
 	/**
 	 * Constructors
+	 * 
 	 * @param name
 	 */
 	public StatusEffects(String name) {
@@ -16,6 +17,7 @@ public abstract class StatusEffects implements Serializable {
 
 	/**
 	 * getter and setter
+	 * 
 	 * @return
 	 */
 	public String getName() {
