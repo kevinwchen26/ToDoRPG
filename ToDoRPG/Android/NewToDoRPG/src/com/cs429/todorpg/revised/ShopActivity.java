@@ -1,5 +1,7 @@
 package com.cs429.todorpg.revised;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
@@ -33,150 +35,182 @@ public class ShopActivity extends BaseActivity {
 	TextView gold;
 	ToDoCharacter my_character;
 	private static SQLiteHelper db;
-	
+	ArrayList<EquipCost> allItems;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.shop_activity);
 		setHeader(R.id.header);
-		
+
 		db = new SQLiteHelper(this);
-		
+
 		gold = (TextView) findViewById(R.id.shop_gold);
 		my_character = db.getCharacter();
-		
+
 		gold.setText("Gold: " + my_character.getGold());
-		/* 
-		   INITIALIZE CODE, TEMPORARY. THIS SHOULD BE DONE
-		   WHEN THE APPLICATION STARTS
-		   TODO: Migrate this code to application initialization
-		   section 
-		*/
+		/*
+		 * INITIALIZE CODE, TEMPORARY. THIS SHOULD BE DONE WHEN THE APPLICATION
+		 * STARTS TODO: Migrate this code to application initialization section
+		 */
 		// Set up Shop Items List
-		this.shop = new Shop(); // Shop should be a persistent object via database.
-		
+		this.shop = new Shop(); // Shop should be a persistent object via
+		// database.
+
 		ArrayList<EquipCost> allItems = db.getLibraryAll();
-		
-		for(int x = 0; x < allItems.size(); x ++)
+
+		for (int x = 0; x < allItems.size(); x++)
 			shop.addItem(allItems.get(x));
-		
-		
+
 		/* END INITIALIZATION CODE */
-		
+
 		ArrayList<EquipCost> inventoryList = shop.getShopItems();
 		ListView listView = (ListView) findViewById(R.id.shop_list);
-        adapter = new ShopListAdapter(ShopActivity.this, R.layout.shop_list_row, inventoryList);
-        adapter.setNotifyOnChange(true);
-        listView.setAdapter(adapter);
-        
-        listView.setOnItemClickListener(new OnItemClickListener() {
-            
-            @Override
-            public void onItemClick(AdapterView<?> parent,
-                    View view, int position, long id) {
-            	showShopDialog(view, position);
-            }
-        });
+		adapter = new ShopListAdapter(ShopActivity.this,
+				R.layout.shop_list_row, inventoryList);
+		adapter.setNotifyOnChange(true);
+		listView.setAdapter(adapter);
+
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				showShopDialog(view, position);
+			}
+		});
 	}
-	
+
 	/**
 	 * Show options on what to do when the user presses an a shop item
+	 * 
 	 * @param v
 	 */
-	public void showShopDialog (View v, final int position) {
+	public void showShopDialog(View v, final int position) {
 		PopupMenu popupMenu = new PopupMenu(ShopActivity.this, v);
 		popupMenu.getMenuInflater().inflate(R.menu.shop, popupMenu.getMenu());
-		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			   
-			   @Override
-			   public boolean onMenuItemClick(MenuItem item) {
-				    switch(item.getItemId()) {
-				   	   case R.id.shop_menu_purchase:
-				   		Toast.makeText(ShopActivity.this,
-					    		"Purchased",
-					      Toast.LENGTH_LONG).show();
-				   		// Equip item
-				   		//inventory.equipItem(position, true);
+		popupMenu
+		.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-				   		// Refresh list
-				   		ShopActivity.this.runOnUiThread(new Runnable() {
-				   			public void run() {
-				   				adapter.notifyDataSetChanged();
-				   			}
-				   		});
-				   		break;
-					   
-				   	   case R.id.shop_menu_info:
-				   		   // Diplay item info
-				   		   showItemInfoDialog(shop.getItem(position));
-				   		
-				   		// Refresh list
-				   		ShopActivity.this.runOnUiThread(new Runnable() {
-				   			public void run() {
-				   				adapter.notifyDataSetChanged();
-				   			}
-				   		});
-				   		break;   
-				   }
-				   return true;
-			   }
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch (item.getItemId()) {
+				case R.id.shop_menu_purchase:
+					allItems = db.getLibraryAll();
+					my_character = db.getCharacter();
+					if(allItems.get(position).getCost() > my_character.getGold())
+					{
+						Toast.makeText(ShopActivity.this, "Too Expensive",
+								Toast.LENGTH_LONG).show();
+					}
+					else
+					{
+						if(app.avatar.inventory.getInventoryItems().contains(allItems.get(position).getEquipment())
+								|| isEqual(app.avatar.inventory.getArmor(), (allItems.get(position).getEquipment()))
+								|| isEqual(app.avatar.inventory.getHelmet(), (allItems.get(position).getEquipment()))
+								|| isEqual(app.avatar.inventory.getWeapon(), (allItems.get(position).getEquipment()))
+								|| isEqual(app.avatar.inventory.getShield(), (allItems.get(position).getEquipment())))
+						{
+							Toast.makeText(ShopActivity.this, "Already Own",
+									Toast.LENGTH_LONG).show();
+						}
+						else
+						{
+							int newGold = my_character.getGold() - allItems.get(position).getCost();
+							my_character.setGold(newGold);
+							db.updateCharacter(my_character);
+							app.avatar.inventory.addInventory(allItems.get(position).getEquipment());
+							Toast.makeText(ShopActivity.this, "Purchased",
+									Toast.LENGTH_LONG).show();
+						}
+						my_character = db.getCharacter();
+					
+						gold.setText("Gold: " + my_character.getGold());
+					}
+					
+					// Equip item
+					// inventory.equipItem(position, true);
+
+					// Refresh list
+					ShopActivity.this.runOnUiThread(new Runnable() {
+						public void run() {
+							adapter.notifyDataSetChanged();
+						}
+					});
+					break;
+
+				case R.id.shop_menu_info:
+					// Diplay item info
+					showItemInfoDialog(shop.getItem(position));
+
+					// Refresh list
+					ShopActivity.this.runOnUiThread(new Runnable() {
+						public void run() {
+							adapter.notifyDataSetChanged();
+						}
+					});
+					break;
+				}
+				return true;
+			}
 		});
 		popupMenu.show();
 	}
-	
-	
+
 	public void showItemInfoDialog(EquipCost item) {
 		final Dialog d = new Dialog(ShopActivity.this);
 		d.setContentView(R.layout.item_info_dialog);
 		d.setTitle(item.getEquipment().getName());
-		
+
 		TextView damage = (TextView) d.findViewById(R.id.item_info_damage);
 		damage.setText("Dmg:" + item.getEquipment().getDamage());
-		
+
 		TextView critical = (TextView) d.findViewById(R.id.item_info_critical);
 		critical.setText("Crit:" + item.getEquipment().getCritical());
-		
+
 		TextView multi = (TextView) d.findViewById(R.id.item_info_multi);
 		multi.setText("Multi:" + item.getEquipment().getMulti_Hit());
 
 		TextView defense = (TextView) d.findViewById(R.id.item_info_defense);
 		defense.setText("Def:" + item.getEquipment().getDamage_Reduction());
-		
+
 		TextView evasion = (TextView) d.findViewById(R.id.item_info_evasion);
 		evasion.setText("Eva:" + item.getEquipment().getEvasion());
-		
+
 		TextView accuracy = (TextView) d.findViewById(R.id.item_info_accuracy);
 		accuracy.setText("Acc:" + item.getEquipment().getAccuracy());
-		
+
 		TextView effects = (TextView) d.findViewById(R.id.item_info_effects);
 		String effectsS = "";
-		
-		if(!(item.getEquipment().getnegEffects().isEmpty()))
-		{
-			effectsS = effectsS +  item.getEquipment().getnegEffects().get(0).getName();
-			for(int x = 1; x < item.getEquipment().getnegEffects().size(); x ++)
-			{
-				effectsS = effectsS +  ", " + item.getEquipment().getnegEffects().get(x).getName();
+
+		if (!(item.getEquipment().getnegEffects().isEmpty())) {
+			effectsS = effectsS
+					+ item.getEquipment().getnegEffects().get(0).getName();
+			for (int x = 1; x < item.getEquipment().getnegEffects().size(); x++) {
+				effectsS = effectsS + ", "
+						+ item.getEquipment().getnegEffects().get(x).getName();
 			}
 		}
-		if(!(item.getEquipment().getposEffects().isEmpty()))
-		{
-			effectsS = effectsS +  item.getEquipment().getposEffects().get(0).getName();
-			for(int x = 1; x < item.getEquipment().getposEffects().size(); x ++)
-			{
-				effectsS = effectsS +  ", " + item.getEquipment().getposEffects().get(x).getName();
+		if (!(item.getEquipment().getposEffects().isEmpty())) {
+			effectsS = effectsS
+					+ item.getEquipment().getposEffects().get(0).getName();
+			for (int x = 1; x < item.getEquipment().getposEffects().size(); x++) {
+				effectsS = effectsS + ", "
+						+ item.getEquipment().getposEffects().get(x).getName();
 			}
 		}
 		effects.setText("Magic:" + effectsS);
-		
+
 		TextView currentgold = (TextView) d.findViewById(R.id.item_info_cost);
 		currentgold.setText("Cost:" + item.getCost());
-		
+
 		ImageView image = (ImageView) d.findViewById(R.id.item_info_image);
 		image.setImageResource(item.getEquipment().getResId());
-		Button dialogButton = (Button) d.findViewById(R.id.item_info_dialog_button);
+		Button dialogButton = (Button) d
+				.findViewById(R.id.item_info_dialog_button);
 		// if button is clicked, close the custom dialog
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -187,6 +221,8 @@ public class ShopActivity extends BaseActivity {
 
 		d.show();
 	}
+	
+	private static boolean isEqual(Object o1, Object o2) {
+	    return o1 == o2 || (o1 != null && o1.equals(o2));
+	}
 }
-
-
