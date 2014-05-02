@@ -20,10 +20,11 @@ import com.cs429.todorpg.revised.model.Daily;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+
 /**
  * 
  * @author hlim10, ssong25
- *
+ * 
  */
 public class AlarmNotification extends Activity {
 	private ListView finished_list, missed_list;
@@ -64,46 +65,54 @@ public class AlarmNotification extends Activity {
 	}
 
 	private void findViewById() {
-		finished_list = (ListView)findViewById(R.id.finished_list);
-		missed_list = (ListView)findViewById(R.id.missed_list);
+		finished_list = (ListView) findViewById(R.id.finished_list);
+		missed_list = (ListView) findViewById(R.id.missed_list);
 	}
+
 	private void getData() {
 		finished_arr = db.getDailies(1);
 		missed_arr = db.getDailies(2);
-		finished_adapter = new DailyAdapter(AlarmNotification.this, finished_arr);
+		finished_adapter = new DailyAdapter(AlarmNotification.this,
+				finished_arr);
 		finished_list.setAdapter(finished_adapter);
 		missed_adapter = new DailyAdapter(AlarmNotification.this, missed_arr);
 		missed_list.setAdapter(missed_adapter);
 		UpdateCharacter();
 	}
+
 	private void UpdateCharacter() {
 		ToDoCharacter character = db.getCharacter();
-		change = "You Lost [EXP : " + missed_arr.size()*10 + "], [GOLD : " + missed_arr.size()*10 + "]";
+		change = "You Lost [EXP : " + missed_arr.size() * 10 + "], [GOLD : "
+				+ missed_arr.size() * 10 + "]";
 		System.out.println(change);
-		character = new ToDoCharacter(character.getName(), character.getGold() - (missed_arr.size()*10), character.getHP(),
-				character.getLevel(), character.getCurrExp() - (missed_arr.size()*10), character.getNextExp() + (missed_arr.size()*10));
-		
+		character = new ToDoCharacter(character.getName(), character.getGold()
+				- (missed_arr.size() * 10), character.getHP(),
+				character.getLevel(), character.getCurrExp()
+						- (missed_arr.size() * 10), character.getNextExp()
+						+ (missed_arr.size() * 10));
+
 		if (character.getCurrExp() >= character.getLevel() * 100) {
 			character.setLevel(character.getLevel() + 1);
 			character.setCurrExp(0);
 			character.setHP(character.getHP() + 20);
-		} else if(character.getLevel() == 1 && character.getCurrExp() < 0) {
+		} else if (character.getLevel() == 1 && character.getCurrExp() < 0) {
 			character.setCurrExp(0);
 		} else if (character.getCurrExp() <= 0 && character.getLevel() > 1) {
 			change = change.concat(" + LEVEL DOWN");
 			character.setLevel(character.getLevel() - 1);
 			character.setHP(character.getHP() - 20);
 			character.setCurrExp(character.getLevel() * 100);
-			if(character.getHP() < 100)
+			if (character.getHP() < 100)
 				character.setHP(100);
-			
+
 		}
-		if(character.getGold() < 0) 
+		if (character.getGold() < 0)
 			character.setGold(0);
-		
+
 		LayoutInflater inflater = getLayoutInflater();
-	    View view = inflater.inflate(R.layout.toast, (ViewGroup) findViewById(R.id.relativeLayout1));
-	    Constants.ToastMessage(context, view, change);
+		View view = inflater.inflate(R.layout.toast,
+				(ViewGroup) findViewById(R.id.relativeLayout1));
+		Constants.ToastMessage(context, view, change);
 		db.updateCharacter(character);
 	}
 

@@ -1,21 +1,16 @@
 package com.cs429.todorpg.revised;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.cs429.todorpg.revised.controller.ToDoAdapter;
-import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
@@ -26,11 +21,8 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 public class StatusActivity extends BaseActivity {
 	TextView current_level, current_hp, current_exp, completed_quests,
 			current_money, total_battles;
-	private ListView completed_quest_list;
 	private SQLiteHelper db;
-	private ArrayList<ToDo> todos;
 	private ToDoCharacter character;
-	private ToDoAdapter adapter;
 	int completed_quest_count;
 
 	@Override

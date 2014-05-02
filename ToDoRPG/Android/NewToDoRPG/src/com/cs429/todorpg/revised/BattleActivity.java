@@ -84,13 +84,13 @@ public class BattleActivity extends BaseActivity {
 		mHandler = BTMessageHandler.getInstance(BattleActivity.this);
 		mHandler.changeContext(BattleActivity.this);
 	}
-	
+
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
 		super.onDestroy();
 		mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_END)
-		.sendToTarget();
+				.sendToTarget();
 		mHandler.flush();
 	}
 
@@ -137,7 +137,7 @@ public class BattleActivity extends BaseActivity {
 		setUpBattleMenu();
 		setUpBattleInfo();
 		setUpStatusEffects();
-		//applyStatusEffects();
+		// applyStatusEffects();
 		update();
 
 	}
@@ -158,7 +158,6 @@ public class BattleActivity extends BaseActivity {
 		playerSide.setLayoutParams(playerSideParams);
 
 		// Set the player images
-		// enemyImage.setImageResource(R.drawable.test_sprite);
 		RelativeLayout.LayoutParams enemyEffectParams = new RelativeLayout.LayoutParams(
 				enemyEffect.getLayoutParams());
 		enemyEffectParams.addRule(RelativeLayout.RIGHT_OF, enemyImage.getId());
@@ -166,7 +165,6 @@ public class BattleActivity extends BaseActivity {
 				enemyImage.getId());
 		enemyEffect.setLayoutParams(enemyEffectParams);
 
-		// playerImage.setBackgroundResource(R.drawable.warrior_walk);
 		RelativeLayout.LayoutParams playerEffectParams = new RelativeLayout.LayoutParams(
 				playerEffect.getLayoutParams());
 		playerEffectParams.addRule(RelativeLayout.LEFT_OF, playerImage.getId());
@@ -271,16 +269,12 @@ public class BattleActivity extends BaseActivity {
 				height / 2));
 		playerInfo.setLayoutParams(playerInfoParams);
 
-		// RelativeLayout.LayoutParams enemyNameParams = new
-		// RelativeLayout.LayoutParams(enemyName.getLayoutParams());
 
 		RelativeLayout.LayoutParams enemyHPParams = new RelativeLayout.LayoutParams(
 				enemyHP.getLayoutParams());
 		enemyHPParams.addRule(RelativeLayout.BELOW, enemyName.getId());
 		enemyHP.setLayoutParams(enemyHPParams);
 
-		// RelativeLayout.LayoutParams playerNameParams = new
-		// RelativeLayout.LayoutParams(playerName.getLayoutParams());
 
 		RelativeLayout.LayoutParams playerHPParams = new RelativeLayout.LayoutParams(
 				playerHP.getLayoutParams());
@@ -549,20 +543,8 @@ public class BattleActivity extends BaseActivity {
 				intent = new Intent(BattleActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
-				// player.setHP(player.getMaxHP());
-				// boss.setHP(boss.getMaxHP());
 			}
 		});
-		/*
-		 * builder.setNegativeButton("Cancel", new
-		 * DialogInterface.OnClickListener() {
-		 * 
-		 * @Override public void onClick(DialogInterface dialog, int which) {
-		 * dialog.dismiss(); intent = new Intent(BattleActivity.this,
-		 * MainActivity.class); startActivity(intent); finish();
-		 * 
-		 * } });
-		 */
 	}
 
 	private class ShareInfoTask extends AsyncTask<Void, Void, Void> {
@@ -581,7 +563,6 @@ public class BattleActivity extends BaseActivity {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			progress.dismiss();
 		}
@@ -589,41 +570,6 @@ public class BattleActivity extends BaseActivity {
 		@Override
 		protected Void doInBackground(Void... params) {
 
-			/*
-			 * GENERATE NEW AVATAR
-			 * 
-			 * Need to include Inventory and ToDoCharacter Object in Avatar
-			 */
-
-			/*
-			 * Avatar av = new Avatar(); Inventory in = new Inventory();
-			 * ArrayList<NegativeEffects>negs = new
-			 * ArrayList<NegativeEffects>(); ArrayList<PositiveEffects>poss =
-			 * new ArrayList<PositiveEffects>(); in.setArmor(new
-			 * Armor("Leather Armor", R.drawable.broad_armor_warrior_1, 1, 1, 1,
-			 * negs, 1, 1, 1, poss)); in.setHelmet(new Helmet("Leather Helmet",
-			 * R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 10, poss));
-			 * in.setShield(new Shield("Leather Shield",
-			 * R.drawable.shield_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
-			 * in.setWeapon(new Weapon("Iron Sword",
-			 * R.drawable.weapon_warrior_1, 10, 1, 1, negs, 1, 1, 70, poss));
-			 * 
-			 * in.addInventory(new Weapon("Rogue Weapon 0",
-			 * R.drawable.weapon_rogue_0, 1, 1, 1, negs, 1, 1, 1, poss));
-			 * in.addInventory(new Weapon("Rogue Weapon 1",
-			 * R.drawable.weapon_rogue_1, 1, 1, 1, negs, 1, 1, 1, poss));
-			 * in.addInventory(new Weapon("Rogue Weapon 2",
-			 * R.drawable.weapon_rogue_2, 1, 1, 1, negs, 1, 1, 1, poss));
-			 * av.setInventory(in);
-			 * playerImage.setImageBitmap(av.getClearBitmap()); in.setHelmet(new
-			 * Helmet("Leather Helmet", R.drawable.head_warrior_2, 1, 1, 1,
-			 * negs, 1, 1, 10, poss));
-			 * 
-			 * ToDoCharacter myCharacter = new ToDoCharacter("Alice", 90, 120,
-			 * 5, 0, 50); setPlayerInfo(myCharacter); //ToDoCharacter
-			 * enemeyCharacter = new ToDoCharacter("Alonso", 90, 120, 5, 0, 50);
-			 * av.setToDoCharacter(myCharacter);
-			 */
 			Avatar av = new Avatar();
 			SQLiteHelper sql = new SQLiteHelper(BattleActivity.this);
 			inventory = sql.getInventory();

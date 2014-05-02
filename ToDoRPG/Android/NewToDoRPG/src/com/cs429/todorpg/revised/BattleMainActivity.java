@@ -1,6 +1,5 @@
 package com.cs429.todorpg.revised;
 
-
 import com.cs429.todorpg.revised.controller.BTControl;
 import com.cs429.todorpg.revised.controller.BTMessageHandler;
 import com.cs429.todorpg.service.BluetoothService;
@@ -21,9 +20,9 @@ public class BattleMainActivity extends BaseActivity {
 	private BluetoothService BTService;
 	private BTControl btctrl;
 	private String device_address;
-	
+
 	private Button bluetooth_connect_btn;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onCreate ++");
@@ -31,83 +30,91 @@ public class BattleMainActivity extends BaseActivity {
 		setContentView(R.layout.activity_battle_main);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		findViewById();
-		
+
 		btctrl = BTControl.getInstance(BattleMainActivity.this);
 		boolean availability = btctrl.checkBTEnable();
-		if(!availability){
-			Toast.makeText(getApplicationContext(), "bluetooth is not available", Toast.LENGTH_SHORT).show();
+		if (!availability) {
+			Toast.makeText(getApplicationContext(),
+					"bluetooth is not available", Toast.LENGTH_SHORT).show();
 			bluetooth_connect_btn.setEnabled(false);
 		}
 		BTService = new BluetoothService(BattleMainActivity.this);
-		BTMessageHandler.getInstance(BattleMainActivity.this).setBTService(BTService);
+		BTMessageHandler.getInstance(BattleMainActivity.this).setBTService(
+				BTService);
 	}
 
 	@Override
-	public void onResume(){
+	public void onResume() {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onResume ++");
 		super.onResume();
-		//do only when BT is available
-		if(btctrl.IsBluetoothEnabled()){
+		// do only when BT is available
+		if (btctrl.IsBluetoothEnabled()) {
 			bluetooth_connect_btn.setEnabled(true);
 			BTService.start();
 		}
-	}	
+	}
 
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
 		super.onDestroy();
 		BTService.stop();
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode == RESULT_OK){
-			switch(requestCode){
-			
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+
 			case BTControl.REQUEST_ENABLE_BT:
-				Toast.makeText(getApplicationContext(), "bluetooth is on", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "bluetooth is on",
+						Toast.LENGTH_SHORT).show();
 				break;
-			
+
 			case BTControl.CHOOSE_DEVICE:
 				device_address = data.getStringExtra("selected");
 				btctrl.set_address(device_address);
-				Toast.makeText(getApplicationContext(), "connecting to " + device_address, Toast.LENGTH_SHORT).show();
-				//connecting to another device here...
+				Toast.makeText(getApplicationContext(),
+						"connecting to " + device_address, Toast.LENGTH_SHORT)
+						.show();
+				// connecting to another device here...
 				BTService.connect(btctrl.getDevice());
 				break;
-				
+
 			default:
 				break;
 			}
 		}
 	}
-	
-	private void findViewById(){
+
+	private void findViewById() {
 		bluetooth_connect_btn = (Button) findViewById(R.id.bluetooth_connect_btn);
 		bluetooth_connect_btn.setOnClickListener(mListener);
 	}
-	
-	Button.OnClickListener mListener = new Button.OnClickListener(){
+
+	Button.OnClickListener mListener = new Button.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			switch(v.getId()){
-				
-				case R.id.bluetooth_connect_btn:
-					if(!btctrl.IsBluetoothEnabled()){
-						Toast.makeText(getApplicationContext(), "bluetooth is still not enabled", Toast.LENGTH_SHORT).show();
-					}
-					else{
-						Toast.makeText(getApplicationContext(), "connect pressed", Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(BattleMainActivity.this, DeviceListActivity.class);
-						startActivityForResult(intent, BTControl.CHOOSE_DEVICE);
-					}
-					break;
-					
-				default:
-					break;
+			switch (v.getId()) {
+
+			case R.id.bluetooth_connect_btn:
+				if (!btctrl.IsBluetoothEnabled()) {
+					Toast.makeText(getApplicationContext(),
+							"bluetooth is still not enabled",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getApplicationContext(), "connect pressed",
+							Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(BattleMainActivity.this,
+							DeviceListActivity.class);
+					startActivityForResult(intent, BTControl.CHOOSE_DEVICE);
+				}
+				break;
+
+			default:
+				break;
 			}
 		}
 	};
-	
+
 }

@@ -43,7 +43,6 @@ public class DailyActivity extends BaseActivity {
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.daily_activity);
 		setHeader(R.id.header);
-		// new today_vice().execute();
 		findViewById();
 		db = new SQLiteHelper(getBaseContext());
 		setDailyList();
@@ -139,7 +138,6 @@ public class DailyActivity extends BaseActivity {
 		
 		
 		Toast.makeText(DailyActivity.this, my_daily, Toast.LENGTH_SHORT).show();
-//		SetAdapter();
 		adapter = new DailyAdapter(DailyActivity.this, daily);
 		adapter.notifyDataSetChanged();
 	}

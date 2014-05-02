@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,12 +14,12 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.ToDoAdapter;
 import com.cs429.todorpg.revised.model.ToDo;
-import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+
 /**
  * 
  * @author hlim10, ssong25
- *
+ * 
  */
 public class ToDoActivity extends BaseActivity {
 	private EditText add_todo_field;
@@ -37,7 +35,6 @@ public class ToDoActivity extends BaseActivity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.todo_activity);
 		setHeader(R.id.header);
-		// new today_vice().execute();
 		findViewById();
 		db = new SQLiteHelper(getBaseContext());
 		setToDoList();

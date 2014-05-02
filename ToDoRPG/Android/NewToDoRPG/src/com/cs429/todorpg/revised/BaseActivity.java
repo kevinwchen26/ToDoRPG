@@ -19,10 +19,11 @@ import android.widget.TextView;
 
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+
 /**
  * 
  * @author hlim10, ssong25
- *
+ * 
  */
 public abstract class BaseActivity extends Activity {
 	Intent intent;
@@ -65,7 +66,6 @@ public abstract class BaseActivity extends Activity {
 		switch (item.getItemId()) {
 
 		case android.R.id.home:
-			// NavUtils.navigateUpFromSameTask(this);
 			Intent homeintent = new Intent(BaseActivity.this,
 					MainActivity.class);
 			startActivity(homeintent);
@@ -73,10 +73,6 @@ public abstract class BaseActivity extends Activity {
 			return true;
 
 		case R.id.character_status:
-			/*
-			 * intent = new Intent(BaseActivity.this, CharacterActivity.class);
-			 * startActivity(intent); finish(); return true;
-			 */
 			popup = new PopupMenu(BaseActivity.this,
 					(View) findViewById(R.id.character_status));
 			popup.getMenuInflater().inflate(R.menu.character_menu,
@@ -201,12 +197,17 @@ public abstract class BaseActivity extends Activity {
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
 		ImageView icon = (ImageView) findViewById(R.id.character_activity);
-		
-		if(icon == null){Log.e("appdebug", "icon is null");}
-		else if(app == null){Log.e("appdebug", "app is null");}
-		else if(app.avatar == null){Log.e("appdebug", "avatar is null");}
-		else{Log.e("appdebug", "what is null??");}
-		
+
+		if (icon == null) {
+			Log.e("appdebug", "icon is null");
+		} else if (app == null) {
+			Log.e("appdebug", "app is null");
+		} else if (app.avatar == null) {
+			Log.e("appdebug", "avatar is null");
+		} else {
+			Log.e("appdebug", "what is null??");
+		}
+
 		icon.setImageBitmap(app.avatar.getBitmap());
 	}
 
