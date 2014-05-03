@@ -11,10 +11,11 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.ListView;
+
 /**
  * 
  * @author kchen26, hlim10
- *
+ * 
  */
 public class EventLogActivity extends BaseActivity {
 
@@ -38,17 +39,12 @@ public class EventLogActivity extends BaseActivity {
 		logAdapter = new LogAdapter(this, log);
 		log_list.setAdapter(logAdapter);
 	}
-	
-	public void addLog(LogItem log){
-		ListView list = (ListView)findViewById(R.id.log_list);
+
+	public void addLog(LogItem log) {
+		ListView list = (ListView) findViewById(R.id.log_list);
 		logAdapter.log.add(log);
 		logAdapter.notifyDataSetChanged();
 		list.refreshDrawableState();
 	}
-	
-	/*
-	 * @Override public boolean onCreateOptionsMenu(Menu menu) { // Inflate the
-	 * menu; this adds items to the action bar if it is present.
-	 * getMenuInflater().inflate(R.menu.event_log, menu); return true; }
-	 */
+
 }
