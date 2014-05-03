@@ -397,7 +397,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			ArrayList<Boolean> dailiesweek = new ArrayList<Boolean>();
 			cursor.moveToFirst();
 			do {
-				int primary_key = cursor.getInt(0);
 				int mon = cursor.getInt(1);
 				int tues = cursor.getInt(2);
 				int wed = cursor.getInt(3);
@@ -759,7 +758,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		else {
 			cursor.moveToFirst();
 			do {
-				int primary_key = cursor.getInt(0);
 				int type = cursor.getInt(1);
 				String name = cursor.getString(2);
 				int resid = cursor.getInt(3);
@@ -872,16 +870,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * updateUnused() updates the unused inventory
-	 * 
-	 * @param inventory
-	 */
-	private void updateUnused(ArrayList<RpgItem> inventory) {
-		this.deleteUnused();
-		this.addUnused(inventory);
-	}
-
-	/**
 	 * getEquip() private helper function that gets the equipment from the DB
 	 * 
 	 * @param cursor
@@ -894,7 +882,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return null;
 		else {
 			cursor.moveToFirst();
-			int primary_key = cursor.getInt(0);
 			String name = cursor.getString(1);
 			int resid = cursor.getInt(2);
 			int damage = cursor.getInt(3);
@@ -1007,7 +994,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			ArrayList<EquipCost> eqlist = new ArrayList<EquipCost>();
 			cursor.moveToFirst();
 			do {
-				int primary_key = cursor.getInt(0);
 				int type = cursor.getInt(1);
 				String name = cursor.getString(2);
 				int resid = cursor.getInt(3);
@@ -1076,7 +1062,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			return null;
 		else {
 			cursor.moveToFirst();
-			int primary_key = cursor.getInt(0);
 			int type = cursor.getInt(1);
 			String name = cursor.getString(2);
 			int resid = cursor.getInt(3);
