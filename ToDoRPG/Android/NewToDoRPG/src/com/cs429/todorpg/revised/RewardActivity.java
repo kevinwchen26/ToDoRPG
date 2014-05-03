@@ -41,6 +41,7 @@ public class RewardActivity extends BaseActivity {
 	RewardsAdapter adapter;
 	SQLiteHelper sql = new SQLiteHelper(this);
 
+	//list item object 
 	private class RewardsAdapter extends BaseAdapter {
 
 		Context context;
@@ -70,6 +71,7 @@ public class RewardActivity extends BaseActivity {
 			return position;
 		}
 
+		//get view for a row, and places values from db
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
@@ -104,6 +106,7 @@ public class RewardActivity extends BaseActivity {
 			final View show_edit_field = (View) convertView
 					.findViewById(R.id.show_edit_reward_field);
 
+			//functions for the different buttons in a row
 			edit_button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -244,7 +247,7 @@ public class RewardActivity extends BaseActivity {
 		pullRewards();
 
 	}
-
+	//grab rewarsd from database
 	private void pullRewards() {
 		reward_data = sql.getRewards();
 		if (reward_data == null) {
@@ -271,7 +274,7 @@ public class RewardActivity extends BaseActivity {
 		add_reward.setOnClickListener(ButtonListener);
 
 	}
-
+	//updates the gold counter after a user purchases reward. Also saves gold value to db
 	public void updateGold(int cost, String itemName) {
 		if (!canPurchase(cost)) {
 			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT)
@@ -303,13 +306,14 @@ public class RewardActivity extends BaseActivity {
 		}
 
 	}
-
+	//checks if user has the neccessary gold amount
 	public boolean canPurchase(int cost) {
 		if (cost > my_character.getGold())
 			return false;
 		return true;
 	}
 
+	//add reward to list and db
 	private void addReward(String description, int cost) {
 
 		for (Reward x : reward_data) {
@@ -337,7 +341,7 @@ public class RewardActivity extends BaseActivity {
 		reward_list.setAdapter(adapter);
 
 	}
-
+	//button listener for add reward button
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 		@SuppressLint("NewApi")
 		@Override
