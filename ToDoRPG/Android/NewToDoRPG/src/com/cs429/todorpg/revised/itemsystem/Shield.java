@@ -3,6 +3,12 @@ package com.cs429.todorpg.revised.itemsystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Shield Class
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class Shield extends Equipment implements Serializable {
 
 	private static final long serialVersionUID = -7661327413774828608L;
@@ -27,7 +33,6 @@ public class Shield extends Equipment implements Serializable {
 			ArrayList<PositiveEffects> posEffects) {
 		super(name, resId, damage, critical, multi_hit, negEffects,
 				damage_reduction, evasion, accuracy, posEffects);
-		// TODO Auto-generated constructor stub
 	}
 
 }

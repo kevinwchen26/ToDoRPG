@@ -57,58 +57,116 @@ public class ToDoCharacter implements Serializable {
 	}
 
 	/**
-	 * various setters and getters for the object
+	 * gets the gold from character
 	 * 
-	 * @return
+	 * @return gold
 	 */
 	public int getGold() {
 		return gold;
 	}
 
+	/**
+	 * sets gold of character
+	 * 
+	 * @param gold
+	 */
 	public void setGold(int gold) {
 		this.gold = gold;
 	}
 
+	/**
+	 * gets name of character
+	 * 
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * sets the name of the character
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * gets the HP of the character
+	 * 
+	 * @return HP
+	 */
 	public int getHP() {
 		return HP;
 	}
 
+	/**
+	 * sets HP of the character
+	 * 
+	 * @param HP
+	 */
 	public void setHP(int HP) {
 		this.HP = HP;
 	}
 
+	/**
+	 * gets the Level of the Character
+	 * 
+	 * @return level
+	 */
 	public int getLevel() {
 		return level;
 	}
 
+	/**
+	 * sets the level of the character
+	 * 
+	 * @param level
+	 */
 	public void setLevel(int level) {
 		this.level = level;
 	}
 
+	/**
+	 * gets the current Exp
+	 * 
+	 * @return currentExp
+	 */
 	public int getCurrExp() {
 		return currentEXP;
 	}
 
+	/**
+	 * sets the current Exp
+	 * 
+	 * @param currExp
+	 */
 	public void setCurrExp(int currExp) {
 		this.currentEXP = currExp;
 	}
 
+	/**
+	 * gets the next EXP of character
+	 * 
+	 * @return nextEXP
+	 */
 	public int getNextExp() {
 		return nextEXP;
 	}
 
+	/**
+	 * sets next exp of character
+	 * 
+	 * @param nextExp
+	 */
 	public void setNextExp(int nextExp) {
 		this.nextEXP = nextExp;
 	}
 
+	/**
+	 * equals function
+	 */
 	public boolean equals(Object o) {
 		ToDoCharacter character = (ToDoCharacter) o;
 		return (this.getName().equals(character.getName())

@@ -7,6 +7,12 @@ import com.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+/**
+ * Shop Activity Test
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class ShopActivityTest extends
 ActivityInstrumentationTestCase2<ShopActivity> {
 
@@ -17,10 +23,16 @@ ActivityInstrumentationTestCase2<ShopActivity> {
 
 	private SQLiteHelper db;
 
+	/**
+	 * creates the test
+	 */
 	public ShopActivityTest() {
 		super(ShopActivity.class);
 	}
 
+	/**
+	 * sets up the test
+	 */
 	protected void setUp() throws Exception {
 
 		db = new SQLiteHelper(getActivity().getBaseContext());
@@ -40,11 +52,18 @@ ActivityInstrumentationTestCase2<ShopActivity> {
 		super.setUp();
 	}
 
+	/**
+	 * finishes the test
+	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 
-	// checks to see if library exists
+	/**
+	 * checks to see if the library exists
+	 * 
+	 * @throws Exception
+	 */
 	public void test00CheckLibrary() throws Exception {
 		solo.clickOnText("Broad Sword");
 		solo.clickOnText("Info");
@@ -54,14 +73,22 @@ ActivityInstrumentationTestCase2<ShopActivity> {
 		solo.clickOnButton("Ok");
 	}
 
-	//checks to see if a purchase can be made
+	/**
+	 * checks to see if purchase can be made
+	 * 
+	 * @throws Exception
+	 */
 	public void test01CheckPurchase() throws Exception {
 		solo.clickOnText("Broad Sword");
 		solo.clickOnText("Purchase");
 		assertTrue(solo.searchText("Purchased"));
 	}
 
-	//checks for a double purchase
+	/**
+	 * checks for double purchase
+	 * 
+	 * @throws Exception
+	 */
 	public void test02CheckAlreadyOwn() throws Exception {
 		solo.clickOnText("Broad Sword");
 		solo.clickOnText("Purchase");
@@ -69,7 +96,11 @@ ActivityInstrumentationTestCase2<ShopActivity> {
 		assertTrue(solo.searchText("Already Own"));
 	}
 
-	//checks for gil count check
+	/**
+	 * checks for inadequate funds
+	 * 
+	 * @throws Exception
+	 */
 	public void test03TooExpensive() throws Exception {
 		solo.clickOnText("Buster Sword");
 		solo.clickOnText("Purchase");

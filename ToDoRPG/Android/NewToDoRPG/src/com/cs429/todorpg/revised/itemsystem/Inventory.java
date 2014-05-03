@@ -11,6 +11,12 @@ import com.cs429.todorpg.revised.Avatar;
 import com.cs429.todorpg.revised.GameApplication;
 import com.cs429.todorpg.revised.R;
 
+/**
+ * Inventory class. Stores the user's current equipment and unused equipment.
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class Inventory implements Serializable {
 
 	private static final long serialVersionUID = -7795460230072089745L;
@@ -58,7 +64,7 @@ public class Inventory implements Serializable {
 	}
 
 	/**
-	 * various helpers for inventory
+	 * adds an inventory to the unused inventory
 	 * 
 	 * @param e
 	 */
@@ -66,88 +72,173 @@ public class Inventory implements Serializable {
 		inventoryItems.add(e);
 	}
 
+	/**
+	 * removes an item from the unused invnetory class
+	 * 
+	 * @param index
+	 */
 	public void removeInventory(int index) {
 		inventoryItems.remove(index);
 	}
 
+	/**
+	 * checks for size of inventory
+	 * 
+	 * @return size of inventory
+	 */
 	public int numInventory() {
 		return inventoryItems.size();
 	}
 
+	/**
+	 * retrieves all the unused inventory
+	 * 
+	 * @return list of all the inventory items
+	 */
 	public ArrayList<RpgItem> getInventoryItems() {
 		return inventoryItems;
 	}
 
+	/**
+	 * sets an unused inventory list to equipmentItems
+	 * 
+	 * @param equipmentItems
+	 */
 	public void setInventoryItems(ArrayList<RpgItem> equipmentItems) {
 		this.inventoryItems = equipmentItems;
 	}
 
 	/**
-	 * various getters and setters for Object
+	 * retrieves currentArmor
 	 * 
-	 * @return
+	 * @return armor
 	 */
 	public Armor getArmor() {
 		return armor;
 	}
 
+	/**
+	 * sets current armor
+	 * 
+	 * @param armor
+	 */
 	public void setArmor(Armor armor) {
 		this.armor = armor;
 	}
 
+	/**
+	 * retrieves current helmet
+	 * 
+	 * @return helmet
+	 */
 	public Helmet getHelmet() {
 		return helmet;
 	}
 
+	/**
+	 * sets current helmet
+	 * 
+	 * @param helmet
+	 */
 	public void setHelmet(Helmet helmet) {
 		this.helmet = helmet;
 	}
 
+	/**
+	 * retrieves current shield
+	 * 
+	 * @return shield
+	 */
 	public Shield getShield() {
 		return shield;
 	}
 
+	/**
+	 * sets current Shield
+	 * 
+	 * @param shield
+	 */
 	public void setShield(Shield shield) {
 		this.shield = shield;
 	}
 
+	/**
+	 * retrieves current weapon
+	 * 
+	 * @return weapon
+	 */
 	public Weapon getWeapon() {
 		return weapon;
 	}
 
+	/**
+	 * sets current weapon
+	 * 
+	 * @param weapon
+	 */
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
 
+	/**
+	 * retrieves secondary weapon
+	 * 
+	 * @return secondary weapon
+	 */
 	public Weapon getSecondary() {
 		return secondary;
 	}
 
+	/**
+	 * sets secondary weapon
+	 * 
+	 * @param weapon
+	 */
 	public void setSecondary(Weapon weapon) {
 		this.secondary = weapon;
 	}
 
 	/**
-	 * boolean methods
+	 * checks for armor
 	 * 
-	 * @return
+	 * @return true if armor is not null, false otherwise
 	 */
 	public boolean isArmorSet() {
 		return this.armor != null;
 	}
 
+	/**
+	 * checks for helmet
+	 * 
+	 * @return true if helmet is not null, false otherwise
+	 */
 	public boolean isHelmetSet() {
 		return this.helmet != null;
 	}
 
+	/**
+	 * checks for shield
+	 * 
+	 * @return true if shield is not null, false otherwise
+	 */
 	public boolean isShieldSet() {
 		return this.shield != null;
 	}
 
+	/**
+	 * checks for weapon
+	 * 
+	 * @return true if weapon is not null, false otherwise
+	 */
 	public boolean isWeaponSet() {
 		return this.weapon != null;
 	}
 
+	/**
+	 * checks for secondary
+	 * 
+	 * @return true if secondary is not null, false otherwise
+	 */
 	public boolean isSecondarySet() {
 		return this.secondary != null;
 	}
@@ -270,6 +361,9 @@ public class Inventory implements Serializable {
 		return bitmap;
 	}
 
+	/**
+	 * equals function
+	 */
 	public boolean equals(Object o) {
 		Inventory inventory = (Inventory) o;
 		return (((this.getArmor() == null && inventory.getArmor() == null) || (this

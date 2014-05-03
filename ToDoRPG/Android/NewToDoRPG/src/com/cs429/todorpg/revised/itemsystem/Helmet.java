@@ -3,6 +3,12 @@ package com.cs429.todorpg.revised.itemsystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Helmet class
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class Helmet extends Equipment implements Serializable {
 
 	private static final long serialVersionUID = -8417234289259450993L;
@@ -16,7 +22,6 @@ public class Helmet extends Equipment implements Serializable {
 			ArrayList<PositiveEffects> posEffects) {
 		super(name, resId, damage, critical, multi_hit, negEffects,
 				damage_reduction, evasion, accuracy, posEffects);
-		// TODO Auto-generated constructor stub
 	}
 
 }

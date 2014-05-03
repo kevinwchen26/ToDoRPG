@@ -2,8 +2,6 @@ package com.cs429.todorpg.revised.test;
 
 import java.util.ArrayList;
 
-
-
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.revised.model.Reward;
 import com.cs429.todorpg.revised.model.Habit;
@@ -17,15 +15,27 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
+/**
+ * Tests for SQLiteHelper
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class SQLiteHelperTest extends AndroidTestCase {
 	private SQLiteHelper db;
 
+	/**
+	 * sets up the test
+	 */
 	public void setUp() {
 		RenamingDelegatingContext context = new RenamingDelegatingContext(
 				getContext(), "test_");
 		db = new SQLiteHelper(context);
 	}
 
+	/**
+	 * checks to see if all the databases have been created
+	 */
 	public void testDBSetup() {
 		assertNotNull(db);
 		SQLiteDatabase database = db.getReadableDatabase();
@@ -50,8 +60,12 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(names.contains("habits"));
 	}
 
+	/**
+	 * tests characterDB
+	 */
 	public void testCharacter() {
-		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE, 1, 1, 1, 1);
+		ToDoCharacter kevin = new ToDoCharacter("kevin", Integer.MAX_VALUE, 1,
+				1, 1, 1);
 		ToDoCharacter loser = new ToDoCharacter("loser", 0, 1, 1, 1, 1);
 
 		assertNotNull(db);
@@ -72,9 +86,11 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		test = db.getCharacter();
 		assertEquals(kevin, test);
 
-
 	}
 
+	/**
+	 * test ToDoDB
+	 */
 	public void testToDos() {
 		ToDo cake = new ToDo("Cake", "Tasty Sweet", -1);
 		ToDo anime = new ToDo("Anime", "Japanese Comics", -1);
@@ -112,6 +128,9 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 	}
 
+	/**
+	 * Test Daily DB
+	 */
 	public void testDailies() {
 		Daily cake = new Daily("Cake", "Tasty Sweet", -1);
 		Daily anime = new Daily("Anime", "Japanese Comics", -1);
@@ -125,7 +144,6 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertNotSame(-1, idanime);
 
 		cake.setKey(idcake);
-		//Log.d("Weekkey", "" + cake.getWeekKey());
 		anime.setKey(idanime);
 
 		ArrayList<Daily> dailies = db.getDailies(3);
@@ -150,6 +168,9 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 	}
 
+	/**
+	 * Test Habit DB
+	 */
 	public void testHabits() {
 		Habit cake = new Habit("Cake", "Tasty Sweet", -1);
 		Habit anime = new Habit("Anime", "Japanese Comics", -1);
@@ -186,6 +207,9 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(habits.contains(cake));
 	}
 
+	/**
+	 * test Reward DB
+	 */
 	public void testRewards() {
 		Reward cake = new Reward(-1, "Cake", "Tasty Sweet", 10);
 		Reward anime = new Reward(-1, "Anime", "Japanese Comics", 40);
@@ -219,12 +243,16 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		assertTrue(rewards.contains(cake));
 	}
 
+	/**
+	 * Test Inventory DB
+	 */
 	public void testInventory() {
-		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
-		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
-		Inventory char_warrior = new Inventory(new Armor("A1", 1, 0, 0, 0, negs, 0, 0, 0, poss), null, null, 
-				new Weapon("W1", 4, 0, 0, 0, negs, 0, 0, 0, poss), new Weapon("W1", 4, 1, 1, 1, negs, 1, 1, 1, poss), 
-				new ArrayList<RpgItem>());
+		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
+		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
+		Inventory char_warrior = new Inventory(new Armor("A1", 1, 0, 0, 0,
+				negs, 0, 0, 0, poss), null, null, new Weapon("W1", 4, 0, 0, 0,
+						negs, 0, 0, 0, poss), new Weapon("W1", 4, 1, 1, 1, negs, 1, 1,
+								1, poss), new ArrayList<RpgItem>());
 
 		assertTrue(char_warrior.equals(char_warrior));
 
@@ -235,15 +263,15 @@ public class SQLiteHelperTest extends AndroidTestCase {
 		Inventory temp_char_warrior = db.getInventory();
 		assertTrue(temp_char_warrior.equals(char_warrior));
 
-		ArrayList <RpgItem> itemlist = new ArrayList<RpgItem>();
+		ArrayList<RpgItem> itemlist = new ArrayList<RpgItem>();
 		negs.add(new NegativeEffects("Blind", 20));
 		poss.add(new PositiveEffects("nullBlind"));
 		itemlist.add(new Helmet("A2", 5, 1, 1, 1, negs, 1, 1, 1, poss));
-		char_warrior.setHelmet(new Helmet("A2", 5, 1, 1, 1, negs, 1, 1, 1, poss));
+		char_warrior
+		.setHelmet(new Helmet("A2", 5, 1, 1, 1, negs, 1, 1, 1, poss));
 		char_warrior.setInventoryItems(itemlist);
 
 		assertTrue(char_warrior.equals(char_warrior));
-
 
 		db.updateInventory(char_warrior);
 		temp_char_warrior = db.getInventory();
@@ -254,12 +282,14 @@ public class SQLiteHelperTest extends AndroidTestCase {
 
 	}
 
+	/**
+	 * Tests Library
+	 */
 	public void testLibrary() {
-		ArrayList<NegativeEffects>negs = new ArrayList<NegativeEffects>();
-		ArrayList<PositiveEffects>poss = new ArrayList<PositiveEffects>();
+		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
+		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
 		Equipment temparmor = new Armor("A1", 1, 0, 0, 0, negs, 0, 0, 0, poss);
 		Equipment tempweapon = new Weapon("W1", 4, 0, 0, 0, negs, 0, 0, 0, poss);
-
 
 		assertNotNull(db);
 		int idarmor = db.addLibrary(temparmor, 50);

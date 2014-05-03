@@ -15,6 +15,12 @@ import com.cs429.todorpg.revised.GameApplication;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.itemsystem.EquipCost;
 
+/**
+ * An Adapter that contains the list of all items in the Shop.
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class ShopListAdapter extends ArrayAdapter<EquipCost> {
 	private final Context context;
 	private final ArrayList<EquipCost> shopItems;
@@ -35,9 +41,6 @@ public class ShopListAdapter extends ArrayAdapter<EquipCost> {
 		this.layout = layoutResourceId;
 	}
 
-	/**
-	 * contains the image picture and name.
-	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context

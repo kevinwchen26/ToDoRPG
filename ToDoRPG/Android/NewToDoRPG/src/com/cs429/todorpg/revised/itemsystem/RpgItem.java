@@ -29,26 +29,44 @@ public abstract class RpgItem implements Serializable {
 	}
 
 	/**
-	 * various getters and setters
+	 * retrieves the ResID
 	 * 
-	 * @return
+	 * @return resID
 	 */
 	public int getResId() {
 		return resId;
 	}
 
+	/**
+	 * sets the ResId
+	 * 
+	 * @param resId
+	 */
 	public void setResId(int resId) {
 		this.resId = resId;
 	}
 
+	/**
+	 * gets the name of the weapon
+	 * 
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * sets the name of the weapon
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * equals function
+	 */
 	public boolean equals(Object o) {
 		RpgItem rpgitem = (RpgItem) o;
 		return (this.getName().equals(rpgitem.getName()) && this.getResId() == rpgitem

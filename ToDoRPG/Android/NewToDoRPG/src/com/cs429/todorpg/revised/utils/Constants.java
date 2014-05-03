@@ -10,8 +10,9 @@ import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 
 /**
+ * Constants, used for the Database
  * 
- * @author kchen26, hlim10
+ * @author kchen26, lchen59, edited by hlim10
  * 
  */
 public class Constants {
@@ -60,6 +61,14 @@ public class Constants {
 	static final String LOG_TABLE_CREATE = "create table log(_id integer primary key autoincrement, content text not null unique, date text not null)";
 	static final String STAT_TABLE_CREATE = "create table stat(_id integer primary key autoincrement, name text not null unique, count int not null)";
 
+	/**
+	 * updates the character status of in the Database
+	 * 
+	 * @param db
+	 * @param difficulty
+	 * @param context
+	 * @param sign
+	 */
 	public static void UpdateCharacterStatus(SQLiteHelper db, int difficulty,
 			Context context, int sign) {
 		ToDoCharacter character = db.getCharacter();
@@ -134,10 +143,15 @@ public class Constants {
 		View view = inflater.inflate(R.layout.toast, null);
 		Constants.ToastMessage(context, view, change);
 		db.updateCharacter(character);
-		// character = new ToDoCharacter(character.getGold(), HP, level,
-		// currentEXP, nextEXP)
 	}
 
+	/**
+	 * Creates a message for the Toast
+	 * 
+	 * @param context
+	 * @param view
+	 * @param change
+	 */
 	public static void ToastMessage(Context context, View view, String change) {
 		TextView text = (TextView) view.findViewById(R.id.textView2);
 		text.setText(change);

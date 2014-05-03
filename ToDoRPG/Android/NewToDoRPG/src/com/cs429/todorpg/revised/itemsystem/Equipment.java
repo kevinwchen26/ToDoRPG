@@ -3,6 +3,12 @@ package com.cs429.todorpg.revised.itemsystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Equipment class. Used for weapons, armor, helmet, shield
+ * 
+ * @author Leon Chen
+ * 
+ */
 public abstract class Equipment extends RpgItem implements Serializable {
 
 	private static final long serialVersionUID = 2763463244560673526L;
@@ -46,74 +52,152 @@ public abstract class Equipment extends RpgItem implements Serializable {
 	}
 
 	/**
-	 * Various getters and setters
+	 * getter function for damage
 	 * 
-	 * @return
+	 * @return damage
 	 */
 	public int getDamage() {
 		return damage;
 	}
 
+	/**
+	 * setter function for damage
+	 * 
+	 * @param damage
+	 */
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
 
+	/**
+	 * getter function for critical
+	 * 
+	 * @return critical
+	 */
 	public int getCritical() {
 		return critical;
 	}
 
+	/**
+	 * setter function for critical
+	 * 
+	 * @param critical
+	 */
 	public void setCritical(int critical) {
 		this.critical = critical;
 	}
 
+	/**
+	 * getter function for multi-hit
+	 * 
+	 * @return multi-hit percent
+	 */
 	public int getMulti_Hit() {
 		return multi_hit;
 	}
 
+	/**
+	 * setter function for multihit
+	 * 
+	 * @param multi_hit
+	 */
 	public void setMulti_Hit(int multi_hit) {
 		this.multi_hit = multi_hit;
 	}
 
+	/**
+	 * getter function for damage reduction
+	 * 
+	 * @return damage reduction
+	 */
 	public int getDamage_Reduction() {
 		return damage_reduction;
 	}
 
+	/**
+	 * setter function for damage reduction
+	 * 
+	 * @param damage_reduction
+	 */
 	public void setDamage_Reduction(int damage_reduction) {
 		this.damage_reduction = damage_reduction;
 	}
 
+	/**
+	 * getter function for Accuracy
+	 * 
+	 * @return accuracy
+	 */
 	public int getAccuracy() {
 		return accuracy;
 	}
 
+	/**
+	 * setter function for accuracy
+	 * 
+	 * @param accuracy
+	 */
 	public void setAccuracy(int accuracy) {
 		this.accuracy = accuracy;
 	}
 
+	/**
+	 * getter function for evasion
+	 * 
+	 * @return evasion
+	 */
 	public int getEvasion() {
 		return evasion;
 	}
 
+	/**
+	 * setter function for evasion
+	 * 
+	 * @param evasion
+	 */
 	public void setEvasion(int evasion) {
 		this.evasion = evasion;
 	}
 
+	/**
+	 * getter function for Negative effects
+	 * 
+	 * @return list of negative effects
+	 */
 	public ArrayList<NegativeEffects> getnegEffects() {
 		return negEffects;
 	}
 
+	/**
+	 * setter function for negative effects
+	 * 
+	 * @param negeffects
+	 */
 	public void setnegEffects(ArrayList<NegativeEffects> negeffects) {
 		this.negEffects = new ArrayList<NegativeEffects>(negeffects);
 	}
 
+	/**
+	 * getter function for positive effects
+	 * 
+	 * @return list of positive effects
+	 */
 	public ArrayList<PositiveEffects> getposEffects() {
 		return posEffects;
 	}
 
+	/**
+	 * setter function for positive effects
+	 * 
+	 * @param poseffects
+	 */
 	public void setposEffects(ArrayList<PositiveEffects> poseffects) {
 		this.posEffects = new ArrayList<PositiveEffects>(poseffects);
 	}
 
+	/**
+	 * equals function
+	 */
 	public boolean equals(Object o) {
 		Equipment equip = (Equipment) o;
 		return (this.getName().equals(equip.getName())

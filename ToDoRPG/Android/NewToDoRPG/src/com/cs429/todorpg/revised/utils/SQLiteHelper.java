@@ -19,11 +19,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
+ * SQLiteHelper, helps in the DB storage
+ * 
  * @author Leon Chen edited by hlim10, kchen26
  * 
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
 
+	/**
+	 * Constructor, creates the database
+	 * 
+	 * @param context
+	 */
 	public SQLiteHelper(Context context) {
 		super(context, Constants.DATABASE_NAME, null,
 				Constants.DATABASE_VERSION);
@@ -875,7 +882,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * @param cursor
 	 * @param equip
 	 *            - type of equip
-	 * @return
+	 * @return the equipment in the DB
 	 */
 	private Equipment getEquip(Cursor cursor, String equip) {
 		if (cursor.getCount() == 0)
@@ -933,7 +940,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * 
 	 * @param item
 	 * @param secondary
-	 * @return
+	 * @return position in database if successful, -1 if not
 	 */
 	private int addEquip(Equipment item, boolean secondary) {
 		if (item == null)
@@ -983,7 +990,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	/**
 	 * getLibraryAll() returns all the items in the library
 	 * 
-	 * @return
+	 * @return the entire library
 	 */
 	public ArrayList<EquipCost> getLibraryAll() {
 		Cursor cursor = this.getReadableDatabase().query(
@@ -1162,7 +1169,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * deleteLibrary() deletes a specific library from the DB
 	 * 
 	 * @param text
-	 * @return
+	 * @return true if successfully delete, false otherwise
 	 */
 	public boolean deleteLibrary(String text) {
 
@@ -1175,7 +1182,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * 
 	 * @param item
 	 * @param cost
-	 * @return
+	 * @return true if successful, false otherwise
 	 */
 	public boolean updateLibrary(Equipment item, int cost) {
 		int type = 0;
@@ -1222,7 +1229,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * addStat() adds a stat to the Database
 	 * 
 	 * @param stat
-	 * @return
+	 * @return -1 if unsuccessful, position if successful
 	 */
 	public int addStat(Stat stat) {
 		String name = stat.getName();
@@ -1238,7 +1245,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * updateStat () updates the stat in the DB
 	 * 
 	 * @param stat
-	 * @return
+	 * @return true if successful, false otherwise
 	 */
 	public boolean updateStat(Stat stat) {
 		String name = stat.getName();
@@ -1253,7 +1260,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	/**
 	 * gets all the stats of in the DB
 	 * 
-	 * @return
+	 * @return list of stats
 	 */
 	public ArrayList<Stat> getStats() {
 		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_STAT,
@@ -1292,7 +1299,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	/**
 	 * getLog() gets all the Lobs in the Database
 	 * 
-	 * @return
+	 * @return list of logs
 	 */
 	public ArrayList<LogItem> getLog() {
 		Cursor cursor = this.getReadableDatabase().query(Constants.TABLE_LOG,
@@ -1316,7 +1323,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * helper function that changes an into the a booolean
 	 * 
 	 * @param tempint
-	 * @return
+	 * @return boolean version of int
 	 */
 	private boolean getBool(int tempint) {
 		if (tempint == 1)
@@ -1328,7 +1335,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 * helper function that changes a boolean to an int
 	 * 
 	 * @param tempbool
-	 * @return
+	 * @return int version of bool
 	 */
 	private int getInt(boolean tempbool) {
 		if (tempbool)

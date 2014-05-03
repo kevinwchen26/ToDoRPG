@@ -3,6 +3,12 @@ package com.cs429.todorpg.revised.itemsystem;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Weapon class
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class Weapon extends Equipment implements Serializable {
 
 	private static final long serialVersionUID = -4839744112801677341L;
@@ -27,6 +33,5 @@ public class Weapon extends Equipment implements Serializable {
 			ArrayList<PositiveEffects> posEffects) {
 		super(name, resId, damage, critical, multi_hit, negEffects,
 				damage_reduction, evasion, accuracy, posEffects);
-		// TODO Auto-generated constructor stub
 	}
 }

@@ -3,10 +3,12 @@ package com.cs429.todorpg.revised.model;
 import android.util.Log;
 
 import com.cs429.todorpg.revised.R;
+
 /**
+ * Habits Class
  * 
  * @author hlim10, ssong25
- *
+ * 
  */
 public class Habit {
 
@@ -27,6 +29,11 @@ public class Habit {
 	// available
 	private int difficulty; // 0 - easy / 1 - medium / 2 - hard
 
+	/**
+	 * Habits Constructor
+	 * 
+	 * @param my_habit
+	 */
 	public Habit(String my_habit) {
 		this.setHabit(my_habit);
 		progress = 0;
@@ -51,59 +58,98 @@ public class Habit {
 	}
 
 	/**
-	 * Setters and getters for various variables in object
+	 * Getter for habit
 	 * 
-	 * @return
+	 * @return my_habit
 	 */
 	public String getHabit() {
 		return my_habit;
 	}
 
+	/**
+	 * setter for habit text
+	 * 
+	 * @param my_habit
+	 */
 	public void setHabit(String my_habit) {
 		this.my_habit = my_habit;
 	}
 
+	/**
+	 * gets the extra text
+	 * 
+	 * @return
+	 */
 	public String getExtra() {
 		if (extra == null)
 			return new String();
 		return extra;
 	}
 
+	/**
+	 * sets the extra text
+	 * 
+	 * @param extra
+	 */
 	public void setExtra(String extra) {
 		this.extra = extra;
 	}
 
+	/**
+	 * gets the key of the habit
+	 * 
+	 * @return primary_key
+	 */
 	public int getKey() {
 		return primary_key;
 	}
 
+	/**
+	 * sets the key of the habit
+	 * 
+	 * @param primary_key
+	 */
 	public void setKey(int primary_key) {
 		this.primary_key = primary_key;
 	}
 
+	/**
+	 * sets the progress of the habit
+	 * 
+	 * @param progress
+	 */
 	public void setProgress(int progress) {
 		this.progress = progress;
 	}
 
+	/**
+	 * gets the progress of the habit
+	 * 
+	 * @return
+	 */
 	public int getProgress() {
 		return progress;
 	}
 
+	/**
+	 * adds a positive to the progress
+	 */
 	public void plus_change() {
 		progress++;
 	}
 
+	/**
+	 * adds a negative to the progress
+	 */
 	public void minus_change() {
 		progress--;
 	}
 
 	/**
-	 * private String VERY_GOOD = "#4682b4"; //8 - 11 private String GOOD =
-	 * "#7dff23"; //4 - 7 private String NORMAL = "#ffff99"; //0 - 3 private
-	 * String BAD = "#ff6347"; //-1 - -4 private String VERY_BAD = "#720000";
-	 * //-5 - 8
+	 * gets the status of the progress.
+	 * 
+	 * @return
 	 */
-
 	public int getStatus() {
 		// very bad
 		if (progress < -4) {
@@ -132,10 +178,20 @@ public class Habit {
 		}
 	}
 
+	/**
+	 * sets the Characteristic of
+	 * 
+	 * @param character
+	 */
 	public void setCharacteristic(String character) {
 		this.characteristic = character;
 	}
 
+	/**
+	 * gets the Characteristic
+	 * 
+	 * @return characteristic
+	 */
 	public String getCharacteristic() {
 		if (this.characteristic == null)
 			this.characteristic = "+-";
@@ -143,6 +199,11 @@ public class Habit {
 		return this.characteristic;
 	}
 
+	/**
+	 * sets the difficulty of the habit
+	 * 
+	 * @param difficult
+	 */
 	public void setDifficulty(int difficult) {
 		if (difficult < 0 || difficult > 2) {
 			Log.e("[Habit]", "invalid difficulty");
@@ -151,10 +212,18 @@ public class Habit {
 		difficulty = difficult;
 	}
 
+	/**
+	 * gets the difficulty of the habit
+	 * 
+	 * @return difficulty
+	 */
 	public int getDifficulty() {
 		return difficulty;
 	}
 
+	/**
+	 * equals function
+	 */
 	public boolean equals(Object o) {
 		Habit habit = (Habit) o;
 		return (this.primary_key == habit.getKey()
