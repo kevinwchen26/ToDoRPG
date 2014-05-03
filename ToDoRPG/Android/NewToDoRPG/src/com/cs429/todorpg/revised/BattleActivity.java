@@ -54,7 +54,7 @@ public class BattleActivity extends BaseActivity {
 	int width, height, playerMaxHP, enemyMaxHP;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu,
 			playerInfo, enemySide, playerSide;
-	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement, playerDamage, enemyDamage;
+	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement;
 	ImageView enemyImage, playerImage, playerEffect, enemyEffect;
 	AnimationDrawable playerWalk, playerAttack, enemyAttack;
 	Button attack, change_weapon;
@@ -142,7 +142,6 @@ public class BattleActivity extends BaseActivity {
 		setUpBattleNavigator();
 		setUpBattleMenu();
 		setUpBattleInfo();
-		setUpDamageNumbers();
 		update();
 
 	}
@@ -211,28 +210,7 @@ public class BattleActivity extends BaseActivity {
 
 	}
 
-	/**
-	 * Set up damage number pop up
-	 */
-	private void setUpDamageNumbers() {
 
-		RelativeLayout.LayoutParams playerDamageParams = new RelativeLayout.LayoutParams(
-				playerDamage.getLayoutParams());
-		playerDamageParams.addRule(RelativeLayout.ALIGN_LEFT,
-				playerImage.getId());
-		playerDamageParams.addRule(RelativeLayout.ABOVE,
-				playerImage.getId());
-		playerDamage.setLayoutParams(playerDamageParams);
-
-		
-		RelativeLayout.LayoutParams enemyDamageParams = new RelativeLayout.LayoutParams(
-				enemyDamage.getLayoutParams());
-		enemyDamageParams.addRule(RelativeLayout.ALIGN_LEFT,
-				enemyImage.getId());
-		enemyDamageParams.addRule(RelativeLayout.ABOVE,
-				enemyImage.getId());
-		enemyDamage.setLayoutParams(enemyDamageParams);
-	}
 
 	/**
 	 * set up battle menu and info
@@ -362,8 +340,7 @@ public class BattleActivity extends BaseActivity {
 		h.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				playerDamage.setText("");
-				enemyDamage.setText("");
+				
 				checkGameConditions();
 			}
 		}, 1000);
@@ -431,7 +408,6 @@ public class BattleActivity extends BaseActivity {
 							Animate(playerAttack, playerEffect,
 									R.drawable.player_attack);
 							enemy.setHP(enemy.getHP() - finalDamage);
-							enemyDamage.setText(finalDamage);
 							update();
 						}
 					} else {
@@ -482,8 +458,6 @@ public class BattleActivity extends BaseActivity {
 		battleAnnouncement = (TextView) findViewById(R.id.battle_announcement);
 		attack = (Button) findViewById(R.id.attack_button);
 		change_weapon = (Button) findViewById(R.id.change_weapon);
-		playerDamage = (TextView) findViewById(R.id.battle_player_status_blind);
-		enemyDamage = (TextView) findViewById(R.id.battle_enemy_status_curse);
 
 	}
 	/**
@@ -502,6 +476,8 @@ public class BattleActivity extends BaseActivity {
 		Point size = new Point();
 		display.getSize(size);
 		width = size.x;
+		
+		
 		height = size.y;
 	}
 
@@ -630,7 +606,6 @@ public class BattleActivity extends BaseActivity {
 				Animate(enemyAttack, enemyEffect, R.drawable.enemy_attack);
 
 				player.setHP(player.getHP() - finalDamage);
-				playerDamage.setText(finalDamage);
 				update();
 			}
 		} else {

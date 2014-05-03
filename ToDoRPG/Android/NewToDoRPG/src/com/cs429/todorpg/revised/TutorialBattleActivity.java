@@ -48,7 +48,7 @@ public class TutorialBattleActivity extends BaseActivity {
 	int width, height, playerMaxHP, enemyMaxHP, tutorialStep = 0;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu,
 			playerInfo, enemySide, playerSide;
-	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement;
+	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement, playerDamage, enemyDamage;
 	ImageView enemyImage, playerImage, playerEffect, enemyEffect,
 			playerStatusPoison, playerStatusBlind, playerStatusCurse,
 			enemyStatusPoison, enemyStatusBlind, enemyStatusCurse;
@@ -62,7 +62,9 @@ public class TutorialBattleActivity extends BaseActivity {
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
 	boolean playerTurn = false;
-
+	/**
+	 * Creation function when activity starts
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,7 +87,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		});
 
 	}
-
+	/**
+	 * Tutorial function
+	 */
 	private void runTutorial() {
 		attack.setEnabled(false);
 		if (tutorialStep == 0) {
@@ -93,59 +97,30 @@ public class TutorialBattleActivity extends BaseActivity {
 		} else if (tutorialStep == 1) {
 			setBattleMessage("On the bottom corners, you can see your player and enemy name and HP");
 		} else if (tutorialStep == 2) {
-			setBattleMessage("Below you can press commands for attack and changing weapons. Changing Weapons takes up a turn!");
+			setBattleMessage("You have a chance to critical strike the enemy!");
 		} else if (tutorialStep == 3) {
-			setBattleMessage("Next we will look at status effects.");
-		} else if (tutorialStep == 4) {
-			enemyStatusCurse.setBackgroundResource(R.drawable.curse);
-
-			playerStatusCurse.setBackgroundResource(R.drawable.curse);
-
-			setBattleMessage("This is curse. This reduces the damage dealt by 20%.");
-
-		} else if (tutorialStep == 5) {
-			enemyStatusCurse.setBackgroundResource(0);
-			playerStatusCurse.setBackgroundResource(0);
-
-			enemyStatusPoison.setBackgroundResource(R.drawable.poison);
-			playerStatusPoison.setBackgroundResource(R.drawable.poison);
-
-			setBattleMessage("This is poison. The character loses 10% of current HP per turn.");
-
-		} else if (tutorialStep == 6) {
-			enemyStatusPoison.setBackgroundResource(0);
-			playerStatusPoison.setBackgroundResource(0);
-			enemyStatusBlind.setBackgroundResource(R.drawable.blind);
-			playerStatusBlind.setBackgroundResource(R.drawable.blind);
-
-			setBattleMessage("This is blind. The character has a 20% chance of missing their attack.");
-
-		} else if (tutorialStep == 7) {
-			enemyStatusBlind.setBackgroundResource(0);
-			playerStatusBlind.setBackgroundResource(0);
-
-			setBattleMessage("Finally, deplete your enemy's HP to win the battle!.");
-
-		} else if (tutorialStep == 8) {
 			setBattleMessage("You have finished the tutorial, Try and defeat the boss.");
 		} else {
 			attack.setEnabled(true);
 		}
 		tutorialStep++;
 	}
-
+	/**
+	 * set up helper
+	 */
 	private void setUpActivity() {
 		setPlayers();
 		setUpBattleScreen();
 		setUpBattleNavigator();
 		setUpBattleMenu();
 		setUpBattleInfo();
-		setUpStatusEffects();
-		// applyStatusEffects();
 		update();
 
 	}
 
+	/**
+	 * sets up upper half of screen, battle sprites and battle damage
+	 */
 	private void setUpBattleScreen() {
 		// Set up battle screen.
 		battleScreen.setLayoutParams(new RelativeLayout.LayoutParams(width,
@@ -213,60 +188,10 @@ public class TutorialBattleActivity extends BaseActivity {
 
 	}
 
-	private void setUpStatusEffects() {
 
-		RelativeLayout.LayoutParams playerStatusPoisonParams = new RelativeLayout.LayoutParams(
-				playerStatusPoison.getLayoutParams());
-		playerStatusPoisonParams.addRule(RelativeLayout.ALIGN_LEFT,
-				playerImage.getId());
-		playerStatusPoisonParams.addRule(RelativeLayout.ABOVE,
-				playerImage.getId());
-		playerStatusPoison.setLayoutParams(playerStatusPoisonParams);
-
-		RelativeLayout.LayoutParams playerStatusBlindParams = new RelativeLayout.LayoutParams(
-				playerStatusBlind.getLayoutParams());
-		playerStatusBlindParams.addRule(RelativeLayout.LEFT_OF,
-				playerStatusPoison.getId());
-		playerStatusBlind.setLayoutParams(playerStatusBlindParams);
-
-		RelativeLayout.LayoutParams playerStatusCurseParams = new RelativeLayout.LayoutParams(
-				playerStatusCurse.getLayoutParams());
-		playerStatusCurseParams.addRule(RelativeLayout.RIGHT_OF,
-				playerStatusPoison.getId());
-		playerStatusCurse.setLayoutParams(playerStatusCurseParams);
-
-		RelativeLayout.LayoutParams enemyStatusPoisonParams = new RelativeLayout.LayoutParams(
-				enemyStatusPoison.getLayoutParams());
-		enemyStatusPoisonParams.addRule(RelativeLayout.ALIGN_LEFT,
-				enemyImage.getId());
-		enemyStatusPoisonParams.addRule(RelativeLayout.ABOVE,
-				enemyImage.getId());
-		enemyStatusPoison.setLayoutParams(enemyStatusPoisonParams);
-
-		RelativeLayout.LayoutParams enemyStatusBlindParams = new RelativeLayout.LayoutParams(
-				enemyStatusBlind.getLayoutParams());
-		enemyStatusBlindParams.addRule(RelativeLayout.LEFT_OF,
-				enemyStatusPoison.getId());
-		enemyStatusBlind.setLayoutParams(enemyStatusBlindParams);
-
-		RelativeLayout.LayoutParams enemyStatusCurseParams = new RelativeLayout.LayoutParams(
-				enemyStatusCurse.getLayoutParams());
-		enemyStatusCurseParams.addRule(RelativeLayout.RIGHT_OF,
-				enemyStatusPoison.getId());
-		enemyStatusCurse.setLayoutParams(enemyStatusCurseParams);
-
-	}
-
-	private void applyStatusEffects() {
-		enemyStatusCurse.setBackgroundResource(R.drawable.curse);
-		enemyStatusPoison.setBackgroundResource(R.drawable.poison);
-		enemyStatusBlind.setBackgroundResource(R.drawable.blind);
-
-		playerStatusCurse.setBackgroundResource(R.drawable.curse);
-		playerStatusPoison.setBackgroundResource(R.drawable.poison);
-		playerStatusBlind.setBackgroundResource(R.drawable.blind);
-	}
-
+	/**
+	 * set up battle menu and info
+	 */
 	private void setUpBattleNavigator() {
 		// Set up Battle navigator
 		RelativeLayout.LayoutParams battleNav = new RelativeLayout.LayoutParams(
@@ -275,7 +200,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		battleNavigator.setLayoutParams(battleNav);
 
 	}
-
+	/**
+	 *  setup player and enemy name and hp panel
+	 */
 	private void setUpBattleInfo() {
 		RelativeLayout.LayoutParams playerInfoParams = new RelativeLayout.LayoutParams(
 				width / 4, height / 2);
@@ -302,7 +229,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		playerHP.setLayoutParams(playerHPParams);
 
 	}
-
+	/**
+	 * set up battle menu, attack button
+	 */
 	private void setUpBattleMenu() {
 		int buttonHeight = (height / 2) / 5;
 		// Set up lower half of screen
@@ -325,7 +254,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		attack.setOnClickListener(ButtonListener);
 		change_weapon.setOnClickListener(ButtonListener);
 	}
-
+	/**
+	 * pull players from DB
+	 */
 	private void setPlayers() {
 		player = sql.getCharacter();
 		enemy = sql.getCharacter();
@@ -335,7 +266,11 @@ public class TutorialBattleActivity extends BaseActivity {
 		enemyMaxHP = enemy.getHP();
 
 	}
-
+	/**
+	 * animation function, waits for anmiation to run to the end before clearing view
+	 * @param anim
+	 * @param img
+	 */
 	private void waitForEffectAnimationDone(AnimationDrawable anim,
 			final ImageView img) {
 		final AnimationDrawable a = anim;
@@ -362,7 +297,12 @@ public class TutorialBattleActivity extends BaseActivity {
 		waitForEffectAnimationDone(anim, effect);
 	}
 
-	// Updates the screen
+	/**
+	 * animation helper
+	 * @param anim
+	 * @param effect
+	 * @param animation
+	 */
 	private void update() {
 		enemyName.setText("Boss Lv." + Integer.toString(enemy.getLevel()));
 		enemyHP.setText("HP" + enemy.getHP() + "/" + enemyMaxHP);
@@ -377,13 +317,17 @@ public class TutorialBattleActivity extends BaseActivity {
 			@Override
 			public void run() {
 				checkGameConditions();
+				playerDamage.setText("");
+				enemyDamage.setText("");
 				if (state != GameState.gameOver)
 					changeTurn();
 			}
 		}, 1000);
 	}
 
-	// Change turns
+	/**
+	 * Changes turns
+	 */
 	private void changeTurn() {
 		if (playerTurn) {
 			playerTurn = false;
@@ -409,15 +353,19 @@ public class TutorialBattleActivity extends BaseActivity {
 
 		}
 	}
-
+	/**
+	 * simple boss AI
+	 */
 	private void bossAI() {
-		setBattleMessage("Boss attacks " + player.getName());
+		setBattleMessage("Boss attacks " + player.getName() + " for 10 dmg!");
 		player.setHP(player.getHP() - 10);
 		Animate(enemyAttack, enemyEffect, R.drawable.enemy_attack);
 		update();
 	}
 
-	// Return true if game is over
+	/**
+	 * Return true if game is over
+	 */
 	private void checkGameConditions() {
 
 		if (player.getHP() < 1) {
@@ -435,7 +383,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		}
 
 	}
-
+/**
+ * attack button listener
+ */
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 		@SuppressLint("NewApi")
 		@Override
@@ -444,7 +394,7 @@ public class TutorialBattleActivity extends BaseActivity {
 			case R.id.attack_button:
 				// player.attack(enemy);
 				setBattleMessage(player.getName() + " attacks "
-						+ enemy.getName());
+						+ enemy.getName() + " for 50 dmg!");
 				/*
 				 * playerEffect.setBackgroundResource(R.drawable.player_attack);
 				 * playerAttack = (AnimationDrawable)
@@ -462,7 +412,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		}
 
 	};
-
+/**
+ * finds view in layout
+ */
 	private void FindViewById() {
 		battleScreen = (RelativeLayout) findViewById(R.id.battle_screen);
 		battleNavigator = (RelativeLayout) findViewById(R.id.battle_navigator);
@@ -484,13 +436,15 @@ public class TutorialBattleActivity extends BaseActivity {
 		change_weapon = (Button) findViewById(R.id.change_weapon);
 		playerStatusPoison = (ImageView) findViewById(R.id.battle_player_status_poison);
 		enemyStatusPoison = (ImageView) findViewById(R.id.battle_enemy_status_poison);
-		playerStatusBlind = (ImageView) findViewById(R.id.battle_player_status_blind);
 		enemyStatusBlind = (ImageView) findViewById(R.id.battle_enemy_status_blind);
 		playerStatusCurse = (ImageView) findViewById(R.id.battle_player_status_curse);
-		enemyStatusCurse = (ImageView) findViewById(R.id.battle_enemy_status_curse);
+		playerDamage = (TextView) findViewById(R.id.battle_player_status_blind);
+		enemyDamage = (TextView) findViewById(R.id.battle_enemy_status_curse);
 
 	}
-
+/**
+ * fullscreen and landscape orientation
+ */
 	private void setUpLayout() {
 
 		// Remove title bar
@@ -508,20 +462,19 @@ public class TutorialBattleActivity extends BaseActivity {
 		height = size.y;
 
 	}
-
+/**
+ * shows message pop up
+ * @param msg
+ */
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
 		battleAnnouncement.setVisibility(View.VISIBLE);
-		/*
-		 * Handler h = new Handler(); h.postDelayed(new Runnable() {
-		 * 
-		 * @Override public void run() {
-		 * battleAnnouncement.setVisibility(View.INVISIBLE);
-		 * 
-		 * }}, 1000);
-		 */
-	}
 
+	}
+	/**
+	 * Continue or quit dialogue
+	 * @param msg
+	 */
 	public void makeGameOverMessages(String msg) {
 		builder = new AlertDialog.Builder(this);
 
