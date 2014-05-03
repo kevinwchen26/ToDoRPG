@@ -55,9 +55,7 @@ public class BattleActivity extends BaseActivity {
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu,
 			playerInfo, enemySide, playerSide;
 	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement, playerDamage, enemyDamage;
-	ImageView enemyImage, playerImage, playerEffect, enemyEffect,
-			playerStatusPoison, playerStatusCurse,
-			enemyStatusPoison, enemyStatusBlind;
+	ImageView enemyImage, playerImage, playerEffect, enemyEffect;
 	AnimationDrawable playerWalk, playerAttack, enemyAttack;
 	Button attack, change_weapon;
 	Intent intent;
@@ -70,7 +68,10 @@ public class BattleActivity extends BaseActivity {
 	AlertDialog battleEnd;
 
 	private BTMessageHandler mHandler;
-
+	
+	/**
+	 * Create function when activity starts
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,7 +85,9 @@ public class BattleActivity extends BaseActivity {
 		mHandler = BTMessageHandler.getInstance(BattleActivity.this);
 		mHandler.changeContext(BattleActivity.this);
 	}
-
+	/**
+	 * Destory function when activity calls finish()
+	 */
 	@Override
 	public void onDestroy() {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
@@ -94,12 +97,8 @@ public class BattleActivity extends BaseActivity {
 		mHandler.flush();
 	}
 
-	/*
-	 * CALL BACKS FOR BT HANDLER
-	 */
-
-	/*
-	 * SET
+	/**
+	 * Load inventory
 	 */
 	public void jesus() {
 		Toast.makeText(BattleActivity.this, "jesus", Toast.LENGTH_SHORT).show();
@@ -126,25 +125,31 @@ public class BattleActivity extends BaseActivity {
 
 	}
 
-	//pop up message
+	/**
+	 * Toast string 
+	 * @param s
+	 */
 	public void battleToast(String s) {
 		Toast.makeText(BattleActivity.this, s, Toast.LENGTH_SHORT).show();
 	}
 
-	//set up helper
+	/**
+	 * set up helper
+	 */
 	private void setUpActivity() {
 		setPlayers();
 		setUpBattleScreen();
 		setUpBattleNavigator();
 		setUpBattleMenu();
 		setUpBattleInfo();
-		setUpStatusEffects();
-		// applyStatusEffects();
+		setUpDamageNumbers();
 		update();
 
 	}
 
-	//sets up upper half of screen, player sprits and background
+	/**
+	 * sets up upper half of screen, battle sprites and battle damage
+	 */
 	private void setUpBattleScreen() {
 		// Set up battle screen.
 		battleScreen.setLayoutParams(new RelativeLayout.LayoutParams(width,
@@ -206,51 +211,32 @@ public class BattleActivity extends BaseActivity {
 
 	}
 
-	//set up player effects
-	private void setUpStatusEffects() {
+	/**
+	 * Set up damage number pop up
+	 */
+	private void setUpDamageNumbers() {
 
-		RelativeLayout.LayoutParams playerStatusPoisonParams = new RelativeLayout.LayoutParams(
-				playerStatusPoison.getLayoutParams());
-		playerStatusPoisonParams.addRule(RelativeLayout.ALIGN_LEFT,
-				playerImage.getId());
-		playerStatusPoisonParams.addRule(RelativeLayout.ABOVE,
-				playerImage.getId());
-		playerStatusPoison.setLayoutParams(playerStatusPoisonParams);
-
-		RelativeLayout.LayoutParams playerStatusBlindParams = new RelativeLayout.LayoutParams(
+		RelativeLayout.LayoutParams playerDamageParams = new RelativeLayout.LayoutParams(
 				playerDamage.getLayoutParams());
-		playerStatusBlindParams.addRule(RelativeLayout.LEFT_OF,
-				playerStatusPoison.getId());
-		playerDamage.setLayoutParams(playerStatusBlindParams);
+		playerDamageParams.addRule(RelativeLayout.ALIGN_LEFT,
+				playerImage.getId());
+		playerDamageParams.addRule(RelativeLayout.ABOVE,
+				playerImage.getId());
+		playerDamage.setLayoutParams(playerDamageParams);
 
-		RelativeLayout.LayoutParams playerStatusCurseParams = new RelativeLayout.LayoutParams(
-				playerStatusCurse.getLayoutParams());
-		playerStatusCurseParams.addRule(RelativeLayout.RIGHT_OF,
-				playerStatusPoison.getId());
-		playerStatusCurse.setLayoutParams(playerStatusCurseParams);
-
-		RelativeLayout.LayoutParams enemyStatusPoisonParams = new RelativeLayout.LayoutParams(
-				enemyStatusPoison.getLayoutParams());
-		enemyStatusPoisonParams.addRule(RelativeLayout.ALIGN_LEFT,
-				enemyImage.getId());
-		enemyStatusPoisonParams.addRule(RelativeLayout.ABOVE,
-				enemyImage.getId());
-		enemyStatusPoison.setLayoutParams(enemyStatusPoisonParams);
-
-		RelativeLayout.LayoutParams enemyStatusBlindParams = new RelativeLayout.LayoutParams(
-				enemyStatusBlind.getLayoutParams());
-		enemyStatusBlindParams.addRule(RelativeLayout.LEFT_OF,
-				enemyStatusPoison.getId());
-		enemyStatusBlind.setLayoutParams(enemyStatusBlindParams);
-
-		RelativeLayout.LayoutParams enemyStatusCurseParams = new RelativeLayout.LayoutParams(
+		
+		RelativeLayout.LayoutParams enemyDamageParams = new RelativeLayout.LayoutParams(
 				enemyDamage.getLayoutParams());
-		enemyStatusCurseParams.addRule(RelativeLayout.RIGHT_OF,
-				enemyStatusPoison.getId());
-		enemyDamage.setLayoutParams(enemyStatusCurseParams);
+		enemyDamageParams.addRule(RelativeLayout.ALIGN_LEFT,
+				enemyImage.getId());
+		enemyDamageParams.addRule(RelativeLayout.ABOVE,
+				enemyImage.getId());
+		enemyDamage.setLayoutParams(enemyDamageParams);
 	}
 
-	//set up lower half of screen, player and enemy hp, player action buttons
+	/**
+	 * set up battle menu and info
+	 */
 	private void setUpBattleNavigator() {
 		// Set up Battle navigator
 		RelativeLayout.LayoutParams battleNav = new RelativeLayout.LayoutParams(
@@ -259,7 +245,9 @@ public class BattleActivity extends BaseActivity {
 		battleNavigator.setLayoutParams(battleNav);
 	}
 
-	// setup player and enemy name and hp panel
+	/**
+	 *  setup player and enemy name and hp panel
+	 */
 	private void setUpBattleInfo() {
 		RelativeLayout.LayoutParams playerInfoParams = new RelativeLayout.LayoutParams(
 				width / 4, height / 2);
@@ -282,7 +270,9 @@ public class BattleActivity extends BaseActivity {
 		playerHP.setLayoutParams(playerHPParams);
 	}
 
-	//set up battle menu, attack button
+	/**
+	 * set up battle menu, attack button
+	 */
 	private void setUpBattleMenu() {
 		int buttonHeight = (height / 2) / 5;
 		// Set up lower half of screen
@@ -306,14 +296,20 @@ public class BattleActivity extends BaseActivity {
 		change_weapon.setOnClickListener(ButtonListener);
 	}
 
-	//pull players from DB
+	/**
+	 * pull players from DB
+	 */
 	private void setPlayers() {
 		player = sql.getCharacter();
 		enemy = sql.getCharacter();
 		playerMaxHP = player.getHP();
 		enemyMaxHP = enemy.getHP();
 	}
-	//animation function, waits for anmiation to run to the end before clearing view
+	/**
+	 * animation function, waits for anmiation to run to the end before clearing view
+	 * @param anim
+	 * @param img
+	 */
 	private void waitForEffectAnimationDone(AnimationDrawable anim,
 			final ImageView img) {
 		final AnimationDrawable a = anim;
@@ -330,7 +326,12 @@ public class BattleActivity extends BaseActivity {
 		}, timeBetweenChecks);
 	}
 
-	//animation helper
+	/**
+	 * animation helper
+	 * @param anim
+	 * @param effect
+	 * @param animation
+	 */
 	private void Animate(AnimationDrawable anim, final ImageView effect,
 			int animation) {
 		effect.setBackgroundResource(animation);
@@ -339,7 +340,9 @@ public class BattleActivity extends BaseActivity {
 		waitForEffectAnimationDone(anim, effect);
 	}
 
-	// Updates the screen
+	/**
+	 *  Updates the HP and checks for game ending conditions
+	 */
 	private void update() {
 		if (enemy.getHP() < 0) {
 			enemy.setHP(0);
@@ -362,37 +365,14 @@ public class BattleActivity extends BaseActivity {
 				playerDamage.setText("");
 				enemyDamage.setText("");
 				checkGameConditions();
-				if (state != GameState.gameOver)
-					;
-				// changeTurn();
 			}
 		}, 1000);
 	}
 
-	// Change turns
-	private void changeTurn() {
-		if (true) {
-			Handler h = new Handler();
-			h.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-				}
-			}, 1000);
-		}
-		// Boss just finished turn
-		else {
-			Handler h = new Handler();
-			h.postDelayed(new Runnable() {
-				@Override
-				public void run() {
 
-				}
-			}, 1000);
-			// Prompt message, 'This character's turn'
-		}
-	}
-
-	// Return true if game is over
+	/**
+	 * Return true if game is over
+	 */
 	private void checkGameConditions() {
 		int victory = 0;
 		if (player.getHP() < 1) {
@@ -416,8 +396,8 @@ public class BattleActivity extends BaseActivity {
 
 	}
 
-	/*
-	 * ATTACK BUTTON
+	/**
+	 * Attack button listener
 	 */
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 		@SuppressLint("NewApi")
@@ -480,7 +460,9 @@ public class BattleActivity extends BaseActivity {
 		}
 	};
 	
-	//finds views from layout
+	/**
+	 * finds views from layout
+	 */
 	private void FindViewById() {
 		battleScreen = (RelativeLayout) findViewById(R.id.battle_screen);
 		battleNavigator = (RelativeLayout) findViewById(R.id.battle_navigator);
@@ -500,15 +482,13 @@ public class BattleActivity extends BaseActivity {
 		battleAnnouncement = (TextView) findViewById(R.id.battle_announcement);
 		attack = (Button) findViewById(R.id.attack_button);
 		change_weapon = (Button) findViewById(R.id.change_weapon);
-		playerStatusPoison = (ImageView) findViewById(R.id.battle_player_status_poison);
-		enemyStatusPoison = (ImageView) findViewById(R.id.battle_enemy_status_poison);
 		playerDamage = (TextView) findViewById(R.id.battle_player_status_blind);
-		enemyStatusBlind = (ImageView) findViewById(R.id.battle_enemy_status_blind);
-		playerStatusCurse = (ImageView) findViewById(R.id.battle_player_status_curse);
 		enemyDamage = (TextView) findViewById(R.id.battle_enemy_status_curse);
 
 	}
-
+	/**
+	 * Makes activity full screen and landscape
+	 */
 	private void setUpLayout() {
 		// Remove title bar
 		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -525,7 +505,10 @@ public class BattleActivity extends BaseActivity {
 		height = size.y;
 	}
 
-	//helper for setting up battle message
+	/**
+	 * helper for setting up battle message
+	 * @param msg
+	 */
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
 		battleAnnouncement.setVisibility(View.VISIBLE);
@@ -538,7 +521,10 @@ public class BattleActivity extends BaseActivity {
 		}, 1000);
 	}
 
-	// builder for confirm pop up
+	/**
+	 *  builder for confirm pop up
+	 * @param msg
+	 */
 	public void makeGameOverMessages(String msg) {
 		builder = new AlertDialog.Builder(this);
 
@@ -557,11 +543,17 @@ public class BattleActivity extends BaseActivity {
 	}
 	
 	
-	//class for blue tooth
+	/**
+	 * class for blue tooth
+	 * 
+	 *
+	 */
 	private class ShareInfoTask extends AsyncTask<Void, Void, Void> {
 
 		ProgressDialog progress;
-
+		/**
+		 * 
+		 */
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
@@ -571,14 +563,19 @@ public class BattleActivity extends BaseActivity {
 					true);
 
 		}
-
+		/**
+		 * 
+		 */
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			progress.dismiss();
 		}
 
-		//listen for message
+		/**
+		 * 
+		 */
+		
 		@Override
 		protected Void doInBackground(Void... params) {
 
@@ -677,7 +674,12 @@ public class BattleActivity extends BaseActivity {
 		}
 		return msgBytes;
 	}
-
+	/**
+	 * 
+	 * @param player
+	 * @param enemy
+	 * @param victory
+	 */
 	private void updateStatsLog(ToDoCharacter player, ToDoCharacter enemy,
 			int victory) {
 		SQLiteHelper db = new SQLiteHelper(this);

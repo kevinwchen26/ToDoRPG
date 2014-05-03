@@ -41,7 +41,11 @@ public class RewardActivity extends BaseActivity {
 	RewardsAdapter adapter;
 	SQLiteHelper sql = new SQLiteHelper(this);
 
-	//list item object 
+	/**
+	 * list item object 
+	 * @author Jun
+	 *
+	 */
 	private class RewardsAdapter extends BaseAdapter {
 
 		Context context;
@@ -55,23 +59,31 @@ public class RewardActivity extends BaseActivity {
 			this.context = context;
 			this.rewards = rewards;
 		}
-
+		/**
+		 * Return list size
+		 */
 		@Override
 		public int getCount() {
 			return rewards.size();
 		}
-
+		/**
+		 * Get item at position
+		 */
 		@Override
 		public Reward getItem(int position) {
 			return rewards.get(position);
 		}
-
+		/**
+		 * get item id at position
+		 */
 		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
-		//get view for a row, and places values from db
+		/**
+		 * get view for a row, and places values from db
+		 */
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
@@ -106,7 +118,9 @@ public class RewardActivity extends BaseActivity {
 			final View show_edit_field = (View) convertView
 					.findViewById(R.id.show_edit_reward_field);
 
-			//functions for the different buttons in a row
+			/**
+			 * edit button listener, for editing reward object
+			 */
 			edit_button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -122,7 +136,9 @@ public class RewardActivity extends BaseActivity {
 				}
 
 			});
-
+			/**
+			 * save reward, push to DB, close view
+			 */
 			save_close_button.setOnClickListener(new Button.OnClickListener() {
 
 				@Override
@@ -154,7 +170,9 @@ public class RewardActivity extends BaseActivity {
 				}
 
 			});
-
+			/**
+			 * saves reward to DB
+			 */
 			save_button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -182,7 +200,9 @@ public class RewardActivity extends BaseActivity {
 				}
 
 			});
-
+			/**
+			 * close view without saving
+			 */
 			cancel_button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -196,7 +216,9 @@ public class RewardActivity extends BaseActivity {
 				}
 
 			});
-
+			/**
+			 * remove reward
+			 */
 			delete_button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -218,7 +240,9 @@ public class RewardActivity extends BaseActivity {
 				}
 
 			});
-
+			/**
+			 * Purchase reward, calls helper to check if can purchase
+			 */
 			purchase.setOnClickListener(new Button.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -233,7 +257,9 @@ public class RewardActivity extends BaseActivity {
 
 		}
 	}
-
+	/**
+	 * Create function
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -247,7 +273,9 @@ public class RewardActivity extends BaseActivity {
 		pullRewards();
 
 	}
-	//grab rewarsd from database
+	/**
+	 * Pull rewards from DB, set empty list if null
+	 */
 	private void pullRewards() {
 		reward_data = sql.getRewards();
 		if (reward_data == null) {
@@ -258,7 +286,9 @@ public class RewardActivity extends BaseActivity {
 		adapter.notifyDataSetChanged();
 		SetAdapter();
 	}
-
+	/**
+	 * find views in layouts
+	 */
 	private void FindViewById() {
 		rewards_heading = (TextView) findViewById(R.id.rewards_heading);
 		gold = (TextView) findViewById(R.id.gold);
@@ -266,7 +296,9 @@ public class RewardActivity extends BaseActivity {
 		add_reward = (Button) findViewById(R.id.add_reward_button);
 		reward_list = (ListView) findViewById(R.id.rewards_list);
 	}
-
+	/**
+	 * set gold value
+	 */
 	private void setUpLayout() {
 
 		gold.setText("Gold: " + my_character.getGold());
@@ -274,7 +306,11 @@ public class RewardActivity extends BaseActivity {
 		add_reward.setOnClickListener(ButtonListener);
 
 	}
-	//updates the gold counter after a user purchases reward. Also saves gold value to db
+	/**
+	 * updates the gold counter after a user purchases reward. Also saves gold value to db
+	 * @param cost
+	 * @param itemName
+	 */
 	public void updateGold(int cost, String itemName) {
 		if (!canPurchase(cost)) {
 			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT)
@@ -306,14 +342,20 @@ public class RewardActivity extends BaseActivity {
 		}
 
 	}
-	//checks if user has the neccessary gold amount
+	/**
+	 * checks if user has the neccessary gold amount
+	 */
 	public boolean canPurchase(int cost) {
 		if (cost > my_character.getGold())
 			return false;
 		return true;
 	}
 
-	//add reward to list and db
+	/**
+	 * add reward to list and db
+	 * @param description
+	 * @param cost
+	 */
 	private void addReward(String description, int cost) {
 
 		for (Reward x : reward_data) {
@@ -335,13 +377,17 @@ public class RewardActivity extends BaseActivity {
 		adapter.notifyDataSetChanged();
 
 	}
-
+	/**
+	 * set list objects
+	 */
 	private void SetAdapter() {
 		adapter = new RewardsAdapter(this, reward_data);
 		reward_list.setAdapter(adapter);
 
 	}
-	//button listener for add reward button
+	/**
+	 * button listener for add reward button
+	 */
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 		@SuppressLint("NewApi")
 		@Override
