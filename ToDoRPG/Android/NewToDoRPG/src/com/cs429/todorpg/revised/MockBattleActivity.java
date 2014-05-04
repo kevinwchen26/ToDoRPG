@@ -1,22 +1,14 @@
 package com.cs429.todorpg.revised;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -45,7 +37,7 @@ import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
-public class BattleActivity extends BaseActivity {
+public class MockBattleActivity extends BaseActivity {
 	enum GameState {
 		ready, gameOver
 	}
@@ -61,13 +53,41 @@ public class BattleActivity extends BaseActivity {
 	Intent intent;
 	ArrayList<Character> party;
 	ToDoCharacter player, enemy;
+	public ToDoCharacter getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(ToDoCharacter player) {
+		this.player = player;
+	}
+
+	public ToDoCharacter getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(ToDoCharacter enemy) {
+		this.enemy = enemy;
+	}
+
 	Avatar playerAvatar, enemyAvatar;
 	Inventory inventory;
 	SQLiteHelper sql = new SQLiteHelper(this);
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
 
-	private BTMessageHandler mHandler;
+	boolean myTurn = true;
+	
+	public MockBattleActivity getMockContext() {
+		return MockBattleActivity.this;
+	}
+	
+	public boolean isMyTurn() {
+		return myTurn;
+	}
+
+	public void setMyTurn(boolean myTurn) {
+		this.myTurn = myTurn;
+	}
 
 	/**
 	 * Create function when activity starts
@@ -80,18 +100,7 @@ public class BattleActivity extends BaseActivity {
 		FindViewById();
 
 		setUpActivity();
-		new ShareInfoTask().execute();
-
-		mHandler = BTMessageHandler.getInstance(BattleActivity.this);
-		mHandler.changeContext(BattleActivity.this);
-	}
-
-	public BTMessageHandler getmHandler() {
-		return mHandler;
-	}
-
-	public void setmHandler(BTMessageHandler mHandler) {
-		this.mHandler = mHandler;
+		initMock();
 	}
 
 	/**
@@ -101,9 +110,6 @@ public class BattleActivity extends BaseActivity {
 	public void onDestroy() {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
 		super.onDestroy();
-		mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_END)
-		.sendToTarget();
-		mHandler.flush();
 	}
 
 	/**
@@ -116,7 +122,7 @@ public class BattleActivity extends BaseActivity {
 	 * @param s
 	 */
 	public void battleToast(String s) {
-		Toast.makeText(BattleActivity.this, s, Toast.LENGTH_SHORT).show();
+		Toast.makeText(MockBattleActivity.this, s, Toast.LENGTH_SHORT).show();
 	}
 
 	/**
@@ -343,7 +349,6 @@ public class BattleActivity extends BaseActivity {
 			battleEnd.show();
 			state = GameState.gameOver;
 			victory = 1;
-			updateStatsLog(player, enemy, victory);
 
 		}
 		if (enemy.getHP() < 1) {
@@ -352,7 +357,6 @@ public class BattleActivity extends BaseActivity {
 			battleEnd.show();
 			state = GameState.gameOver;
 			victory = 0;
-			updateStatsLog(player, enemy, victory);
 
 		}
 
@@ -367,8 +371,9 @@ public class BattleActivity extends BaseActivity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.attack_button:
-
-				if (mHandler.getMyTurn() && mHandler.isReadyToStart()) {
+				
+				if (myTurn) {
+					myTurn = false;
 					// Calculate effects of this attack
 					AttackResult attackResult = BattleLogic
 							.calculateAttackResult(playerAvatar.getInventory(),
@@ -376,6 +381,7 @@ public class BattleActivity extends BaseActivity {
 
 					// First check if the attack registers
 					if (attackResult.isHit) {
+						Log.d("TEST", "is hit");
 						// Loop through the hits
 						for (boolean b : attackResult.critChanceList) {
 							int finalDamage = attackResult.damagePerHit;
@@ -393,21 +399,20 @@ public class BattleActivity extends BaseActivity {
 							Animate(playerAttack, playerEffect,
 									R.drawable.player_attack);
 							enemy.setHP(enemy.getHP() - finalDamage);
+							Log.d("TEST", "enemy HP: " + enemy.getHP());
 							update();
+							
 						}
 					} else {
+						Log.d("TEST", "missed");
 						setBattleMessage(" Your attack missed!");
 					}
 
 					Log.d("BATTLE_ACTIVITY", "Attack");
-					mHandler.obtainMessage(
-							BTMessageHandler.MESSAGE_BATTLE_SEND,
-							(new BtPackage(BtPackage.ATTACK_PACKAGE,
-									attackResult))).sendToTarget();
 
 				} else {
 					AlertDialog.Builder ab = null;
-					ab = new AlertDialog.Builder(BattleActivity.this);
+					ab = new AlertDialog.Builder(MockBattleActivity.this);
 					ab.setTitle("Battle");
 					ab.setMessage("It is not Your Turn!!");
 					ab.setPositiveButton("OK", null);
@@ -498,76 +503,45 @@ public class BattleActivity extends BaseActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				intent = new Intent(BattleActivity.this, MainActivity.class);
+				intent = new Intent(MockBattleActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
 			}
 		});
 	}
-
-	/**
-	 * class for blue tooth
-	 * 
-	 * 
-	 */
-	private class ShareInfoTask extends AsyncTask<Void, Void, Void> {
-
-		ProgressDialog progress;
-
-		/**
-		 * 
-		 */
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			progress = ProgressDialog.show(BattleActivity.this,
-					"Initializing...", "Please wait while we load the battle",
-					true);
-
-		}
-
-		/**
-		 * 
-		 */
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
-			progress.dismiss();
-		}
-
-		/**
-		 * 
-		 */
-
-		@Override
-		protected Void doInBackground(Void... params) {
-
-			Avatar av = new Avatar();
-			SQLiteHelper sql = new SQLiteHelper(BattleActivity.this);
-			inventory = sql.getInventory();
-			if (inventory == null) {
-				Log.d("BATTLE ACTIVITY", "INVENTORY IS NULL");
-			} else {
-				Log.d("BATTLE ACTIVITY", inventory.getWeapon().getName());
-			}
-			ToDoCharacter c = sql.getCharacter();
-			if (c == null) {
-				Log.d("BATTLE ACTIVITY", "CHARACTER IS NULL");
-			} else {
-				Log.d("BATTLE ACTIVITY", c.getName());
-			}
-			player = c;
-			av.setInventory(inventory);
-			av.setToDoCharacter(c);
-			setPlayerInfo(c);
-			playerAvatar = av;
-			playerImage.setImageBitmap(av.getClearBitmap());
-			mHandler.obtainMessage(BTMessageHandler.MESSAGE_SHARE_CHAR_INFO,
-					new BtPackage(BtPackage.SHARE_INFO_PACKAGE, (av)))
-					.sendToTarget();
-
-			return null;
-		}
+	
+	public void initMock() {
+		
+		ArrayList<PositiveEffects> posEffects = new ArrayList<PositiveEffects>();
+		ArrayList<NegativeEffects> negEffects = new ArrayList<NegativeEffects>();
+		
+		Avatar myAv = new Avatar();
+		Inventory myInventory = new Inventory();
+		
+		
+		myInventory.setWeapon(new Weapon("Your Sword", R.drawable.weapon_warrior_1, 10, 0, 1, negEffects, 0, 0, 200, posEffects));
+		ToDoCharacter myChar = new ToDoCharacter("you", 10, 100, 1, 0, 5000);
+		myAv.setInventory(myInventory);
+		myAv.setToDoCharacter(myChar);
+		inventory = myInventory;
+		
+		player = myChar;
+		myAv.setInventory(inventory);
+		myAv.setToDoCharacter(myChar);
+		setPlayerInfo(myChar);
+		playerAvatar = myAv;
+		playerImage.setImageBitmap(myAv.getClearBitmap());
+		
+		Avatar enemyAv = new Avatar();
+		Inventory enemyInventory = new Inventory();
+		enemyInventory.setWeapon(new Weapon("Enemy Sword", R.drawable.weapon_warrior_2, 10, 0, 1, negEffects, 0, 0, 200, posEffects));
+		ToDoCharacter enemyChar = new ToDoCharacter("enemy", 10, 100, 1, 0, 5000);
+		enemyAv.setInventory(enemyInventory);
+		enemyAv.setToDoCharacter(enemyChar);
+		
+		// Initialize BattleActivity
+		setEnemyImage(enemyAv);
+		setEnemyInfo(enemyChar);
 	}
 
 	/*
@@ -577,6 +551,7 @@ public class BattleActivity extends BaseActivity {
 
 	public void defendAttack(AttackResult attackResult) {
 		// Loop through the hits
+		myTurn = true;
 		if (attackResult.isHit) {
 			for (boolean b : attackResult.critChanceList) {
 				int finalDamage = attackResult.damagePerHit;
@@ -619,57 +594,5 @@ public class BattleActivity extends BaseActivity {
 		playerMaxHP = player.getHP();
 	}
 
-	/**
-	 * 
-	 * @param player
-	 * @param enemy
-	 * @param victory
-	 */
-	private void updateStatsLog(ToDoCharacter player, ToDoCharacter enemy,
-			int victory) {
-		SQLiteHelper db = new SQLiteHelper(this);
-		ArrayList<Stat> stats = db.getStats();
-		for (Stat stat : stats) {
-			if (stat.getName().equals("Battles Fought")) {
-				stat.setCount(stat.getCount() + 1);
-				db.updateStat(stat);
-				break;
-			}
-		}
-		if (victory == 0) {
-			for (Stat stat : stats) {
-				if (stat.getName().equals("Battles Won")) {
-					stat.setCount(stat.getCount() + 1);
-					db.updateStat(stat);
-					Calendar c = Calendar.getInstance();
-					System.out.println("Current time => " + c.getTime());
-
-					SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-					String formattedDate = df.format(c.getTime());
-					String text = "Won battle against " + enemy.getName();
-					db.addLogItem(new LogItem(text, formattedDate));
-					break;
-				}
-
-			}
-		} else if (victory == 1) {
-			for (Stat stat : stats) {
-				if (stat.getName().equals("Battles Lost")) {
-					stat.setCount(stat.getCount() + 1);
-					db.updateStat(stat);
-					Calendar c = Calendar.getInstance();
-					System.out.println("Current time => " + c.getTime());
-
-					SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-					String formattedDate = df.format(c.getTime());
-					String text = "Lost battle against " + enemy.getName();
-					db.addLogItem(new LogItem(text, formattedDate));
-					break;
-				}
-
-			}
-		}
-
-	}
 
 }

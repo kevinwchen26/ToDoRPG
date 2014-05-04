@@ -1,13 +1,10 @@
 package com.cs429.todorpg.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.StreamCorruptedException;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -51,14 +48,10 @@ public class BluetoothService {
 		// Member fields
 		private final BluetoothAdapter mAdapter;
 		private static boolean D;
-		private String address;
-		
 		private AcceptThread mAcceptThread;
 		private ConnectThread mConnectThread;
 		private ConnectedThread mConnectedThread;
 		private int mState;
-		private Context appContext;
-		
 		private BTMessageHandler mHandler;
 		
 		/**
@@ -70,8 +63,7 @@ public class BluetoothService {
 		public BluetoothService(Context context) {
 			mAdapter = BTControl.getInstance(context).getAdapter();
 			D = BTControl.getInstance(context).IsBluetoothEnabled();
-			address = BTControl.getInstance(context).get_address();
-			appContext = context;
+			BTControl.getInstance(context).get_address();
 			mState = STATE_NONE;
 			mHandler = BTMessageHandler.getInstance(context);
 		}
@@ -245,21 +237,6 @@ public class BluetoothService {
 			// Perform the write unsynchronized
 			r.writeObject(out);
 		}
-
-		/*
-		public byte[] read(){
-			// Create temporary object
-			ConnectedThread r;
-			// Synchronize a copy of the ConnectedThread
-			synchronized (this) {
-				if(mState != STATE_CONNECTED)
-					return null;
-				r = mConnectedThread;
-			}
-			// Perform the read unsynchronized
-			return r.read();
-		}
-		*/
 		
 		/**
 		 * Indicate that the connection attempt failed and notify the UI Activity.
@@ -267,13 +244,6 @@ public class BluetoothService {
 		private void connectionFailed(int arg1, int arg2) {
 			setState(STATE_LISTEN);
 			mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_FAIL, arg1, arg2).sendToTarget();
-		}
-
-		/**
-		 * Indicate that the connection was lost and notify the UI Activity.
-		 */
-		private void connectionLost() {
-			setState(STATE_LISTEN);
 		}
 
 		/**
@@ -395,7 +365,6 @@ public class BluetoothService {
 					// This is a blocking call and will only return on a
 					// successful connection or an exception
 					
-//					mHandler.obtainMessage(BTMessageHandler.MESSAGE_PERMISSION).sendToTarget();
 					mmSocket.connect();
 				} catch (IOException e) {
 					//connection failure
@@ -461,7 +430,6 @@ public class BluetoothService {
 		 */
 		private class ConnectedThread extends Thread {
 			private final BluetoothSocket mmSocket;
-			private final InputStream mmInStream;
 			private final OutputStream mmOutStream;
 			private  ObjectOutputStream oos;
 			private  ObjectInputStream ois;
@@ -484,7 +452,6 @@ public class BluetoothService {
 					Log.e(TAG, "temp sockets not created", e);
 				}
 
-				mmInStream = tmpIn;
 				mmOutStream = tmpOut;
 			}
 
@@ -494,23 +461,14 @@ public class BluetoothService {
 				Log.i(TAG, "BEGIN mConnectedThread");
 				mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_SETTLED).sendToTarget();
 				
-				byte[] buffer;
-				int bytes;
-				
 				while(true){
 					try {
-						//buffer = new byte[512];
-						//bytes = mmInStream.read(buffer);
-						
-						
-						//BtPackage btPack = (BtPackage)getObjectFromBytes(buffer);
 						BtPackage btPack;
 						try {
 							btPack = (BtPackage)ois.readObject();
 
 							if (btPack.getIdentifier() == BtPackage.ATTACK_PACKAGE) {
 								Log.d("BLUETOOTH SERVICE", "Received Attack Object");
-								//mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_ACKNOWLEDGE, -1, bytes, buffer).sendToTarget();
 								mHandler.obtainMessage(BTMessageHandler.RECEIVE_ATTACK, btPack.getObj()).sendToTarget();
 								
 							}
@@ -523,38 +481,11 @@ public class BluetoothService {
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}
-						
-						
-						
-						
-						
-//						Log.d("BTHandler", "buffer read is: " + buffer +" and its size: " + bytes);
-						/*
-						//receiving from an enemy for invoking an action
-						if(buffer[0] == 0x01){
-							//enenmy invoked and action and I need to send acknowledge message...
-							//apply a msg from an enemy too
-							Log.d("BTHandler", "received invocation");
-							Log.d("BLUETOOTH SERVICE", "Attack");
-							mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_ACKNOWLEDGE, -1, bytes, buffer).sendToTarget();
-							//next turn??
-							mHandler.toggleMyTurn();
-						}
-						//receiving from an enemy for acknowledge
-						else if (buffer[0] == 0x11){
-							//enemy send an acknowledge message and now move forward to next turn
-							Log.d("BTHandler", "received acknowledge..");
-							//next turn??
-							mHandler.toggleMyTurn();
-						}
-						*/
-						
+						}	
 					} catch (IOException e) {
 						Log.e("BTHandler", "unable to read(): ", e);
 						break;
 					}
-					buffer = null;
 				}
 								
 			}
@@ -569,9 +500,6 @@ public class BluetoothService {
 				try {
 					Log.d("BTHandler", "write()");
 					mmOutStream.write(buffer);
-//					mmOutStream.flush();
-//					mmOutStream.close();
-
 				} catch (IOException e) {
 					Log.e(TAG, "Exception during write", e);
 				}
@@ -581,29 +509,9 @@ public class BluetoothService {
 				try {
 					oos.writeObject(in);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-			/**
-			 * read from the connected InputStream
-			 * 
-			 * @return buffer read from InputStream
-			 */
-			/*
-			public byte[] read(){
-				byte[] buffer = new byte[1024];
-				try{
-					mmInStream.read(buffer);
-					mmInStream.close();
-					
-				} catch(IOException e) {
-					Log.e(TAG, "Exception during read", e);
-				}
-				return buffer;
-			}
-			*/
 
 			public void cancel() {
 				Log.d(TAG, "cancel " + this);
@@ -613,34 +521,5 @@ public class BluetoothService {
 					Log.e(TAG, "close() of connect socket failed", e);
 				}
 			}
-		}
-		/*
-		 * FUNCTIONS ADDED BY PAUL
-		 * 
-		 */
-		public Object getObjectFromBytes(byte [] myBytes) {
-			ByteArrayInputStream bis = new ByteArrayInputStream(myBytes);
-			Object retObject = null;
-			ObjectInput in = null;
-			try {
-				in = new ObjectInputStream(bis);
-				retObject = in.readObject();
-				
-				bis.close();
-				in.close();
-				
-				
-				
-			} catch (StreamCorruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return retObject;
 		}
 }
