@@ -31,12 +31,7 @@ import com.cs429.todorpg.revised.itemsystem.Weapon;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
-/**
- * Tutorial Battle Activity Class
- * 
- * @author Leon Chen
- * 
- */
+
 public class TutorialBattleActivity extends BaseActivity {
 	enum GameState {
 		ready, gameOver
