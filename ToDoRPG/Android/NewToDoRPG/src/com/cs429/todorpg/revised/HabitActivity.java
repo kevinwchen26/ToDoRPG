@@ -45,7 +45,9 @@ public class HabitActivity extends BaseActivity {
 		findViewById(R.id.add_habit_button).setOnClickListener(ButtonHandler);
 
 	}
-
+	/**
+	 * Add habit to activity when user clicks Add button.
+	 */
 	Button.OnClickListener ButtonHandler = new Button.OnClickListener() {
 		@Override
 		public void onClick(View view) {
@@ -65,7 +67,11 @@ public class HabitActivity extends BaseActivity {
 		}
 
 	};
-
+	/**
+	 * Add Habit to ArrayList if no duplicate activity found.
+	 * @param habits
+	 * @param my_habit
+	 */
 	private void AddMyHabit(ArrayList<Habit> habits, String my_habit) {
 		for (int i = 0; i < habits.size(); i++) {
 			if (habits.get(i).getHabit().equals(my_habit)) {
@@ -84,7 +90,7 @@ public class HabitActivity extends BaseActivity {
 		adapter = new HabitAdapter(HabitActivity.this, habits);
 		adapter.notifyDataSetChanged();
 	}
-
+	
 	private void SetAdapter() {
 		adapter = new HabitAdapter(HabitActivity.this, habits);
 		habit_list.setAdapter(adapter);

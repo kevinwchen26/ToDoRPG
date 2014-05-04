@@ -45,7 +45,9 @@ public class StatusActivity extends BaseActivity {
 		current_money = (TextView) findViewById(R.id.current_money);
 
 	}
-
+	/**
+	 * Get Current Character Information(HP, EXP, MONEY, LEVEL) from DB.
+	 */
 	private void GetCharacterInfo() {
 		character = db.getCharacter();
 		if (character == null) {
@@ -63,7 +65,10 @@ public class StatusActivity extends BaseActivity {
 		current_exp.setText(result);
 
 	}
-
+	/**
+	 * Set user name
+	 * @param view
+	 */
 	public void setName(View view) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter Hero Name");

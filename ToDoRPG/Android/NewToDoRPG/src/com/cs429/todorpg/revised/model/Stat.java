@@ -1,6 +1,6 @@
 package com.cs429.todorpg.revised.model;
 /**
- * 
+ * Stat Class
  * @author kchen26, hlim10
  *
  */

@@ -59,7 +59,9 @@ public class MainActivity extends BaseActivity {
 		setHeader(R.id.header);
 
 	}
-
+	/**
+	 * Create and Initialize the Character for first time user
+	 */
 	private void CreateCharacter() {
 		character = sql.getCharacter();
 		if (character == null) {
@@ -78,7 +80,9 @@ public class MainActivity extends BaseActivity {
 		GameApplication app = (GameApplication) getApplication();
 		app.avatar.inventory = sql.getInventory();
 	}
-
+	/**
+	 * Update stats whenever user finishes something.
+	 */
 	private void UpdateStats() {
 		ArrayList<Daily> completed_daily = new ArrayList<Daily>();
 		completed_daily = sql.getDailies(1);
@@ -97,7 +101,9 @@ public class MainActivity extends BaseActivity {
 		}
 
 	}
-
+	/**
+	 * Initialize stat for first time user.
+	 */
 	private void initializeStats() {
 		sql.addStat(new Stat("Battles Fought", 0));
 		sql.addStat(new Stat("Battles Won", 0));
@@ -295,7 +301,9 @@ public class MainActivity extends BaseActivity {
 		current_money = (TextView) findViewById(R.id.current_money);
 
 	}
-
+	/**
+	 * Get current Character information.
+	 */
 	private void GetCharacterInfo() {
 		character = sql.getCharacter();
 		if (character == null) {
@@ -313,7 +321,10 @@ public class MainActivity extends BaseActivity {
 		current_exp.setText(result);
 
 	}
-
+	/**
+	 * Change user name
+	 * @param view
+	 */
 	public void setName(View view) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter Hero Name");

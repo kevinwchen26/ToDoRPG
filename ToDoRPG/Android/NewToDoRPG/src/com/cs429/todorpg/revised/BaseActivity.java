@@ -60,7 +60,9 @@ public abstract class BaseActivity extends Activity {
 		item.setIcon(drawable);
 		return true;
 	}
-
+	/**
+	 * Action bar listener
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -175,7 +177,9 @@ public abstract class BaseActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
+	/**
+	 * Set Action bar
+	 */
 	private void setActionbar() {
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeButtonEnabled(true);
@@ -185,7 +189,10 @@ public abstract class BaseActivity extends Activity {
 		actionbar.setDisplayShowTitleEnabled(false);
 
 	}
-
+	/**
+	 * Shows current Character HP and EXP
+	 * 
+	 */
 	protected void setHeader(int resId) {
 		hp = (TextView) findViewById(R.id.character_hp);
 		exp = (TextView) findViewById(R.id.character_exp);
@@ -210,7 +217,9 @@ public abstract class BaseActivity extends Activity {
 
 		icon.setImageBitmap(app.avatar.getBitmap());
 	}
-
+	/**
+	 * Invalidate Text whenever HP or EXP changed
+	 */
 	public static void TextValidate() {
 		ToDoCharacter character = db.getCharacter();
 		hp.setText(Integer.toString(character.getHP()));

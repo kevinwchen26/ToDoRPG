@@ -47,7 +47,9 @@ public class ToDoActivity extends BaseActivity {
 		findViewById(R.id.add_todo_button).setOnClickListener(ButtonHandler);
 
 	}
-
+	/**
+	 * Add todo list whenever user clicks add button.
+	 */
 	Button.OnClickListener ButtonHandler = new Button.OnClickListener() {
 		@Override
 		public void onClick(View view) {
@@ -67,7 +69,11 @@ public class ToDoActivity extends BaseActivity {
 		}
 
 	};
-
+	/**
+	 * Add ToDo Activity if no duplicate activity found.
+	 * @param todos
+	 * @param my_todo
+	 */
 	private void AddMyToDos(ArrayList<ToDo> todos, String my_todo) {
 		for (int i = 0; i < todos.size(); i++) {
 			if (todos.get(i).getToDo().equals(my_todo)) {
@@ -92,7 +98,9 @@ public class ToDoActivity extends BaseActivity {
 		adapter = new ToDoAdapter(ToDoActivity.this, todos);
 		todo_list.setAdapter(adapter);
 	}
-
+	/**
+	 * Get Current ToDoList from DB.
+	 */
 	private void setToDoList() {
 		todos = db.getToDos(2);
 		if (todos == null)
@@ -107,7 +115,6 @@ public class ToDoActivity extends BaseActivity {
 			todos = list;
 		}
 	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

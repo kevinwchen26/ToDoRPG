@@ -42,7 +42,9 @@ public class LogAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-
+	/**
+	 * Shows the details of Event Log
+	 */
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		LogItem item = log.get(position);

@@ -21,12 +21,13 @@ import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+
 /**
  * 
  * @author hlim10, ssong25
- *
+ * 
  */
-public class HabitAdapter extends BaseAdapter  {
+public class HabitAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Habit> habit;
 	private HabitAdapter adapter = this;
@@ -58,6 +59,9 @@ public class HabitAdapter extends BaseAdapter  {
 		return position;
 	}
 
+	/**
+	 * Shows the details of Habit Activity
+	 */
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		String blank = "    ";

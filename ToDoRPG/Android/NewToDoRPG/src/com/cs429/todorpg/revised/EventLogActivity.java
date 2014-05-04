@@ -39,7 +39,10 @@ public class EventLogActivity extends BaseActivity {
 		logAdapter = new LogAdapter(this, log);
 		log_list.setAdapter(logAdapter);
 	}
-
+	/**
+	 * Add Event Log to Event Log Activity
+	 * @param log
+	 */
 	public void addLog(LogItem log) {
 		ListView list = (ListView) findViewById(R.id.log_list);
 		logAdapter.log.add(log);

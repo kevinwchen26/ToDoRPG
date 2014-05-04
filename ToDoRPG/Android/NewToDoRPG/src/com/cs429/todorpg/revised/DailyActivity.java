@@ -66,7 +66,6 @@ public class DailyActivity extends BaseActivity {
 		ed.putBoolean("alarm", IsAlarmSet);
 		ed.commit();
 	}
-	
 	private void findViewById() {
 		add_daily_field = (EditText) findViewById(R.id.add_daily_field);
 		daily_list = (ListView) findViewById(R.id.daily_listview);
@@ -82,7 +81,9 @@ public class DailyActivity extends BaseActivity {
 			alarm_check.setChecked(true);
 		}
 	}
-	
+	/**
+	 * Alarm Listener
+	 */
 	CheckBox.OnCheckedChangeListener CheckListener = new CheckBox.OnCheckedChangeListener(){
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -105,7 +106,9 @@ public class DailyActivity extends BaseActivity {
 			sendBroadcast(intent);
 		}
 	};
-	
+	/**
+	 * Add Daily Activity when Click Add button
+	 */
 	Button.OnClickListener ButtonHandler = new Button.OnClickListener() {
 		@Override
 		public void onClick(View view) {
@@ -124,6 +127,9 @@ public class DailyActivity extends BaseActivity {
 		}
 		
 	};
+	/**
+	 * Check for duplicate in Daily. If no duplicate found, add daily to new ArrayList
+	 */
 	private void AddMyDaily(ArrayList<Daily> daily, String my_daily) {
 		for(int i = 0; i < daily.size(); i++) {
 			if(daily.get(i).getDaily().equals(my_daily)) {

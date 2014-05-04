@@ -59,7 +59,9 @@ public class DailyAdapter extends BaseAdapter{
 	public long getItemId(int position) {
 		return position;
 	}
-
+	/**
+	 * Shows the details of Daily Activity
+	 */
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final Daily day = daily.get(position);

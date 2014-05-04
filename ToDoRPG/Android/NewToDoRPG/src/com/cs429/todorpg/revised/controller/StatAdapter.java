@@ -49,7 +49,9 @@ public class StatAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-
+	/**
+	 * Shows the details of stat
+	 */
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		Stat stat = stats.get(position);
