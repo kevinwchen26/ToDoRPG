@@ -1,5 +1,9 @@
 package com.cs429.todorpg.revised.model;
-
+/**
+ * Event Log class
+ * @author kchen26, hlim10
+ *
+ */
 public class LogItem {
 	private String content;
 

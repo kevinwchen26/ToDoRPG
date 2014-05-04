@@ -21,7 +21,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 import com.cs429.todorpg.service.AlarmReceiver;
 
 /**
- * 
+ * Daily Activity 
  * @author hlim10, ssong25
  *
  */
@@ -48,7 +48,9 @@ public class DailyActivity extends BaseActivity {
 		setDailyList();
 		SetAdapter();
 	}
-	
+	/**
+	 * Resume Activity
+	 */
 	@Override
 	public void onResume(){
 		Log.e("[LifeCycle]", "DailyActivity: ++onResume++");
@@ -57,7 +59,9 @@ public class DailyActivity extends BaseActivity {
 		IsAlarmSet = pref.getBoolean("alarm", false);
 		init();
 	}
-	
+	/**
+	 * Pause Activity
+	 */
 	@Override
 	public void onPause(){
 		Log.e("[LifeCycle]", "DailyActivity: ++onPause++");
@@ -66,6 +70,9 @@ public class DailyActivity extends BaseActivity {
 		ed.putBoolean("alarm", IsAlarmSet);
 		ed.commit();
 	}
+	/**
+	 * Connect Id
+	 */
 	private void findViewById() {
 		add_daily_field = (EditText) findViewById(R.id.add_daily_field);
 		daily_list = (ListView) findViewById(R.id.daily_listview);
@@ -74,7 +81,9 @@ public class DailyActivity extends BaseActivity {
 		alarm_check.setOnCheckedChangeListener(CheckListener);
 		
 	}
-	
+	/**
+	 * Initialize the Alarm
+	 */
 	private void init(){
 		if(IsAlarmSet){
 			Log.d("[DAY]", "alarm has already been invoked..??");
@@ -147,10 +156,16 @@ public class DailyActivity extends BaseActivity {
 		adapter = new DailyAdapter(DailyActivity.this, daily);
 		adapter.notifyDataSetChanged();
 	}
+	/**
+	 * Set Adapter of Daily Activity
+	 */
 	private void SetAdapter() {
 		adapter = new DailyAdapter(DailyActivity.this, daily);
 		daily_list.setAdapter(adapter);
 	}
+	/**
+	 * Get Daily list from DB
+	 */
 	private void setDailyList(){
 		daily= db.getDailies(3);
 		if(daily == null)

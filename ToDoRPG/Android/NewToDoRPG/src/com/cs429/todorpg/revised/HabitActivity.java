@@ -15,7 +15,7 @@ import com.cs429.todorpg.revised.model.Habit;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
- * 
+ * Habit Activity
  * @author hlim10, ssong25
  * 
  */
@@ -38,7 +38,9 @@ public class HabitActivity extends BaseActivity {
 		setHabitList();
 		SetAdapter();
 	}
-
+	/**
+	 * Connect Id
+	 */
 	private void findViewById() {
 		add_habit_field = (EditText) findViewById(R.id.add_habit_field);
 		habit_list = (ListView) findViewById(R.id.habit_listview);
@@ -90,13 +92,17 @@ public class HabitActivity extends BaseActivity {
 		adapter = new HabitAdapter(HabitActivity.this, habits);
 		adapter.notifyDataSetChanged();
 	}
-	
+	/**
+	 * Set Adapter of Habit
+	 */
 	private void SetAdapter() {
 		adapter = new HabitAdapter(HabitActivity.this, habits);
 		habit_list.setAdapter(adapter);
 
 	}
-
+	/**
+	 * Get Habit list from DB.
+	 */
 	private void setHabitList() {
 		habits = db.getHabits();
 		if (habits == null)

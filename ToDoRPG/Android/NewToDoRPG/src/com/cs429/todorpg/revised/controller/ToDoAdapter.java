@@ -28,7 +28,7 @@ import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
- * 
+ * ToDo Adapter
  * @author hlim10, ssong25
  *
  */
@@ -41,24 +41,34 @@ public class ToDoAdapter extends BaseAdapter{
 	private SQLiteHelper db;
 	private String title;
 	int difficulty;
-	
+	/**
+	 * Constructor
+	 * @param context
+	 * @param todos
+	 */
 	public ToDoAdapter(Context context, ArrayList<ToDo> todos){
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.todos = todos;
 		db = new SQLiteHelper(context);
 	}
-	
+	/**
+	 * Get Count of ToDo List
+	 */
 	@Override
 	public int getCount() {
 		return todos.size();
 	}
-
+	/**
+	 * Get selected item of ToDo List
+	 */
 	@Override
 	public Object getItem(int position) {
 		return todos.get(position);
 	}
-
+	/**
+	 * Get selected item id of ToDo List
+	 */
 	@Override
 	public long getItemId(int position) {
 		return position;
@@ -105,7 +115,9 @@ public class ToDoAdapter extends BaseAdapter{
 //				context.startActivity(intent);
 			}
 		});
-		
+		/**
+		 * Button Listener Handler
+		 */
 		OnClickListener mListener = new OnClickListener(){
 			@Override
 			public void onClick(View v){
@@ -140,7 +152,9 @@ public class ToDoAdapter extends BaseAdapter{
 		medium.setOnClickListener(mListener);
 		easy.setOnClickListener(mListener);
 		difficulty = todos.get(position).getDifficulty();
-		
+		/**
+		 * done button listener
+		 */
 		done_button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
@@ -161,7 +175,9 @@ public class ToDoAdapter extends BaseAdapter{
 			
 		});
 		
-		
+		/**
+		 * save button listener
+		 */
 		save_close_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -185,7 +201,9 @@ public class ToDoAdapter extends BaseAdapter{
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-		
+		/**
+		 * edit button listener
+		 */
 		edit_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -219,7 +237,9 @@ public class ToDoAdapter extends BaseAdapter{
 				}
 			}
 		});
-
+		/**
+		 * save button listener
+		 */
 		save_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -244,7 +264,9 @@ public class ToDoAdapter extends BaseAdapter{
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-
+		/**
+		 * cancel button listener
+		 */
 		cancel_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -254,7 +276,9 @@ public class ToDoAdapter extends BaseAdapter{
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-
+		/**
+		 * delete button listener
+		 */
 		delete_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

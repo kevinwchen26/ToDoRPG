@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 /**
- * 
+ * Stat Adapter
  * @author kchen26, hlim10
  *
  */
@@ -26,7 +26,11 @@ public class StatAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private ArrayList<Stat> stats;
 	private SQLiteHelper db;
-
+	/**
+	 * Constructor
+	 * @param context
+	 * @param stats
+	 */
 	public StatAdapter(Context context, ArrayList<Stat> stats) {
 		this.context = context;
 		inflater = (LayoutInflater) context
@@ -34,17 +38,23 @@ public class StatAdapter extends BaseAdapter {
 		this.stats = stats;
 		db = new SQLiteHelper(context);
 	}
-
+	/**
+	 * Get Count of Stat List
+	 */
 	@Override
 	public int getCount() {
 		return stats.size();
 	}
-
+	/**
+	 * Get selected item of Stat List
+	 */
 	@Override
 	public Object getItem(int position) {
 		return stats.get(position);
 	}
-
+	/**
+	 * Get selected item id of Stat List
+	 */
 	@Override
 	public long getItemId(int position) {
 		return position;

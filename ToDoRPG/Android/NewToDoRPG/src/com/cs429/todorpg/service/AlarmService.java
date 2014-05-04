@@ -15,7 +15,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-
+/**
+ * Alarm Handler
+ * @author ssong25, hlim10
+ *
+ */
 public class AlarmService extends Service{
 	
 	
@@ -30,7 +34,9 @@ public class AlarmService extends Service{
 		
 		super.onCreate();
 	}
-	
+	/**
+	 * setting up alarm
+	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId){
 		Log.d("[Alarm]", "Service: setting up an alarm...");
@@ -54,7 +60,10 @@ public class AlarmService extends Service{
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-
+	/**
+	 * set alarm Time
+	 * @return
+	 */
 	private Calendar getAlarmTime(){
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());

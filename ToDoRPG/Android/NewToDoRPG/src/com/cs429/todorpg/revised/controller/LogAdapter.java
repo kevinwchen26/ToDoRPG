@@ -13,7 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
+/**
+ * Log Adapter
+ * @author kchen26, hlim10
+ *
+ */
 public class LogAdapter extends BaseAdapter {
 	private Context context;
 	private LayoutInflater inflater;

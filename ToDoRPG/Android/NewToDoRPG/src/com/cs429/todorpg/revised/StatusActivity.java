@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
- * 
+ * Status Activity
  * @author hlim10, kchen26
  *
  */
@@ -37,7 +37,9 @@ public class StatusActivity extends BaseActivity {
 		GetCharacterInfo();
 
 	}
-
+	/**
+	 * Connect Id
+	 */
 	private void FindViewById() {
 		current_level = (TextView) findViewById(R.id.current_level);
 		current_hp = (TextView) findViewById(R.id.current_hp);

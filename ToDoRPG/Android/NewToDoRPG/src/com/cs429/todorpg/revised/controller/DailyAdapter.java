@@ -24,7 +24,7 @@ import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
- * 
+ * Daily Adapter
  * @author hlim10, ssong25
  *
  */
@@ -107,7 +107,9 @@ public class DailyAdapter extends BaseAdapter{
 		cancel_button.setBackgroundResource(day.getStatus());
 		save_button.setBackgroundResource(day.getStatus());
 		delete_button.setBackgroundResource(day.getStatus());
-		
+		/**
+		 * Add button listener
+		 */
 		check_button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
@@ -141,7 +143,9 @@ public class DailyAdapter extends BaseAdapter{
 				delete_button.setBackgroundResource(day.getStatus());
 			}
 		});
-		
+		/**
+		 * Save button listener
+		 */
 		save_close_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -160,7 +164,9 @@ public class DailyAdapter extends BaseAdapter{
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-		
+		/**
+		 * Difficulty button listener
+		 */
 		OnClickListener difficultyListener = new OnClickListener(){
 			@Override
 			public void onClick(View v){
@@ -195,7 +201,9 @@ public class DailyAdapter extends BaseAdapter{
 		hard.setOnClickListener(difficultyListener);
 		medium.setOnClickListener(difficultyListener);
 		easy.setOnClickListener(difficultyListener);
-		
+		/**
+		 * Edit Button Listener
+		 */
 		edit_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -290,7 +298,9 @@ public class DailyAdapter extends BaseAdapter{
 					}
 			}
 		});
-
+		/**
+		 * Save Button Listener
+		 */
 		save_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -310,7 +320,9 @@ public class DailyAdapter extends BaseAdapter{
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-
+		/**
+		 * Cancel button Listener
+		 */
 		cancel_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -320,7 +332,9 @@ public class DailyAdapter extends BaseAdapter{
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-
+		/**
+		 * Delete button Listener
+		 */
 		delete_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -329,7 +343,9 @@ public class DailyAdapter extends BaseAdapter{
 				adapter.notifyDataSetChanged();
 			}
 		});
-
+		/**
+		 * Select week listener
+		 */
 		OnClickListener RegularListener = new OnClickListener(){
 			@Override
 			public void onClick(View v){

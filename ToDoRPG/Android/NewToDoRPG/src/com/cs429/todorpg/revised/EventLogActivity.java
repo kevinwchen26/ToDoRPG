@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.ListView;
 
 /**
- * 
+ * Event Log Activity
  * @author kchen26, hlim10
  * 
  */
@@ -32,7 +32,9 @@ public class EventLogActivity extends BaseActivity {
 		db = new SQLiteHelper(getBaseContext());
 		SetAdapter();
 	}
-
+	/**
+	 * Set Event Log adapter
+	 */
 	private void SetAdapter() {
 		ArrayList<LogItem> log = db.getLog();
 		ListView log_list = (ListView) findViewById(R.id.log_list);

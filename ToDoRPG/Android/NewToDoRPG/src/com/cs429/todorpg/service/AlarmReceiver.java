@@ -9,7 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
+/**
+ * Alarm Action
+ * @author ssong25, hlim10
+ *
+ */
 public class AlarmReceiver extends BroadcastReceiver{
 
 	@Override
@@ -26,7 +30,11 @@ public class AlarmReceiver extends BroadcastReceiver{
 			cancelAlarm(intent.getIntExtra("Alarmkey", 0), context);
 		}
 	}	
-	
+	/**
+	 * Invoke alarm
+	 * @param key
+	 * @param context
+	 */
 	private void invokeAlarm(int key, Context context){
 		Log.d("[Alarm]", "alarm is invoking...");
 		Log.d("[Alarm]", "key is : " + key);
@@ -35,7 +43,11 @@ public class AlarmReceiver extends BroadcastReceiver{
 		intent.putExtra("Alarmkey", key);
 		context.startService(intent);
 	}
-	
+	/**
+	 * Cancel Alarm
+	 * @param key
+	 * @param context
+	 */
 	private void cancelAlarm(int key, Context context){
 		Log.d("[Alarm]", "alarm is cancelling...");
 		Log.d("[Alarm]", "key is : " + key);
