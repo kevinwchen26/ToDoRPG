@@ -2,19 +2,15 @@ package com.cs429.todorpg.revised.controller;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.R;
-import com.cs429.todorpg.revised.model.Stat;
-import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.cs429.todorpg.revised.R;
+import com.cs429.todorpg.revised.model.Stat;
 /**
  * Stat Adapter
  * @author kchen26, hlim10
@@ -22,21 +18,17 @@ import android.widget.TextView;
  */
 public class StatAdapter extends BaseAdapter {
 
-	private Context context;
 	private LayoutInflater inflater;
 	private ArrayList<Stat> stats;
-	private SQLiteHelper db;
 	/**
 	 * Constructor
 	 * @param context
 	 * @param stats
 	 */
 	public StatAdapter(Context context, ArrayList<Stat> stats) {
-		this.context = context;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.stats = stats;
-		db = new SQLiteHelper(context);
 	}
 	/**
 	 * Get Count of Stat List

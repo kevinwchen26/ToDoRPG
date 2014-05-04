@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.cs429.todorpg.revised.BaseActivity;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Habit;
-import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 

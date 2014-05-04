@@ -2,34 +2,28 @@ package com.cs429.todorpg.revised.controller;
 
 import java.util.ArrayList;
 
-import com.cs429.todorpg.revised.R;
-import com.cs429.todorpg.revised.model.LogItem;
-import com.cs429.todorpg.revised.model.Stat;
-import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.cs429.todorpg.revised.R;
+import com.cs429.todorpg.revised.model.LogItem;
 /**
  * Log Adapter
  * @author kchen26, hlim10
  *
  */
 public class LogAdapter extends BaseAdapter {
-	private Context context;
 	private LayoutInflater inflater;
 	public ArrayList<LogItem> log;
-	private SQLiteHelper db;
 
 	public LogAdapter(Context context, ArrayList<LogItem> log) {
-		this.context = context;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.log = log;
-		db = new SQLiteHelper(context);
 	}
 
 	@Override

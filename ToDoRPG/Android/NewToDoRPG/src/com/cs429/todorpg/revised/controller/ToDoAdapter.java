@@ -24,7 +24,6 @@ import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.ToDoActivity;
 import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.model.ToDo;
-import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**

@@ -55,7 +55,6 @@ public class MainActivity extends BaseActivity {
 		sql = new SQLiteHelper(getBaseContext());
 		FindViewById();
 		GetCharacterInfo();
-		fill_list();
 		setHeader(R.id.header);
 
 	}
@@ -355,12 +354,5 @@ public class MainActivity extends BaseActivity {
 		});
 
 		builder.show();
-	}
-	/**
-	 * Get list to the Event log page.
-	 */
-	public void fill_list() {
-		ArrayList<LogItem> log = sql.getLog();
-
 	}
 }

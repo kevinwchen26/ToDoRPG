@@ -1,12 +1,6 @@
 package com.cs429.todorpg.service;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import com.cs429.todorpg.revised.AlarmNotification;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -15,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+
+import com.cs429.todorpg.revised.AlarmNotification;
 /**
  * Alarm Handler
  * @author ssong25, hlim10

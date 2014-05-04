@@ -2,15 +2,13 @@ package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
 
+import android.os.Bundle;
+import android.view.WindowManager;
+import android.widget.ListView;
+
 import com.cs429.todorpg.revised.controller.LogAdapter;
 import com.cs429.todorpg.revised.model.LogItem;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.WindowManager;
-import android.widget.ListView;
 
 /**
  * Event Log Activity
