@@ -23,7 +23,7 @@ import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
- * 
+ * habit adapter
  * @author hlim10, ssong25
  * 
  */
@@ -35,7 +35,11 @@ public class HabitAdapter extends BaseAdapter {
 	private SQLiteHelper db;
 	private int difficulty;
 	String change;
-
+	/**
+	 * Constructor
+	 * @param context
+	 * @param habit
+	 */
 	public HabitAdapter(Context context, ArrayList<Habit> habit) {
 		this.context = context;
 		inflater = (LayoutInflater) context
@@ -43,17 +47,23 @@ public class HabitAdapter extends BaseAdapter {
 		this.habit = habit;
 		db = new SQLiteHelper(context);
 	}
-
+	/**
+	 * Get Count of habit list
+	 */
 	@Override
 	public int getCount() {
 		return habit.size();
 	}
-
+	/**
+	 * Get Selected item of Habit list
+	 */
 	@Override
 	public Object getItem(int position) {
 		return habit.get(position);
 	}
-
+	/**
+	 * Get Selected item id of Habit list
+	 */
 	@Override
 	public long getItemId(int position) {
 		return position;
@@ -124,7 +134,9 @@ public class HabitAdapter extends BaseAdapter {
 		cancel_button.setBackgroundResource(onehabit.getStatus());
 		save_button.setBackgroundResource(onehabit.getStatus());
 		delete_button.setBackgroundResource(onehabit.getStatus());
-
+		/**
+		 * Listener Handler
+		 */
 		OnClickListener mListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -163,7 +175,9 @@ public class HabitAdapter extends BaseAdapter {
 		};
 		good_button.setOnClickListener(mListener);
 		bad_button.setOnClickListener(mListener);
-
+		/**
+		 * Save Button Listener
+		 */
 		save_close_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -186,7 +200,9 @@ public class HabitAdapter extends BaseAdapter {
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-
+		/**
+		 * plus button Listener
+		 */
 		change_plus_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -220,7 +236,9 @@ public class HabitAdapter extends BaseAdapter {
 
 			}
 		});
-
+		/**
+		 * minus button Listener
+		 */
 		change_minus_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -253,7 +271,9 @@ public class HabitAdapter extends BaseAdapter {
 				}
 			}
 		});
-
+		/**
+		 * edit button Listener
+		 */
 		edit_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -283,7 +303,9 @@ public class HabitAdapter extends BaseAdapter {
 				}
 			}
 		});
-
+		/**
+		 * save button Listener
+		 */
 		save_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -306,7 +328,9 @@ public class HabitAdapter extends BaseAdapter {
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-
+		/**
+		 * cancel button Listener
+		 */
 		cancel_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -316,7 +340,9 @@ public class HabitAdapter extends BaseAdapter {
 				show_edit_field.setVisibility(View.GONE);
 			}
 		});
-
+		/**
+		 * delete button Listener
+		 */
 		delete_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -325,7 +351,9 @@ public class HabitAdapter extends BaseAdapter {
 				adapter.notifyDataSetChanged();
 			}
 		});
-
+		/**
+		 * difficulty button Listener
+		 */
 		OnClickListener difficultyListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {

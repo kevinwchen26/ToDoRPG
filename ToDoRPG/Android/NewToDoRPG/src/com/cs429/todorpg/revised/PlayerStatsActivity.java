@@ -9,7 +9,11 @@ import android.widget.ListView;
 import com.cs429.todorpg.revised.controller.StatAdapter;
 import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
-
+/**
+ * Player Stat Activity
+ * @author kchen26, hlim10
+ *
+ */
 public class PlayerStatsActivity extends BaseActivity {
 
 	private SQLiteHelper db;
@@ -25,7 +29,9 @@ public class PlayerStatsActivity extends BaseActivity {
 		db = new SQLiteHelper(getBaseContext());
 		SetAdapter();
 	}
-
+	/**
+	 * Set Player Stat adapter
+	 */
 	private void SetAdapter() {
 		ArrayList<Stat> stats = db.getStats();
 		ListView stat_list = (ListView) findViewById(R.id.stats_list);

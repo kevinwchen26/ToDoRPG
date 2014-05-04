@@ -31,7 +31,7 @@ import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 /**
- * 
+ * Main Activiy - Shows MainActivity when user opens this app.
  * @author kchen26, hlim10
  *
  */
@@ -356,7 +356,9 @@ public class MainActivity extends BaseActivity {
 
 		builder.show();
 	}
-
+	/**
+	 * Get list to the Event log page.
+	 */
 	public void fill_list() {
 		ArrayList<LogItem> log = sql.getLog();
 

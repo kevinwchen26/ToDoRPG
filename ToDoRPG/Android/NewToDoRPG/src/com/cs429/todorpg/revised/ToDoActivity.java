@@ -17,7 +17,7 @@ import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
- * 
+ * ToDo Activity
  * @author hlim10, ssong25
  * 
  */
@@ -115,6 +115,9 @@ public class ToDoActivity extends BaseActivity {
 			todos = list;
 		}
 	}
+	/**
+	 * Get Result depends on the return value
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

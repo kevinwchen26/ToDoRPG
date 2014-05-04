@@ -22,7 +22,7 @@ import com.cs429.todorpg.revised.utils.Constants;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
- * 
+ * Get Alarm Notification at the end of the day
  * @author hlim10, ssong25
  * 
  */
@@ -79,7 +79,9 @@ public class AlarmNotification extends Activity {
 		missed_list.setAdapter(missed_adapter);
 		UpdateCharacter();
 	}
-
+	/**
+	 * Update the Character depends on the Daily Activiy status
+	 */
 	private void UpdateCharacter() {
 		ToDoCharacter character = db.getCharacter();
 		change = "You Lost [EXP : " + missed_arr.size() * 10 + "], [GOLD : "

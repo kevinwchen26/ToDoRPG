@@ -21,7 +21,7 @@ import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
- * 
+ * Action Bar
  * @author hlim10, ssong25
  * 
  */
@@ -229,7 +229,9 @@ public abstract class BaseActivity extends Activity {
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
 	}
-
+	/**
+	 * Dropdown menu handler
+	 */
 	ActionBar.OnNavigationListener navigationListener = new OnNavigationListener() {
 		@Override
 		public boolean onNavigationItemSelected(final int itemPosition,
