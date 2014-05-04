@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.LogItem;
+
 /**
  * Log Adapter
+ * 
  * @author kchen26, hlim10
- *
+ * 
  */
 public class LogAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
@@ -40,6 +42,7 @@ public class LogAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
+
 	/**
 	 * Shows the details of Event Log
 	 */

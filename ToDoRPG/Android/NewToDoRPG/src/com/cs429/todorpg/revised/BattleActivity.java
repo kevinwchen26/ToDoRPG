@@ -535,7 +535,6 @@ public class BattleActivity extends BaseActivity {
 		 */
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			progress = ProgressDialog.show(BattleActivity.this,
 					"Initializing...", "Please wait while we load the battle",

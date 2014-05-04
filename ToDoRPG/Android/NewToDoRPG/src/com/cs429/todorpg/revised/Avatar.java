@@ -12,6 +12,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
 
+/**
+ * Avatar Activity. Keeps track of the Inventory and Charater stats for all
+ * Acitivities
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class Avatar implements Serializable {
 	/**
 	 * 
@@ -24,27 +31,55 @@ public class Avatar implements Serializable {
 	public Inventory inventory;
 	public ToDoCharacter toDoCharacter;
 
+	/**
+	 * returns the Character
+	 * 
+	 * @return toDoCharacter
+	 */
 	public ToDoCharacter getToDoCharacter() {
 		return toDoCharacter;
 	}
 
+	/**
+	 * sets the todocharacter
+	 * 
+	 * @param toDoCharacter
+	 */
 	public void setToDoCharacter(ToDoCharacter toDoCharacter) {
 		this.toDoCharacter = toDoCharacter;
 	}
 
+	/**
+	 * gets the Inventory
+	 * 
+	 * @return inventory
+	 */
 	public Inventory getInventory() {
 		return inventory;
 	}
 
+	/**
+	 * sets the Inventory
+	 * 
+	 * @param inventory
+	 */
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;
 	}
 
+	/**
+	 * When first created, Inventory is blank
+	 */
 	public Avatar() {
 
 		inventory = new Inventory();
 	}
 
+	/**
+	 * draws out the avatar inventory
+	 * 
+	 * @return bitmat of avatar with correct equipment
+	 */
 	public Bitmap getBitmap() {
 		Bitmap bitmap = Bitmap.createBitmap(AVATAR_WIDTH, AVATAR_HEIGHT,
 				Bitmap.Config.ARGB_8888);
@@ -64,6 +99,11 @@ public class Avatar implements Serializable {
 		return bitmap;
 	}
 
+	/**
+	 * clears the bitmap
+	 * 
+	 * @return clean bitmap
+	 */
 	public Bitmap getClearBitmap() {
 		Bitmap bitmap = Bitmap.createBitmap(AVATAR_WIDTH, AVATAR_HEIGHT,
 				Bitmap.Config.ARGB_8888);

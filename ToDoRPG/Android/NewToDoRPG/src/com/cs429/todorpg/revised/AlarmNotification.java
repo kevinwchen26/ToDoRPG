@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.DailyAdapter;
 import com.cs429.todorpg.revised.model.Daily;
@@ -23,6 +21,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
  * Get Alarm Notification at the end of the day
+ * 
  * @author hlim10, ssong25
  * 
  */
@@ -43,9 +42,9 @@ public class AlarmNotification extends Activity {
 		setContentView(R.layout.activity_alarm_notification);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-						| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		findViewById();
 		init();
 		this.context = this;
@@ -79,6 +78,7 @@ public class AlarmNotification extends Activity {
 		missed_list.setAdapter(missed_adapter);
 		UpdateCharacter();
 	}
+
 	/**
 	 * Update the Character depends on the Daily Activiy status
 	 */
@@ -90,8 +90,8 @@ public class AlarmNotification extends Activity {
 		character = new ToDoCharacter(character.getName(), character.getGold()
 				- (missed_arr.size() * 10), character.getHP(),
 				character.getLevel(), character.getCurrExp()
-						- (missed_arr.size() * 10), character.getNextExp()
-						+ (missed_arr.size() * 10));
+				- (missed_arr.size() * 10), character.getNextExp()
+				+ (missed_arr.size() * 10));
 
 		if (character.getCurrExp() >= character.getLevel() * 100) {
 			character.setLevel(character.getLevel() + 1);

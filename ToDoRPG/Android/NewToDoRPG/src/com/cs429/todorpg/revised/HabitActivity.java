@@ -16,6 +16,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
  * Habit Activity
+ * 
  * @author hlim10, ssong25
  * 
  */
@@ -38,6 +39,7 @@ public class HabitActivity extends BaseActivity {
 		setHabitList();
 		SetAdapter();
 	}
+
 	/**
 	 * Connect Id
 	 */
@@ -47,6 +49,7 @@ public class HabitActivity extends BaseActivity {
 		findViewById(R.id.add_habit_button).setOnClickListener(ButtonHandler);
 
 	}
+
 	/**
 	 * Add habit to activity when user clicks Add button.
 	 */
@@ -69,8 +72,10 @@ public class HabitActivity extends BaseActivity {
 		}
 
 	};
+
 	/**
 	 * Add Habit to ArrayList if no duplicate activity found.
+	 * 
 	 * @param habits
 	 * @param my_habit
 	 */
@@ -92,6 +97,7 @@ public class HabitActivity extends BaseActivity {
 		adapter = new HabitAdapter(HabitActivity.this, habits);
 		adapter.notifyDataSetChanged();
 	}
+
 	/**
 	 * Set Adapter of Habit
 	 */
@@ -100,6 +106,7 @@ public class HabitActivity extends BaseActivity {
 		habit_list.setAdapter(adapter);
 
 	}
+
 	/**
 	 * Get Habit list from DB.
 	 */

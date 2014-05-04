@@ -30,10 +30,12 @@ import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDo;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+
 /**
  * Main Activiy - Shows MainActivity when user opens this app.
+ * 
  * @author kchen26, hlim10
- *
+ * 
  */
 public class MainActivity extends BaseActivity {
 
@@ -58,6 +60,7 @@ public class MainActivity extends BaseActivity {
 		setHeader(R.id.header);
 
 	}
+
 	/**
 	 * Create and Initialize the Character for first time user
 	 */
@@ -79,6 +82,7 @@ public class MainActivity extends BaseActivity {
 		GameApplication app = (GameApplication) getApplication();
 		app.avatar.inventory = sql.getInventory();
 	}
+
 	/**
 	 * Update stats whenever user finishes something.
 	 */
@@ -100,6 +104,7 @@ public class MainActivity extends BaseActivity {
 		}
 
 	}
+
 	/**
 	 * Initialize stat for first time user.
 	 */
@@ -300,6 +305,7 @@ public class MainActivity extends BaseActivity {
 		current_money = (TextView) findViewById(R.id.current_money);
 
 	}
+
 	/**
 	 * Get current Character information.
 	 */
@@ -320,8 +326,10 @@ public class MainActivity extends BaseActivity {
 		current_exp.setText(result);
 
 	}
+
 	/**
 	 * Change user name
+	 * 
 	 * @param view
 	 */
 	public void setName(View view) {

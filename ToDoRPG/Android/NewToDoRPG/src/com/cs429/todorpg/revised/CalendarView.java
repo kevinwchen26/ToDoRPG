@@ -63,7 +63,7 @@ public class CalendarView extends Activity implements OnClickListener {
 		selectedText = (TextView) this.findViewById(R.id.selected);
 		currentMonthText = (TextView) this.findViewById(R.id.current_month);
 		currentMonthText
-				.setText(dateFormat.format(dateTemplate, cal.getTime()));
+		.setText(dateFormat.format(dateTemplate, cal.getTime()));
 
 		gridView = (GridView) this.findViewById(R.id.gridview);
 		gridCell = new GridCell(getApplicationContext(), R.id.gridcell_button,
@@ -81,7 +81,7 @@ public class CalendarView extends Activity implements OnClickListener {
 				month, year);
 		cal.set(year, month, cal.get(Calendar.DAY_OF_MONTH));
 		currentMonthText
-				.setText(dateFormat.format(dateTemplate, cal.getTime()));
+		.setText(dateFormat.format(dateTemplate, cal.getTime()));
 		gridCell.notifyDataSetChanged();
 		gridView.setAdapter(gridCell);
 	}
@@ -92,7 +92,6 @@ public class CalendarView extends Activity implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v == prev) {
 			if (month == 0) {
 				month = 11;
@@ -195,7 +194,6 @@ public class CalendarView extends Activity implements OnClickListener {
 		 */
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return list.size();
 		}
 
@@ -205,7 +203,6 @@ public class CalendarView extends Activity implements OnClickListener {
 		 */
 		@Override
 		public String getItem(int position) {
-			// TODO Auto-generated method stub
 			return list.get(position);
 		}
 
@@ -253,9 +250,9 @@ public class CalendarView extends Activity implements OnClickListener {
 				list.add(String
 						.valueOf((prevNumDays - currentWeekDay + DAY_OFFSET)
 								+ i)
-						+ ",FromPrevMonthDays,"
-						+ getMonthAsString(prevMonth)
-						+ "," + prevYear);
+								+ ",FromPrevMonthDays,"
+								+ getMonthAsString(prevMonth)
+								+ "," + prevYear);
 			}
 
 			for (int i = 1; i <= numDays; i++) {
@@ -279,7 +276,6 @@ public class CalendarView extends Activity implements OnClickListener {
 		 */
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
@@ -288,7 +284,6 @@ public class CalendarView extends Activity implements OnClickListener {
 		 */
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
 			View row = convertView;
 			if (row == null) {
 				LayoutInflater inflater = (LayoutInflater) context

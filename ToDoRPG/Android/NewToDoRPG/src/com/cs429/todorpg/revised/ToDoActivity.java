@@ -18,6 +18,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
  * ToDo Activity
+ * 
  * @author hlim10, ssong25
  * 
  */
@@ -47,6 +48,7 @@ public class ToDoActivity extends BaseActivity {
 		findViewById(R.id.add_todo_button).setOnClickListener(ButtonHandler);
 
 	}
+
 	/**
 	 * Add todo list whenever user clicks add button.
 	 */
@@ -69,8 +71,10 @@ public class ToDoActivity extends BaseActivity {
 		}
 
 	};
+
 	/**
 	 * Add ToDo Activity if no duplicate activity found.
+	 * 
 	 * @param todos
 	 * @param my_todo
 	 */
@@ -98,6 +102,7 @@ public class ToDoActivity extends BaseActivity {
 		adapter = new ToDoAdapter(ToDoActivity.this, todos);
 		todo_list.setAdapter(adapter);
 	}
+
 	/**
 	 * Get Current ToDoList from DB.
 	 */
@@ -115,6 +120,7 @@ public class ToDoActivity extends BaseActivity {
 			todos = list;
 		}
 	}
+
 	/**
 	 * Get Result depends on the return value
 	 */

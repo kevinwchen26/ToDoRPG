@@ -23,6 +23,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
  * habit adapter
+ * 
  * @author hlim10, ssong25
  * 
  */
@@ -34,8 +35,10 @@ public class HabitAdapter extends BaseAdapter {
 	private SQLiteHelper db;
 	private int difficulty;
 	String change;
+
 	/**
 	 * Constructor
+	 * 
 	 * @param context
 	 * @param habit
 	 */
@@ -46,6 +49,7 @@ public class HabitAdapter extends BaseAdapter {
 		this.habit = habit;
 		db = new SQLiteHelper(context);
 	}
+
 	/**
 	 * Get Count of habit list
 	 */
@@ -53,6 +57,7 @@ public class HabitAdapter extends BaseAdapter {
 	public int getCount() {
 		return habit.size();
 	}
+
 	/**
 	 * Get Selected item of Habit list
 	 */
@@ -60,6 +65,7 @@ public class HabitAdapter extends BaseAdapter {
 	public Object getItem(int position) {
 		return habit.get(position);
 	}
+
 	/**
 	 * Get Selected item id of Habit list
 	 */

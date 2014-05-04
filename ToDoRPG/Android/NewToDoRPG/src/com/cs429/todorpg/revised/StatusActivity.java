@@ -13,14 +13,16 @@ import android.widget.TextView;
 
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
+
 /**
  * Status Activity
+ * 
  * @author hlim10, kchen26
- *
+ * 
  */
 public class StatusActivity extends BaseActivity {
 	TextView current_level, current_hp, current_exp, completed_quests,
-			current_money, total_battles;
+	current_money, total_battles;
 	private SQLiteHelper db;
 	private ToDoCharacter character;
 	int completed_quest_count;
@@ -37,6 +39,7 @@ public class StatusActivity extends BaseActivity {
 		GetCharacterInfo();
 
 	}
+
 	/**
 	 * Connect Id
 	 */
@@ -47,6 +50,7 @@ public class StatusActivity extends BaseActivity {
 		current_money = (TextView) findViewById(R.id.current_money);
 
 	}
+
 	/**
 	 * Get Current Character Information(HP, EXP, MONEY, LEVEL) from DB.
 	 */
@@ -67,8 +71,10 @@ public class StatusActivity extends BaseActivity {
 		current_exp.setText(result);
 
 	}
+
 	/**
 	 * Set user name
+	 * 
 	 * @param view
 	 */
 	public void setName(View view) {
@@ -93,11 +99,11 @@ public class StatusActivity extends BaseActivity {
 		});
 		builder.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
 
 		builder.show();
 	}

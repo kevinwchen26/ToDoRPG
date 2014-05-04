@@ -21,6 +21,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
  * Action Bar
+ * 
  * @author hlim10, ssong25
  * 
  */
@@ -59,6 +60,7 @@ public abstract class BaseActivity extends Activity {
 		item.setIcon(drawable);
 		return true;
 	}
+
 	/**
 	 * Action bar listener
 	 */
@@ -109,7 +111,7 @@ public abstract class BaseActivity extends Activity {
 			popup = new PopupMenu(BaseActivity.this,
 					(View) findViewById(R.id.quests));
 			popup.getMenuInflater()
-					.inflate(R.menu.battle_main, popup.getMenu());
+			.inflate(R.menu.battle_main, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
 					if (item.getTitle().equals("Battle Menu")) {
@@ -155,7 +157,7 @@ public abstract class BaseActivity extends Activity {
 			popup = new PopupMenu(BaseActivity.this,
 					(View) findViewById(R.id.quests));
 			popup.getMenuInflater()
-					.inflate(R.menu.reward_shop, popup.getMenu());
+			.inflate(R.menu.reward_shop, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 				public boolean onMenuItemClick(MenuItem item) {
 					if (item.getTitle().equals("Rewards")) {
@@ -176,6 +178,7 @@ public abstract class BaseActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
 	/**
 	 * Set Action bar
 	 */
@@ -188,6 +191,7 @@ public abstract class BaseActivity extends Activity {
 		actionbar.setDisplayShowTitleEnabled(false);
 
 	}
+
 	/**
 	 * Shows current Character HP and EXP
 	 * 
@@ -216,6 +220,7 @@ public abstract class BaseActivity extends Activity {
 
 		icon.setImageBitmap(app.avatar.getBitmap());
 	}
+
 	/**
 	 * Invalidate Text whenever HP or EXP changed
 	 */
@@ -228,6 +233,7 @@ public abstract class BaseActivity extends Activity {
 		String result = df.format(curr_exp).concat("%");
 		exp.setText(result);
 	}
+
 	/**
 	 * Dropdown menu handler
 	 */
@@ -256,7 +262,6 @@ public abstract class BaseActivity extends Activity {
 	};
 
 	public void onClick(View view) {
-		// TODO Auto-generated method stub
 
 	}
 

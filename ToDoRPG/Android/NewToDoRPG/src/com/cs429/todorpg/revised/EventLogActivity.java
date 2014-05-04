@@ -12,6 +12,7 @@ import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
  * Event Log Activity
+ * 
  * @author kchen26, hlim10
  * 
  */
@@ -30,6 +31,7 @@ public class EventLogActivity extends BaseActivity {
 		db = new SQLiteHelper(getBaseContext());
 		SetAdapter();
 	}
+
 	/**
 	 * Set Event Log adapter
 	 */
@@ -39,8 +41,10 @@ public class EventLogActivity extends BaseActivity {
 		logAdapter = new LogAdapter(this, log);
 		log_list.setAdapter(logAdapter);
 	}
+
 	/**
 	 * Add Event Log to Event Log Activity
+	 * 
 	 * @param log
 	 */
 	public void addLog(LogItem log) {

@@ -28,6 +28,12 @@ import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
+/**
+ * Reward Activity Class
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class RewardActivity extends BaseActivity {
 
 	TextView rewards_heading;
@@ -129,7 +135,6 @@ public class RewardActivity extends BaseActivity {
 
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
 					change_reward_title.setText(reward.getInfo());
 					change_reward_price.setText(Integer.toString(reward
 							.getCost()));
@@ -147,7 +152,6 @@ public class RewardActivity extends BaseActivity {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					String new_title = change_reward_title.getText().toString();
 					if (new_title.length() == 0) {
 						Toast.makeText(context, "Title can't be blank",
@@ -181,7 +185,6 @@ public class RewardActivity extends BaseActivity {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					String new_title = change_reward_title.getText().toString();
 					if (new_title.length() == 0) {
 						Toast.makeText(context, "Title can't be blank",
@@ -211,8 +214,6 @@ public class RewardActivity extends BaseActivity {
 
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					// change_title.setText(habit.get(position).getHabit());
 					edit_button.setVisibility(View.VISIBLE);
 					cancel_button.setVisibility(View.GONE);
 					save_button.setVisibility(View.GONE);
@@ -227,7 +228,6 @@ public class RewardActivity extends BaseActivity {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					if (!sql.deleteReward(reward)) {
 						Toast.makeText(context, "Reward couldn't be deleted",
 								Toast.LENGTH_SHORT).show();

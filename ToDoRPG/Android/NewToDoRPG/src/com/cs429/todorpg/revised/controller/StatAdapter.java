@@ -11,17 +11,21 @@ import android.widget.TextView;
 
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.model.Stat;
+
 /**
  * Stat Adapter
+ * 
  * @author kchen26, hlim10
- *
+ * 
  */
 public class StatAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private ArrayList<Stat> stats;
+
 	/**
 	 * Constructor
+	 * 
 	 * @param context
 	 * @param stats
 	 */
@@ -30,6 +34,7 @@ public class StatAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.stats = stats;
 	}
+
 	/**
 	 * Get Count of Stat List
 	 */
@@ -37,6 +42,7 @@ public class StatAdapter extends BaseAdapter {
 	public int getCount() {
 		return stats.size();
 	}
+
 	/**
 	 * Get selected item of Stat List
 	 */
@@ -44,6 +50,7 @@ public class StatAdapter extends BaseAdapter {
 	public Object getItem(int position) {
 		return stats.get(position);
 	}
+
 	/**
 	 * Get selected item id of Stat List
 	 */
@@ -51,6 +58,7 @@ public class StatAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
+
 	/**
 	 * Shows the details of stat
 	 */
@@ -69,7 +77,7 @@ public class StatAdapter extends BaseAdapter {
 
 		final TextView stat_count = (TextView) returnView
 				.findViewById(R.id.stat_count);
-		stat_count.setText(stat.getCount()+"");
+		stat_count.setText(stat.getCount() + "");
 
 		return returnView;
 	}
