@@ -47,11 +47,12 @@ public class TutorialBattleActivity extends BaseActivity {
 	GameState state = GameState.ready;
 	int width, height, playerMaxHP, enemyMaxHP, tutorialStep = 0;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu,
-			playerInfo, enemySide, playerSide;
-	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement, playerDamage, enemyDamage;
+	playerInfo, enemySide, playerSide;
+	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement,
+	playerDamage, enemyDamage;
 	ImageView enemyImage, playerImage, playerEffect, enemyEffect,
-			playerStatusPoison, playerStatusBlind, playerStatusCurse,
-			enemyStatusPoison, enemyStatusBlind, enemyStatusCurse;
+	playerStatusPoison, playerStatusBlind, playerStatusCurse,
+	enemyStatusPoison, enemyStatusBlind, enemyStatusCurse;
 	AnimationDrawable playerWalk, playerAttack, enemyAttack;
 	Button attack, change_weapon;
 	Intent intent;
@@ -62,6 +63,7 @@ public class TutorialBattleActivity extends BaseActivity {
 	AlertDialog.Builder builder;
 	AlertDialog battleEnd;
 	boolean playerTurn = false;
+
 	/**
 	 * Creation function when activity starts
 	 */
@@ -87,6 +89,7 @@ public class TutorialBattleActivity extends BaseActivity {
 		});
 
 	}
+
 	/**
 	 * Tutorial function
 	 */
@@ -105,6 +108,7 @@ public class TutorialBattleActivity extends BaseActivity {
 		}
 		tutorialStep++;
 	}
+
 	/**
 	 * set up helper
 	 */
@@ -164,9 +168,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
 		inventory
-				.setArmor(new Armor("Leather Armor",
-						R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
-						1, poss));
+		.setArmor(new Armor("Leather Armor",
+				R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
+				1, poss));
 		inventory.setHelmet(new Helmet("Leather Helmet",
 				R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.setShield(new Shield("Leather Shield",
@@ -188,7 +192,6 @@ public class TutorialBattleActivity extends BaseActivity {
 
 	}
 
-
 	/**
 	 * set up battle menu and info
 	 */
@@ -200,8 +203,9 @@ public class TutorialBattleActivity extends BaseActivity {
 		battleNavigator.setLayoutParams(battleNav);
 
 	}
+
 	/**
-	 *  setup player and enemy name and hp panel
+	 * setup player and enemy name and hp panel
 	 */
 	private void setUpBattleInfo() {
 		RelativeLayout.LayoutParams playerInfoParams = new RelativeLayout.LayoutParams(
@@ -229,6 +233,7 @@ public class TutorialBattleActivity extends BaseActivity {
 		playerHP.setLayoutParams(playerHPParams);
 
 	}
+
 	/**
 	 * set up battle menu, attack button
 	 */
@@ -254,6 +259,7 @@ public class TutorialBattleActivity extends BaseActivity {
 		attack.setOnClickListener(ButtonListener);
 		change_weapon.setOnClickListener(ButtonListener);
 	}
+
 	/**
 	 * pull players from DB
 	 */
@@ -266,8 +272,11 @@ public class TutorialBattleActivity extends BaseActivity {
 		enemyMaxHP = enemy.getHP();
 
 	}
+
 	/**
-	 * animation function, waits for anmiation to run to the end before clearing view
+	 * animation function, waits for anmiation to run to the end before clearing
+	 * view
+	 * 
 	 * @param anim
 	 * @param img
 	 */
@@ -299,6 +308,7 @@ public class TutorialBattleActivity extends BaseActivity {
 
 	/**
 	 * animation helper
+	 * 
 	 * @param anim
 	 * @param effect
 	 * @param animation
@@ -353,6 +363,7 @@ public class TutorialBattleActivity extends BaseActivity {
 
 		}
 	}
+
 	/**
 	 * simple boss AI
 	 */
@@ -383,9 +394,10 @@ public class TutorialBattleActivity extends BaseActivity {
 		}
 
 	}
-/**
- * attack button listener
- */
+
+	/**
+	 * attack button listener
+	 */
 	Button.OnClickListener ButtonListener = new Button.OnClickListener() {
 		@SuppressLint("NewApi")
 		@Override
@@ -412,9 +424,10 @@ public class TutorialBattleActivity extends BaseActivity {
 		}
 
 	};
-/**
- * finds view in layout
- */
+
+	/**
+	 * finds view in layout
+	 */
 	private void FindViewById() {
 		battleScreen = (RelativeLayout) findViewById(R.id.battle_screen);
 		battleNavigator = (RelativeLayout) findViewById(R.id.battle_navigator);
@@ -442,9 +455,10 @@ public class TutorialBattleActivity extends BaseActivity {
 		enemyDamage = (TextView) findViewById(R.id.battle_enemy_status_curse);
 
 	}
-/**
- * fullscreen and landscape orientation
- */
+
+	/**
+	 * fullscreen and landscape orientation
+	 */
 	private void setUpLayout() {
 
 		// Remove title bar
@@ -462,17 +476,21 @@ public class TutorialBattleActivity extends BaseActivity {
 		height = size.y;
 
 	}
-/**
- * shows message pop up
- * @param msg
- */
+
+	/**
+	 * shows message pop up
+	 * 
+	 * @param msg
+	 */
 	private void setBattleMessage(String msg) {
 		battleAnnouncement.setText(msg);
 		battleAnnouncement.setVisibility(View.VISIBLE);
 
 	}
+
 	/**
 	 * Continue or quit dialogue
+	 * 
 	 * @param msg
 	 */
 	public void makeGameOverMessages(String msg) {

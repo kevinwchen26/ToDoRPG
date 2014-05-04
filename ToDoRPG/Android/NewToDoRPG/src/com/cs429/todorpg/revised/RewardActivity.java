@@ -42,9 +42,10 @@ public class RewardActivity extends BaseActivity {
 	SQLiteHelper sql = new SQLiteHelper(this);
 
 	/**
-	 * list item object 
+	 * list item object
+	 * 
 	 * @author Jun
-	 *
+	 * 
 	 */
 	private class RewardsAdapter extends BaseAdapter {
 
@@ -59,6 +60,7 @@ public class RewardActivity extends BaseActivity {
 			this.context = context;
 			this.rewards = rewards;
 		}
+
 		/**
 		 * Return list size
 		 */
@@ -66,6 +68,7 @@ public class RewardActivity extends BaseActivity {
 		public int getCount() {
 			return rewards.size();
 		}
+
 		/**
 		 * Get item at position
 		 */
@@ -73,6 +76,7 @@ public class RewardActivity extends BaseActivity {
 		public Reward getItem(int position) {
 			return rewards.get(position);
 		}
+
 		/**
 		 * get item id at position
 		 */
@@ -257,6 +261,7 @@ public class RewardActivity extends BaseActivity {
 
 		}
 	}
+
 	/**
 	 * Create function
 	 */
@@ -273,6 +278,7 @@ public class RewardActivity extends BaseActivity {
 		pullRewards();
 
 	}
+
 	/**
 	 * Pull rewards from DB, set empty list if null
 	 */
@@ -286,6 +292,7 @@ public class RewardActivity extends BaseActivity {
 		adapter.notifyDataSetChanged();
 		SetAdapter();
 	}
+
 	/**
 	 * find views in layouts
 	 */
@@ -296,6 +303,7 @@ public class RewardActivity extends BaseActivity {
 		add_reward = (Button) findViewById(R.id.add_reward_button);
 		reward_list = (ListView) findViewById(R.id.rewards_list);
 	}
+
 	/**
 	 * set gold value
 	 */
@@ -306,15 +314,18 @@ public class RewardActivity extends BaseActivity {
 		add_reward.setOnClickListener(ButtonListener);
 
 	}
+
 	/**
-	 * updates the gold counter after a user purchases reward. Also saves gold value to db
+	 * updates the gold counter after a user purchases reward. Also saves gold
+	 * value to db
+	 * 
 	 * @param cost
 	 * @param itemName
 	 */
 	public void updateGold(int cost, String itemName) {
 		if (!canPurchase(cost)) {
 			Toast.makeText(this, "Insufficient Gold", Toast.LENGTH_SHORT)
-					.show();
+			.show();
 			return;
 		}
 		int value = my_character.getGold() - cost;
@@ -342,6 +353,7 @@ public class RewardActivity extends BaseActivity {
 		}
 
 	}
+
 	/**
 	 * checks if user has the neccessary gold amount
 	 */
@@ -353,6 +365,7 @@ public class RewardActivity extends BaseActivity {
 
 	/**
 	 * add reward to list and db
+	 * 
 	 * @param description
 	 * @param cost
 	 */
@@ -377,6 +390,7 @@ public class RewardActivity extends BaseActivity {
 		adapter.notifyDataSetChanged();
 
 	}
+
 	/**
 	 * set list objects
 	 */
@@ -385,6 +399,7 @@ public class RewardActivity extends BaseActivity {
 		reward_list.setAdapter(adapter);
 
 	}
+
 	/**
 	 * button listener for add reward button
 	 */

@@ -53,7 +53,7 @@ public class BattleActivity extends BaseActivity {
 	GameState state = GameState.ready;
 	int width, height, playerMaxHP, enemyMaxHP;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu,
-			playerInfo, enemySide, playerSide;
+	playerInfo, enemySide, playerSide;
 	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement;
 	ImageView enemyImage, playerImage, playerEffect, enemyEffect;
 	AnimationDrawable playerWalk, playerAttack, enemyAttack;
@@ -68,7 +68,7 @@ public class BattleActivity extends BaseActivity {
 	AlertDialog battleEnd;
 
 	private BTMessageHandler mHandler;
-	
+
 	/**
 	 * Create function when activity starts
 	 */
@@ -85,6 +85,7 @@ public class BattleActivity extends BaseActivity {
 		mHandler = BTMessageHandler.getInstance(BattleActivity.this);
 		mHandler.changeContext(BattleActivity.this);
 	}
+
 	/**
 	 * Destory function when activity calls finish()
 	 */
@@ -93,7 +94,7 @@ public class BattleActivity extends BaseActivity {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
 		super.onDestroy();
 		mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_END)
-				.sendToTarget();
+		.sendToTarget();
 		mHandler.flush();
 	}
 
@@ -106,9 +107,9 @@ public class BattleActivity extends BaseActivity {
 		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
 		inventory
-				.setArmor(new Armor("Leather Armor",
-						R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
-						1, poss));
+		.setArmor(new Armor("Leather Armor",
+				R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
+				1, poss));
 		inventory.setHelmet(new Helmet("Leather Helmet",
 				R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.setShield(new Shield("Leather Shield",
@@ -126,7 +127,8 @@ public class BattleActivity extends BaseActivity {
 	}
 
 	/**
-	 * Toast string 
+	 * Toast string
+	 * 
 	 * @param s
 	 */
 	public void battleToast(String s) {
@@ -189,9 +191,9 @@ public class BattleActivity extends BaseActivity {
 		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
 		inventory
-				.setArmor(new Armor("Leather Armor",
-						R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
-						1, poss));
+		.setArmor(new Armor("Leather Armor",
+				R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
+				1, poss));
 		inventory.setHelmet(new Helmet("Leather Helmet",
 				R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.setShield(new Shield("Leather Shield",
@@ -210,8 +212,6 @@ public class BattleActivity extends BaseActivity {
 
 	}
 
-
-
 	/**
 	 * set up battle menu and info
 	 */
@@ -224,7 +224,7 @@ public class BattleActivity extends BaseActivity {
 	}
 
 	/**
-	 *  setup player and enemy name and hp panel
+	 * setup player and enemy name and hp panel
 	 */
 	private void setUpBattleInfo() {
 		RelativeLayout.LayoutParams playerInfoParams = new RelativeLayout.LayoutParams(
@@ -235,12 +235,10 @@ public class BattleActivity extends BaseActivity {
 				height / 2));
 		playerInfo.setLayoutParams(playerInfoParams);
 
-
 		RelativeLayout.LayoutParams enemyHPParams = new RelativeLayout.LayoutParams(
 				enemyHP.getLayoutParams());
 		enemyHPParams.addRule(RelativeLayout.BELOW, enemyName.getId());
 		enemyHP.setLayoutParams(enemyHPParams);
-
 
 		RelativeLayout.LayoutParams playerHPParams = new RelativeLayout.LayoutParams(
 				playerHP.getLayoutParams());
@@ -283,8 +281,11 @@ public class BattleActivity extends BaseActivity {
 		playerMaxHP = player.getHP();
 		enemyMaxHP = enemy.getHP();
 	}
+
 	/**
-	 * animation function, waits for anmiation to run to the end before clearing view
+	 * animation function, waits for anmiation to run to the end before clearing
+	 * view
+	 * 
 	 * @param anim
 	 * @param img
 	 */
@@ -306,6 +307,7 @@ public class BattleActivity extends BaseActivity {
 
 	/**
 	 * animation helper
+	 * 
 	 * @param anim
 	 * @param effect
 	 * @param animation
@@ -319,7 +321,7 @@ public class BattleActivity extends BaseActivity {
 	}
 
 	/**
-	 *  Updates the HP and checks for game ending conditions
+	 * Updates the HP and checks for game ending conditions
 	 */
 	private void update() {
 		if (enemy.getHP() < 0) {
@@ -334,18 +336,17 @@ public class BattleActivity extends BaseActivity {
 		playerName.setText(player.getName() + " Lv."
 				+ Integer.toString(player.getLevel()));
 		playerHP.setText("HP " + player.getHP() + "/" + playerMaxHP);
-		
+
 		// Need to add check game conditions.
 		Handler h = new Handler();
 		h.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				
+
 				checkGameConditions();
 			}
 		}, 1000);
 	}
-
 
 	/**
 	 * Return true if game is over
@@ -435,7 +436,7 @@ public class BattleActivity extends BaseActivity {
 			}
 		}
 	};
-	
+
 	/**
 	 * finds views from layout
 	 */
@@ -460,6 +461,7 @@ public class BattleActivity extends BaseActivity {
 		change_weapon = (Button) findViewById(R.id.change_weapon);
 
 	}
+
 	/**
 	 * Makes activity full screen and landscape
 	 */
@@ -476,13 +478,13 @@ public class BattleActivity extends BaseActivity {
 		Point size = new Point();
 		display.getSize(size);
 		width = size.x;
-		
-		
+
 		height = size.y;
 	}
 
 	/**
 	 * helper for setting up battle message
+	 * 
 	 * @param msg
 	 */
 	private void setBattleMessage(String msg) {
@@ -498,7 +500,8 @@ public class BattleActivity extends BaseActivity {
 	}
 
 	/**
-	 *  builder for confirm pop up
+	 * builder for confirm pop up
+	 * 
 	 * @param msg
 	 */
 	public void makeGameOverMessages(String msg) {
@@ -517,16 +520,16 @@ public class BattleActivity extends BaseActivity {
 			}
 		});
 	}
-	
-	
+
 	/**
 	 * class for blue tooth
 	 * 
-	 *
+	 * 
 	 */
 	private class ShareInfoTask extends AsyncTask<Void, Void, Void> {
 
 		ProgressDialog progress;
+
 		/**
 		 * 
 		 */
@@ -539,6 +542,7 @@ public class BattleActivity extends BaseActivity {
 					true);
 
 		}
+
 		/**
 		 * 
 		 */
@@ -551,7 +555,7 @@ public class BattleActivity extends BaseActivity {
 		/**
 		 * 
 		 */
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 
@@ -649,6 +653,7 @@ public class BattleActivity extends BaseActivity {
 		}
 		return msgBytes;
 	}
+
 	/**
 	 * 
 	 * @param player
