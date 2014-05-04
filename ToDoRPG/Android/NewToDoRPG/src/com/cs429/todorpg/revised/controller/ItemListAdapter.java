@@ -15,6 +15,12 @@ import com.cs429.todorpg.revised.GameApplication;
 import com.cs429.todorpg.revised.R;
 import com.cs429.todorpg.revised.itemsystem.RpgItem;
 
+/**
+ * Adapter used for the Inventory
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class ItemListAdapter extends ArrayAdapter<RpgItem> {
 	private final Context context;
 	private final ArrayList<RpgItem> inventoryItems;

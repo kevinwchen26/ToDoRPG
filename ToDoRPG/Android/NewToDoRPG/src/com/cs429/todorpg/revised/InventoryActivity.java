@@ -18,16 +18,15 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.cs429.todorpg.revised.controller.ItemListAdapter;
-import com.cs429.todorpg.revised.itemsystem.Armor;
-import com.cs429.todorpg.revised.itemsystem.Helmet;
-import com.cs429.todorpg.revised.itemsystem.Inventory;
-import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
-import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
 import com.cs429.todorpg.revised.itemsystem.RpgItem;
-import com.cs429.todorpg.revised.itemsystem.Shield;
-import com.cs429.todorpg.revised.itemsystem.Weapon;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
+/**
+ * Inventory Activity. Allows user to view thier inventory and switch equipment
+ * 
+ * @author Leon Chen
+ * 
+ */
 public class InventoryActivity extends BaseActivity {
 	// Equipment Temporaryily public
 	ItemListAdapter adapter;
@@ -136,125 +135,134 @@ public class InventoryActivity extends BaseActivity {
 		popupMenu.getMenuInflater().inflate(R.menu.inventory,
 				popupMenu.getMenu());
 		popupMenu
-				.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+		.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						switch (item.getItemId()) {
-						case R.id.inventory_menu_equip:
-							Toast.makeText(InventoryActivity.this, "Equipped",
-									Toast.LENGTH_LONG).show();
-							// Equip item
-							app.avatar.inventory.equipItem(position, false);
-							// Refresh list
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch (item.getItemId()) {
+				case R.id.inventory_menu_equip:
+					Toast.makeText(InventoryActivity.this, "Equipped",
+							Toast.LENGTH_LONG).show();
+					// Equip item
+					app.avatar.inventory.equipItem(position, false);
+					// Refresh list
 
-							InventoryActivity.this
-									.runOnUiThread(new Runnable() {
-										public void run() {
-											adapter.notifyDataSetChanged();
-											db.addInventory(app.avatar.inventory);
-										}
-									});
-
-							setImageViews();
-							break;
-
-						case R.id.inventory_menu_discard:
-							Toast.makeText(InventoryActivity.this,
-									"Item discarded", Toast.LENGTH_LONG).show();
-							// Remove Item from inventory
-							app.avatar.inventory.removeInventory(position);
-
-							// Refresh list
+					InventoryActivity.this
+					.runOnUiThread(new Runnable() {
+						public void run() {
 							adapter.notifyDataSetChanged();
 							db.addInventory(app.avatar.inventory);
-							setImageViews();
-							break;
 						}
-						return true;
-					}
-				});
+					});
+
+					setImageViews();
+					break;
+
+				case R.id.inventory_menu_discard:
+					Toast.makeText(InventoryActivity.this,
+							"Item discarded", Toast.LENGTH_LONG).show();
+					// Remove Item from inventory
+					app.avatar.inventory.removeInventory(position);
+
+					// Refresh list
+					adapter.notifyDataSetChanged();
+					db.addInventory(app.avatar.inventory);
+					setImageViews();
+					break;
+				}
+				return true;
+			}
+		});
 		popupMenu.show();
 	}
 
+	/**
+	 * Shows the options for equipment that are equipped
+	 * 
+	 * @param v
+	 * @param equipmentType
+	 */
 	public void showEquipmentDialog(View v, final int equipmentType) {
 		PopupMenu popupMenu = new PopupMenu(InventoryActivity.this, v);
 		popupMenu.getMenuInflater().inflate(R.menu.equipment,
 				popupMenu.getMenu());
 		popupMenu
-				.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+		.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						switch (item.getItemId()) {
-						case R.id.equipment_menu_unequip:
-							Toast.makeText(InventoryActivity.this,
-									"Unequipped", Toast.LENGTH_LONG).show();
-							// Unequip item
-							switch (equipmentType) {
-							case HELMET:
-								app.avatar.inventory
-										.addInventory(app.avatar.inventory
-												.getHelmet());
-								app.avatar.inventory.setHelmet(null);
-								break;
-							case WEAPON:
-								app.avatar.inventory
-										.addInventory(app.avatar.inventory
-												.getWeapon());
-								app.avatar.inventory.setWeapon(null);
-								break;
-							case SHIELD:
-								app.avatar.inventory
-										.addInventory(app.avatar.inventory
-												.getShield());
-								app.avatar.inventory.setShield(null);
-								break;
-							case ARMOR:
-								app.avatar.inventory
-										.addInventory(app.avatar.inventory
-												.getArmor());
-								app.avatar.inventory.setArmor(null);
-								break;
-							}
-
-							// Refresh list and avatar
-							adapter.notifyDataSetChanged();
-							db.addInventory(app.avatar.inventory);
-							setImageViews();
-							break;
-
-						case R.id.equipment_menu_discard:
-							Toast.makeText(InventoryActivity.this,
-									"Item discarded", Toast.LENGTH_LONG).show();
-							// Remove Item
-							switch (equipmentType) {
-							case HELMET:
-								app.avatar.inventory.setHelmet(null);
-								break;
-							case WEAPON:
-								app.avatar.inventory.setWeapon(null);
-								break;
-							case SHIELD:
-								app.avatar.inventory.setShield(null);
-								break;
-							case ARMOR:
-								app.avatar.inventory.setArmor(null);
-								break;
-							}
-
-							// Refresh list
-							adapter.notifyDataSetChanged();
-							db.addInventory(app.avatar.inventory);
-							setImageViews();
-							break;
-						}
-						return true;
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch (item.getItemId()) {
+				case R.id.equipment_menu_unequip:
+					Toast.makeText(InventoryActivity.this,
+							"Unequipped", Toast.LENGTH_LONG).show();
+					// Unequip item
+					switch (equipmentType) {
+					case HELMET:
+						app.avatar.inventory
+						.addInventory(app.avatar.inventory
+								.getHelmet());
+						app.avatar.inventory.setHelmet(null);
+						break;
+					case WEAPON:
+						app.avatar.inventory
+						.addInventory(app.avatar.inventory
+								.getWeapon());
+						app.avatar.inventory.setWeapon(null);
+						break;
+					case SHIELD:
+						app.avatar.inventory
+						.addInventory(app.avatar.inventory
+								.getShield());
+						app.avatar.inventory.setShield(null);
+						break;
+					case ARMOR:
+						app.avatar.inventory
+						.addInventory(app.avatar.inventory
+								.getArmor());
+						app.avatar.inventory.setArmor(null);
+						break;
 					}
-				});
+
+					// Refresh list and avatar
+					adapter.notifyDataSetChanged();
+					db.addInventory(app.avatar.inventory);
+					setImageViews();
+					break;
+
+				case R.id.equipment_menu_discard:
+					Toast.makeText(InventoryActivity.this,
+							"Item discarded", Toast.LENGTH_LONG).show();
+					// Remove Item
+					switch (equipmentType) {
+					case HELMET:
+						app.avatar.inventory.setHelmet(null);
+						break;
+					case WEAPON:
+						app.avatar.inventory.setWeapon(null);
+						break;
+					case SHIELD:
+						app.avatar.inventory.setShield(null);
+						break;
+					case ARMOR:
+						app.avatar.inventory.setArmor(null);
+						break;
+					}
+
+					// Refresh list
+					adapter.notifyDataSetChanged();
+					db.addInventory(app.avatar.inventory);
+					setImageViews();
+					break;
+				}
+				return true;
+			}
+		});
 		popupMenu.show();
 	}
 
+	/**
+	 * shows the images of the weapon
+	 */
 	public void setImageViews() {
 		helmet_image.setImageBitmap(getEquipmentImage(
 				app.avatar.inventory.getHelmet(), "#FFCCFF", -38, 0));
@@ -267,6 +275,15 @@ public class InventoryActivity extends BaseActivity {
 				app.avatar.inventory.getArmor(), "#FFCCFF", -38, -60));
 	}
 
+	/**
+	 * Returns an image on the Activity
+	 * 
+	 * @param item
+	 * @param colorString
+	 * @param xOffset
+	 * @param yOffset
+	 * @return the image in the correct location
+	 */
 	public Bitmap getEquipmentImage(RpgItem item, String colorString,
 			int xOffset, int yOffset) {
 
