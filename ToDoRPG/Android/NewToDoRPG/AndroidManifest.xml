@@ -87,6 +87,10 @@
             android:name="com.cs429.todorpg.revised.EventLogActivity"
             android:label="@string/title_activity_event_log" >
         </activity>
+        <activity
+            android:name="com.cs429.todorpg.revised.MockBattleActivity"
+            android:label="@string/title_activity_mock_battle" >
+        </activity>
     </application>
 
 </manifest>
