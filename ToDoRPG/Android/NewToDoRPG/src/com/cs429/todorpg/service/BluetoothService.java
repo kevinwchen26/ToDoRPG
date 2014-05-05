@@ -225,6 +225,11 @@ public class BluetoothService {
 			r.write(out);
 		}
 		
+		/**
+		 * write an object to the ConnectedThread in an unsynchronized manner
+		 * 
+		 * @param out an object to write
+		 */
 		public void writeObject(Object out) {
 			// Create temporary object
 			ConnectedThread r;
@@ -305,6 +310,11 @@ public class BluetoothService {
 			}
 		}
 
+		/**
+		 * helper method to AcceptThread
+		 * 
+		 * @param socket
+		 */
 		public void acceptThreadConsequence(BluetoothSocket socket){
 			// If a connection was accepted
 			if (socket != null) {

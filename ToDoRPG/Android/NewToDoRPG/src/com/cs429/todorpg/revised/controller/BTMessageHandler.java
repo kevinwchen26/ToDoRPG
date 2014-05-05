@@ -6,6 +6,7 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothSocket;
@@ -23,8 +24,15 @@ import com.cs429.todorpg.revised.BattleActivity;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.service.BluetoothService;
 
+/**
+ * This is a handler that handles message sent back and forth between two connected devices
+ * 
+ * @author ssong25
+ *
+ */
 public class BTMessageHandler extends Handler{
 
+	/*Constants*/
 	public final static int MESSAGE_PERMISSION = 0;
 	public final static int MESSAGE_CONNECTION_FAIL = 1;
 	public final static int MESSAGE_CONNECTION_REQUEST = 2;
@@ -39,11 +47,11 @@ public class BTMessageHandler extends Handler{
 	public final static int RECEIVE_ATTACK = 101;
 	
 	
+	/*Variables*/
 	private static BTMessageHandler mHandler;
 	
 	private String TAG = "BTHandler";
 	
-//	private Context appContext;
 	private Context myContext;
 	private ProgressDialog mDialog;
 	private BluetoothService BTService;
@@ -51,6 +59,11 @@ public class BTMessageHandler extends Handler{
 	private boolean isMyTurn;
 	private boolean readyToStart;
 	
+	/**
+	 * private constructor
+	 * 
+	 * @param context: context of an activity which a handler binds to 
+	 */
 	private BTMessageHandler(Context context){
 		myContext = context;
 		mDialog = new ProgressDialog(context);
@@ -58,51 +71,106 @@ public class BTMessageHandler extends Handler{
 		setReadyToStart(false);
 	}
 	
+	/**
+	 * static method that gets BTMessageHandler.
+	 * if none of the handler has been initialized before, outputs new one
+	 * 
+	 * @param context: context of an activity which a handler binds to
+	 * @return
+	 */
 	public static BTMessageHandler getInstance(Context context){
 		if(mHandler == null)
 			mHandler = new BTMessageHandler(context);
 		return mHandler;
 	}
 	
+	/**
+	 * destroys the current handler
+	 */
 	public void flush(){
 		mHandler = null;
 		myContext = null;
 		mDialog = null;
 	}
 	
+	/**
+	 * This sets BluetoothService to a handler
+	 * 
+	 * @param service: BluetoothService which this handler handles with
+	 */
 	public void setBTService(BluetoothService service){
 		BTService = service;
 	}
 	
+	/**
+	 * This is only for game battle turn.
+	 * This sets my turn synchronized with the enemy's turn
+	 * 
+	 * @return true if it is my turn, false otherwise
+	 */
 	public boolean toggleMyTurn(){
 		isMyTurn = !isMyTurn;
 		return isMyTurn;
 	}
 	
+	/**
+	 * getter method of my turn
+	 * 
+	 * @return: boolean myTurn
+	 */
 	public boolean getMyTurn(){
 		return isMyTurn;
 	}
 	
+	/**
+	 * As this handler is static, it could be used cross activities.
+	 * This method is to change a context which a handler should bind to
+	 * 
+	 * @param context: context of an activity that currently is running
+	 */
 	public void changeContext(Context context){
 		myContext = context;
 	}
 	
+	/**
+	 * call back method to battletoast mehod in BattleActivity
+	 * 
+	 * @param s: toast message
+	 */
 	public void battleToast(String s) {
 		((BattleActivity)myContext).battleToast(s);
 	}
 	
+	/**
+	 * call back method to setEnemyImage at BattleActivity
+	 * 
+	 * @param enemyAv: enemy avatar
+	 */
 	private void setEnemyImage(Avatar enemyAv) {
 		((BattleActivity)myContext).setEnemyImage(enemyAv);
 	}
 	
+	/**
+	 * call back method to stEnemyinfo at BattleActivity
+	 * 
+	 * @param c: ToDoCharacter
+	 */
 	public void setEnemyInfo(ToDoCharacter c) {
 		((BattleActivity)myContext).setEnemyInfo(c);
 	}
 	
+	/**
+	 * call back method to defendAttack at BattleActivity
+	 * 
+	 * @param attackResult
+	 */
 	public void defendAttack(AttackResult attackResult) {
 		((BattleActivity)myContext).defendAttack(attackResult);
 	}
 	
+	/**
+	 * This handles all the messages between two connected devices
+	 */
 	@Override
 	public void handleMessage(Message msg){
 		switch(msg.what){
@@ -143,6 +211,7 @@ public class BTMessageHandler extends Handler{
 		case MESSAGE_CONNECTION_SETTLED:
 			Intent intent = new Intent(myContext, BattleActivity.class);
 			myContext.startActivity(intent);
+			((Activity)myContext).finish();
 			
 			break;
 			
@@ -195,7 +264,12 @@ public class BTMessageHandler extends Handler{
 	
 	
 	
-
+	/**
+	 * This handles the output and the sequence of connection failure
+	 * 
+	 * @param arg1
+	 * @param arg2
+	 */
 	private void connection_failure(int arg1, int arg2){
 		//connection time out
 		if(arg1 == 0 && arg2 == 0){
@@ -219,6 +293,11 @@ public class BTMessageHandler extends Handler{
 		}
 	}
 	
+	/**
+	 * This shows a dialog
+	 * 
+	 * @param message: string to be displayed on the dialog
+	 */
 	private void showAlertDialog(String message){
 		AlertDialog.Builder ab = null;
 		ab = new AlertDialog.Builder(myContext);
@@ -228,6 +307,12 @@ public class BTMessageHandler extends Handler{
 		ab.show();
 	}
 	
+	/**
+	 * This shows a dialog with yes / no choices
+	 * 
+	 * @param message: string to be displayed on the dialog
+	 * @param socket: bluetooth socket to be connected to a remote device
+	 */
 	private void showYesNoDialog(String message, final BluetoothSocket socket){
 		AlertDialog.Builder ab = null;
 		ab = new AlertDialog.Builder(myContext);
@@ -262,17 +347,29 @@ public class BTMessageHandler extends Handler{
 		ab.show();
 	}
 
+	/**
+	 * method to get if the device is ready to start
+	 * 
+	 * @return true if my device is ready, false otherwise
+	 */
 	public boolean isReadyToStart() {
 		return readyToStart;
 	}
 
+	/**
+	 * setter method of notifying my device is ready to start
+	 * 
+	 * @param readyToStart
+	 */
 	public void setReadyToStart(boolean readyToStart) {
 		this.readyToStart = readyToStart;
 	}
 	
-	/*
-	 * FUNCTIONS ADDED BY PAUL
+	/**
+	 * parser to convert from byte array to an object
 	 * 
+	 * @param myBytes
+	 * @return converted object
 	 */
 	public Object getObjectFromBytes(byte [] myBytes) {
 		ByteArrayInputStream bis = new ByteArrayInputStream(myBytes);

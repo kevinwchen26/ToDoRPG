@@ -107,6 +107,7 @@ public class BattleActivity extends BaseActivity {
 		mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_END)
 				.sendToTarget();
 		mHandler.flush();
+		
 	}
 
 	/**

@@ -18,8 +18,15 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+/**
+ * an activity that shows the lists of paired devices
+ * 
+ * @author ssong25
+ *
+ */
 public class DeviceListActivity extends BaseActivity {
 
+	/*variables*/
 	private Set<BluetoothDevice> pairedDevices;
 	private ArrayAdapter<String> adapter;
 	private ListView list_view;
@@ -62,6 +69,9 @@ public class DeviceListActivity extends BaseActivity {
 	    finish();
 	};
 	
+	/**
+	 * This lists the paired devices
+	 */
 	private void list(){
 		pairedDevices = BTControl.getInstance(getApplicationContext()).getAdapter().getBondedDevices();
 		for(BluetoothDevice device : pairedDevices){

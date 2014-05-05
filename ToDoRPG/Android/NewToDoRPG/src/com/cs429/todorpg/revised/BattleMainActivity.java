@@ -15,14 +15,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * start activity of bluetooth connection
+ * 
+ * @author ssong25
+ *
+ */
 public class BattleMainActivity extends BaseActivity {
 
+	/*variables*/
 	private BluetoothService BTService;
 	private BTControl btctrl;
 	private String device_address;
 
 	private Button bluetooth_connect_btn;
 
+	/**
+	 * checks blue tooth availability when the activity starts
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onCreate ++");
@@ -39,10 +49,14 @@ public class BattleMainActivity extends BaseActivity {
 			bluetooth_connect_btn.setEnabled(false);
 		}
 		BTService = new BluetoothService(BattleMainActivity.this);
+		
 		BTMessageHandler.getInstance(BattleMainActivity.this).setBTService(
 				BTService);
 	}
 
+	/**
+	 * bluetooth service starts once bluetooth availability is confirmed
+	 */
 	@Override
 	public void onResume() {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onResume ++");
@@ -58,9 +72,11 @@ public class BattleMainActivity extends BaseActivity {
 	public void onDestroy() {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
 		super.onDestroy();
-		BTService.stop();
 	}
 
+	/**
+	 * handling of bluetooth availability and remote device choosing among lists
+	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
@@ -87,11 +103,17 @@ public class BattleMainActivity extends BaseActivity {
 		}
 	}
 
+	/**
+	 * wrap up of findViewById
+	 */
 	private void findViewById() {
 		bluetooth_connect_btn = (Button) findViewById(R.id.bluetooth_connect_btn);
 		bluetooth_connect_btn.setOnClickListener(mListener);
 	}
 
+	/**
+	 * Button listener
+	 */
 	Button.OnClickListener mListener = new Button.OnClickListener() {
 		@Override
 		public void onClick(View v) {
