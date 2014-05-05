@@ -22,13 +22,12 @@ import com.cs429.todorpg.revised.itemsystem.RpgItem;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
 /**
- * Inventory Activity. Allows user to view thier inventory and switch equipment
+ * Inventory Activity. Allows user to view their inventory and switch equipment
  * 
- * @author Leon Chen
+ * @author paulkim6
  * 
  */
 public class InventoryActivity extends BaseActivity {
-	// Equipment Temporaryily public
 	ItemListAdapter adapter;
 	ImageView display_image;
 	ImageView helmet_image;

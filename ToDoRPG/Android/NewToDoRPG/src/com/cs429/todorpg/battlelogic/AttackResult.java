@@ -3,6 +3,12 @@ package com.cs429.todorpg.battlelogic;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author paulkim6
+ * Object that holds the result of an attack. Sent over BT connection
+ *
+ */
 public class AttackResult implements Serializable {
 
 	/**

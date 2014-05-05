@@ -1,9 +1,9 @@
+/**
+ * Battle Activity Class where the actual battle GUI happens 
+ */
+
 package com.cs429.todorpg.revised;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,10 +50,13 @@ public class BattleActivity extends BaseActivity {
 		ready, gameOver
 	}
 
+	/*
+	 * State variables that track the backend of the battle
+	 */
 	GameState state = GameState.ready;
 	int width, height, playerMaxHP, enemyMaxHP;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu,
-	playerInfo, enemySide, playerSide;
+			playerInfo, enemySide, playerSide;
 	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement;
 	ImageView enemyImage, playerImage, playerEffect, enemyEffect;
 	AnimationDrawable playerWalk, playerAttack, enemyAttack;
@@ -102,7 +105,7 @@ public class BattleActivity extends BaseActivity {
 		Log.e("[LifeCycle]", "BattleMainActivity: ++ onDestroy ++");
 		super.onDestroy();
 		mHandler.obtainMessage(BTMessageHandler.MESSAGE_BATTLE_END)
-		.sendToTarget();
+				.sendToTarget();
 		mHandler.flush();
 	}
 
@@ -175,9 +178,9 @@ public class BattleActivity extends BaseActivity {
 		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
 		inventory
-		.setArmor(new Armor("Leather Armor",
-				R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
-				1, poss));
+				.setArmor(new Armor("Leather Armor",
+						R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
+						1, poss));
 		inventory.setHelmet(new Helmet("Leather Helmet",
 				R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.setShield(new Shield("Leather Shield",
@@ -669,7 +672,5 @@ public class BattleActivity extends BaseActivity {
 
 			}
 		}
-
 	}
-
 }

@@ -1,3 +1,7 @@
+/**
+ * Mock Battle Activity Class used to simulate BattleActivity for testing 
+ */
+
 package com.cs429.todorpg.revised;
 
 import java.util.ArrayList;
@@ -23,8 +27,6 @@ import android.widget.Toast;
 
 import com.cs429.todorpg.battlelogic.AttackResult;
 import com.cs429.todorpg.battlelogic.BattleLogic;
-import com.cs429.todorpg.battlelogic.BtPackage;
-import com.cs429.todorpg.revised.controller.BTMessageHandler;
 import com.cs429.todorpg.revised.itemsystem.Armor;
 import com.cs429.todorpg.revised.itemsystem.Helmet;
 import com.cs429.todorpg.revised.itemsystem.Inventory;
@@ -32,8 +34,6 @@ import com.cs429.todorpg.revised.itemsystem.NegativeEffects;
 import com.cs429.todorpg.revised.itemsystem.PositiveEffects;
 import com.cs429.todorpg.revised.itemsystem.Shield;
 import com.cs429.todorpg.revised.itemsystem.Weapon;
-import com.cs429.todorpg.revised.model.LogItem;
-import com.cs429.todorpg.revised.model.Stat;
 import com.cs429.todorpg.revised.model.ToDoCharacter;
 import com.cs429.todorpg.revised.utils.SQLiteHelper;
 
@@ -45,7 +45,7 @@ public class MockBattleActivity extends BaseActivity {
 	GameState state = GameState.ready;
 	int width, height, playerMaxHP, enemyMaxHP;
 	RelativeLayout battleScreen, battleNavigator, enemyInfo, actionMenu,
-	playerInfo, enemySide, playerSide;
+			playerInfo, enemySide, playerSide;
 	TextView enemyName, enemyHP, playerName, playerHP, battleAnnouncement;
 	ImageView enemyImage, playerImage, playerEffect, enemyEffect;
 	AnimationDrawable playerWalk, playerAttack, enemyAttack;
@@ -53,6 +53,7 @@ public class MockBattleActivity extends BaseActivity {
 	Intent intent;
 	ArrayList<Character> party;
 	ToDoCharacter player, enemy;
+
 	public ToDoCharacter getPlayer() {
 		return player;
 	}
@@ -76,11 +77,11 @@ public class MockBattleActivity extends BaseActivity {
 	AlertDialog battleEnd;
 
 	boolean myTurn = true;
-	
+
 	public MockBattleActivity getMockContext() {
 		return MockBattleActivity.this;
 	}
-	
+
 	public boolean isMyTurn() {
 		return myTurn;
 	}
@@ -181,9 +182,9 @@ public class MockBattleActivity extends BaseActivity {
 		ArrayList<NegativeEffects> negs = new ArrayList<NegativeEffects>();
 		ArrayList<PositiveEffects> poss = new ArrayList<PositiveEffects>();
 		inventory
-		.setArmor(new Armor("Leather Armor",
-				R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
-				1, poss));
+				.setArmor(new Armor("Leather Armor",
+						R.drawable.broad_armor_warrior_1, 1, 1, 1, negs, 1, 1,
+						1, poss));
 		inventory.setHelmet(new Helmet("Leather Helmet",
 				R.drawable.head_warrior_1, 1, 1, 1, negs, 1, 1, 1, poss));
 		inventory.setShield(new Shield("Leather Shield",
@@ -371,7 +372,7 @@ public class MockBattleActivity extends BaseActivity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.attack_button:
-				
+
 				if (myTurn) {
 					myTurn = false;
 					// Calculate effects of this attack
@@ -401,7 +402,7 @@ public class MockBattleActivity extends BaseActivity {
 							enemy.setHP(enemy.getHP() - finalDamage);
 							Log.d("TEST", "enemy HP: " + enemy.getHP());
 							update();
-							
+
 						}
 					} else {
 						Log.d("TEST", "missed");
@@ -509,36 +510,40 @@ public class MockBattleActivity extends BaseActivity {
 			}
 		});
 	}
-	
+
 	public void initMock() {
-		
+
 		ArrayList<PositiveEffects> posEffects = new ArrayList<PositiveEffects>();
 		ArrayList<NegativeEffects> negEffects = new ArrayList<NegativeEffects>();
-		
+
 		Avatar myAv = new Avatar();
 		Inventory myInventory = new Inventory();
-		
-		
-		myInventory.setWeapon(new Weapon("Your Sword", R.drawable.weapon_warrior_1, 10, 0, 1, negEffects, 0, 0, 200, posEffects));
+
+		myInventory.setWeapon(new Weapon("Your Sword",
+				R.drawable.weapon_warrior_1, 10, 0, 1, negEffects, 0, 0, 200,
+				posEffects));
 		ToDoCharacter myChar = new ToDoCharacter("you", 10, 100, 1, 0, 5000);
 		myAv.setInventory(myInventory);
 		myAv.setToDoCharacter(myChar);
 		inventory = myInventory;
-		
+
 		player = myChar;
 		myAv.setInventory(inventory);
 		myAv.setToDoCharacter(myChar);
 		setPlayerInfo(myChar);
 		playerAvatar = myAv;
 		playerImage.setImageBitmap(myAv.getClearBitmap());
-		
+
 		Avatar enemyAv = new Avatar();
 		Inventory enemyInventory = new Inventory();
-		enemyInventory.setWeapon(new Weapon("Enemy Sword", R.drawable.weapon_warrior_2, 10, 0, 1, negEffects, 0, 0, 200, posEffects));
-		ToDoCharacter enemyChar = new ToDoCharacter("enemy", 10, 100, 1, 0, 5000);
+		enemyInventory.setWeapon(new Weapon("Enemy Sword",
+				R.drawable.weapon_warrior_2, 10, 0, 1, negEffects, 0, 0, 200,
+				posEffects));
+		ToDoCharacter enemyChar = new ToDoCharacter("enemy", 10, 100, 1, 0,
+				5000);
 		enemyAv.setInventory(enemyInventory);
 		enemyAv.setToDoCharacter(enemyChar);
-		
+
 		// Initialize BattleActivity
 		setEnemyImage(enemyAv);
 		setEnemyInfo(enemyChar);
@@ -593,6 +598,5 @@ public class MockBattleActivity extends BaseActivity {
 		playerHP.setText(Integer.toString(c.getHP()));
 		playerMaxHP = player.getHP();
 	}
-
 
 }

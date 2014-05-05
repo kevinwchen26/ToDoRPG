@@ -16,7 +16,10 @@ public class BattleLogic {
 	
 	/**
 	 * 
-	 * Does not take in count Negative / Positive effects yet
+	 * Does not take in count Negative / Positive effects
+	 * Calculates Damage & hit/miss with the aggregate 
+	 * statistics of attacker and defender character
+	 * 
 	 * @param attacker
 	 * @param defender
 	 * @return

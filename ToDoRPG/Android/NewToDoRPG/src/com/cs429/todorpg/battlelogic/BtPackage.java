@@ -2,6 +2,12 @@ package com.cs429.todorpg.battlelogic;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * Wrapper class used to carry a serializable object over a BT connection
+ * @author paulkim6
+ *
+ */
 public class BtPackage implements Serializable {
 	
 	/**
