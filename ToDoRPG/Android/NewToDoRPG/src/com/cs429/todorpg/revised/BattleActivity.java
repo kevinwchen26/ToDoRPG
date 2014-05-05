@@ -95,7 +95,7 @@ public class BattleActivity extends BaseActivity {
 	}
 
 	/**
-	 * Destory function when activity calls finish()
+	 * Destroy function when activity calls finish()
 	 */
 	@Override
 	public void onDestroy() {
