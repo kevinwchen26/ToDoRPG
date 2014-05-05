@@ -53,7 +53,6 @@ public class BTMessageHandler extends Handler{
 	private String TAG = "BTHandler";
 	
 	private Context myContext;
-	private ProgressDialog mDialog;
 	private BluetoothService BTService;
 	
 	private boolean isMyTurn;
@@ -66,7 +65,7 @@ public class BTMessageHandler extends Handler{
 	 */
 	private BTMessageHandler(Context context){
 		myContext = context;
-		mDialog = new ProgressDialog(context);
+//		mDialog = new ProgressDialog(context);
 		isMyTurn = false;
 		setReadyToStart(false);
 	}
@@ -90,7 +89,6 @@ public class BTMessageHandler extends Handler{
 	public void flush(){
 		mHandler = null;
 		myContext = null;
-		mDialog = null;
 	}
 	
 	/**
@@ -180,31 +178,8 @@ public class BTMessageHandler extends Handler{
 			
 			break;
 		
-		case MESSAGE_PERMISSION:
-			new Handler().post(new Runnable(){
-				@Override
-				public void run(){
-					long starttime = System.currentTimeMillis();
-					
-					mDialog.setTitle("Bluetooth Connection");
-					mDialog.setMessage("connecting to your friend");
-					mDialog.setCancelable(false);
-					mDialog.show();
-		
-					while(mDialog.isShowing()){
-						long currenttime = System.currentTimeMillis();
-						if(currenttime - starttime > 5000){
-							mHandler.obtainMessage(BTMessageHandler.MESSAGE_CONNECTION_FAIL, 0, 0).sendToTarget();
-							mDialog.dismiss();
-						}
-					}
-				}
-			});
-			break;
-		
 		case MESSAGE_CONNECTION_FAIL:
 			Log.d(TAG, "connection failure: " + msg.arg1 + ", " + msg.arg2);
-			mDialog.dismiss();
 			connection_failure(msg.arg1, msg.arg2);
 			break;
 			
