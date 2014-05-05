@@ -26,3 +26,9 @@ Our Android application keeps track of the user's various habits and daily tasks
 Documentation
 =======
 https://github.com/kevinwchen26/ToDoRPG/blob/master/project_documentation.pdf
+
+Installation
+=======
+Clone the project using GitHub.
+Import the project into Eclipse.
+Run project as Android application on your device
